@@ -1,4 +1,4 @@
-/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene*/
+/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene, NormalDistribScene*/
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -46,4 +46,14 @@ Factory.create01_01_random_walker = function () {
 Factory.create01_03_random_walker = function () {
     "use strict";
     this.start(new WalkerScene({walkertype: 1 }));
+};
+
+Factory.create01_04_normal_distrib = function () {
+    "use strict";
+    this.start(new NormalDistribScene());
+};
+
+Factory.create01_06_random_walker = function () {
+    "use strict";
+    this.start(new WalkerScene({walkertype: 2 }));
 };

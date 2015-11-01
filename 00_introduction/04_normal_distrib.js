@@ -1,38 +1,37 @@
-document.addEventListener("DOMContentLoaded", function (event) {
+/*global Scene, Tools, Color*/
+var NormalDistribScene = function () {
     "use strict";
+    Scene.call(this);
     
-    function rnd2() {
-        return ((Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3) / 3;
-    }
+    this.mean = this.width / 2;
+    this.sd = Math.min(this.width, this.height) / 4;
     
-    var ctx = document.getElementById('canvas').getContext('2d'),
-        width = ctx.canvas.width = window.innerWidth,
-        height = ctx.canvas.height = window.innerHeight,
-        mean = width / 2,
-        sd = 50,
+    this.ctx.globalAlpha = 10 / 256;
+    this.ctx.fillStyle = Color.createBrightColor().ToHex();
+    this.ctx.strokeStyle = Color.createBrightColor().ToHex();
+};
+NormalDistribScene.prototype = Object.create(Scene.prototype);
+NormalDistribScene.prototype.constructor = NormalDistribScene;
+
+
+NormalDistribScene.prototype.loop = function () {
+    "use strict";
+    var i = 0,
         x = 0,
-        y = height / 2,
-        i = 0;
-
-    ctx.globalAlpha = 3 / 256;
-    ctx.strokeRect(0, 0, width, height);
+        y = this.height / 2;
+    this.ctx.clearRect(0, 0, this.width, this.height);
     
-    ctx.fillStyle = "#0000ff";
-    ctx.fillRect(mean, y - 10, 2, 2);
-    ctx.fillRect(mean + sd, y - 10, 2, 2);
-    ctx.fillRect(mean - sd, y - 10, 2, 2);
+    this.ctx.fillRect(this.mean, y - 10, 2, 2);
+    this.ctx.fillRect(this.mean + this.sd, y - 10, 2, 2);
+    this.ctx.fillRect(this.mean - this.sd, y - 10, 2, 2);
 
-    ctx.strokeStyle = "#ff00ff";
-    for (i = 0; i < 1000; i += 1) {
-        x = rnd2() * sd + mean;
-        ctx.beginPath();
-        ctx.arc(x, y, 5, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.stroke();
+    for (i = 0; i < 100; i += 1) {
+        x = Tools.normalRnd() * this.sd + this.mean;
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, this.sd / 2, 0, Math.PI * 2);
+        this.ctx.closePath();
+        this.ctx.fill();
     }
     
-    //function animate() {
-    //    requestAnimationFrame(animate);
-    //}
-	// window.requestAnimationFrame(animate);
-});
+    Scene.prototype.loop.call(this);
+};

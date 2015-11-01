@@ -30,7 +30,7 @@ Walker.prototype.step = function (options) {
         this.stepMouse();
         
     // monte carlo walker
-    } else if (options !== undefined && options.walkertype === 3) {
+    } else if (options !== undefined && options.walkertype === 2) {
         this.stepMonteCarlo();
     }
     
