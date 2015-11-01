@@ -1,0 +1,102 @@
+body{margin: 0; overflow: hidden;}
+
+h1 {
+    color: #fff;
+    background-color: #eb005a;
+    margin:0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 100;
+    font-family: Lucida Sans Unicode;
+}
+
+h2 {
+    margin-left: 0.2em;
+    color: #555;
+    letter-spacing: 0.1em;
+    text-shadow: #ddd 0px 1px;
+    font-family: georgia;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+button {
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: #eee;
+    color: #666;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    font-weight: bold;
+    font-size: 1.1em;
+    font-family: georgia;
+    padding: 0.2em;
+}
+
+button:hover {
+    transition: all 0.2s;
+    color:deepskyblue;
+}
+
+/* http://www.sitepoint.com/pure-css-off-screen-navigation-menu/ */
+
+.navigation {
+    width: 16em;
+    height: 100%;
+    position: fixed;
+    z-index: 0;
+    background-color: #eee;
+    box-shadow: 1px 1px 16px 5px rgba(0,0,0,0.5);
+}
+
+.navigation ul {            
+    padding: 0px;
+    margin: 0.3em;
+}
+
+.site-wrap {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    position: relative;
+    top: 0;
+    bottom: 100%;
+    left: 0;
+    z-index: 1;
+}
+
+.nav-trigger {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+label[for="nav-trigger"] {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    z-index: 2;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
+    background-size: contain;
+}
+
+.nav-trigger:checked + label {
+    left: 18em;
+}
+
+.nav-trigger:checked ~ .site-wrap {
+    left: 17em;
+}
+
+.nav-trigger + label, .site-wrap {
+    transition: left 0.2s;
+}
