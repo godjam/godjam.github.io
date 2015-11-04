@@ -7,7 +7,7 @@ var Factory = function () {
 // start function 'default' scene
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
-    Factory.create01_05_perlinnoise_walker();
+    Factory.create01_04_normal_distrib();
 });
 
 Factory.autoclose = function () {
@@ -39,7 +39,7 @@ Factory.create00_00_canvas = function () {
     this.start(new CanvasTestScene());
 };
 
-Factory.create00_00_color = function () {
+Factory.create00_01_color = function () {
     "use strict";
     this.start(new ColorTestScene());
 };
@@ -59,13 +59,19 @@ Factory.create01_04_normal_distrib = function () {
     this.start(new NormalDistribScene());
 };
 
-Factory.create01_06_random_walker = function () {
+Factory.create01_05_normal_distrib_walker = function () {
     "use strict";
     this.start(new WalkerScene({walkertype: 2 }));
 };
 
-Factory.create01_05_perlinnoise_walker = function () {
+Factory.create01_06_montecarlo_walker = function () {
+    "use strict";
+    this.start(new WalkerScene({walkertype: 3 }));
+};
+
+Factory.create01_07_perlinnoise = function () {
     "use strict";
     this.start(new PerlinNoiseScene());
 };
+
 

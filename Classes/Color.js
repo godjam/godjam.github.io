@@ -16,23 +16,34 @@ Color.create = function () {
 
 Color.createLightColor = function () {
     "use strict";
-    var c = null,
+    var c = new Color(0, 0, 0),
         h = Math.random(),
         s = 0.2 * Math.random() + 0.8,
         l = 0.8;
     
-    c = new Color(0, 0, 0);
     c.hslToRgb(h, s, l);
     return c;
 };
 
 Color.createBrightColor = function () {
     "use strict";
-    var c = null,
+    var c = new Color(0, 0, 0),
         h = Math.random();
     
-    c = new Color(0, 0, 0);
     c.hslToRgb(h, 1, 0.65);
+    return c;
+};
+
+Color.createNormalDistribColor = function (baseHue) {
+    "use strict";
+    // by default yelloish-green base color
+    if(baseHue === undefined)
+        baseHue = 0.25;
+    
+    var c = new Color(0, 0, 0),
+        // normalRnd * sd + mean
+        rnd = Tools.normalRnd() * 0.25 + baseHue;
+    c.hslToRgb(rnd, 1, 0.65);
     return c;
 };
 

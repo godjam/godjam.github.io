@@ -1,3 +1,4 @@
+// unused
 document.addEventListener("DOMContentLoaded", function (event) {
     "use strict";
     var randomCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
