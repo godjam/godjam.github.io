@@ -1,8 +1,14 @@
-/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene, NormalDistribScene*/
+/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene, NormalDistribScene, PerlinNoiseScene*/
 var Factory = function () {
     "use strict";
     this.scene = undefined;
 };
+
+// start function 'default' scene
+window.addEventListener("DOMContentLoaded", function () {
+    "use strict";
+    Factory.create01_05_perlinnoise_walker();
+});
 
 Factory.autoclose = function () {
     "use strict";
@@ -57,3 +63,9 @@ Factory.create01_06_random_walker = function () {
     "use strict";
     this.start(new WalkerScene({walkertype: 2 }));
 };
+
+Factory.create01_05_perlinnoise_walker = function () {
+    "use strict";
+    this.start(new PerlinNoiseScene());
+};
+

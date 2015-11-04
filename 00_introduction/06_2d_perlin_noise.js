@@ -1,30 +1,42 @@
-/*global noise */
-
-document.addEventListener("DOMContentLoaded", function (event) {
+/*global Scene, toxi, Color */
+var PerlinNoiseScene = function () {
     "use strict";
-    
-    var ctx = document.getElementById('canvas').getContext('2d'),
-        width = ctx.canvas.width = window.innerWidth,
-        height = ctx.canvas.height = window.innerHeight,
-        x = 0,
+    Scene.call(this);
+    this.t = 0;
+    this.color = Color.createLightColor();
+    this.perlin = toxi.math.noise.simplexNoise;
+    this.image = this.ctx.getImageData(0, 0, this.width, this.height);
+    this.data = this.image.data;
+};
+PerlinNoiseScene.prototype = Object.create(Scene.prototype);
+PerlinNoiseScene.prototype.constructor = PerlinNoiseScene;
+
+
+PerlinNoiseScene.prototype.loop = function () {
+    "use strict";
+    var x = 0,
         y = 0,
-        bright = 0,
-        image = ctx.getImageData(0, 0, width, height),
-        data = image.data,
+        n = 0,
+        c = 0,
+        i = 0,
+        j = 0,
         index = 0;
     
-    for (x = 0; x < width; x += 1) {
-        for (y = 0; y < height; y += 1) {
-            bright = Math.abs(noise.perlin2(x / 100, y / 100));
-            bright *= 255;
-            //console.log(bright);
-            index = (x + y * width) * 4;
-            data[index] = data[index + 1] = data[index + 2] = bright;
-            data[index + 3] = 255;
+    for (i = 0; i < this.width; i += 1) {
+        for (j = 0; j < this.height; j += 1) {
+            x = (i / this.width);
+            y = (j / this.height);
+            n = this.perlin.noise(x, y, this.t) - 0.5;
+            c = this.color.copy().modify(n, 0, 0);
+            index = Math.round(i + j * this.width) * 4;
+            this.data[index] = c.r;
+            this.data[index + 1] = c.g;
+            this.data[index + 2] = c.b;
+            this.data[index + 3] = 255;
         }
     }
+    this.ctx.putImageData(this.image, 0, 0);
+    this.t += this.frameloop.delta;
     
-    ctx.putImageData(image, 0, 0);
-    
-    
-});
+    Scene.prototype.loop.call(this);
+};
