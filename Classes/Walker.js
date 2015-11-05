@@ -1,8 +1,9 @@
-/*global Color, Tools*/
+/*global Color, Tools, toxi*/
 function Walker(x, y, maxWidth, maxHeight) {
 	"use strict";
     this.x = x;
 	this.y = y;
+    this.t = 0;
     this.size = 5;
     this.maxWidth = maxWidth;
 	this.maxHeight = maxHeight;
@@ -39,6 +40,10 @@ Walker.prototype.step = function (options) {
     // monte carlo walker
     } else if (options !== undefined && options.walkertype === 3) {
         this.stepMonteCarlo();
+
+    // perlin walker
+    } else if (options !== undefined && options.walkertype === 4) {
+        this.stepPerlin();
     }
     
     if (this.x <= 0) { this.x += this.maxWidth; }
@@ -99,13 +104,30 @@ Walker.prototype.stepNormalDistrib = function () {
 };
 
 
+Walker.prototype.stepPerlin = function () {
+	"use strict";
+    var stepsize = 3,
+        // map x and y to [-1, 1]
+        x = (this.x - this.maxWidth / 2) / this.maxWidth,
+        y = (this.y - this.maxHeight / 2) / this.maxHeight,
+        a =  toxi.math.noise.simplexNoise.noise(x, y, this.t),
+        stepx = Math.cos(a * Math.PI) * stepsize,
+        stepy = Math.sin(a * Math.PI) * stepsize;
+    // color
+    this.stepsize = Math.max(stepy, stepx);
+	this.x += stepx;
+	this.y += stepy;
+    this.t += 0.01 /*+ Math.random() / 50*/;
+};
+
+
 Walker.prototype.stepMonteCarlo = function () {
 	"use strict";
     var stepsize = this.montecarlo() * 10,
         stepx = Math.random() * stepsize - (stepsize / 2),
         stepy = Math.random() * stepsize - (stepsize / 2);
     
-    this.stepsize = stepsize;
+    this.stepsize = stepsize / 8;
 	this.x += stepx;
 	this.y += stepy;
 };

@@ -7,7 +7,7 @@ var Factory = function () {
 // start function 'default' scene
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
-    Factory.create01_04_normal_distrib();
+    Factory.create01_07_perlin_walker();
 });
 
 Factory.autoclose = function () {
@@ -69,7 +69,12 @@ Factory.create01_06_montecarlo_walker = function () {
     this.start(new WalkerScene({walkertype: 3 }));
 };
 
-Factory.create01_07_perlinnoise = function () {
+Factory.create01_07_perlin_walker = function () {
+    "use strict";
+    this.start(new WalkerScene({walkertype: 4 }));
+};
+
+Factory.create01_08_perlinnoise = function () {
     "use strict";
     this.start(new PerlinNoiseScene());
 };
