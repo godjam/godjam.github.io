@@ -58,6 +58,12 @@ Color.prototype.ToHex = function () {
     return "#" + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).slice(1);
 };
 
+Color.prototype.To0xHex = function () {
+    "use strict";
+    return "0x" + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).slice(1);
+};
+
+
 Color.prototype.fromHex = function (hex) {
     "use strict";
     var i = parseInt(hex, 16);

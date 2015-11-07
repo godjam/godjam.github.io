@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>The Nature Of Code</title>
     <link rel="stylesheet" type="text/css" href="main.css"/>
-    <script src="Libs/perlin.js"></script>
+    <script src="Libs/three.min.js"></script>
     <script src="Libs/Box2dWeb-2.1.a.3.min.js"></script>
     <script src="Libs/toxiclibs.min.js"></script>
     
@@ -60,7 +60,6 @@
     <script src="Classes/Fractals/RecursiveTree.js"></script>
     
     <!-- scene management -->
-    <script src="Classes/SceneManagement/Context.js"></script>
     <script src="Classes/SceneManagement/MouseEvtListener.js"></script>
     <script src="Classes/SceneManagement/FrameLoop.js"></script>
     <script src="Classes/SceneManagement/Scene.js"></script>
@@ -70,7 +69,8 @@
     <script src="00_introduction/01_walker.js"></script>
     <!-- <script src="00_introduction/02_rnd_distrib.js"></script> -->
     <script src="00_introduction/04_normal_distrib.js"></script>
-    <script src="00_introduction/06_2d_perlin_noise.js"></script>
+    <script src="00_introduction/09_2d_perlin_noise.js"></script>
+    <script src="00_introduction/10_3d_noisescape.js"></script>
     <!-- <script src="01_vectors/01_vectors.js"></script> -->
     <!-- <script src="02_forces/01_forces.js"></script> -->
     <!-- <script src="02_forces/09_gravitational_attraction.js"></script> -->
@@ -96,7 +96,7 @@
 <body>
     <input type="checkbox" id="nav-trigger" class="nav-trigger" />
     <label for="nav-trigger"></label>
-    <nav class="navigation">
+    <nav class="nav-container">
         <h1>The <b>Nature</b> of Code</h1> <!--TODO : linkto natureofcode.com -->
         <h2>Simple experiments</h2>
         <ul>
@@ -111,11 +111,11 @@
             <li><button onClick="Factory.create01_05_normal_distrib_walker()">05 - Normal distrib Walker</button></li>
             <li><button onClick="Factory.create01_06_montecarlo_walker()">06 - Montecarlo Walker</button></li>
             <li><button onClick="Factory.create01_07_perlin_walker()">07 - Perlin Walker</button></li>
-            <li><button onClick="Factory.create01_08_perlinnoise()">08 - Perlin noise 2D (slow!)</button></li>
+            <li><button onClick="Factory.create01_09_perlinnoise()">08 - Perlin noise 2D (slow!)</button></li>
+            <li><button onClick="Factory.create01_10_noisescape()">10 - NoiseScape</button></li>
         </ul>
     </nav>
-    <div class="site-wrap">
-        <canvas id="canvas" width="500" height="500"></canvas>
+    <div class="main-container">
     </div>
 </body>
 </html>

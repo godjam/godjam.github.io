@@ -1,14 +1,30 @@
-/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene, NormalDistribScene, PerlinNoiseScene*/
+/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene, NormalDistribScene, PerlinNoiseScene, NoiseScapeScene*/
 var Factory = function () {
     "use strict";
     this.scene = undefined;
+    this.cache = undefined;
 };
+
 
 // start function 'default' scene
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
-    Factory.create01_07_perlin_walker();
+    Factory.init();
+    Factory.create01_10_noisescape();
 });
+
+
+Factory.init = function () {
+    "use strict";
+    // based on : http://eloquentjavascript.net/10_modules.html
+    this.cache = Object.create(null);
+    
+    this.cache["00_00"] = Factory.create00_00_canvas;
+    this.cache["00_01"] = Factory.create00_01_color;
+    this.cache["01_01"] = Factory.create01_01_random_walker;
+    // TODO
+    this.cache["01_10"] = Factory.create01_10_noisescape;
+};
 
 Factory.autoclose = function () {
     "use strict";
@@ -74,9 +90,14 @@ Factory.create01_07_perlin_walker = function () {
     this.start(new WalkerScene({walkertype: 4 }));
 };
 
-Factory.create01_08_perlinnoise = function () {
+Factory.create01_09_perlinnoise = function () {
     "use strict";
     this.start(new PerlinNoiseScene());
+};
+
+Factory.create01_10_noisescape = function () {
+    "use strict";
+    this.start(new NoiseScapeScene());
 };
 
 
