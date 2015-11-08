@@ -22,7 +22,6 @@ var NoiseScapeScene = function () {
     this.scene.add(pointLight);
     
     this.plane = new THREE.Mesh(geometry, material);
-    this.plane.receiveShadow = true;
     this.plane.geometry.dynamic = true;
 
     this.scene.add(this.plane);

@@ -8,9 +8,9 @@ var Scene = function (options) {
     this.camera = null;
     this.scene = null;
     
-    // window 
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    // window
+    window.addEventListener('resize', this.resize.bind(this));
+    this.resize();
     this.clientLeft = 0;
     this.clientTop = 0;
     // frames
@@ -46,6 +46,21 @@ Scene.prototype.stop = function () {
 
 Scene.prototype.resize = function () {
     "use strict";
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    // 2D canvas scene
+    if (this.ctx !== null) {
+        this.ctx.canvas.width = this.width;
+        this.ctx.canvas.height = this.height;
+        this.clientLeft = this.ctx.canvas.clientLeft;
+        this.clientTop = this.ctx.canvas.clientTop;
+    }
+    // threejs scene
+    if (this.renderer !== null) {
+        this.renderer.setSize(this.width, this.height);
+        this.camera.aspect = this.width / this.height;
+        this.camera.updateProjectionMatrix();
+    }
 };
 
 

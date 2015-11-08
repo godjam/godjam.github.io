@@ -37,8 +37,9 @@ Color.createBrightColor = function () {
 Color.createNormalDistribColor = function (baseHue) {
     "use strict";
     // by default yelloish-green base color
-    if(baseHue === undefined)
+    if (baseHue === undefined) {
         baseHue = 0.25;
+    }
     
     var c = new Color(0, 0, 0),
         // normalRnd * sd + mean

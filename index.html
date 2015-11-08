@@ -71,7 +71,8 @@
     <script src="00_introduction/04_normal_distrib.js"></script>
     <script src="00_introduction/09_2d_perlin_noise.js"></script>
     <script src="00_introduction/10_3d_noisescape.js"></script>
-    <!-- <script src="01_vectors/01_vectors.js"></script> -->
+    <script src="01_vectors/01_boucing_ball.js"></script>
+    <script src="01_vectors/02_vector_walker.js"></script>
     <!-- <script src="02_forces/01_forces.js"></script> -->
     <!-- <script src="02_forces/09_gravitational_attraction.js"></script> -->
     <!-- <script src="03_oscillations/31_rotation.js"></script> -->
@@ -89,7 +90,7 @@
     <!-- <script src="07_cellular_automata/06_game_of_life.js"></script> -->
     <!-- <script src="08_recursion/01_recursive_circle.js"></script> -->
     <!-- <script src="08_recursion/08_recursive_tree.js"></script> -->
-    <!-- scenes factory -->
+    <!-- scenes factory : entry point of the app -->
     <script src="Classes/SceneManagement/Factory.js"></script>
 
 </head>
@@ -113,6 +114,11 @@
             <li><button onClick="Factory.create01_07_perlin_walker()">07 - Perlin Walker</button></li>
             <li><button onClick="Factory.create01_09_perlinnoise()">08 - Perlin noise 2D (slow!)</button></li>
             <li><button onClick="Factory.create01_10_noisescape()">10 - NoiseScape</button></li>
+        </ul>
+        <h2>Chap 01 - Vectors</h2>
+        <ul>
+            <li><button onClick="Factory.create01_01_bouncingball()">01 - Bouncing ball</button></li>
+            <li><button onClick="Factory.create01_02_vectorwalker()">02 - Vector Walker</button></li>
         </ul>
     </nav>
     <div class="main-container">
