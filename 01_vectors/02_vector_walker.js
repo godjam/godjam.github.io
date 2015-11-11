@@ -41,11 +41,11 @@ VectorWalkerScene.prototype.step = function () {
     this.velocity.y = Math.sin(a * Math.PI) * stepsize;
         
     // 5% chance to seek the mouse
-    if (this.mousePosition !== null && Math.random() < 0.05) {
-        if (this.mousePosition.x > this.position.x) { this.velocity.x = stepsize; }
-        if (this.mousePosition.x < this.position.x) { this.velocity.x = -stepsize; }
-        if (this.mousePosition.y > this.position.y) { this.velocity.y = stepsize; }
-        if (this.mousePosition.y < this.position.y) { this.velocity.y = -stepsize; }
+    if (this.mousePosition !== null /*&& Math.random() < 0.9*/) {
+        var dx = (this.position.x - this.mousePosition.x) / this.width,
+            dy = (this.position.y - this.mousePosition.y) / this.height;
+        this.velocity.x += dx;
+        this.velocity.y += dy;
     }
     
     // color
