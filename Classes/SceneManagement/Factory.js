@@ -1,4 +1,4 @@
-/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene, NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene, VectorWalkerScene*/
+/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene, NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene, VectorWalkerScene, BouncingBall3DScene*/
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -10,7 +10,7 @@ var Factory = function () {
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     Factory.init();
-    Factory.create01_02_vectorwalker();
+    Factory.create01_03_bouncingball3D();
 });
 
 
@@ -115,3 +115,7 @@ Factory.create01_02_vectorwalker = function () {
     this.start(new VectorWalkerScene());
 };
 
+Factory.create01_03_bouncingball3D = function () {
+    "use strict";
+    this.start(new BouncingBall3DScene());
+};

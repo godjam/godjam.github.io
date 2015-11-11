@@ -25,6 +25,9 @@ var NoiseScapeScene = function () {
     this.plane.geometry.dynamic = true;
 
     this.scene.add(this.plane);
+    
+    // controls
+    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
 };
 NoiseScapeScene.prototype = Object.create(Scene.prototype);
 NoiseScapeScene.prototype.constructor = NoiseScapeScene;
@@ -43,7 +46,7 @@ NoiseScapeScene.prototype.updateGeometry = function () {
     //console.log("length: " + heights.length + ", vertices length: " + geometry.vertices.length);
     for (i = 0, l = this.plane.geometry.vertices.length; i < l; i += 1) {
         h = heights[i];
-        this.plane.geometry.vertices[i].z = h * 50;
+        this.plane.geometry.vertices[i].z = h * 30;
     }
     // changes to the vertices
     this.plane.geometry.verticesNeedUpdate = true;
@@ -72,8 +75,7 @@ NoiseScapeScene.prototype.getHeightMap = function () {
 NoiseScapeScene.prototype.loop = function () {
     "use strict";
     this.updateGeometry();
-    this.plane.rotation.x += this.dx;
-    this.plane.rotation.y += this.dy;
+    this.controls.update();
     this.renderer.render(this.scene, this.camera);
     this.t += 0.001;
     

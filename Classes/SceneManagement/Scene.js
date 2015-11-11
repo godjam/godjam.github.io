@@ -95,7 +95,8 @@ Scene.prototype.initThreejsScene = function () {
 
     // create a WebGL renderer, camera
     // and a scene
-    this.renderer = new THREE.WebGLRenderer({ alpha: true });
+    this.renderer = new THREE.WebGLRenderer(); //({ alpha: true })
+    this.renderer.setClearColor(0xffffff, 1);
     this.camera =
         new THREE.PerspectiveCamera(
             VIEW_ANGLE,

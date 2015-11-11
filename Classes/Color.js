@@ -14,6 +14,17 @@ Color.create = function () {
     return c;
 };
 
+Color.createSoftColor = function () {
+    "use strict";
+    var c = new Color(0, 0, 0),
+        h = Math.random(),
+        s = 0.5,
+        l = 0.9;
+    
+    c.hslToRgb(h, s, l);
+    return c;
+};
+
 Color.createLightColor = function () {
     "use strict";
     var c = new Color(0, 0, 0),
@@ -33,6 +44,26 @@ Color.createBrightColor = function () {
     c.hslToRgb(h, 1, 0.65);
     return c;
 };
+
+Color.createStrongColor = function () {
+    "use strict";
+    var c = new Color(0, 0, 0),
+        h = Math.random();
+    
+    c.hslToRgb(h, 1, 0.3);
+    return c;
+};
+
+
+Color.createDarkColor = function () {
+    "use strict";
+    var c = new Color(0, 0, 0),
+        h = Math.random();
+    
+    c.hslToRgb(h, 1, 0.1);
+    return c;
+};
+
 
 Color.createNormalDistribColor = function (baseHue) {
     "use strict";
@@ -56,14 +87,14 @@ Color.prototype.copy = function () {
 
 Color.prototype.ToHex = function () {
     "use strict";
-    return "#" + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).slice(1);
+    return "#" + (this.ToInt()).toString(16).slice(1);
 };
 
-Color.prototype.To0xHex = function () {
+Color.prototype.ToInt = function () {
     "use strict";
-    return "0x" + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).slice(1);
+    var c = (1 << 24) + (this.r << 16) + (this.g << 8) + this.b;
+    return c;
 };
-
 
 Color.prototype.fromHex = function (hex) {
     "use strict";
