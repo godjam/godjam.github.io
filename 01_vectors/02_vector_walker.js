@@ -32,7 +32,7 @@ VectorWalkerScene.prototype.step = function () {
 	"use strict";
     
     // perlin noise based move 
-    var stepsize = 3,
+    var stepsize = 3, dx = 0, dy = 0,
         // map x and y to [-1, 1]
         x = (this.position.x - this.width / 2) / this.width,
         y = (this.position.y - this.height / 2) / this.height,
@@ -41,9 +41,9 @@ VectorWalkerScene.prototype.step = function () {
     this.velocity.y = Math.sin(a * Math.PI) * stepsize;
         
     // 5% chance to seek the mouse
-    if (this.mousePosition !== null /*&& Math.random() < 0.9*/) {
-        var dx = (this.position.x - this.mousePosition.x) / this.width,
-            dy = (this.position.y - this.mousePosition.y) / this.height;
+    if (this.mousePosition !== null && Math.random() < 0.5) {
+        dx = (this.position.x - this.mousePosition.x) / this.width;
+        dy = (this.position.y - this.mousePosition.y) / this.height;
         this.velocity.x += dx;
         this.velocity.y += dy;
     }
