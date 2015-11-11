@@ -75,6 +75,7 @@
     <script src="01_vectors/01_boucing_ball.js"></script>
     <script src="01_vectors/02_vector_walker.js"></script>
     <script src="01_vectors/03_3D_bouncing_ball.js"></script>
+    <script src="01_vectors/05_mover_acceleration.js"></script>
     <!-- <script src="02_forces/01_forces.js"></script> -->
     <!-- <script src="02_forces/09_gravitational_attraction.js"></script> -->
     <!-- <script src="03_oscillations/31_rotation.js"></script> -->
@@ -103,25 +104,26 @@
         <h1>The <b>Nature</b> of Code</h1> <!--TODO : linkto natureofcode.com -->
         <h2>Simple experiments</h2>
         <ul>
-            <li><button onClick="Factory.create00_00_canvas()">Canvas</button></li>
-            <li><button onClick="Factory.create00_01_color()">Color</button></li>
+            <li><button onClick="Factory.createScene('00')">Canvas</button></li>
+            <li><button onClick="Factory.createScene('01')">Color</button></li>
         </ul>
         <h2>Introduction</h2>
         <ul>
-            <li><button onClick="Factory.create01_01_random_walker()">01 - Right Walker</button></li>
-            <li><button onClick="Factory.create01_03_random_walker()">03 - Dynamic Probabilities Walker</button></li>
-            <li><button onClick="Factory.create01_04_normal_distrib()">04 - Splatter</button></li>
-            <li><button onClick="Factory.create01_05_normal_distrib_walker()">05 - Normal distrib Walker</button></li>
-            <li><button onClick="Factory.create01_06_montecarlo_walker()">06 - Montecarlo Walker</button></li>
-            <li><button onClick="Factory.create01_07_perlin_walker()">07 - Perlin Walker</button></li>
-            <li><button onClick="Factory.create01_09_perlinnoise()">08 - Perlin noise 2D (slow!)</button></li>
-            <li><button onClick="Factory.create01_10_noisescape()">10 - NoiseScape</button></li>
+            <li><button onClick="Factory.createScene('00_01')">01 - Right Walker</button></li>
+            <li><button onClick="Factory.createScene('00_03')">03 - Dynamic Probabilities Walker</button></li>
+            <li><button onClick="Factory.createScene('00_04')">04 - Splatter</button></li>
+            <li><button onClick="Factory.createScene('00_05')">05 - Normal distrib Walker</button></li>
+            <li><button onClick="Factory.createScene('00_06')">06 - Montecarlo Walker</button></li>
+            <li><button onClick="Factory.createScene('00_07')">07 - Perlin Walker</button></li>
+            <li><button onClick="Factory.createScene('00_08')">08 - Perlin noise 2D (slow!)</button></li>
+            <li><button onClick="Factory.createScene('00_09')">10 - NoiseScape</button></li>
         </ul>
         <h2>Chap 01 - Vectors</h2>
         <ul>
-            <li><button onClick="Factory.create01_01_bouncingball()">01 - Bouncing ball</button></li>
-            <li><button onClick="Factory.create01_02_vectorwalker()">02 - Vector Walker</button></li>
-            <li><button onClick="Factory.create01_03_bouncingball3D()">03 - Bouncing ball 3D</button></li>
+            <li><button onClick="Factory.createScene('01_01')">01 - Bouncing ball</button></li>
+            <li><button onClick="Factory.createScene('01_02')">02 - Vector Walker</button></li>
+            <li><button onClick="Factory.createScene('01_03')">03 - Bouncing ball 3D</button></li>
+            <li><button onClick="Factory.createScene('01_05')">05 - Mover: Acceleration</button></li>
         </ul>
     </nav>
     <div class="main-container">

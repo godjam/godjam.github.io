@@ -1,6 +1,6 @@
-/*global Vector2, Liquid, Attractor*/
+/*global Vector2, Liquid, Attractor, Color*/
 //*************************************************
-function Mover(worldW, worldH, x, y, m) {
+function Mover(x, y, worldW, worldH, m) {
     "use strict";
     this.location = new Vector2(x, y);
     this.velocity = new Vector2(0, 0);
@@ -17,6 +17,7 @@ function Mover(worldW, worldH, x, y, m) {
     this.angle = 0;
     this.angularVelocity = 0;
     this.angularAcceleration = 0;
+    this.color = Color.createBrightColor().ToHex();
 }
 
 Mover.prototype.initRandomly = function () {
@@ -53,7 +54,7 @@ Mover.prototype.display = function (ctx) {
     ctx.fillRect(this.location.x - this.mass / 2, this.location.y - this.mass / 2, this.mass, this.mass);
     */
     var o = new Vector2(0, 0),
-        scale = this.mass / 2,
+        scale = this.mass,
         l1 = this.p1.rotate(this.angle, o),
         l2 = this.p2.rotate(this.angle, o),
         l3 = this.p3.rotate(this.angle, o),
@@ -69,7 +70,7 @@ Mover.prototype.display = function (ctx) {
     l4.addInPlace(this.location);
     
     ctx.save();
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.moveTo(l1.x, l1.y);
     ctx.lineTo(l2.x, l2.y);
