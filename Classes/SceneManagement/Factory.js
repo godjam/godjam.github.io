@@ -1,6 +1,6 @@
 /*global Scene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
-VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene*/
+VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene*/
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -13,7 +13,7 @@ var Factory = function () {
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     Factory.init();
-    Factory.createScene("01_05");
+    Factory.createScene("01_06");
 });
 
 
@@ -31,7 +31,7 @@ Factory.init = function () {
     this.objOp["00_01"] = {walkertype: 0};
     
     this.cache["00_03"] = WalkerScene;
-    this.objOp["00_01"] = {walkertype: 1};
+    this.objOp["00_03"] = {walkertype: 1};
     
     this.cache["00_04"] = NormalDistribScene;
 
@@ -51,11 +51,12 @@ Factory.init = function () {
     this.cache["01_02"] = VectorWalkerScene;
     this.cache["01_03"] = BouncingBall3DScene;
     this.cache["01_05"] = MoverAccelerationScene;
+    this.cache["01_06"] = MoverPerlinScene;
 };
 
 Factory.autoclose = function () {
     "use strict";
-    document.getElementById("nav-trigger").checked = false;
+    document.getElementById("togglebox").checked = false;
 };
 
 Factory.createScene = function (key) {
@@ -64,6 +65,11 @@ Factory.createScene = function (key) {
     if (typeof key !== "string") {
         throw "Factory.createScene : key is not a string";
     }
+    
+    if (this.cache[key] === undefined) {
+        throw "Factory.createScene : specified key doesn't exists";
+    }
+    
     Factory.start(new this.cache[key](this.objOp[key]));
 };
 

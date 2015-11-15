@@ -1,8 +1,34 @@
-body{margin: 0; overflow: hidden;}
 
+/*
+ layout, menu : http://www.javascriptkit.com/dhtmltutors/offcanvasmenu.shtml
+ réponse de Ana Tudor sur transformation 3D et animations : http://stackoverflow.com/questions/9812196/css-3d-animation-how/14421939#14421939 
+ menu, version nexus 7 (scroll dans le menu super propre): http://tympanus.net/Tutorials/GoogleNexusWebsiteMenu/
+ animation : http://webdesign.tutsplus.com/tutorials/a-beginners-introduction-to-css-animation--cms-21068
+ cunbic-bezier easing : http://lea.verou.me/2011/09/a-better-tool-for-cubic-bezier-easing/ 
+*/
+
+/*
+Palette 
+-------
+Pink (light): EE337B
+Pink (major): EB005A
+Pink (darken): B80046
+Red (dark): 6B0029
+Purple (Dark): 6B3348
+
+Dark grey: 282933
+Overlay: 1D1C21
+*/
+
+body{
+	padding: 0;
+	margin: 0;
+}
+
+/* menu styles */
 h1 {
     color: #fff;
-    background-color: #eb005a;
+    background-color: #eb005a; /* Pink */
     margin:0;
     padding-top: 1em;
     padding-bottom: 1em;
@@ -11,93 +37,162 @@ h1 {
     letter-spacing: 0.2em;
     font-weight: 100;
     font-family: Lucida Sans Unicode;
+	text-decoration: none;
 }
 
 h2 {
-    margin-left: 0.2em;
-    color: #555;
+    font-size: 1em;
+    color: #fff;
     letter-spacing: 0.1em;
-    text-shadow: #ddd 0px 1px;
+    text-shadow: #88C 0px 1px;
     font-family: georgia;
-}
-
-canvas {
-    width: 100%;
-    height: 100%;
 }
 
 button {
-    width: 100%;
-    text-align: left;
-    border: none;
-    background: #eee;
-    color: #666;
-    text-transform: uppercase;
-    transition: all 0.2s;
-    font-weight: bold;
-    font-size: 1.1em;
-    font-family: georgia;
-    padding: 0.2em;
+	width:100%;
+	padding: 0.6em 1.2em;
+	background: #B80046;
+	color: #fff;
+	font-family: georgia;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+	border: none;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-button:hover {
-    transition: all 0.2s;
-    color:deepskyblue;
+button:hover, button:active {
+	background: #6B0029; /* blue */
 }
 
-/* http://www.sitepoint.com/pure-css-off-screen-navigation-menu/ */
-
-.nav-container {
-    width: 16em;
-    height: 100%;
-    position: fixed;
-    z-index: 0;
-    background-color: #eee;
-    box-shadow: 1px 1px 16px 5px rgba(0,0,0,0.5);
-    overflow-y: auto;
+canvas {
+    background: #fff;
 }
 
-.nav-container ul {            
-    padding: 0px;
-    margin: 0.3em;
+/* The 3D container*/
+#container{
+	overflow: hidden;
+	perspective: 1500px;
+	perspective-origin: 50% 50%;
+    background: #282933;
 }
 
-.main-container {
-    width: 100%;
-    height: 100%;
-    background-color: #fff;
+/* 1. The main-container and the menu */
+#main-container{
     position: relative;
+    width: 100%;
+    transform: translate3d(0,0,0); /* no shifting of DIV to start */
+    transition: transform 250ms cubic-bezier(.57,0,.23,1.37); /* transition the transform property over 0.5s*/
+}
+
+#offcanvas-menu{ /* Full screen nav menu */
+    width: 250px;
+    height: 100%;
     top: 0;
-    bottom: 100%;
     left: 0;
-    z-index: 1;
+    z-index: 100;
+    visibility: hidden; /* this is for browsers that don't support CSS3 translate3d */
+    position: fixed; /* fixed menu position */
+    transform: translate3d(-250px,0,0); /* shift menu -width to hide it initially */
+    box-sizing: border-box; /* include padding/ border as part of declared menu width */
+    background: #282933;
+    display: block;
+    text-align: center;
+	overflow : auto;
+	/* the transform property should transition over 0.5 seconds, while for the visibility property, it should complete immediately with no transitioning, but only after a delay of 0.5 seconds (the second numeric value specifies the delay) */
+    transition: transform 300ms cubic-bezier(.57,0,.23,1.37), visibility 0s 0.3s; 
 }
 
-.nav-trigger {
+/* hide scrollbar on offcanvas-menu (webkit only)*/
+#offcanvas-menu::-webkit-scrollbar {
+	display:none;
+}
+
+/* 2. The toggle box */
+#togglebox {
+    /* checkbox used to toggle menu state */
     position: absolute;
-    clip: rect(0, 0, 0, 0);
+    left: 0;
+    top: 0;
+    visibility: hidden; /* hide checkbox, instead relying on labels to toggle it */
 }
-
-label[for="nav-trigger"] {
-    position: fixed;
-    top: 1em;
-    left: 1em;
-    z-index: 2;
-    width: 2em;
-    height: 2em;
+ 
+#navtoggler{ /* Main label icon to toggle menu state */
+    z-index: 9;
+    display: block;
+    position: absolute;
+    font-size: 8px;
+    width: 4em;
+    height: 2.5em;
+    top: 0;
+    left: 0;
+    text-indent: -1000px;
+    border: 0.6em solid black;
+    /* border color */
+    border-width: 0.6em 0;
     cursor: pointer;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
-    background-size: contain;
+	margin: 1em;
+	/* animation for rotation */ 
+	transition: transform 320ms cubic-bezier(.57,0,.23,1.37);
 }
 
-.nav-trigger:checked + label {
-    left: 18em;
+#navtoggler:hover{ /* Main label icon to toggle menu state */
+	transform: scale(0.8);
+}
+ 
+#navtoggler::before{
+    /* inner strip inside label */
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 0.6em;
+    top: 50%;
+    margin-top: -0.3em;
+    left: 0;
+    background: black; /* stripe background color. Change to match border color of parent label above */
 }
 
-.nav-trigger:checked ~ .main-container {
-    left: 17em;
+/* Overlay */
+.overlay {
+    /* overlay that covers entire page when menu is open */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    background: #1D1C21;
+    z-index: 99;
+    visibility: hidden;
+	transform: translate3d(0,0,0);
+    transition: opacity 0.5s; /* transition settings */
+}
+ 
+.overlay label {
+    /* label of overlay that closes menu when clicked on */
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
-.nav-trigger + label, .main-container {
-    transition: left 0.2s;
+/* 3. When the toggle box is checked */
+#togglebox:checked ~ #main-container{
+    margin-left: 10px; /* add some breathing room between menu and main-container */
+    transform: translate3d(150px,0px,-600px) rotateY(-45deg); /* shift main-container 250px to the right */
+}
+
+#togglebox:checked ~ #main-container #navtoggler{
+	transform: rotate(-90deg);
+}
+
+#togglebox:checked ~ #offcanvas-menu{ /* nav state when corresponding checkbox is checked */
+    transform: translate3d(0,0,0); /* shift main-container 250px to the right */
+    visibility: visible; /* this is for browsers that don't support CSS3 translate3d in showing the menu */
+    transition-delay: 0s; /* No delay for applying "visibility:visible" property when menu is going from "closed" to "open" */
+}
+
+#togglebox:checked ~ .overlay{ /* overlay state when corresponding checkbox is checked */
+    opacity: 0.5;
+    visibility: visible;
 }

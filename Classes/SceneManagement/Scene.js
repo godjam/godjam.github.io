@@ -67,7 +67,7 @@ Scene.prototype.resize = function () {
 Scene.prototype.init2DCanvasScene = function () {
     "use strict";
     var canvas = document.createElement('canvas'),
-        container = document.querySelector('.main-container'),
+        container = document.querySelector('#main-container'),
         previous = document.querySelector('canvas');
         
     this.ctx = canvas.getContext("2d");
@@ -89,7 +89,7 @@ Scene.prototype.initThreejsScene = function () {
         FAR = 10000,
 
         // get the DOM element to attach to
-        container = document.querySelector('.main-container'),
+        container = document.querySelector('#main-container'),
         canvas = document.querySelector('canvas');
     
 

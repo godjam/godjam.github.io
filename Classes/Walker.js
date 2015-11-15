@@ -117,7 +117,7 @@ Walker.prototype.stepPerlin = function () {
     this.stepsize = Math.max(stepy, stepx);
 	this.x += stepx;
 	this.y += stepy;
-    this.t += 0.01 /*+ Math.random() / 50*/;
+    this.t += 0.01; /*+ Math.random() / 50*/
 };
 
 

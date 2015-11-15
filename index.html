@@ -76,6 +76,7 @@
     <script src="01_vectors/02_vector_walker.js"></script>
     <script src="01_vectors/03_3D_bouncing_ball.js"></script>
     <script src="01_vectors/05_mover_acceleration.js"></script>
+    <script src="01_vectors/06_mover_perlin.js"></script>
     <!-- <script src="02_forces/01_forces.js"></script> -->
     <!-- <script src="02_forces/09_gravitational_attraction.js"></script> -->
     <!-- <script src="03_oscillations/31_rotation.js"></script> -->
@@ -95,38 +96,45 @@
     <!-- <script src="08_recursion/08_recursive_tree.js"></script> -->
     <!-- scenes factory : entry point of the app -->
     <script src="Classes/SceneManagement/Factory.js"></script>
+    <!-- to see -->
+    <!-- http://www.vinceallen.com/#/florajs-audio/ -->
 
 </head>
 <body>
-    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-    <label for="nav-trigger"></label>
-    <nav class="nav-container">
-        <h1>The <b>Nature</b> of Code</h1> <!--TODO : linkto natureofcode.com -->
+    <div id="container">
+		<input type="checkbox" id="togglebox" />
+		<div class="overlay"><label for="togglebox"></label></div>
+		
+		<nav id="offcanvas-menu">
+			<h1>The <b>Nature</b> of Code</h1> <!--TODO : linkto natureofcode.com -->
         <h2>Simple experiments</h2>
-        <ul>
-            <li><button onClick="Factory.createScene('00')">Canvas</button></li>
-            <li><button onClick="Factory.createScene('01')">Color</button></li>
-        </ul>
+        <button onClick="Factory.createScene('00')">Canvas</button>
+        <button onClick="Factory.createScene('01')">Color</button>
+        
         <h2>Introduction</h2>
-        <ul>
-            <li><button onClick="Factory.createScene('00_01')">01 - Right Walker</button></li>
-            <li><button onClick="Factory.createScene('00_03')">03 - Dynamic Probabilities Walker</button></li>
-            <li><button onClick="Factory.createScene('00_04')">04 - Splatter</button></li>
-            <li><button onClick="Factory.createScene('00_05')">05 - Normal distrib Walker</button></li>
-            <li><button onClick="Factory.createScene('00_06')">06 - Montecarlo Walker</button></li>
-            <li><button onClick="Factory.createScene('00_07')">07 - Perlin Walker</button></li>
-            <li><button onClick="Factory.createScene('00_08')">08 - Perlin noise 2D (slow!)</button></li>
-            <li><button onClick="Factory.createScene('00_09')">10 - NoiseScape</button></li>
-        </ul>
+        <button onClick="Factory.createScene('00_01')">01 - Right Walker</button>
+        <button onClick="Factory.createScene('00_03')">03 - Dynamic Probabilities Walker</button>
+        <button onClick="Factory.createScene('00_04')">04 - Splatter</button>
+        <button onClick="Factory.createScene('00_05')">05 - Normal distrib Walker</button>
+        <button onClick="Factory.createScene('00_06')">06 - Montecarlo Walker</button>
+        <button onClick="Factory.createScene('00_07')">07 - Perlin Walker</button>
+        <button onClick="Factory.createScene('00_09')">09 - Perlin noise 2D (slow!)</button>
+        <button onClick="Factory.createScene('00_10')">10 - NoiseScape</button>
+        	
         <h2>Chap 01 - Vectors</h2>
-        <ul>
-            <li><button onClick="Factory.createScene('01_01')">01 - Bouncing ball</button></li>
-            <li><button onClick="Factory.createScene('01_02')">02 - Vector Walker</button></li>
-            <li><button onClick="Factory.createScene('01_03')">03 - Bouncing ball 3D</button></li>
-            <li><button onClick="Factory.createScene('01_05')">05 - Mover: Acceleration</button></li>
-        </ul>
-    </nav>
-    <div class="main-container">
-    </div>
+        <button onClick="Factory.createScene('01_01')">01 - Bouncing ball</button>
+        <button onClick="Factory.createScene('01_02')">02 - Vector Walker</button>
+        <button onClick="Factory.createScene('01_03')">03 - Bouncing ball 3D</button>
+        <button onClick="Factory.createScene('01_05')">05 - Mover: Acceleration</button>
+        <button onClick="Factory.createScene('01_06')">06 - Mover: Perlin acceleration</button>
+        <h2>by Godjam</h2>
+		
+		</nav>
+	
+        <!-- contentarea -->
+		<div id="main-container">
+			<label for="togglebox" id="navtoggler">Menu</label>
+		</div>
+	</div>
 </body>
 </html>
