@@ -7,6 +7,7 @@ var Scene = function (options) {
     this.renderer = null;
     this.camera = null;
     this.scene = null;
+    this.mouseListener = null;
     
     // window
     window.addEventListener('resize', this.resize.bind(this));
@@ -42,6 +43,17 @@ Scene.prototype.stop = function () {
         window.cancelAnimationFrame(this.requestId);
         this.requestId = null;
     }
+    
+    if (this.resize !== null) {
+        window.removeEventListener('resize', this.resize);
+    }
+    
+    if (this.mouseListener !== null) {
+        document.removeEventListener("mousedown", this.mouseListener.mouseDown);
+        document.removeEventListener("mouseup", this.mouseListener.mouseUp);
+        document.removeEventListener("mousemove", this.mouseListener.move);
+        document.removeEventListener("touchmove", this.mouseListener.move);
+    }
 };
 
 Scene.prototype.resize = function () {
@@ -62,7 +74,6 @@ Scene.prototype.resize = function () {
         this.camera.updateProjectionMatrix();
     }
 };
-
 
 Scene.prototype.init2DCanvasScene = function () {
     "use strict";

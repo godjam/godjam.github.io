@@ -1,6 +1,7 @@
 /*global Scene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
-VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene*/
+VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
+MoverFollowScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -13,7 +14,7 @@ var Factory = function () {
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     Factory.init();
-    Factory.createScene("01_06");
+    Factory.createScene("01_07");
 });
 
 
@@ -52,6 +53,7 @@ Factory.init = function () {
     this.cache["01_03"] = BouncingBall3DScene;
     this.cache["01_05"] = MoverAccelerationScene;
     this.cache["01_06"] = MoverPerlinScene;
+    this.cache["01_07"] = MoverFollowScene;
 };
 
 Factory.autoclose = function () {

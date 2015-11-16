@@ -61,8 +61,8 @@ button {
 	border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-button:hover, button:active {
-	background: #6B0029; /* blue */
+button:hover, button:active button:focus {
+	background: #6B0029;
 }
 
 canvas {
@@ -179,7 +179,7 @@ canvas {
 /* 3. When the toggle box is checked */
 #togglebox:checked ~ #main-container{
     margin-left: 10px; /* add some breathing room between menu and main-container */
-    transform: translate3d(150px,0px,-600px) rotateY(-45deg); /* shift main-container 250px to the right */
+    transform: translate3d(150px,0px,-600px) rotateY(-45deg) rotateX(20deg) ; /* shift main-container 250px to the right */
 }
 
 #togglebox:checked ~ #main-container #navtoggler{

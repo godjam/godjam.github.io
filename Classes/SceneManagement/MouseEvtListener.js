@@ -20,7 +20,7 @@ var MouseEvtListener = function (canvasLeft, canvasTop, callbackOwner, callback)
 
 MouseEvtListener.prototype.move = function (event) {
     "use strict";
-    event.preventDefault();
+    // event.preventDefault();
     var x = null, y = null, bindedCall = null;
     
     if (event instanceof TouchEvent && event.touches.length > 0) {
@@ -54,12 +54,12 @@ MouseEvtListener.prototype.touchMove = function (event) {
     
 MouseEvtListener.prototype.mouseDown = function (event) {
     "use strict";
-    event.preventDefault();
+    // event.preventDefault();
     this.mouseClick = true;
 };
 
 MouseEvtListener.prototype.mouseUp = function (event) {
     "use strict";
-    event.preventDefault();
+    // event.preventDefault();
     this.mouseClick = false;
 };

@@ -21,13 +21,13 @@ MoverAccelerationScene.prototype.loop = function () {
 
 MoverAccelerationScene.prototype.mouseEvent = function (position) {
     "use strict";
-    var fx = 0, fy = 0;
-    
+    var delta = null;
     // move top / down
-    fy  = (position.y - this.height / 2) / this.height;
-    this.mover.acceleration.y = 0.5 * fy;
-    
+    delta.y = (position.y - this.height / 2) / this.height;
     // turn left / right
-    fx = (position.x - this.width / 2) / this.width;
-    this.mover.acceleration.x = 0.5 * fx;
+    delta.x = (position.x - this.width / 2) / this.width;
+    delta.normalizeInPlace();
+    delta.multInPlace(0.5);
+    
+    this.mover.acceleration.y = delta;
 };
