@@ -8,16 +8,13 @@
 */
 
 /*
-Palette 
+Palette
 -------
-Pink (light): EE337B
-Pink (major): EB005A
-Pink (darken): B80046
-Red (dark): 6B0029
-Purple (Dark): 6B3348
-
-Dark grey: 282933
-Overlay: 1D1C21
+#4dd0ff
+Factory.js:25 #90ff4d
+Factory.js:26 #4fff4d
+Factory.js:27 #ff4df6
+Factory.js:28 #33001a
 */
 
 body{
@@ -28,7 +25,7 @@ body{
 /* menu styles */
 h1 {
     color: #fff;
-    background-color: #eb005a; /* Pink */
+    background-color: #F92672;
     margin:0;
     padding-top: 1em;
     padding-bottom: 1em;
@@ -42,27 +39,27 @@ h1 {
 
 h2 {
     font-size: 1em;
-    color: #fff;
+    color: #F92672;
     letter-spacing: 0.1em;
-    text-shadow: #88C 0px 1px;
+    text-shadow: #ddd 0px 1px;
     font-family: georgia;
 }
 
 button {
 	width:100%;
-	padding: 0.6em 1.2em;
-	background: #B80046;
-	color: #fff;
+    color: #777;
+    background: #fff;
+	padding: 0.6em; /* 1.2em;*/
 	font-family: georgia;
 	letter-spacing: 1px;
 	text-transform: uppercase;
 	cursor: pointer;
 	border: none;
-	border-bottom: 1px solid rgba(0,0,0,0.1);
+	border-bottom: 2px solid rgba(0,0,0,0.1);
 }
 
 button:hover, button:active button:focus {
-	background: #6B0029;
+	color: #4dd0ff;
 }
 
 canvas {
@@ -95,7 +92,7 @@ canvas {
     position: fixed; /* fixed menu position */
     transform: translate3d(-250px,0,0); /* shift menu -width to hide it initially */
     box-sizing: border-box; /* include padding/ border as part of declared menu width */
-    background: #282933;
+    background: #fff;
     display: block;
     text-align: center;
 	overflow : auto;
@@ -162,7 +159,7 @@ canvas {
     left: 0;
     top: 0;
     opacity: 0;
-    background: #1D1C21;
+    background: #272822;
     z-index: 99;
     visibility: hidden;
 	transform: translate3d(0,0,0);

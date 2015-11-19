@@ -20,8 +20,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         attractor = new MouseAttractor(width,
                                         height,
                                         30,
-                                        ctx.canvas.clientLeft,
-                                        ctx.canvas.clientTop);
+                                        ctx.canvas);
     
     for (i = 0; i < 1; i += 1) {
         movers[i] = new Mover(width, height, 0, 0, 30);

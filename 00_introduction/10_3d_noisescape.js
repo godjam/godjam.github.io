@@ -3,7 +3,7 @@
 var NoiseScapeScene = function () {
     "use strict";
     Scene.call(this, {threejs : true});
-    this.mouseListener = new MouseEvtListener(this.clientLeft, this.clientTop, this, this.mouseEvent);
+    this.mouseListener = new MouseEvtListener(this.ctx.canvas, this, this.mouseEvent);
     this.t = 0;
     this.dx = -0.001;
     this.dy = 0;

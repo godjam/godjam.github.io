@@ -9,7 +9,7 @@ var VectorWalkerScene = function () {
     this.stepsize = 1;
     this.color = Color.createNormalDistribColor();
     this.mousePosition = null;
-    this.mouseListener = new MouseEvtListener(this.clientLeft, this.clientTop, this, this.mouseEvent);
+    this.mouseListener = new MouseEvtListener(this.ctx.canvas, this, this.mouseEvent);
 };
 VectorWalkerScene.prototype = Object.create(Scene.prototype);
 VectorWalkerScene.prototype.constructor = VectorWalkerScene;

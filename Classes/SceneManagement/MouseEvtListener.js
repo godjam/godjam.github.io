@@ -1,9 +1,15 @@
-/*global TouchEvent, Vector2*/
-var MouseEvtListener = function (canvasLeft, canvasTop, callbackOwner, callback) {
+/*global TouchEvent, Vector2, HTMLCanvasElement*/
+var MouseEvtListener = function (canvas, callbackOwner, callback) {
     "use strict";
+    
+    if (canvas instanceof HTMLCanvasElement === false) {
+        throw "MouseEvtListener.canvas : canvas is not a HTMLCanvasElement";
+    }
+    
     this.mouseClick = false;
-    this.position = new Vector2(canvasLeft, canvasTop);
-    this.origin = new Vector2(canvasLeft, canvasTop);
+    this.position = new Vector2(canvas.clientLeft, canvas.clientTop);
+    this.origin = new Vector2(canvas.clientLeft, canvas.clientTop);
+    this.canvas = canvas;
     this.callbackOwner = callbackOwner;
     this.callback = null;
     
@@ -11,16 +17,24 @@ var MouseEvtListener = function (canvasLeft, canvasTop, callbackOwner, callback)
         this.callback = callback;
     }
     
-    // attach event listener to the doc
-    document.addEventListener("mousedown", this.mouseDown.bind(this));
-    document.addEventListener("mouseup", this.mouseUp.bind(this));
-    document.addEventListener("mousemove", this.move.bind(this));
-    document.addEventListener("touchmove", this.move.bind(this));
+    // attach event listener to the doc (with capturing)
+    this.canvas.addEventListener("mousedown", this.mouseDown.bind(this));
+    this.canvas.addEventListener("mouseup", this.mouseUp.bind(this));
+    this.canvas.addEventListener("mousemove", this.move.bind(this));
+    this.canvas.addEventListener("touchmove", this.move.bind(this));
+};
+
+MouseEvtListener.prototype.stop = function () {
+    "use strict";
+    this.canvas.removeEventListener("mousedown", this.mouseDown);
+    this.canvas.removeEventListener("mouseup", this.mouseUp);
+    this.canvas.removeEventListener("mousemove", this.move);
+    this.canvas.removeEventListener("touchmove", this.move);
 };
 
 MouseEvtListener.prototype.move = function (event) {
     "use strict";
-    // event.preventDefault();
+    event.preventDefault();
     var x = null, y = null, bindedCall = null;
     
     if (event instanceof TouchEvent && event.touches.length > 0) {
@@ -42,24 +56,14 @@ MouseEvtListener.prototype.move = function (event) {
     }
 };
 
-MouseEvtListener.prototype.getPosition = function () {
-    "use strict";
-    return this.position.copy();
-};
-
-MouseEvtListener.prototype.touchMove = function (event) {
-    "use strict";
-    event.preventDefault();
-};
-    
 MouseEvtListener.prototype.mouseDown = function (event) {
     "use strict";
-    // event.preventDefault();
+    event.preventDefault();
     this.mouseClick = true;
 };
 
 MouseEvtListener.prototype.mouseUp = function (event) {
     "use strict";
-    // event.preventDefault();
+    event.preventDefault();
     this.mouseClick = false;
 };

@@ -7,9 +7,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         height = ctx.canvas.height = window.innerHeight,
         mover = new Mover(width, height, width / 2, height / 2,  15),
         emitter = new Emitter(mover, 1),
-        attractor = new MouseAttractor(30, 3,
-                                       ctx.canvas.clientLeft,
-                                       ctx.canvas.clientTop),
+        attractor = new MouseAttractor(30, 3, ctx.canvas),
         gravity = new Gravity(0, 0.2);
     
     ctx.globalAlpha = 0.6;

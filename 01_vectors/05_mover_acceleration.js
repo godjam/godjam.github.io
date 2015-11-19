@@ -4,7 +4,7 @@ var MoverAccelerationScene = function () {
     Scene.call(this);
     this.mover = new Mover(this.width / 2, this.height / 2,
                              this.width, this.height, 20);
-    this.mouseListener = new MouseEvtListener(this.clientLeft, this.clientTop, this, this.mouseEvent);
+    this.mouseListener = new MouseEvtListener(this.ctx.canvas , this, this.mouseEvent);
 };
 MoverAccelerationScene.prototype = Object.create(Scene.prototype);
 MoverAccelerationScene.prototype.constructor =  MoverAccelerationScene;

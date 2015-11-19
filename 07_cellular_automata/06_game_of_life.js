@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         height = ctx.canvas.height = window.innerHeight,
         loop = new Loop(),
         ca = new CA2DContinuous(80, width, height),
-        listener = new MouseEvtListener(ctx.canvas.clientLeft, ctx.canvas.clientTop, ca, ca.addCell);
+        listener = new MouseEvtListener(ctx.canvas, ca, ca.addCell);
     
     function animate() {
         requestAnimationFrame(animate);

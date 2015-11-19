@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var ctx = document.getElementById("canvas").getContext("2d"),
         width = ctx.canvas.width = window.innerWidth,
         height = ctx.canvas.height = window.innerHeight,
-        listener = new MouseEvtListener(ctx.canvas.clientLeft, ctx.canvas.clientTop),
+        listener = new MouseEvtListener(ctx.canvas),
         loop = new Loop(),
         ca = new CA(width / 20, width, height);
     ca.generate();

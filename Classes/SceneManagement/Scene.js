@@ -1,6 +1,8 @@
 /*global Context, FrameLoop, THREE*/
 var Scene = function (options) {
     "use strict";
+    // canvas
+    this.canvas = document.querySelector('canvas');
     // 2D context
     this.ctx = null;
     // Threejs
@@ -12,8 +14,7 @@ var Scene = function (options) {
     // window
     window.addEventListener('resize', this.resize.bind(this));
     this.resize();
-    this.clientLeft = 0;
-    this.clientTop = 0;
+    
     // frames
     this.frameloop = new FrameLoop();
     this.requestId = null;
@@ -49,10 +50,7 @@ Scene.prototype.stop = function () {
     }
     
     if (this.mouseListener !== null) {
-        document.removeEventListener("mousedown", this.mouseListener.mouseDown);
-        document.removeEventListener("mouseup", this.mouseListener.mouseUp);
-        document.removeEventListener("mousemove", this.mouseListener.move);
-        document.removeEventListener("touchmove", this.mouseListener.move);
+        this.mouseListener.stop();
     }
 };
 
@@ -61,11 +59,9 @@ Scene.prototype.resize = function () {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     // 2D canvas scene
-    if (this.ctx !== null) {
-        this.ctx.canvas.width = this.width;
-        this.ctx.canvas.height = this.height;
-        this.clientLeft = this.ctx.canvas.clientLeft;
-        this.clientTop = this.ctx.canvas.clientTop;
+    if (this.canvas !== null) {
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
     }
     // threejs scene
     if (this.renderer !== null) {
@@ -77,18 +73,16 @@ Scene.prototype.resize = function () {
 
 Scene.prototype.init2DCanvasScene = function () {
     "use strict";
-    var canvas = document.createElement('canvas'),
-        container = document.querySelector('#main-container'),
-        previous = document.querySelector('canvas');
-        
+	var canvas = document.createElement('canvas'),
+        container = document.querySelector('#main-container');
+    
+    if (this.canvas !== null) { container.removeChild(this.canvas); }
+    
     this.ctx = canvas.getContext("2d");
     this.ctx.canvas.width = this.width;
     this.ctx.canvas.height = this.height;
-    this.clientLeft = this.ctx.canvas.clientLeft;
-    this.clientTop = this.ctx.canvas.clientTop;
-    
-    if (previous !== null) { container.removeChild(previous); }
-    container.appendChild(canvas);
+    this.canvas = canvas;
+    container.appendChild(this.canvas);
 };
 
 Scene.prototype.initThreejsScene = function () {
@@ -100,8 +94,7 @@ Scene.prototype.initThreejsScene = function () {
         FAR = 10000,
 
         // get the DOM element to attach to
-        container = document.querySelector('#main-container'),
-        canvas = document.querySelector('canvas');
+        container = document.querySelector('#main-container');
     
 
     // create a WebGL renderer, camera
@@ -129,6 +122,9 @@ Scene.prototype.initThreejsScene = function () {
     this.renderer.setSize(this.width, this.height);
 
     // attach the render-supplied DOM element
-    if (canvas !== null) { container.removeChild(canvas); }
-    container.appendChild(this.renderer.domElement);
+    if (this.canvas !== null) { container.removeChild(this.canvas); }
+    
+    // save the canvas ref
+    this.canvas = this.renderer.domElement;
+    container.appendChild(this.canvas);
 };
