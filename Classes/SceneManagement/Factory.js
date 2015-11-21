@@ -1,7 +1,7 @@
 /*global Scene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
-MoverFollowScene, EcosystemScene_01 */
+MoverFollowScene, EcosystemScene_01, HeliumBalloonScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -14,11 +14,11 @@ var Factory = function () {
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     Factory.init();
-    Factory.createPalette();
-    Factory.createScene("Eco01");
+    //Factory.createPalette();
+    Factory.createScene("02_01");
 });
 
-
+/*
 Factory.createPalette = function () {
     "use strict";
     console.log(Color.createBrightColor().ToHex());
@@ -27,7 +27,7 @@ Factory.createPalette = function () {
     console.log(Color.createBrightColor().ToHex());
     console.log(Color.createDarkColor().ToHex());
 };
-
+*/
 
 Factory.init = function () {
     "use strict";
@@ -65,7 +65,9 @@ Factory.init = function () {
     this.cache["01_05"] = MoverAccelerationScene;
     this.cache["01_06"] = MoverPerlinScene;
     this.cache["01_08"] = MoverFollowScene;
-    this.cache["Eco01"] = EcosystemScene_01;
+    this.cache["ES_01"] = EcosystemScene_01;
+    // chap 1 : Forces
+    this.cache["02_01"] = HeliumBalloonScene;
 };
 
 Factory.autoclose = function () {

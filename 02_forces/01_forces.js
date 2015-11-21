@@ -1,11 +1,8 @@
 /*global Liquid, Vector2, Mover, requestAnimationFrame, noise, Wind, Gravity, Friction*/
 //*************************************************
-document.addEventListener("DOMContentLoaded", function (event) {
+var HeliumBalloonScene = function () { {
 	"use strict";
-    var ctx = document.getElementById("canvas").getContext("2d"),
-        width = ctx.canvas.width = window.innerWidth,
-        height = ctx.canvas.height = window.innerHeight,
-        movers = [],
+    var movers = [],
         liquid = new Liquid(width / 2, height / 2, height / 2, height / 2, 0.1),
         wind = new Wind(0.01, 0),
         gravity = new Gravity(0, 0.1),

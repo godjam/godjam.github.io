@@ -48,11 +48,18 @@ Mover.prototype.update = function (collideWithBorders) {
     if (collideWithBorders === true) { this.checkEdge(); }
 };
 
+Mover.prototype.displayAsCircle = function (ctx) {
+    "use strict";
+    ctx.beginPath();
+    ctx.arc(this.location.x, this.location.y, this.mass / 2, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.fill();
+    ctx.closePath();
+};
+
 Mover.prototype.display = function (ctx) {
 	"use strict";
-    /*
-    ctx.fillRect(this.location.x - this.mass / 2, this.location.y - this.mass / 2, this.mass, this.mass);
-    */
+    
     var o = new Vector2(0, 0),
         scale = this.mass,
         l1 = this.p1.rotate(this.angle, o),

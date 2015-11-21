@@ -4,9 +4,6 @@ function RandomForce(usePerlin) {
     this.usePerlin = usePerlin;
     this.t = 0;
     this.perlin = toxi.math.noise.simplexNoise;
-        
-    //this.min = 100;
-    //this.max = 0;
 }
 
 RandomForce.prototype.applyOn = function (mover) {
@@ -17,23 +14,33 @@ RandomForce.prototype.applyOn = function (mover) {
     
     var force = new Vector2(0, 0);
     this.t += 1;
-    if (this.t > 180) {this.t = 0; }
+    if (this.t > 300) {this.t = 0; }
     
     if (this.usePerlin) {
-        force = new Vector2(
-            (this.perlin.noise(this.t / 180, 0) + 1 / 4),
-            (this.perlin.noise(1 - this.t / 180, 0) + 1 / 4)
-        );
+        force = this.generatePerlinRnd(mover);
     } else {
-        force = new Vector2(
-            Math.random() - 0.5,
-            Math.random() - 0.5
-        );
+        force = this.generateSimpleRnd();
     }
     
-    //if (force.x < this.min) {this.min = force.x; }
-    //if (force.x > this.max) {this.max = force.x; }
-    //console.log(this.min + " " + this.max);
-    //console.log(force.y);
+    force.limit(1);
     mover.applyUniformForce(force);
+};
+
+RandomForce.prototype.generateSimpleRnd = function () {
+    "use strict";
+    return new Vector2(
+        Math.random() - 0.5,
+        Math.random() - 0.5
+    );
+};
+
+RandomForce.prototype.generatePerlinRnd = function (mover) {
+    "use strict";
+    var x = (mover.location.x - mover.worldW / 2) / mover.worldW,
+        y = (mover.location.y - mover.worldH / 2) / mover.worldH,
+        n = this.perlin.noise(x, y, this.t) - 0.5;
+    return new Vector2(
+        Math.cos(n * Math.PI) * 0.5,
+        Math.sin(n * Math.PI) * 0.5
+    );
 };
