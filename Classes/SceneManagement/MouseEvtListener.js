@@ -3,7 +3,7 @@ var MouseEvtListener = function (canvas, callbackOwner, callback) {
     "use strict";
     
     if (canvas instanceof HTMLCanvasElement === false) {
-        throw "MouseEvtListener.canvas : canvas is not a HTMLCanvasElement";
+        throw "MouseEvtListener.ctor : canvas is not a HTMLCanvasElement";
     }
     
     this.mouseClick = false;

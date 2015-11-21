@@ -1,10 +1,10 @@
-/*global Scene, Mover, MouseEvtListener*/
+/*global Scene, Mover, MouseEvtListener, Vector2 */
 var MoverAccelerationScene = function () {
     "use strict";
     Scene.call(this);
     this.mover = new Mover(this.width / 2, this.height / 2,
                              this.width, this.height, 20);
-    this.mouseListener = new MouseEvtListener(this.ctx.canvas , this, this.mouseEvent);
+    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
 };
 MoverAccelerationScene.prototype = Object.create(Scene.prototype);
 MoverAccelerationScene.prototype.constructor =  MoverAccelerationScene;
@@ -21,7 +21,7 @@ MoverAccelerationScene.prototype.loop = function () {
 
 MoverAccelerationScene.prototype.mouseEvent = function (position) {
     "use strict";
-    var delta = null;
+    var delta = new Vector2(0, 0);
     // move top / down
     delta.y = (position.y - this.height / 2) / this.height;
     // turn left / right
@@ -29,5 +29,5 @@ MoverAccelerationScene.prototype.mouseEvent = function (position) {
     delta.normalizeInPlace();
     delta.multInPlace(0.5);
     
-    this.mover.acceleration.y = delta;
+    this.mover.acceleration = delta;
 };

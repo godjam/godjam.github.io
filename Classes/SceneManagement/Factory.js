@@ -1,7 +1,7 @@
 /*global Scene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
-MoverFollowScene */
+MoverFollowScene, EcosystemScene_01 */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -14,8 +14,19 @@ var Factory = function () {
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     Factory.init();
-    Factory.createScene("01_07");
+    Factory.createPalette();
+    Factory.createScene("Eco01");
 });
+
+
+Factory.createPalette = function () {
+    "use strict";
+    console.log(Color.createBrightColor().ToHex());
+    console.log(Color.createBrightColor().ToHex());
+    console.log(Color.createBrightColor().ToHex());
+    console.log(Color.createBrightColor().ToHex());
+    console.log(Color.createDarkColor().ToHex());
+};
 
 
 Factory.init = function () {
@@ -53,7 +64,8 @@ Factory.init = function () {
     this.cache["01_03"] = BouncingBall3DScene;
     this.cache["01_05"] = MoverAccelerationScene;
     this.cache["01_06"] = MoverPerlinScene;
-    this.cache["01_07"] = MoverFollowScene;
+    this.cache["01_08"] = MoverFollowScene;
+    this.cache["Eco01"] = EcosystemScene_01;
 };
 
 Factory.autoclose = function () {

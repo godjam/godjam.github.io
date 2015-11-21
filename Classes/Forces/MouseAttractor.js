@@ -1,22 +1,28 @@
-/*global Vector2, Mover, Attractor*/
-function MouseAttractor(m, G, canvasLeft, canvasTop) {
+/*global Vector2, Mover, Attractor, MouseEvtListener, HTMLCanvasElement */
+function MouseAttractor(m, G, mouseListener, canvas) {
     "use strict";
-    this.mouse = new Vector2(0, 0);
+    if (mouseListener !== null) {
+        throw "MouseAttractor.ctor : mouseListener is not null";
+    }
+    
+    if (canvas instanceof HTMLCanvasElement === false) {
+        throw "MouseAttractor.ctor : canvas is not a HTMLCanvasElement";
+    }
+    
+    
+    this.mouse = new Vector2(canvas.width / 2, canvas.height / 2);
     this.attractor = new Attractor(this.mouse.x,
                                    this.mouse.y,
                                    m,
                                    G);
-    this.canvasLeft = canvasLeft;
-    this.canvasTop = canvasTop;
     
-    // attach event listener to the doc
-    document.addEventListener("mousemove", this.update.bind(this));
+    // init listener
+    mouseListener = new MouseEvtListener(canvas, this, this.update);
 }
 
-MouseAttractor.prototype.update = function (event) {
+MouseAttractor.prototype.update = function (position) {
     "use strict";
-    this.mouse.x = event.clientX - this.canvasLeft;
-    this.mouse.y = event.clientY - this.canvasTop;
+    this.mouse = position;
 };
 
 MouseAttractor.prototype.applyOn = function (mover) {

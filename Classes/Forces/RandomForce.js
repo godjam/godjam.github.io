@@ -1,8 +1,10 @@
-/*global Vector2, Mover, noise*/
+/*global Vector2, Mover, toxi*/
 function RandomForce(usePerlin) {
     "use strict";
     this.usePerlin = usePerlin;
     this.t = 0;
+    this.perlin = toxi.math.noise.simplexNoise;
+        
     //this.min = 100;
     //this.max = 0;
 }
@@ -19,8 +21,8 @@ RandomForce.prototype.applyOn = function (mover) {
     
     if (this.usePerlin) {
         force = new Vector2(
-            (noise.perlin2(this.t / 180, 0) + 1 / 4),
-            (noise.perlin2(1 - this.t / 180, 0) + 1 / 4)
+            (this.perlin.noise(this.t / 180, 0) + 1 / 4),
+            (this.perlin.noise(1 - this.t / 180, 0) + 1 / 4)
         );
     } else {
         force = new Vector2(

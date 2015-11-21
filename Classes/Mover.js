@@ -30,7 +30,7 @@ Mover.prototype.initRandomly = function () {
         Math.random() * 6 - 3,
         Math.random() * 6 - 3
     );
-    this.mass = Math.random() * this.mass;
+    this.mass = this.mass / 2 + Math.random() * this.mass / 2;
 };
 
 Mover.prototype.update = function (collideWithBorders) {

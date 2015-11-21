@@ -79,9 +79,9 @@ Scene.prototype.init2DCanvasScene = function () {
     if (this.canvas !== null) { container.removeChild(this.canvas); }
     
     this.ctx = canvas.getContext("2d");
-    this.ctx.canvas.width = this.width;
-    this.ctx.canvas.height = this.height;
     this.canvas = canvas;
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
     container.appendChild(this.canvas);
 };
 

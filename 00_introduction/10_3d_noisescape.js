@@ -3,7 +3,7 @@
 var NoiseScapeScene = function () {
     "use strict";
     Scene.call(this, {threejs : true});
-    this.mouseListener = new MouseEvtListener(this.ctx.canvas, this, this.mouseEvent);
+    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
     this.t = 0;
     this.dx = -0.001;
     this.dy = 0;
@@ -27,7 +27,7 @@ var NoiseScapeScene = function () {
     this.scene.add(this.plane);
     
     // controls
-    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new THREE.OrbitControls(this.camera, this.canvas);
 };
 NoiseScapeScene.prototype = Object.create(Scene.prototype);
 NoiseScapeScene.prototype.constructor = NoiseScapeScene;
@@ -82,6 +82,7 @@ NoiseScapeScene.prototype.loop = function () {
     Scene.prototype.loop.call(this);
 };
 
+/*
 NoiseScapeScene.prototype.mouseEvent = function (position) {
     "use strict";
     
@@ -91,3 +92,4 @@ NoiseScapeScene.prototype.mouseEvent = function (position) {
     this.dx = y / 100;
     this.dy = x / 100;
 };
+*/
