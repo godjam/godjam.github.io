@@ -5,12 +5,12 @@
  * m : mass of the attractor 
  * G : gravity constant (3 is a good value. If negative, the attractor is now a Repeller 
  */
-function Attractor(x, y, m, G) {
+var Attractor = function (x, y, m, G) {
     "use strict";
     this.location = new Vector2(x, y);
     this.mass = m;
     this.G = G;
-}
+};
 
 Attractor.prototype.display = function (ctx) {
 	"use strict";
@@ -21,7 +21,6 @@ Attractor.prototype.display = function (ctx) {
     ctx.stroke();
     ctx.restore();
 };
-
 
 Attractor.prototype.applyOn = function (mover) {
 	"use strict";
