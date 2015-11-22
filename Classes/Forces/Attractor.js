@@ -18,6 +18,7 @@ Attractor.prototype.display = function (ctx) {
     ctx.beginPath();
     ctx.arc(this.location.x, this.location.y, this.mass * 2, 0, Math.PI * 2);
     ctx.closePath();
+    ctx.lineWidth = 3;
     ctx.stroke();
     ctx.restore();
 };

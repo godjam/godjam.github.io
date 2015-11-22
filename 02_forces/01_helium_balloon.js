@@ -2,9 +2,12 @@
 var HeliumBalloonScene = function () {
     "use strict";
     Scene.call(this);
-    this.ballon = new Mover(this.width / 2, this.height / 2,
-                             this.width, this.height, 100);
-    this.ballon.initRandomly();
+    var i = 0;
+    this.ballons = [];
+    for (i = 0; i < 3; i += 1) {
+        this.ballons[i] = new Mover(0, 0, this.width, this.height, 100);
+        this.ballons[i].initRandomly();
+    }
     this.gravity = new Gravity(0, -0.01);
     this.wind = new RandomForce(true);
     
@@ -14,15 +17,17 @@ HeliumBalloonScene.prototype.constructor =  HeliumBalloonScene;
 
 HeliumBalloonScene.prototype.loop = function () {
     "use strict";
+    var i = 0;
     this.ctx.clearRect(0, 0, this.width, this.height);
     
     // update 
-    this.wind.applyOn(this.ballon);
-    this.gravity.applyOn(this.ballon);
-    this.ballon.update(true);
-    
-    // draw
-    this.ballon.displayAsCircle(this.ctx);
-    
+    for (i = 0; i < this.ballons.length; i += 1) {
+        this.wind.applyOn(this.ballons[i]);
+        this.gravity.applyOn(this.ballons[i]);
+        this.ballons[i].update(true);
+
+        // draw
+        this.ballons[i].displayAsCircle(this.ctx);
+    }
     Scene.prototype.loop.call(this);
 };

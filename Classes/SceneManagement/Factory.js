@@ -1,7 +1,8 @@
 /*global Scene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
-MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene */
+MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
+FrictionForceScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -15,7 +16,7 @@ window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     Factory.init();
     //Factory.createPalette();
-    Factory.createScene("02_03");
+    Factory.createScene("02_04");
 });
 
 /*
@@ -69,6 +70,7 @@ Factory.init = function () {
     // chap 1 : Forces
     this.cache["02_01"] = HeliumBalloonScene;
     this.cache["02_03"] = CenterForceScene;
+    this.cache["02_04"] = FrictionForceScene;
 };
 
 Factory.autoclose = function () {
