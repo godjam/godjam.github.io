@@ -148,21 +148,24 @@ Mover.prototype.applyUniformForce = function (force) {
 /*
  *  Attract another Mover
  */
-Mover.prototype.attract = function (mover) {
+Mover.prototype.attract = function (mover, G) {
 	"use strict";
     if (mover instanceof Mover === false) {
         throw "Mover.attract : param is not another Mover";
     }
     
+    if (G === undefined) {
+        G = 1;
+    }
+    
     var force = this.location.sub(mover.location), // diff
         dist = force.mag(),
-        strength = 0,
-        G = 3;
+        strength = 0;
+        
     force.normalizeInPlace();
     if (dist < 5) { dist = 5; }
     if (dist > 10) { dist = 10; }
-    strength = (G * this.mass * this.mass) / (dist * dist);
-    //strength = (dist * dist) / (G * this.mass * this.mass);
-    force.multInPlace(-strength);
+    strength = (dist * dist) / (G * this.mass * this.mass);
+    force.multInPlace(strength);
     mover.applyForce(force);
 };

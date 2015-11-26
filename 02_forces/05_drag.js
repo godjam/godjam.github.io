@@ -15,7 +15,9 @@ var DragForceScene = function () {
     
     for (i = 0; i < 4; i += 1) {
         s = Math.random() * m + m * 0.8 * (i + 1);
-        this.movers[i] = new Mover(w / 8 +  i * w / 4, s, w, h, s);
+        this.movers[i] = new Mover(w / 8 +  i * w / 4,
+                                   s,
+                                   w, h, s);
     }
 };
 DragForceScene.prototype = Object.create(Scene.prototype);
