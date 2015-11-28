@@ -2,7 +2,7 @@
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
 MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
-FrictionForceScene, DragForceScene, GravityForceScene */
+FrictionForceScene, DragForceScene, GravitationalAttractionScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -16,7 +16,7 @@ window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     Factory.init();
     //Factory.createPalette();
-    Factory.createScene("02_09");
+    Factory.createScene("02_08");
 });
 
 /*
@@ -72,7 +72,7 @@ Factory.init = function () {
     this.cache["02_03"] = CenterForceScene;
     this.cache["02_04"] = FrictionForceScene;
     this.cache["02_05"] = DragForceScene;
-    this.cache["02_09"] = GravityForceScene;
+    this.cache["02_08"] = GravitationalAttractionScene;
 };
 
 Factory.autoclose = function () {
