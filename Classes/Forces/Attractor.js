@@ -14,13 +14,11 @@ var Attractor = function (x, y, m, G) {
 
 Attractor.prototype.display = function (ctx) {
 	"use strict";
-    ctx.save();
     ctx.beginPath();
     ctx.arc(this.location.x, this.location.y, this.mass * 2, 0, Math.PI * 2);
-    ctx.closePath();
     ctx.lineWidth = 3;
     ctx.stroke();
-    ctx.restore();
+    ctx.closePath();
 };
 
 Attractor.prototype.applyOn = function (mover) {

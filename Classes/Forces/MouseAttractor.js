@@ -1,24 +1,30 @@
-/*global Vector2, Mover, Attractor, MouseEvtListener, HTMLCanvasElement */
-function MouseAttractor(m, G, mouseListener, canvas, attractor) {
+/*global Vector2, Scene, MouseEvtListener, HTMLCanvasElement */
+function MouseAttractor(scene, attractor) {
     "use strict";
-    if (mouseListener !== null) {
+    
+    if (scene instanceof Scene === false) {
+        throw "MouseAttractor.ctor : scene is not a Scene";
+    }
+    
+    if (scene.mouseListener !== null) {
         throw "MouseAttractor.ctor : mouseListener is not null";
     }
     
-    if (canvas instanceof HTMLCanvasElement === false) {
+    if (scene.canvas instanceof HTMLCanvasElement === false) {
         throw "MouseAttractor.ctor : canvas is not a HTMLCanvasElement";
     }
     
-    
-    this.mouse = new Vector2(canvas.width / 2, canvas.height / 2);
-    
     if (attractor === undefined) {
-        attractor = new Attractor(this.mouse.x, this.mouse.y, m, G);
+        throw "MouseAttractor.ctor : attractor is not a defined";
     }
+    
+    this.mouse = new Vector2(scene.canvas.width / 2,
+                             scene.canvas.height / 2);
+    
     this.attractor = attractor;
     
     // init listener
-    mouseListener = new MouseEvtListener(canvas, this, this.update);
+    scene.mouseListener = new MouseEvtListener(scene.canvas, this, this.update);
 }
 
 MouseAttractor.prototype.update = function (position) {

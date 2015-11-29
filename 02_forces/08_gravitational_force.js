@@ -1,4 +1,4 @@
-/*global Scene, Mover, MouseAttractor*/
+/*global Scene, Mover, MouseAttractor, Attractor*/
 //*************************************************
 var GravitationalAttractionScene = function () {
 	"use strict";
@@ -6,9 +6,10 @@ var GravitationalAttractionScene = function () {
     var i = 0,
         w = this.width,
         h = this.height,
-        s = 0;
+        s = 0,
+        attractor = new Attractor(0, 0, 20, 1);
     this.movers = [];
-    this.gravity = new MouseAttractor(20, 1, this.mouseListener, this.canvas);
+    this.gravity = new MouseAttractor(this, attractor);
     
     for (i = 0; i < 10; i += 1) {
         s = Math.random() * 10 + 10;

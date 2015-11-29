@@ -1,4 +1,4 @@
-/*global Scene, Vector2, Mover, Gravity, MouseAttractor, RandomForce, Color*/
+/*global Scene, Vector2, Mover, Gravity, MouseAttractor, RandomForce, Color, Attractor*/
 /* 
  * TODO : projet "artificial life" : trouver un moyen d'appliquer des forces différentes aux movers
  * A cette étape il y avait 3 types de "movers" differents (donc de forces)
@@ -10,13 +10,13 @@
 var EcosystemScene_01 = function () {
 	"use strict";
     Scene.call(this);
-    var i = 0;
+    var i = 0,
+        attractor = new Attractor(0, 0, 30, 3);
     
     this.movers = [];
     this.gravity = new Gravity(0, 0.2);
     this.rndFly = new RandomForce(true);
-    //this.oscillation = new Oscillation(this.width / 30, Math.PI / 10);
-    this.attractor = new MouseAttractor(30, 3, this.mouseListener, this.canvas);
+    this.attractor = new MouseAttractor(this, attractor);
     this.colors = [];
 
     // init palette

@@ -64,6 +64,7 @@ button:hover, button:active button:focus {
 
 canvas {
     background: #fff;
+    display: block;
 }
 
 /* The 3D container*/
