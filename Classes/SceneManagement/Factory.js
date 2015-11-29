@@ -1,9 +1,10 @@
-/*global Scene, CanvasTestScene, ColorTestScene, WalkerScene,
+/*global console, Color,
+Scene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
 MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
 FrictionForceScene, DragForceScene, GravitationalAttractionScene,
-CustomAttractionScene */
+CustomAttractionScene, RepulsiveMoversScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -16,11 +17,12 @@ var Factory = function () {
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     Factory.init();
-    //Factory.createPalette();
-    Factory.createScene("02_09");
+    Factory.parseURL();
 });
 
 /*
+ * Used to create a palette (4 bright colors and 1 dark color)
+ */
 Factory.createPalette = function () {
     "use strict";
     console.log(Color.createBrightColor().ToHex());
@@ -29,7 +31,24 @@ Factory.createPalette = function () {
     console.log(Color.createBrightColor().ToHex());
     console.log(Color.createDarkColor().ToHex());
 };
-*/
+
+Factory.parseURL = function () {
+    "use strict";
+    var defaultKey = "02_10",
+        key = "";
+    
+    if (window !== null) {
+        key = window.location.search;
+        key = key.replace("?", "");
+    }
+    
+    if (this.cache[key] === undefined) {
+        key = defaultKey;
+    }
+    
+    Factory.createScene(key);
+};
+
 
 Factory.init = function () {
     "use strict";
@@ -75,6 +94,7 @@ Factory.init = function () {
     this.cache["02_05"] = DragForceScene;
     this.cache["02_08"] = GravitationalAttractionScene;
     this.cache["02_09"] = CustomAttractionScene;
+    this.cache["02_10"] = RepulsiveMoversScene;
 };
 
 Factory.autoclose = function () {

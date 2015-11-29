@@ -7,7 +7,7 @@ var CustomAttractionScene = function () {
         w = this.width,
         h = this.height,
         s = 0,
-        attractor = new StrangeAttractor(this.width, this.height);
+        attractor = new StrangeAttractor(w, h);
     this.movers = [];
     this.mouseAttractor = new MouseAttractor(this, attractor);
     
