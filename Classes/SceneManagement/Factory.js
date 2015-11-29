@@ -4,7 +4,7 @@ NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
 MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
 FrictionForceScene, DragForceScene, GravitationalAttractionScene,
-CustomAttractionScene, RepulsiveMoversScene */
+CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02 */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -34,7 +34,7 @@ Factory.createPalette = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "02_10",
+    var defaultKey = "ES_02",
         key = "";
     
     if (window !== null) {
@@ -48,7 +48,6 @@ Factory.parseURL = function () {
     
     Factory.createScene(key);
 };
-
 
 Factory.init = function () {
     "use strict";
@@ -95,6 +94,7 @@ Factory.init = function () {
     this.cache["02_08"] = GravitationalAttractionScene;
     this.cache["02_09"] = CustomAttractionScene;
     this.cache["02_10"] = RepulsiveMoversScene;
+    this.cache.ES_02 = EcosystemScene_02;
 };
 
 Factory.autoclose = function () {

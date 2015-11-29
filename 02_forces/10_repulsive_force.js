@@ -7,7 +7,7 @@ var RepulsiveMoversScene = function () {
         w = this.width,
         h = this.height,
         s = 0,
-        attractor = new Attractor(0, 0, 30, 9);
+        attractor = new Attractor(0, 0, 30, 20);
     this.movers = [];
     this.gravity = new MouseAttractor(this, attractor);
     
@@ -27,7 +27,7 @@ RepulsiveMoversScene.prototype.loop = function () {
     for (i = 0; i < this.movers.length; i += 1) {
         for (j = 0; j < this.movers.length; j += 1) {
             if (i !== j) {
-                this.movers[i].attract(this.movers[j], -10);
+                this.movers[i].attract(this.movers[j], -1);
             }
         }
         

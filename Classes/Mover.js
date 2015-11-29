@@ -165,7 +165,7 @@ Mover.prototype.attract = function (mover, G) {
     force.normalizeInPlace();
     if (dist < 5) { dist = 5; }
     if (dist > 10) { dist = 10; }
-    strength = (dist * dist) / (G * this.mass * this.mass);
+    strength = (G * dist * dist) / (this.mass * this.mass);
     force.multInPlace(strength);
     mover.applyForce(force);
 };

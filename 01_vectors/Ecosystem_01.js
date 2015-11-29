@@ -1,10 +1,10 @@
 /*global Scene, Vector2, Mover, Gravity, MouseAttractor, RandomForce, Color, Attractor*/
 /* 
- * TODO : projet "artificial life" : trouver un moyen d'appliquer des forces différentes aux movers
- * A cette étape il y avait 3 types de "movers" differents (donc de forces)
- * 1) gravité
- * 2) Rnd acceleration (= mouche)
- * 3) "followers" (= attirés par la souris)
+ * project "artificial life"
+ * 3 type of movers (force based) :
+ * 1) gravity
+ * 2) rnd acceleration
+ * 3) "followers" (= follow mouse)
  */
 //*************************************************
 var EcosystemScene_01 = function () {

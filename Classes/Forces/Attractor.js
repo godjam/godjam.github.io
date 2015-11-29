@@ -34,7 +34,6 @@ Attractor.prototype.applyOn = function (mover) {
     if (dist < 5) { dist = 5; }
     if (dist > 25) { dist = 25; }
     strength = (this.G * this.mass * this.mass) / (dist * dist);
-    //strength = (dist * dist) / (G * this.mass * this.mass);
     force.multInPlace(strength);
     mover.applyForce(force);
 };
