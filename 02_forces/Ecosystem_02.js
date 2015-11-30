@@ -33,5 +33,35 @@ EcosystemScene_02.prototype.loop = function () {
             this.movers.splice(i, 1);
         }
     }
+    
+    this.createNewCreature();
+    
 	Scene.prototype.loop.call(this);
 };
+
+EcosystemScene_02.prototype.createNewCreature = function () {
+    "use strict";
+    var i = 0;
+    if (this.movers.length > 50) {return; }
+    
+    for (i = 0; i < this.movers.length; i += 1) {
+        if (this.movers[i] instanceof Food
+                && this.movers[i].mass > 15) {
+            this.movers.push(new Food(this.width, this.height));
+            this.movers[i].mass *= 0.5;
+        }
+        
+        if (this.movers[i] instanceof Creature
+                && this.movers[i].mass > 20) {
+            this.movers.push(new Creature(this.width, this.height));
+            this.movers[i].mass *= 0.5;
+        }
+        
+        if (this.movers[i] instanceof Predator
+                && this.movers[i].mass > 25) {
+            this.movers.push(new Predator(this.width, this.height));
+            this.movers[i].mass *= 0.5;
+        }
+    }
+};
+

@@ -13,11 +13,13 @@ Food.prototype.constructor = Food;
 Food.prototype.update = function (creatures) {
     "use strict";
     Mover.prototype.update.call(this, true);
+    // metabolism
+    if (this.mass < 30) {this.mass *= 1.001; }
 };
 
 Food.prototype.hit = function () {
     "use strict";
-    this.mass -= 2;
+    this.mass -= 5;
     if (this.mass <= 0) {
         this.alive = false;
     }
