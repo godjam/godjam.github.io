@@ -4,7 +4,8 @@ NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
 MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
 FrictionForceScene, DragForceScene, GravitationalAttractionScene,
-CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02 */
+CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02,
+RotationScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -32,9 +33,38 @@ Factory.createPalette = function () {
     console.log(Color.createDarkColor().ToHex());
 };
 
+Factory.toggleFullscreen = function () {
+    "use strict";
+    if (!document.fullscreenElement && // alternative standard method
+            !document.mozFullScreenElement &&
+            !document.webkitFullscreenElement &&
+            !document.msFullscreenElement) {
+        // current working methods
+        if (document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+            document.documentElement.msRequestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+            document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
+};
+
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "ES_02",
+    var defaultKey = "03_01",
         key = "";
     
     if (window !== null) {
@@ -95,6 +125,8 @@ Factory.init = function () {
     this.cache["02_09"] = CustomAttractionScene;
     this.cache["02_10"] = RepulsiveMoversScene;
     this.cache.ES_02 = EcosystemScene_02;
+    // chap 3 : Oscillation
+    this.cache["03_01"] = RotationScene;
 };
 
 Factory.autoclose = function () {

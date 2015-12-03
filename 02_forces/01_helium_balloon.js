@@ -4,7 +4,7 @@ var HeliumBalloonScene = function () {
     Scene.call(this);
     var i = 0;
     this.ballons = [];
-    for (i = 0; i < 3; i += 1) {
+    for (i = 0; i < 25; i += 1) {
         this.ballons[i] = new Mover(0, 0, this.width, this.height, 100);
         this.ballons[i].initRandomly();
     }

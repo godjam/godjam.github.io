@@ -14,7 +14,7 @@ var ColorTestScene = function () {
     for (i = 0; i < this.count; i += 1) {
         c = Color.createLightColor();
         for (j = 0; j < this.count; j += 1) {
-            this.colors.add(i, j, c.bluify().copy());
+            this.colors.add(i, j, c.blueify().copy());
             //colors.add(i, j, Color.createBrightColor());
         }
     }

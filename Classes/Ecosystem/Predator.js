@@ -24,8 +24,8 @@ Predator.prototype.update = function (creatures) {
         }
     }
     // metabolism
-    this.mass *= 0.9995;
-    Mover.prototype.update.call(this, true);
+    this.mass *= 0.9992;
+    Mover.prototype.update.call(this, false);
 };
 
 Predator.prototype.hit = function () {

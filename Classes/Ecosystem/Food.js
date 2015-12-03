@@ -14,7 +14,9 @@ Food.prototype.update = function (creatures) {
     "use strict";
     Mover.prototype.update.call(this, true);
     // metabolism
-    if (this.mass < 30) {this.mass *= 1.001; }
+    this.mass *= 1.001;
+    // death
+    if (this.mass > 30) { this.alive = false; }
 };
 
 Food.prototype.hit = function () {

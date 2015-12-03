@@ -41,14 +41,19 @@ EcosystemScene_02.prototype.loop = function () {
 
 EcosystemScene_02.prototype.createNewCreature = function () {
     "use strict";
-    var i = 0;
-    if (this.movers.length > 50) {return; }
+    var i = 0, f = 0, c = 0, p = 0;
+    for (i = 0; i < this.movers.length; i += 1) {
+        if (this.movers[i] instanceof Food) {f += 1; }
+        if (this.movers[i] instanceof Creature) {c += 1; }
+        if (this.movers[i] instanceof Predator) {p += 1; }
+    }
     
     for (i = 0; i < this.movers.length; i += 1) {
         if (this.movers[i] instanceof Food
-                && this.movers[i].mass > 15) {
-            this.movers.push(new Food(this.width, this.height));
+                && this.movers[i].mass > 25
+                && f < 50) {
             this.movers[i].mass *= 0.5;
+            this.movers.push(new Food(this.width, this.height));
         }
         
         if (this.movers[i] instanceof Creature
@@ -62,6 +67,10 @@ EcosystemScene_02.prototype.createNewCreature = function () {
             this.movers.push(new Predator(this.width, this.height));
             this.movers[i].mass *= 0.5;
         }
+        
+        if (c === 0) {this.movers.push(new Creature(this.width, this.height)); }
+        if (p === 0) {this.movers.push(new Predator(this.width, this.height)); }
+        
     }
 };
 

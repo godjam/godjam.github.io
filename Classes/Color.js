@@ -139,7 +139,7 @@ Color.prototype.redify = function () {
     return this.modify(-0.05, 0, 0);
 };
 
-Color.prototype.bluify = function () {
+Color.prototype.blueify = function () {
     "use strict";
     return this.modify(0.05, 0, 0);
 };

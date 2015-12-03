@@ -94,9 +94,7 @@
     <script src="02_forces/09_custom_force.js"></script>
     <script src="02_forces/10_repulsive_force.js"></script>
     <script src="02_forces/Ecosystem_02.js"></script>
-    <!-- <script src="02_forces/01_forces.js"></script> -->
-    <!-- <script src="02_forces/09_gravitational_attraction.js"></script> -->
-    <!-- <script src="03_oscillations/31_rotation.js"></script> -->
+    <script src="03_oscillations/01_rotation.js"></script>
     <!-- <script src="03_oscillations/34_spiral.js"></script> -->
     <!-- <script src="03_oscillations/37_ocillations.js"></script> -->
     <!-- <script src="04_particle_systems/41_particles.js"></script> -->
@@ -123,6 +121,7 @@
 		<div class="overlay"><label for="togglebox"></label></div>
             <nav id="offcanvas-menu">
                 <h1>The <b>Nature</b> of Code</h1> <!--TODO : linkto natureofcode.com -->
+                <button onClick="Factory.toggleFullscreen()">Toggle Fullscreen</button>
                 <h2>Simple experiments</h2>
                 <button onClick="Factory.createScene('00')">Canvas</button>
                 <button onClick="Factory.createScene('01')">Color</button>
@@ -157,6 +156,7 @@
                 <button onClick="Factory.createScene('ES_02')">The Ecosystem Project</button>
                 
                 <h2>Chap 03 - Oscillation</h2>
+                <button onClick="Factory.createScene('03_01')">01 - Rotation</button>
                 
                 <h2>by Godjam</h2>
             </nav>
