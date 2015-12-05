@@ -11,9 +11,6 @@ function Vector2(x, y) {
     this.x = x;
 	this.y = y;
     
-    //if (caller === undefined)
-    //console.log("new Vector2: " + x + ", " + y + " from " + caller);
-    
     return this;
 }
 
