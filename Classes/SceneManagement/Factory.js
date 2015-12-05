@@ -5,7 +5,7 @@ VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene
 MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
 FrictionForceScene, DragForceScene, GravitationalAttractionScene,
 CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02,
-RotationScene, CannonScene */
+RotationScene, CannonScene, SpiralScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -64,7 +64,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "03_02",
+    var defaultKey = "03_04",
         key = "";
     
     if (window !== null) {
@@ -128,6 +128,7 @@ Factory.init = function () {
     // chap 3 : Oscillation
     this.cache["03_01"] = RotationScene;
     this.cache["03_02"] = CannonScene;
+    this.cache["03_04"] = SpiralScene;
 };
 
 Factory.autoclose = function () {

@@ -7,7 +7,7 @@ var CannonScene = function () {
         h = this.height,
         force = new Vector2(0, 0);
     
-    this.r = Math.min(w, h) / 20;
+    this.r = Math.min(w, h) / 40;
     
     // random origin force for the cannon
     if (Math.random() > 0.5) {
@@ -19,11 +19,12 @@ var CannonScene = function () {
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.createNewBullet);
     
     this.gravity = new Gravity(0, 0.2);
-    this.cannon = new Mover(this.r, h / 2, w, h, this.r * 0.5);
+    this.cannon = new Mover(this.r, h / 2, w, h, this.r * 2);
     
     this.cannon.applyUniformForce(force);
     this.bullets = [];
     this.ages = [];
+    this.maxAge = 5000; // 5 sec
     
     // add first bullet
     this.createNewBullet();
@@ -36,18 +37,14 @@ CannonScene.prototype.loop = function () {
     var i = 0;
     this.ctx.clearRect(0, 0, this.width, this.height);
     
-    // move cannon
-    this.cannon.update(true);
-    this.cannon.display(this.ctx);
-    
     // update bullets
     for (i = 0; i < this.bullets.length; i += 1) {
         this.gravity.applyOn(this.bullets[i]);
         this.bullets[i].update(true);
         this.ages[i] += this.frameloop.delta;
-        
+        this.bullets[i].mass = this.r * (this.maxAge - this.ages[i]) / this.maxAge;
         // draw
-        this.bullets[i].displayAsCircle(this.ctx);
+        this.bullets[i].display(this.ctx);
     }
     
     // clean old bullets
@@ -58,6 +55,10 @@ CannonScene.prototype.loop = function () {
         }
     }
     
+    // move cannon
+    this.cannon.update(true);
+    this.cannon.displayAsCircle(this.ctx);
+    
     this.frameloop.display(this.ctx);
     Scene.prototype.loop.call(this);
 };
@@ -65,9 +66,9 @@ CannonScene.prototype.loop = function () {
 
 CannonScene.prototype.createNewBullet = function () {
     "use strict";
-    // power = this.r * 2 
+    // power = this.r * 1000 
     // angle = 45°
-    var force = new Vector2.fromPolar(this.r * 1000, Math.PI * 0.9),
+    var force = new Vector2.fromPolar(this.r * 1000, Math.PI * 0.75),
     // position is (o, h)
         m = new Mover(this.cannon.location.x, this.cannon.location.y,
                         this.width, this.height,
@@ -76,6 +77,7 @@ CannonScene.prototype.createNewBullet = function () {
     // doesn't based on the mover's mass
     m.applyUniformForce(force);
     
+    m.applyTorque(Math.PI * 1.1);
     this.bullets.push(m);
     this.ages.push(0);
 };

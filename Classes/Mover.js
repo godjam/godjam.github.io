@@ -2,6 +2,11 @@
 //*************************************************
 function Mover(x, y, worldW, worldH, m) {
     "use strict";
+    
+    if (m === undefined) {
+        m = 10;
+    }
+    
     this.location = new Vector2(x, y);
     this.velocity = new Vector2(0, 0);
     this.acceleration = new Vector2(0, 0);
@@ -17,6 +22,7 @@ function Mover(x, y, worldW, worldH, m) {
     this.angle = 0;
     this.angularVelocity = 0;
     this.angularAcceleration = 0;
+    this.useAngularAcceleration = false;
     this.color = Color.createBrightColor().ToHex();
 }
 
@@ -39,12 +45,17 @@ Mover.prototype.update = function (collideWithBorders) {
     this.velocity.limit(10);
     this.location.addInPlace(this.velocity);
 
-    //this.angularAcceleration = this.acceleration.x / 100;
-    //this.angularVelocity += this.angularAcceleration;
-    //this.angle += this.angularVelocity;
-    this.angle = Math.atan2(this.velocity.y, this.velocity.x);
-        
+    // if the angularAcceleration is in use 
+    if (this.useAngularAcceleration === true) {
+        this.angularVelocity += this.angularAcceleration;
+        this.angle += this.angularVelocity;
+    } else {
+        // default : set angle according to the velocity
+        this.angle = Math.atan2(this.velocity.y, this.velocity.x);
+    }
+    
     this.acceleration.multInPlace(0); // reset accel (force are applied)
+    this.angularAcceleration = 0;
     if (collideWithBorders === true) { this.checkEdge(); }
 };
 
@@ -86,14 +97,7 @@ Mover.prototype.display = function (ctx) {
     ctx.closePath();
     ctx.fill();
     ctx.restore();
-    /*
-    ctx.save();
-    ctx.translate(this.location.x, this.location.y);
-    ctx.scale(this.mass, this.mass);
-    ctx.rotate(this.angle);
-    ctx.fillRect(-1, -1, 2, 2);
-    ctx.restore();
-    */
+
 };
 
 Mover.prototype.checkEdge = function () {
@@ -115,6 +119,20 @@ Mover.prototype.checkEdge = function () {
         this.location.y = this.mass / 2;
     }
 };
+
+/*
+ * ApplyRotation
+ */
+Mover.prototype.applyTorque = function (angularAcceleration) {
+	"use strict";
+    if (typeof angularAcceleration !== 'number') {
+        throw "Vector2.applyTorque : param 1 is not a scalar";
+    }
+    this.useAngularAcceleration = true;
+    var appliedForce = angularAcceleration / this.mass;
+    this.angularAcceleration += appliedForce;
+};
+
 
 /*
  * Newton second law
