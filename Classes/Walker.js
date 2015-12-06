@@ -15,7 +15,7 @@ function Walker(x, y, maxWidth, maxHeight) {
 Walker.prototype.display = function (ctx) {
 	"use strict";
     var c = this.color.modify(this.stepsize / this.maxWidth, 0, 0);
-
+    this.color = c;
     ctx.fillStyle = c.ToHex();
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);

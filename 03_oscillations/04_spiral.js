@@ -23,7 +23,8 @@ SpiralScene.prototype.loop = function () {
                          this.height / 2 + v1.y,
                          10, 0, Math.PI * 2);
             this.ctx.closePath();
-            this.ctx.fillStyle = this.color.mutate().ToHex();
+            this.color = this.color.mutate();
+            this.ctx.fillStyle = this.color.ToHex();
             this.ctx.fill();
 
             this.theta += Math.PI / 250;

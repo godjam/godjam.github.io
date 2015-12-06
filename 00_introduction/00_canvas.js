@@ -1,18 +1,15 @@
-/*global Scene, Context, Color*/
+/*global Scene, Vector2, MouseEvtListener, Color, Tools*/
 var CanvasTestScene = function () {
 	"use strict";
     Scene.call(this);
     
     this.radius = 50;
-    this.x = 0;
-    this.y = this.height / 2;
+    this.pos = new Vector2(this.width / 2, this.height / 2);
     this.color = Color.createLightColor();
-    
-    this.ctx.strokeStyle = this.color.ToHex();
-    this.ctx.fillStyle = this.color.darken().ToHex();
-    this.ctx.shadowOffsetY = 6;
-    this.ctx.shadowBlur = 6;
-    this.ctx.shadowColor = this.color.modify(0, -0.2, -0.2).ToHex();
+    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
+    this.motionX = null;
+    this.motionY = null;
+    this.motionH = null;
 };
 CanvasTestScene.prototype = Object.create(Scene.prototype);
 CanvasTestScene.prototype.constructor = CanvasTestScene;
@@ -20,16 +17,37 @@ CanvasTestScene.prototype.constructor = CanvasTestScene;
 
 CanvasTestScene.prototype.loop = function () {
     "use strict";
+    // update
+    if (this.motionX !== null) { this.motionX.update(this.frameloop.delta); }
+    if (this.motionY !== null) { this.motionY.update(this.frameloop.delta); }
+    // update color
+    if (this.motionH !== null) {
+        this.motionH.update(this.frameloop.delta);
+        this.color.hslToRgb();
+    }
+    
+    // render
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.ctx.beginPath();
-    this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
+    this.ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2, true);
     this.ctx.closePath();
+    
+    this.ctx.shadowOffsetY = 6;
+    this.ctx.shadowBlur = 6;
+    this.ctx.strokeStyle = this.color.ToHex();
+    this.ctx.fillStyle = this.color.darken().ToHex();
+    this.ctx.shadowColor = this.color.modify(0, -0.2, -0.2).ToHex();
     this.ctx.stroke();
     this.ctx.fill();
-
-
-    this.x += 1;
-    if (this.x - this.radius >= this.width) { this.x = -this.radius; }
-    
+        
     Scene.prototype.loop.call(this);
+};
+
+
+CanvasTestScene.prototype.mouseEvent = function (position) {
+    "use strict";
+    this.motionX = new Tools.Motion(this.pos, "x", this.pos.x, position.x, 2000, Tools.elasticEaseOut);
+    this.motionY = new Tools.Motion(this.pos, "y", this.pos.y, position.y, 2000, Tools.elasticEaseOut);
+    // link x position to hue
+    this.motionH = new Tools.Motion(this.color, "h", (this.pos.x / this.width), (position.x / this.width), 2000, Tools.elasticEaseOut);
 };

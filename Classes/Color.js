@@ -1,67 +1,55 @@
+/*jslint bitwise: true */
 /*global Tools*/
 var Color = function (r, g, b) {
     "use strict";
+    if (r === undefined) {r = 1; }
+    if (g === undefined) {g = 1; }
+    if (b === undefined) {b = 1; }
+    
     this.r = r;
     this.g = g;
     this.b = b;
+    this.h = 0;
+    this.s = 0;
+    this.l = 0;
+    // update hsl values
+    this.rgbToHsl();
 };
 
-Color.create = function () {
+Color.createHsl = function (h, s, l) {
     "use strict";
-    var c = new Color(Math.round(Math.random() * 255),
-                       Math.round(Math.random() * 255),
-                       Math.round(Math.random() * 255));
+    var c = new Color();
+    c.hslToRgb(h, s, l);
     return c;
 };
+
 
 Color.createSoftColor = function () {
     "use strict";
-    var c = new Color(0, 0, 0),
-        h = Math.random(),
-        s = 0.5,
-        l = 0.9;
-    
-    c.hslToRgb(h, s, l);
-    return c;
+    return Color.createHsl(Math.random(), 0.5, 0.9);
 };
 
 Color.createLightColor = function () {
     "use strict";
-    var c = new Color(0, 0, 0),
-        h = Math.random(),
-        s = 0.2 * Math.random() + 0.8,
-        l = 0.8;
-    
-    c.hslToRgb(h, s, l);
-    return c;
+    return Color.createHsl(Math.random(),
+                           0.2 * Math.random() + 0.8,
+                           0.8);
 };
 
 Color.createBrightColor = function () {
     "use strict";
-    var c = new Color(0, 0, 0),
-        h = Math.random();
-    
-    c.hslToRgb(h, 1, 0.65);
-    return c;
+    return Color.createHsl(Math.random(), 1, 0.65);
 };
 
 Color.createStrongColor = function () {
     "use strict";
-    var c = new Color(0, 0, 0),
-        h = Math.random();
-    
-    c.hslToRgb(h, 1, 0.3);
-    return c;
+    return Color.createHsl(Math.random(), 1, 0.3);
 };
 
 
 Color.createDarkColor = function () {
     "use strict";
-    var c = new Color(0, 0, 0),
-        h = Math.random();
-    
-    c.hslToRgb(h, 1, 0.1);
-    return c;
+    return Color.createHsl(Math.random(), 1, 0.1);
 };
 
 
@@ -72,11 +60,9 @@ Color.createNormalDistribColor = function (baseHue) {
         baseHue = 0.25;
     }
     
-    var c = new Color(0, 0, 0),
-        // normalRnd * sd + mean
-        rnd = Tools.normalRnd() * 0.25 + baseHue;
-    c.hslToRgb(rnd, 1, 0.65);
-    return c;
+    // normalRnd * sd + mean
+    var rnd = Tools.normalRnd() * 0.25 + baseHue;
+    return Color.createHsl(rnd, 1, 0.65);
 };
 
 Color.prototype.copy = function () {
@@ -139,49 +125,50 @@ Color.prototype.redify = function () {
     return this.modify(-0.05, 0, 0);
 };
 
-Color.prototype.blueify = function () {
+Color.prototype.bluify = function () {
     "use strict";
     return this.modify(0.05, 0, 0);
 };
 
 Color.prototype.modify = function (h, s, l) {
     "use strict";
-    var hsl = this.rgbToHsl();
-    hsl[0] += h;
-    hsl[1] += s;
-    hsl[2] += l;
-    this.hslToRgb(hsl[0], hsl[1], hsl[2]);
-    return this;
+    var c = this.copy();
+    c.hslToRgb(c.h + h, c.s + s, c.l + l);
+    return c;
 };
 
 
-/**
+/** 
+ * http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
+ * 
  * Converts an HSL color value to RGB. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
  * Assumes h, s, and l are contained in the set [0, 1] and
  * returns r, g, and b in the set [0, 255].
  *
- * @param   Number  h       The hue
- * @param   Number  s       The saturation
- * @param   Number  l       The lightness
- * @return  Array           The RGB representation
+ * @param   Number  h       The hue (can be undefined)
+ * @param   Number  s       The saturation (can be undefined)
+ * @param   Number  l       The lightness (can be undefined)
+ * updates hsl and rgb of the color
+ * if hsl parameters are undefined, only updates rgb according to current color hsl
  */
 Color.prototype.hslToRgb = function (h, s, l) {
     "use strict";
     var q = 0, p = 0;
 
-    h = Tools.clamp(h, 0, 1);
-    s = Tools.clamp(s, 0, 1);
-    l = Tools.clamp(l, 0, 1);
+    // copy + clamp h, s, l
+    if (h !== undefined) {this.h = Tools.clamp(h, 0, 1); }
+    if (s !== undefined) {this.s = Tools.clamp(s, 0, 1); }
+    if (l !== undefined) {this.l = Tools.clamp(l, 0, 1); }
     
-    if (s === 0) {
-        this.r = this.g = this.b = Math.round(l * 255); // achromatic
+    if (this.s === 0) {
+        this.r = this.g = this.b = Math.round(this.l * 255); // achromatic
     } else {
-        q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-        p = 2 * l - q;
-        this.r = Math.round(this.hue2rgb(p, q, h + 1 / 3) * 255);
-        this.g = Math.round(this.hue2rgb(p, q, h) * 255);
-        this.b = Math.round(this.hue2rgb(p, q, h - 1 / 3) * 255);
+        q = this.l < 0.5 ? this.l * (1 + this.s) : this.l + this.s - this.l * this.s;
+        p = 2 * this.l - q;
+        this.r = Math.round(this.hue2rgb(p, q, this.h + 1 / 3) * 255);
+        this.g = Math.round(this.hue2rgb(p, q, this.h) * 255);
+        this.b = Math.round(this.hue2rgb(p, q, this.h - 1 / 3) * 255);
     }
 };
 
@@ -206,6 +193,8 @@ Color.prototype.hue2rgb = function (p, q, t) {
 };
 
 /**
+ * http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
+ * 
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
  * Assumes r, g, and b are contained in the set [0, 255] and
@@ -223,29 +212,26 @@ Color.prototype.rgbToHsl = function () {
         b = this.b / 255,
         max = Math.max(r, g, b),
         min = Math.min(r, g, b),
-        d,
-        h,
-        s,
-        l = (max + min) / 2;
+        d;
+    
+    this.l = (max + min) / 2;
 
     if (max === min) {
-        h = s = 0; // achromatic
+        this.h = this.s = 0; // achromatic
     } else {
         d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        this.s = this.l > 0.5 ? d / (2 - max - min) : d / (max + min);
         switch (max) {
         case r:
-            h = (g - b) / d + (g < b ? 6 : 0);
+            this.h = (g - b) / d + (g < b ? 6 : 0);
             break;
         case g:
-            h = (b - r) / d + 2;
+            this.h = (b - r) / d + 2;
             break;
         case b:
-            h = (r - g) / d + 4;
+            this.h = (r - g) / d + 4;
             break;
         }
-        h /= 6;
+        this.h /= 6;
     }
-
-    return [h, s, l];
 };

@@ -18,7 +18,8 @@ VectorWalkerScene.prototype.loop = function (ctx) {
 	"use strict";
     this.step();
     var c = this.color.modify(this.stepsize / this.width, 0, 0);
-
+    this.color = c;
+    
     this.ctx.fillStyle = c.ToHex();
     this.ctx.beginPath();
     this.ctx.arc(this.position.x, this.position.y, this.size, 0, Math.PI * 2);
