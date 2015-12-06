@@ -19,7 +19,7 @@ var CannonScene = function () {
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.createNewBullet);
     
     this.gravity = new Gravity(0, 0.2);
-    this.cannon = new Mover(this.r, h / 2, w, h, this.r * 2);
+    this.cannon = new Mover(this.r, h / 2, this, this.r * 2);
     
     this.cannon.applyUniformForce(force);
     this.bullets = [];

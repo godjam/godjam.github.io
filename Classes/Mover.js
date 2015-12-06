@@ -1,7 +1,11 @@
-/*global Vector2, Liquid, Attractor, Color*/
+/*global Vector2, Scene, Color*/
 //*************************************************
-function Mover(x, y, worldW, worldH, m) {
+function Mover(x, y, scene, m) {
     "use strict";
+    
+    if (scene instanceof Scene === false) {
+        throw "Mover.constructor: scene is not a Scene";
+    }
     
     if (m === undefined) {
         m = 10;
@@ -11,8 +15,8 @@ function Mover(x, y, worldW, worldH, m) {
     this.velocity = new Vector2(0, 0);
     this.acceleration = new Vector2(0, 0);
     this.mass = m;
-    this.worldW = worldW;
-    this.worldH = worldH;
+    this.worldW = scene.width;
+    this.worldH = scene.height;
     
     this.p1 = new Vector2(-1, -1);
     this.p2 = new Vector2(-1, 1);

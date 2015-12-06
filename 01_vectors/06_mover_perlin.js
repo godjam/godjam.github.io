@@ -2,8 +2,7 @@
 var MoverPerlinScene = function () {
     "use strict";
     Scene.call(this);
-    this.mover = new Mover(this.width / 2, this.height / 2,
-                             this.width, this.height, 40);
+    this.mover = new Mover(this.width / 2, this.height / 2, this, 40);
     this.p = new toxi.math.noise.PerlinNoise();
     this.lastAccel = new Vector2(0, 0);
 };

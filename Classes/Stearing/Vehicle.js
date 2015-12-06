@@ -1,14 +1,14 @@
 /*global Mover, Vector2, Array2D, Flowfield, Path*/
-var Vehicle = function (worldW, worldH, x, y) {
+var Vehicle = function (x, y, scene) {
     "use strict";
-    this.mover = new Mover(worldW, worldH, x, y, 1);
+    this.mover = new Mover(x, y, scene, 1);
     this.r = 10;
     this.maxForce = 0.1;
     this.maxSpeed = 4;
     this.fillStyle = "#000";
     this.desired = null;
-    this.viewRadius = worldW / 10;
-    this.avoidanceRadius = worldW / 40;
+    this.viewRadius = scene.width / 10;
+    this.avoidanceRadius = scene.width / 40;
 };
 
 Vehicle.prototype.applyForce = function (force, weight) {

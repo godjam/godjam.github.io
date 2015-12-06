@@ -13,7 +13,7 @@ var GravitationalAttractionScene = function () {
     
     for (i = 0; i < 10; i += 1) {
         s = Math.random() * 10 + 10;
-        this.movers[i] = new Mover(0, 0, w, h, s);
+        this.movers[i] = new Mover(0, 0, this, s);
         this.movers[i].initRandomly();
     }
 };

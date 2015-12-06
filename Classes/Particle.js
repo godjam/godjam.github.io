@@ -1,10 +1,10 @@
 /*global Vector2, Mover*/
-function Particle(location, id) {
+function Particle(location, id, scene) {
     "use strict";
     if (location instanceof Vector2 === false) {
         throw "Particle ctor : param is not a Vector2";
     }
-    this.mover = new Mover(0, 0, location.x, location.y, 0.1);
+    this.mover = new Mover(location.x, location.y, scene, 0.1);
     this.mover.velocity.x = Math.random()  * 2 - 1;
     this.mover.velocity.y = Math.random()  * 2 - 2;
     this.lifespan = 255;

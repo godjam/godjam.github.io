@@ -3,8 +3,7 @@ var MoverAccelerationScene = function () {
     "use strict";
     Scene.call(this);
     this.delta = new Vector2(0, 0);
-    this.mover = new Mover(this.width / 2, this.height / 2,
-                             this.width, this.height, 20);
+    this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
 };
 MoverAccelerationScene.prototype = Object.create(Scene.prototype);

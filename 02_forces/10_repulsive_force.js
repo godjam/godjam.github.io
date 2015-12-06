@@ -4,8 +4,6 @@ var RepulsiveMoversScene = function () {
 	"use strict";
     Scene.call(this);
     var i = 0,
-        w = this.width,
-        h = this.height,
         s = 0,
         attractor = new Attractor(0, 0, 30, 20);
     this.movers = [];
@@ -13,7 +11,7 @@ var RepulsiveMoversScene = function () {
     
     for (i = 0; i < 70; i += 1) {
         s = Math.random() * 20 + 10;
-        this.movers[i] = new Mover(0, 0, w, h, s);
+        this.movers[i] = new Mover(0, 0, this, s);
         this.movers[i].initRandomly();
     }
 };

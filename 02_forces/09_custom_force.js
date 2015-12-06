@@ -4,16 +4,14 @@ var CustomAttractionScene = function () {
 	"use strict";
     Scene.call(this);
     var i = 0,
-        w = this.width,
-        h = this.height,
         s = 0,
-        attractor = new StrangeAttractor(w, h);
+        attractor = new StrangeAttractor(this.width, this.height);
     this.movers = [];
     this.mouseAttractor = new MouseAttractor(this, attractor);
     
     for (i = 0; i < 30; i += 1) {
         s = Math.random() * 40 + 20;
-        this.movers[i] = new Mover(0, 0, w, h, s);
+        this.movers[i] = new Mover(0, 0, this, s);
         this.movers[i].initRandomly();
     }
 };

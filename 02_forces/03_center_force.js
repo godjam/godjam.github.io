@@ -7,7 +7,7 @@ var CenterForceScene = function () {
     
     var i = 0;
     for (i = 0; i < 50; i += 1) {
-        this.movers[i] = new Mover(0, 0, this.width, this.height, 16);
+        this.movers[i] = new Mover(0, 0, this, 16);
         this.movers[i].initRandomly();
     }
 };

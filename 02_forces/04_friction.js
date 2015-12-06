@@ -18,7 +18,7 @@ var FrictionForceScene = function () {
     this.acceleration.setEffect(new Friction(-0.08));
     
     for (i = 0; i < 100; i += 1) {
-        this.movers[i] = new Mover(0, 0, w, h, 10);
+        this.movers[i] = new Mover(0, 0, this, 10);
         this.movers[i].initRandomly();
     }
 };

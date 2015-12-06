@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var ctx = document.getElementById("canvas").getContext("2d"),
         width = ctx.canvas.width = window.innerWidth,
         height = ctx.canvas.height = window.innerHeight,
-        mover = new Mover(width, height, width / 2, height / 2,  15),
+        mover = new Mover(width / 2, height / 2, this, 15),
         emitter = new Emitter(mover, 1),
         attractor = new Attractor(0, 0, 30, 3),
         mouseAttractor = new MouseAttractor(this, attractor),

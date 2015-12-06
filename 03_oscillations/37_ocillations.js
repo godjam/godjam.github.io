@@ -11,11 +11,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
         gravity = new Gravity(0, 0.1),
         spring0 = new Spring(width / 2, 0, height / 4),
         friction = new Friction(0.2),
-        mover0 = new Mover(width, height,
-                            Math.random() * width,
+        mover0 = new Mover(Math.random() * width,
                             height / 2,
-                            20);
-        //mover1 = new Mover(width, height, 30);
+                            this, 20);
+        //mover1 = new Mover(width, height, this, 30);
     //ctx.globalAlpha = 0.2;
 	function animate() {
         requestAnimationFrame(animate);

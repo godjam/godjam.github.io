@@ -25,7 +25,7 @@ var EcosystemScene_01 = function () {
     }
     
     for (i = 0; i < 6; i += 1) {
-        this.movers[i] = new Mover(0, 0, this.width, this.height, 30);
+        this.movers[i] = new Mover(0, 0, this, 30);
         this.movers[i].initRandomly();
     }
     
