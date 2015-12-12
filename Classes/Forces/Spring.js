@@ -1,37 +1,73 @@
-/*global Vector2, Mover*/
+/*global Vector2, Mover, Color*/
 function Spring(ox, oy, restLength) {
     "use strict";
     this.anchor = new Vector2(ox, oy);
     this.location = new Vector2(0, 0);
     this.restLength = restLength;
+    this.length = 0;
 }
 
 Spring.prototype.applyOn = function (mover) {
     "use strict";
     if (mover instanceof Mover === false) {
-        throw "Spring.connect : param is not a Mover";
+        throw "Spring.applyOn : param is not a Mover";
     }
     
     this.location = mover.location;
     
     var k = 0.1,
-        force = this.anchor.sub(this.location),
-        currentLength = force.mag(),
-        x = this.restLength - currentLength;
+        force = this.location.sub(this.anchor),
+        currentLength = force.mag();
+    
+    this.length = currentLength - this.restLength;
+    
     force.normalizeInPlace();
-    force.multInPlace(-k * x);
+    force.multInPlace(-k * this.length);
+    
     mover.applyForce(force);
+};
+
+Spring.prototype.constrainLength = function (mover, minLength, maxLength) {
+    "use strict";
+    if (mover instanceof Mover === false) {
+        throw "Spring.constrainLength : param is not a Mover";
+    }
+    //Vector pointing from Bob to Anchor 
+    var dir = mover.location.sub(this.anchor),
+        d = dir.mag();
+    
+    // Is it too short?
+    if (d < minLength) {
+        dir.normalizeInPlace();
+        dir.multInPlace(minLength);
+        // Keep location within constraint.
+        mover.location = this.anchor.add(dir);
+        mover.velocity.multInPlace(0);
+        
+    // Is it too long?
+    } else if (d > maxLength) {
+        dir.normalizeInPlace();
+        dir.multInPlace(maxLength);
+        // Keep location within constraint.
+        mover.location = this.anchor.add(dir);
+        mover.velocity.multInPlace(0);
+    }
+    
+    this.location = mover.location;
 };
 
 Spring.prototype.display = function (ctx) {
     "use strict";
-
-    ctx.save();
-    ctx.strokeStyle = "#000";
+    // color = 0.5
+    var h = (this.length / this.restLength) / 2 + 0.5,
+        c = Color.createHsl(h, 1, 0.8);
+    
     ctx.beginPath();
     ctx.moveTo(this.anchor.x, this.anchor.y);
     ctx.lineTo(this.location.x, this.location.y);
-    ctx.closePath();
+    ctx.strokeStyle = c.ToHex();
+    ctx.lineWidth = 6;
+    ctx.lineCap = "round";
     ctx.stroke();
-    ctx.restore();
+    ctx.closePath();
 };

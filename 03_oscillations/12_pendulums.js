@@ -4,13 +4,13 @@ var OscillationScene = function () {
     Scene.call(this);
     var w = this.width,
         h = this.height,
-        s = Math.min(w, h),
+        s = Math.max(w, h),
         r0 = Math.random() * s / 4 + s / 4,
         r1 = Math.random() * s / 8 + s / 4;
     this.pendulum0 = new Pendulum(w / 2, 0, r0, Math.PI / 2);
     this.pendulum1 = new Pendulum(w / 2, 0, r1, Math.PI / 2);
-    this.mover0 = new Mover(0, 0, this, 40);
-    this.mover1 = new Mover(0, 0, this, 30);
+    this.mover0 = new Mover(0, 0, this, s / 20);
+    this.mover1 = new Mover(0, 0, this, s / 25);
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.attract);
 };
 OscillationScene.prototype = Object.create(Scene.prototype);
@@ -34,7 +34,6 @@ OscillationScene.prototype.loop = function () {
 OscillationScene.prototype.attract = function (position) {
     "use strict";
     var d = this.pendulum0.origin.sub(position);
-    console.log(d.heading());
     this.pendulum0.angle = -d.heading() - (Math.PI / 2);
     this.pendulum0.angularVelocity = 0;
     
