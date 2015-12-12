@@ -5,7 +5,8 @@ VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene
 MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
 FrictionForceScene, DragForceScene, GravitationalAttractionScene,
 CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02,
-RotationScene, CannonScene, SpiralScene */
+RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
+OscillatorScene, OscillationScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -64,7 +65,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "00",
+    var defaultKey = "03_07",
         key = "";
     
     if (window !== null) {
@@ -129,6 +130,24 @@ Factory.init = function () {
     this.cache["03_01"] = RotationScene;
     this.cache["03_02"] = CannonScene;
     this.cache["03_04"] = SpiralScene;
+    this.cache["03_06"] = SinusoidalOcillationScene;
+    
+    this.cache["03_07"] = OscillatorScene;
+    this.objOp["03_07"] = {oscillatortype: 1};
+    
+    this.cache["03_08"] = OscillatorScene;
+    this.objOp["03_08"] = {oscillatortype: 2};
+    
+    this.cache["03_09"] = OscillatorScene;
+    this.objOp["03_09"] = {oscillatortype: 3};
+    
+    this.cache["03_10"] = OscillatorScene;
+    this.objOp["03_10"] = {oscillatortype: 4};
+    
+    this.cache["03_11"] = OscillatorScene;
+    this.objOp["03_11"] = {oscillatortype: 5};
+    
+    this.cache["03_12"] = OscillationScene;
 };
 
 Factory.autoclose = function () {

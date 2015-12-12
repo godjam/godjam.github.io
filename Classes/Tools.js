@@ -14,6 +14,16 @@ Tools.clamp = function (v, min, max) {
 };
 
 /*
+ * https://processing.org/reference/map_.html
+ * Actually Re-map value from [start1, stop1] to [start2, stop2]
+ */
+Tools.map = function (value, start1, stop1, start2, stop2) {
+    "use strict";
+    var v = (value - start1) / (stop1 - start1);
+    return v * (stop2 - start2) + start2;
+};
+
+/*
  * http://robertpenner.com/easing/penner_chapter7_tweening.pdf
  * http://www.joshondesign.com/2013/03/01/improvedEasingEquations
  * 

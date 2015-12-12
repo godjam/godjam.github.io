@@ -1,5 +1,5 @@
 /*global Color, Tools, toxi*/
-function Walker(x, y, maxWidth, maxHeight) {
+function Walker(x, y, maxWidth, maxHeight, options) {
 	"use strict";
     this.x = x;
 	this.y = y;
@@ -10,6 +10,11 @@ function Walker(x, y, maxWidth, maxHeight) {
     this.stepsize = 1;
     this.color = Color.createLightColor();
     this.mousePosition = null;
+    this.options = options;
+    
+    if (this.options === undefined) {
+        this.options = {walkertype: 0};
+    }
 }
 
 Walker.prototype.display = function (ctx) {
@@ -23,26 +28,26 @@ Walker.prototype.display = function (ctx) {
     ctx.fill();
 };
 
-Walker.prototype.step = function (options) {
+Walker.prototype.step = function () {
 	"use strict";
     
     // right walker
-    if (options !== undefined && options.walkertype === 0) {
+    if (this.options.walkertype === 0) {
         this.stepRight();
     // mouse weighted walker
-    } else if (options !== undefined && options.walkertype === 1) {
+    } else if (this.options.walkertype === 1) {
         this.stepMouse();
         
     // mormal distrib walker
-    } else if (options !== undefined && options.walkertype === 2) {
+    } else if (this.options.walkertype === 2) {
         this.stepNormalDistrib();
             
     // monte carlo walker
-    } else if (options !== undefined && options.walkertype === 3) {
+    } else if (this.options.walkertype === 3) {
         this.stepMonteCarlo();
 
     // perlin walker
-    } else if (options !== undefined && options.walkertype === 4) {
+    } else if (this.options.walkertype === 4) {
         this.stepPerlin();
     }
     

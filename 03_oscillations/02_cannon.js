@@ -70,9 +70,7 @@ CannonScene.prototype.createNewBullet = function () {
     // angle = 45°
     var force = new Vector2.fromPolar(this.r * 1000, Math.PI * 0.75),
     // position is (o, h)
-        m = new Mover(this.cannon.location.x, this.cannon.location.y,
-                        this.width, this.height,
-                        this.r);
+        m = new Mover(this.cannon.location.x, this.cannon.location.y, this, this.r);
     
     // doesn't based on the mover's mass
     m.applyUniformForce(force);
