@@ -89,6 +89,7 @@ Oscillator.prototype.updateInsectLike = function (i, mover) {
         oy = this.h / 2,
         x = i * this.size,
         y = Math.min(Math.sin(this.angle) * this.amplitude, 0);
+        //y = -Math.abs(Math.sin(this.angle) * this.amplitude);
     this.movers[i].location.x = ox + x;
     this.movers[i].location.y = oy + y;
    

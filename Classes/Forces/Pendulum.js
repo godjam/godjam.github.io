@@ -23,21 +23,21 @@ Pendulum.prototype.applyOn = function (mover) {
     this.angularAcceleration = (-gravity * Math.sin(this.angle)) / this.r;
     this.angularVelocity += this.angularAcceleration;
     this.angle += this.angularVelocity;
-    this.location.fromPolar(this.r, this.angle);
+    this.location = Vector2.fromPolar(this.r, this.angle);
     this.location.addInPlace(this.origin);
     this.angularVelocity *= this.damping;
     mover.location = this.location;
+    mover.angle = -this.angle;
 };
 
 Pendulum.prototype.display = function (ctx) {
     "use strict";
-    ctx.save();
-    ctx.strokeStyle = "#000";
     ctx.beginPath();
     ctx.moveTo(this.origin.x, this.origin.y);
-    ctx.moveTo(this.origin.x, this.origin.y);
     ctx.lineTo(this.location.x, this.location.y);
-    ctx.closePath();
+    ctx.strokeStyle = "#ccc";
+    ctx.lineWidth = 6;
+    ctx.lineCap = "round";
     ctx.stroke();
-    ctx.restore();
+    ctx.closePath();
 };
