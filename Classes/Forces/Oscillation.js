@@ -12,7 +12,7 @@ function Oscillation(amplitude, angularVelocity) {
 Oscillation.prototype.applyOn = function (mover) {
     "use strict";
     if (mover instanceof Mover === false) {
-        throw "Spring.connect : param is not a Mover";
+        throw "Oscillation.applyOn : param is not a Mover";
     }
     
     this.angle += this.angularVelocity;

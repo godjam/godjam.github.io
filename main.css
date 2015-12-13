@@ -129,7 +129,7 @@ canvas {
     /* border color */
     border-width: 0.6em 0;
     cursor: pointer;
-	margin: 1em;
+	margin: 2em;
 	/* animation for rotation */ 
 	transition: transform 320ms cubic-bezier(.57,0,.23,1.37);
 }
