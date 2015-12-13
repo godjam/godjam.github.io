@@ -24,6 +24,29 @@ Tools.map = function (value, start1, stop1, start2, stop2) {
 };
 
 /*
+ * draw a polygon
+ * ctx: the canvas 2D context
+ * x, y: center point
+ * p: number of sides
+ * size: the poly size
+ * http://scienceprimer.com/drawing-regular-polygons-javascript-canvas
+ */
+Tools.drawPoly = function (ctx, x, y, p, size) {
+    "use strict";
+    var i = 0;
+    ctx.beginPath();
+    //ctx.moveTo(x +  size * Math.cos(0), y + size * Math.sin(0));
+    ctx.moveTo(x + size, y);
+    
+    for (i = 1; i <= p; i += 1) {
+        ctx.lineTo(x + size * Math.cos(i * 2 * Math.PI / p),
+                   y + size * Math.sin(i * 2 * Math.PI / p));
+    }
+    ctx.closePath();
+};
+
+
+/*
  * http://robertpenner.com/easing/penner_chapter7_tweening.pdf
  * http://www.joshondesign.com/2013/03/01/improvedEasingEquations
  * 

@@ -1,4 +1,4 @@
-/*global Vector2, Scene, Color*/
+/*global Vector2, Scene, Color, Tools*/
 //*************************************************
 function Mover(x, y, scene, m) {
     "use strict";
@@ -27,7 +27,7 @@ function Mover(x, y, scene, m) {
     this.angularVelocity = 0;
     this.angularAcceleration = 0;
     this.useAngularAcceleration = false;
-    this.color = Color.createBrightColor().ToHex();
+    this.color = Color.createBrightColor();
 }
 
 Mover.prototype.initRandomly = function () {
@@ -66,10 +66,26 @@ Mover.prototype.update = function (collideWithBorders) {
 Mover.prototype.displayAsCircle = function (ctx) {
     "use strict";
     ctx.beginPath();
-    ctx.arc(this.location.x, this.location.y, this.mass / 2, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
+    ctx.arc(this.location.x, this.location.y, this.mass, 0, Math.PI * 2);
+    ctx.fillStyle = this.color.ToHex();
     ctx.fill();
     ctx.closePath();
+};
+
+Mover.prototype.displayAsPoly = function (ctx, p) {
+    "use strict";
+    if (p === undefined) {
+        p = 3;
+    }
+    
+    ctx.save();
+    ctx.translate(this.location.x, this.location.y);
+    ctx.rotate(this.angle);
+    Tools.drawPoly(ctx, 0, 0, p, this.mass);
+    ctx.fillStyle = this.color.ToHex();
+    ctx.fill();
+    
+    ctx.restore();
 };
 
 Mover.prototype.display = function (ctx) {
@@ -92,7 +108,7 @@ Mover.prototype.display = function (ctx) {
     l4.addInPlace(this.location);
     
     ctx.save();
-    ctx.fillStyle = this.color;
+    ctx.fillStyle = this.color.ToHex();
     ctx.beginPath();
     ctx.moveTo(l1.x, l1.y);
     ctx.lineTo(l2.x, l2.y);

@@ -1,4 +1,4 @@
-/*global Vector2, Mover, Attractor, console*/
+/*global Vector2, Mover, Attractor, Tools*/
 //*************************************************
 var StrangeAttractor = function (width, heigth) {
     "use strict";
@@ -27,22 +27,10 @@ StrangeAttractor.prototype.applyOn = function (mover) {
 
 StrangeAttractor.prototype.display = function (ctx) {
 	"use strict";
-    // hexagon
-    var i = 0,
-        numberOfSides = 7,
-        size = 40,
-        x = this.location.x,
-        y = this.location.y;
-
-    ctx.beginPath();
-    ctx.moveTo(x +  size * Math.cos(0), y +  size *  Math.sin(0));
-
-    for (i = 1; i <= numberOfSides; i += 1) {
-        ctx.lineTo(x + size * Math.cos(i * 2 * Math.PI / numberOfSides), y + size * Math.sin(i * 2 * Math.PI / numberOfSides));
-    }
-
+    var size = 40;
+    // heptagon
+    Tools.drawPoly(ctx, this.location.x, this.location.y, 7, size);
     ctx.lineWidth = 3;
     ctx.strokeStyle = "#000";
     ctx.stroke();
-    ctx.closePath();
 };

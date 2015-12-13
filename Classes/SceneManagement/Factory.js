@@ -6,7 +6,8 @@ MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
 FrictionForceScene, DragForceScene, GravitationalAttractionScene,
 CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02,
 RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
-OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03 */
+OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
+ParticlesScene, ParticlesAttractorScene*/
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -65,7 +66,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "ES_03",
+    var defaultKey = "04_02",
         key = "";
     
     if (window !== null) {
@@ -150,6 +151,10 @@ Factory.init = function () {
     this.cache["03_12"] = OscillationScene;
     this.cache["03_16"] = SpringsScene;
     this.cache.ES_03 = EcosystemScene_03;
+    
+    // chap 4 : Particles
+    this.cache["04_02"] = ParticlesScene;
+    this.cache["04_03"] = ParticlesAttractorScene;
 };
 
 Factory.autoclose = function () {
