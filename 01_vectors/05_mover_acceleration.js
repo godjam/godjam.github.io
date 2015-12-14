@@ -16,6 +16,10 @@ MoverAccelerationScene.prototype.loop = function () {
     this.ctx.clearRect(0, 0, this.width, this.height);
     this.mover.display(this.ctx);
     this.drawController();
+    // reinit delta
+    this.delta.x = 0;
+    this.delta.y = 0;
+    
     Scene.prototype.loop.call(this);
 };
 

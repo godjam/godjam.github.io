@@ -37,7 +37,7 @@ MouseEvtListener.prototype.move = function (event) {
     event.preventDefault();
     var x = null, y = null, bindedCall = null;
     
-    if (event instanceof TouchEvent && event.touches.length > 0) {
+    if (event.touches !== undefined && event.touches.length > 0) {
         x = event.touches[0].clientX;
         y = event.touches[0].clientY;
     } else if (this.mouseClick === true) {

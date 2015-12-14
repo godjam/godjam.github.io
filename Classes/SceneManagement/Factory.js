@@ -7,7 +7,7 @@ FrictionForceScene, DragForceScene, GravitationalAttractionScene,
 CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02,
 RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
 OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
-ParticlesScene, ParticlesAttractorScene*/
+ParticlesScene, ParticlesAttractorScene, AsteroidsScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -66,7 +66,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "04_02",
+    var defaultKey = "04_03",
         key = "";
     
     if (window !== null) {
@@ -83,6 +83,8 @@ Factory.parseURL = function () {
 
 Factory.init = function () {
     "use strict";
+    console.log("%c Nature %c Code ", "color: #fff; background: #ff00bb;", "color: #fff; background: #00ffbb;");
+        
     // based on : http://eloquentjavascript.net/10_modules.html
     this.cache = Object.create(null);
     this.objOp = Object.create(null);
@@ -155,6 +157,7 @@ Factory.init = function () {
     // chap 4 : Particles
     this.cache["04_02"] = ParticlesScene;
     this.cache["04_03"] = ParticlesAttractorScene;
+    this.cache["04_04"] = AsteroidsScene;
 };
 
 Factory.autoclose = function () {

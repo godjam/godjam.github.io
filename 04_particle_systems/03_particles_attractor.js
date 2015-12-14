@@ -4,10 +4,10 @@ var ParticlesAttractorScene = function () {
 	"use strict";
     Scene.call(this);
     this.mover0 = new Mover(this.width / 2, this.height / 2, this, 15);
-    this.emitter0 = new Emitter(this.mover0, 1, this);
+    this.emitter0 = new Emitter(this.mover0, this, 50, 0.04);
     
     this.mover1 = new Mover(this.width / 2, this.height / 2, this, 20);
-    this.emitter1 = new Emitter(this.mover1, 1, this);
+    this.emitter1 = new Emitter(this.mover1, this, 50, 0.04);
     
     this.attractor = new Attractor(0, 0, 30, 3);
     this.mouseAttractor = new MouseAttractor(this, this.attractor);

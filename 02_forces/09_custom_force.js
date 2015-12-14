@@ -10,7 +10,7 @@ var CustomAttractionScene = function () {
     this.mouseAttractor = new MouseAttractor(this, attractor);
     
     for (i = 0; i < 30; i += 1) {
-        s = Math.random() * 40 + 20;
+        s = Math.random() * 20 + 10;
         this.movers[i] = new Mover(0, 0, this, s);
         this.movers[i].initRandomly();
     }

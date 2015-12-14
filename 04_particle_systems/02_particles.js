@@ -1,11 +1,11 @@
-/*global Scene, Emitter, Mover, MouseEvtListener, Gravity*/
+/*global Scene, Emitter, Mover, MouseEvtListener, Gravity, Vector2*/
 //*************************************************
 var ParticlesScene = function () {
 	"use strict";
     Scene.call(this);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 15);
-    this.emitter = new Emitter(this.mover, 1, this);
-    this.gravity = new Gravity(0, 0.2);
+    this.mover = new Mover(this.width / 2, 15, this, 15);
+    this.emitter = new Emitter(this.mover, this, 100, 0.02, -Math.PI, Math.PI * 2);
+    this.gravity = new Gravity(0, 0.3);
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.attract);
 };
 ParticlesScene.prototype = Object.create(Scene.prototype);

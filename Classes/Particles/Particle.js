@@ -1,20 +1,40 @@
-/*global Vector2, Mover, Color*/
-function Particle(location, id, baseColor, scene) {
+/*global Vector2, Mover, Color, Scene*/
+function Particle(location, baseColor, scene, decrease, theta, variability) {
     "use strict";
     if (location instanceof Vector2 === false) {
         throw "Particle ctor : param is not a Vector2";
     }
+    if (typeof baseColor !== 'number') {
+        throw "Particle ctor : param 2 is not a scalar";
+    }
+    if (scene instanceof Scene === false) {
+        throw "Particle ctor : param 3 is not a Scene";
+    }
+    if (typeof decrease !== 'number') {
+        throw "Particle ctor : param 4 is not a scalar";
+    }
+    if (typeof theta !== 'number') {
+        throw "Particle ctor : param 5 is not a scalar";
+    }
+    if (typeof variability !== 'number') {
+        throw "Particle ctor : param 6 is not a scalar";
+    }
+    
     this.mover = new Mover(location.x, location.y, scene, 10);
-    this.mover.velocity.x = Math.random() * 2 - 1;
-    this.mover.velocity.y = Math.random() * 2 - 2;
     this.mover.color = Color.createNormalDistribColor(baseColor);
     this.lifespan = 1;
-    this.id = id;
+    this.decrease = decrease;
+    
+    this.mover.velocity = Vector2.fromPolar(1, theta);
+    if (variability !== 0) {
+        variability = Math.random() * variability - variability / 2;
+        this.mover.velocity.rotateInPlace(variability);
+    }
 }
 
 Particle.prototype.update = function () {
     "use strict";
-    this.lifespan -= 0.015;
+    this.lifespan -= this.decrease;
     var l = 1 - (this.lifespan / 3);
     this.mover.update(false);
     this.mover.color.hslToRgb(this.mover.color.h, this.mover.color.s, l);

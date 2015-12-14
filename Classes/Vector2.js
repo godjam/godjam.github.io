@@ -231,6 +231,10 @@ Vector2.prototype.rotateInPlace = function (radian, center) {
     if (typeof radian !== 'number') {
         throw "Vector2.rotate : param 1 is not a scalar";
     }
+    
+    if (center === undefined) {
+        center = new Vector2(0, 0);
+    }
     if (center instanceof Vector2 === false) {
         throw "Vector2.rotate : param 2 is not a Vector2";
     }
@@ -244,6 +248,9 @@ Vector2.prototype.rotate = function (radian, center) {
 	"use strict";
     if (typeof radian !== 'number') {
         throw "Vector2.rotate : param 1 is not a scalar";
+    }
+    if (center === undefined) {
+        center = new Vector2(0, 0);
     }
     if (center instanceof Vector2 === false) {
         throw "Vector2.rotate : param 2 is not a Vector2";
