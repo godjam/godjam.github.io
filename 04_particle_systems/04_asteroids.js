@@ -5,7 +5,8 @@ var AsteroidsScene = function () {
     Scene.call(this);
     this.friction = new Friction(0.2);
     this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
-    this.emitter = new Emitter(this.mover, this, 50, 0.02, Math.PI * 3 / 2, Math.PI / 8);
+    this.emitter = new Emitter(this.mover, this, 50, 0.02, Math.PI * 3 / 2, Math.PI / 8, new Vector2(-1, 0));
+   
     // this.mouseListener = new MouseEvtListener(this.canvas, this, this.controls);
     this.reactorLeft = false;
     this.reactorRight = false;
@@ -72,22 +73,21 @@ AsteroidsScene.prototype.keyUpListener = function (event) {
 AsteroidsScene.prototype.updateReactors = function () {
     "use strict";
     if (this.reactorLeft && this.reactorRight === false) {
-        this.mover.applyTorque(-0.05);
+        this.mover.applyTorque(-0.1);
         this.emitter.setActive(true);
         
     } else if (this.reactorRight && this.reactorLeft === false) {
-        this.mover.applyTorque(0.05);
+        this.mover.applyTorque(0.1);
         this.emitter.setActive(true);
     
     } else if (this.reactorRight && this.reactorLeft) {
-        var c = Math.cos(this.mover.angle) * 10,
-            s = Math.sin(this.mover.angle) * 10;
+        var c = Math.cos(this.mover.angle) * 5,
+            s = Math.sin(this.mover.angle) * 5;
         this.mover.applyForce(new Vector2(c, s));
         this.emitter.setActive(true);
     } else {
         this.emitter.setActive(false);
     }
     
-    this.emitter.setTheta(-Math.PI / 2 - this.mover.angle);
     this.mover.angularVelocity *= 0.98;
 };

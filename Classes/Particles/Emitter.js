@@ -1,5 +1,5 @@
-/*global Vector2, Particle, Mover, Confetti, Scene*/
-function Emitter(owner, scene, maxcount, decrease, theta, variability) {
+/*global Vector2, Particle, Mover, Confetti, Scene, console*/
+function Emitter(owner, scene, maxcount, decrease, theta, variability, localPos) {
     "use strict";
     if (owner instanceof Mover === false) {
         throw "Emitter ctor : param 1 is not a Mover";
@@ -28,6 +28,12 @@ function Emitter(owner, scene, maxcount, decrease, theta, variability) {
     if (typeof variability !== 'number') {
         throw "Emitter ctor : param 6 is not a scalar";
     }
+    if (localPos === undefined) {
+        localPos = new Vector2(0, 0);
+    }
+    if (localPos instanceof Vector2 === false) {
+        throw "Emitter ctor : param 7 is not a Vector2";
+    }
     
     var i = 0;
     this.owner = owner;
@@ -38,12 +44,20 @@ function Emitter(owner, scene, maxcount, decrease, theta, variability) {
     this.decrease = decrease;
     this.theta = theta;
     this.variability = variability;
+    // position /r to the owner 
+    this.localPos = localPos;
+    this.loc = this.owner.location.copy();
+    this.updateLoc();
+    
     this.isActive = true;
     this.addParticle();
 }
 
 Emitter.prototype.step = function (ctx) {
     "use strict";
+    this.setTheta(-Math.PI / 2 - this.owner.angle);
+    this.updateLoc();
+    
     var i = this.particles.length - 1;
     for (i; i >= 0; i -= 1) {
         this.particles[i].update();
@@ -60,14 +74,13 @@ Emitter.prototype.step = function (ctx) {
 
 Emitter.prototype.addParticle = function () {
     "use strict";
-    var particle = new Particle(this.owner.location.copy(), this.baseColor, this.scene, this.decrease, this.theta, this.variability);
+    var particle = new Particle(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.variability);
     this.particles.push(particle);
     
     if (this.particles.length > this.maxcount) {
         this.particles.shift();
     }
 };
-
 
 Emitter.prototype.apply = function (force) {
     "use strict";
@@ -85,4 +98,12 @@ Emitter.prototype.setTheta = function (theta) {
 Emitter.prototype.setActive = function (isActive) {
     "use strict";
     this.isActive = isActive;
+};
+
+Emitter.prototype.updateLoc = function () {
+    "use strict";
+    this.loc.x = this.localPos.x * this.owner.mass;
+    this.loc.y = this.localPos.y * this.owner.mass;
+    this.loc.rotateInPlace(this.owner.angle);
+    this.loc.addInPlace(this.owner.location);
 };
