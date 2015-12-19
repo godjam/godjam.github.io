@@ -7,7 +7,8 @@ FrictionForceScene, DragForceScene, GravitationalAttractionScene,
 CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02,
 RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
 OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
-ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene */
+ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
+ShatteringScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -66,7 +67,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "04_05",
+    var defaultKey = "04_06",
         key = "";
     
     if (window !== null) {
@@ -159,6 +160,7 @@ Factory.init = function () {
     this.cache["04_03"] = ParticlesAttractorScene;
     this.cache["04_04"] = AsteroidsScene;
     this.cache["04_05"] = SystemOfSystemsScene;
+    this.cache["04_06"] = ShatteringScene;
 };
 
 Factory.autoclose = function () {

@@ -51,7 +51,7 @@ MouseEvtListener.prototype.move = function (event) {
         
         if (this.callback !== null) {
             bindedCall = this.callback.bind(this.callbackOwner);
-            bindedCall(this.position);
+            bindedCall(this.position.copy());
         }
     }
 };

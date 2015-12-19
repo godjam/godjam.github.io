@@ -33,15 +33,18 @@ SystemOfSystemsScene.prototype.createEmitter = function (position) {
     "use strict";
     if (this.lastTime >= 300) {
         this.lastTime = 0;
-        var emitter = new Emitter(this, position.copy());
+        var emitter = new Emitter(this, position),
+            angle = Math.PI * 4 * (Math.random() - 0.5);
         emitter.setAngle(0, Math.PI * 2);
-        // 60: particles emitted / frame 
-        // 20: emitter's life (in frames)
-        // 3: particles speed 
-        emitter.setEmitterLife(5, 15, 3);
-        // 100: max particles count each frame
+        // 4: particles emitted / frame 
+        // 12: emitter's life (in frames)
+        emitter.setEmitterLife(4, 12);
+        // 200: max particles count each frame
         // 0.03: the particle decrease rate over time
         emitter.setParticlesLife(200, 0.03);
+        // 3: particles speed 
+        emitter.setParticlesSpeed(4);
+        emitter.setParticlesTorque(angle);
         this.emitters.push(emitter);
     }
 };

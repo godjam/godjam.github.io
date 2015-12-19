@@ -62,3 +62,7 @@ Particle.prototype.apply = function (force) {
     force.applyOn(this.mover);
 };
 
+Particle.prototype.applyTorque = function (angle) {
+    "use strict";
+    this.mover.applyTorque(angle);
+};

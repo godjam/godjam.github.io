@@ -20,6 +20,7 @@ function Emitter(scene, position) {
     this.speed = 1;
     this.theta = Math.random() * Math.PI * 2;
     this.variability = Math.PI / 2;
+    this.particleAngle = 0;
     // position to the owner
     this.localPos = new Vector2(0, 0);
     this.loc = position;
@@ -47,7 +48,7 @@ Emitter.prototype.setOwner = function (owner, localPos) {
     this.baseColor = owner.color.h;
 };
 
-Emitter.prototype.setParticlesLife = function (maxcount, decrease) {
+Emitter.prototype.setParticlesLife = function (maxcount, decrease, particleAngle) {
     "use strict";
     if (typeof maxcount !== 'number') {
         throw "Emitter setParticlesLife : param 1 is not a scalar";
@@ -59,23 +60,33 @@ Emitter.prototype.setParticlesLife = function (maxcount, decrease) {
     this.decrease = decrease;
 };
 
-
-Emitter.prototype.setEmitterLife = function (rate, maxLife, speed) {
+Emitter.prototype.setEmitterLife = function (rate, maxLife) {
     "use strict";
     if (typeof rate !== 'number') {
-        throw "Emitter setEmmitterLife : param 1 is not a scalar";
+        throw "Emitter setEmitterLife : param 1 is not a scalar";
     }
     if (typeof maxLife !== 'number') {
-        throw "Emitter setEmmitterLife : param 2 is not a scalar";
-    }
-    if (typeof speed !== 'number') {
-        throw "Emitter setEmmitterLife : param 2 is not a scalar";
+        throw "Emitter setEmitterLife : param 2 is not a scalar";
     }
     this.rate = Math.max(1, Math.round(rate));
     this.life = maxLife;
+};
+
+Emitter.prototype.setParticlesSpeed = function (speed) {
+    "use strict";
+    if (typeof speed !== 'number') {
+        throw "Emitter setParticlesSpeed : param 1 is not a scalar";
+    }
     this.speed = speed;
 };
 
+Emitter.prototype.setParticlesTorque = function (particleAngle) {
+    "use strict";
+    if (typeof particleAngle !== 'number') {
+        throw "Emitter setParticlesTorque : param 1 is not a scalar";
+    }
+    this.particleAngle = particleAngle;
+};
 
 Emitter.prototype.setAngle = function (theta, variability) {
     "use strict";
@@ -126,10 +137,10 @@ Emitter.prototype.step = function (ctx) {
 Emitter.prototype.addParticle = function () {
     "use strict";
     var particle = new Particle(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.variability, this.speed);
+    if (this.particleAngle !== 0) {
+        particle.applyTorque(this.particleAngle);
+    }
     this.particles.push(particle);
-    
-    //console.log(this.particles.length);
-    
     
     if (this.particles.length > this.maxcount) {
         this.particles.shift();
