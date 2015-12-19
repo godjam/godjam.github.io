@@ -5,8 +5,11 @@ var AsteroidsScene = function () {
     Scene.call(this);
     this.friction = new Friction(0.2);
     this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
-    this.emitter = new Emitter(this.mover, this, 50, 0.02, Math.PI * 3 / 2, Math.PI / 8, new Vector2(-1, 0));
-   
+    this.emitter = new Emitter(this);
+    this.emitter.setOwner(this.mover, new Vector2(-1, 0));
+    this.emitter.setAngle(Math.PI * 3 / 2, Math.PI / 8);
+    this.emitter.addParticle();
+    
     // this.mouseListener = new MouseEvtListener(this.canvas, this, this.controls);
     this.reactorLeft = false;
     this.reactorRight = false;
@@ -90,4 +93,15 @@ AsteroidsScene.prototype.updateReactors = function () {
     }
     
     this.mover.angularVelocity *= 0.98;
+};
+
+AsteroidsScene.prototype.stop = function () {
+    "use strict";
+    if (this.keyDownListener) {
+        window.removeEventListener("keydown", this.keyDownListener);
+    }
+    if (this.keyUpListener) {
+        window.removeEventListener("keyup", this.keyUpListener);
+    }
+    Scene.prototype.stop.call(this);
 };

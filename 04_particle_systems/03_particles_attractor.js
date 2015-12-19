@@ -4,10 +4,13 @@ var ParticlesAttractorScene = function () {
 	"use strict";
     Scene.call(this);
     this.mover0 = new Mover(this.width / 2, this.height / 2, this, 15);
-    this.emitter0 = new Emitter(this.mover0, this, 50, 0.04);
+    this.emitter0 = new Emitter(this);
+    this.emitter0.setOwner(this.mover0);
+    
     
     this.mover1 = new Mover(this.width / 2, this.height / 2, this, 20);
-    this.emitter1 = new Emitter(this.mover1, this, 50, 0.04);
+    this.emitter1 = new Emitter(this);
+    this.emitter1.setOwner(this.mover1);
     
     this.attractor = new Attractor(0, 0, 30, 3);
     this.mouseAttractor = new MouseAttractor(this, this.attractor);
@@ -30,11 +33,9 @@ ParticlesAttractorScene.prototype.loop = function () {
     
     this.emitter0.apply(this.gravity);
     this.emitter0.step(this.ctx);
-    this.emitter0.addParticle();
     this.emitter1.apply(this.gravity);
     this.emitter1.step(this.ctx);
-    this.emitter1.addParticle();
-	
+    
     this.mouseAttractor.display(this.ctx);
     
 	Scene.prototype.loop.call(this);
