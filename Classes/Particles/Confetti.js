@@ -1,23 +1,16 @@
-/*global Vector2, Particle*/
-function Confetti() {
+/*global Vector2, Particle, Tools*/
+function Confetti(location, baseColor, scene, decrease, theta, variability, speed) {
     "use strict";
-}
-
-Confetti.prototype.display = function (particle, ctx) {
-	"use strict";
-    if (particle instanceof Particle === false) {
-        throw "Confetti.display : param is not a Particle";
-    }
+    var color = Color.createBrightColor().h;
+    Particle.call(this, location, color, scene, decrease, theta, variability, speed);
     
-    var c = 256 - particle.lifespan;
-    ctx.save();
-    ctx.fillStyle = 'rgb(' + c + ', ' + c + ', ' + c + ')';
-    ctx.beginPath();
-    ctx.rect(particle.mover.location.x - 4,
-             particle.mover.location.y - 4,
-             8,
-             8);
-    ctx.closePath();
-    ctx.fill();
-    ctx.restore();
+    var angle = Tools.map(location.x, 0, scene.width, 0, Math.PI * 2);
+    this.applyTorque(angle);
+}
+Confetti.prototype = Object.create(Particle.prototype);
+Confetti.prototype.constructor = Confetti;
+
+Confetti.prototype.display = function (ctx) {
+	"use strict";
+    this.mover.display(ctx);
 };
