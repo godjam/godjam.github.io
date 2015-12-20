@@ -67,19 +67,19 @@ ShatteringScene.prototype.shatter = function (position) {
 };
 
 
-ShatteringScene.prototype.createEmitter = function (position, speed, hue) {
+ShatteringScene.prototype.createEmitter = function (position, mass, hue) {
     "use strict";
     var emitter = new Emitter(this, position),
         angle = Math.PI * 4 * (Math.random() - 0.5);
     emitter.setAngle(0, Math.PI * 2);
     // 8: particles emitted / frame 
     // 6: emitter's life (in frames)
-    emitter.setEmitterLife(8, 6);
+    emitter.setEmitterLife(8, mass / 4);
     // 200: max particles count each frame
     // 0.03: the particle decrease rate over time
     emitter.setParticlesLife(200, 0.03);
     // 3: particles speed 
-    emitter.setParticlesSpeed(speed);
+    emitter.setParticlesSpeed(5);
     emitter.setParticlesTorque(angle);
     emitter.baseColor = hue;
     this.emitters.push(emitter);

@@ -8,7 +8,7 @@ CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02,
 RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
 OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
 ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
-ShatteringScene, ConfettiScene */
+ShatteringScene, ConfettiScene, ParticlesRepellerScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -67,7 +67,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "04_07",
+    var defaultKey = "04_08",
         key = "";
     
     if (window !== null) {
@@ -162,6 +162,7 @@ Factory.init = function () {
     this.cache["04_05"] = SystemOfSystemsScene;
     this.cache["04_06"] = ShatteringScene;
     this.cache["04_07"] = ConfettiScene;
+    this.cache["04_08"] = ParticlesRepellerScene;
 };
 
 Factory.autoclose = function () {

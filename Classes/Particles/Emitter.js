@@ -49,7 +49,7 @@ Emitter.prototype.setOwner = function (owner, localPos) {
     this.baseColor = owner.color.h;
 };
 
-Emitter.prototype.setParticlesLife = function (maxcount, decrease, particleAngle) {
+Emitter.prototype.setParticlesLife = function (maxcount, decrease) {
     "use strict";
     if (typeof maxcount !== 'number') {
         throw "Emitter setParticlesLife : param 1 is not a scalar";
@@ -70,7 +70,7 @@ Emitter.prototype.setEmitterLife = function (rate, maxLife) {
         throw "Emitter setEmitterLife : param 2 is not a scalar";
     }
     this.rate = Math.max(1, Math.round(rate));
-    this.life = maxLife;
+    this.life = Math.max(1, Math.round(maxLife));
 };
 
 Emitter.prototype.setParticlesSpeed = function (speed) {

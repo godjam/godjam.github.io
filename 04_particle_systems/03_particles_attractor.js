@@ -7,7 +7,6 @@ var ParticlesAttractorScene = function () {
     this.emitter0 = new Emitter(this);
     this.emitter0.setOwner(this.mover0);
     
-    
     this.mover1 = new Mover(this.width / 2, this.height / 2, this, 20);
     this.emitter1 = new Emitter(this);
     this.emitter1.setOwner(this.mover1);
