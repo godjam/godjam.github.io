@@ -31,6 +31,7 @@ function Emitter(scene, position) {
     this.life = -1;
     this.isActive = true;
     this.isAlive = true;
+    this.innerAttractiveForce = 0;
 }
 
 Emitter.prototype.setOwner = function (owner, localPos) {
@@ -110,13 +111,28 @@ Emitter.prototype.setAngle = function (theta, variability) {
     this.variability = variability;
 };
 
+Emitter.prototype.setInnerAttractiveForce = function (innerAttractiveForce) {
+    "use strict";
+    if (typeof innerAttractiveForce !== 'number') {
+        throw "Emitter setInnerAttractiveForce : param 1 is not a scalar";
+    }
+    this.innerAttractiveForce = innerAttractiveForce;
+};
 
 Emitter.prototype.step = function (ctx) {
     "use strict";
     this.updateLoc();
-    
-    var i = this.particles.length - 1;
-    for (i; i >= 0; i -= 1) {
+    var i = 0, j = 0;
+    for (i = this.particles.length - 1; i >= 0; i -= 1) {
+        // attract/repel particles each other
+        if (this.innerAttractiveForce !== 0) {
+            for (j = 0; j < this.particles.length; j += 1) {
+                if (i !== j) {
+                    this.particles[i].mover.attract(this.particles[j].mover, this.innerAttractiveForce);
+                }
+            }
+        }
+        
         this.particles[i].update();
         this.particles[i].display(ctx);
         if (this.particles[i].isDead()) {

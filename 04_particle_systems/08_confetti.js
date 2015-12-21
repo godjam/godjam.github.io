@@ -7,7 +7,7 @@ var ConfettiScene = function () {
     this.emitter = new Emitter(this);
     this.emitter.setOwner(this.mover);
     this.emitter.setConfettiProbability(0.5);
-    this.emitter.setParticlesLife(200, 0.003);
+    this.emitter.setParticlesLife(200, 0.004);
     this.emitter.setParticlesSpeed(20);
     
     this.attractor = new Attractor(0, 0, 30, 2);
