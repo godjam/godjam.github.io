@@ -1,7 +1,7 @@
 /*global Box2dEntity, B2BodyDef, B2FixtureDef, B2CircleShape, B2DynamicBody, B2StaticBody*/
-var Circle = function (x, y, w, h, world, radius, isStatic) {
+var Circle = function (x, y, scene, world, scale, radius, isStatic) {
     "use strict";
-    Box2dEntity.call(this, x, y, w, h, world);
+    Box2dEntity.call(this, x, y, scene, world, scale);
     
     if (radius === undefined) {
         this.radius = Math.random() * 16 + 4;

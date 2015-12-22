@@ -1,8 +1,8 @@
 /*global Box2dEntity, B2BodyDef, B2FixtureDef, B2StaticBody, B2Vec2, B2PolygonShape*/
 //*************************************************
-var PolyBoundary = function (w, h, world) {
+var PolyBoundary = function (scene, world, scale) {
     "use strict";
-    Box2dEntity.call(this, 0, 0, w, h, world);
+    Box2dEntity.call(this, 0, 0, scene, world, scale);
     var points = [
             { x: 0,     y: 13 },
             { x: 100,   y: 105 },
@@ -11,12 +11,11 @@ var PolyBoundary = function (w, h, world) {
             { x: 600,  y: 13 }
         ],
         shape = this.createPolyShape(points);
-    this.body = this.addBody(0, h, world, true);
+    this.body = this.addBody(0, scene.height, world, true);
     this.addFixture(shape, this.body);
 };
 PolyBoundary.prototype = Object.create(Box2dEntity.prototype);
 PolyBoundary.prototype.constructor = PolyBoundary;
-
 //************************************************
 PolyBoundary.prototype.display = function (ctx) {
     "use strict";

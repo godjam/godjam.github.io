@@ -1,20 +1,25 @@
 /*global Box2dEntity, B2BodyDef, B2FixtureDef, B2StaticBody, noise, B2Vec2, B2PolygonShape*/
-var CurvyBoundary = function (w, h, world) {
+var CurvyBoundary = function (scene, world, scale) {
     "use strict";
     var shape = null,
         points = [],
         i = 0,
+        x = 0,
+        y = 0,
+        w = scene.width,
+        h = scene.height,
         scaleW = 0.3,
         scaleH = h / 4,
         step = 50;
     
-    Box2dEntity.call(this, 0, 0, w, h, world);
+    Box2dEntity.call(this, 0, 0, scene, world, scale);
     this.body = this.addBody(0, h, world, true);
     
     for (i = 0; i <= step; i += 1) {
-        points.push({x: i * w / step,
-                     y: scaleH + noise.perlin2(i * scaleW * w / step / 100, 0.1) * scaleH}); // perlin wave
-                    //y: Math.sin(0.5 * i) * h / 4 + h / 4}); // sin wave
+        x = i * w / step;
+        y = Math.sin(0.2 * i) * h / 4 + h / 4; // sin wave
+        //y: scaleH + noise.perlin2(i * scaleW * w / step / 100, 0.1) * scaleH}); // perlin wave
+        points.push({x: x, y: y});
     }
         
     for (i = 0; i < points.length - 1; i += 1) {
@@ -24,8 +29,6 @@ var CurvyBoundary = function (w, h, world) {
 };
 CurvyBoundary.prototype = Object.create(Box2dEntity.prototype);
 CurvyBoundary.prototype.constructor = CurvyBoundary;
-
-
 
 CurvyBoundary.prototype.display = function (ctx) {
     "use strict";
