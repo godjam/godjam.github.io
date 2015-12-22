@@ -21,7 +21,9 @@ function Emitter(scene, position) {
     this.theta = Math.random() * Math.PI * 2;
     this.variability = Math.PI / 2;
     this.particleAngle = 0;
-    this.confettiProbability = 0;
+    // alternative particle
+    this.alternativeCtor = null;
+    this.alternativeProba = 0;
     // position to the owner
     this.localPos = new Vector2(0, 0);
     this.loc = position;
@@ -90,12 +92,16 @@ Emitter.prototype.setParticlesTorque = function (particleAngle) {
     this.particleAngle = particleAngle;
 };
 
-Emitter.prototype.setConfettiProbability = function (p) {
+Emitter.prototype.setAlternativeParticle = function (particleCtor, probability) {
     "use strict";
-    if (typeof p !== 'number') {
-        throw "Emitter setConfettiProbability : param 1 is not a scalar";
+    if (typeof particleCtor !== 'function') {
+        throw "Emitter setAlternativeParticle : param 1 is not a ctor";
     }
-    this.confettiProbability = Tools.clamp(p, 0, 1);
+    if (typeof probability !== 'number') {
+        throw "Emitter setAlternativeParticle : param 2 is not a scalar";
+    }
+    this.alternativeCtor = particleCtor;
+    this.alternativeProba = Tools.clamp(probability, 0, 1);
 };
 
 
@@ -164,9 +170,9 @@ Emitter.prototype.addParticle = function () {
     "use strict";
     var particle = null,
         r = Math.random();
-    // create confetti
-    if (r < this.confettiProbability) {
-        particle = new Confetti(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.variability, this.speed);
+    // create alternative particle
+    if (r < this.alternativeProba && this.alternativeCtor) {
+        particle = new this.alternativeCtor(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.variability, this.speed);
     // create std particle
     } else {
         particle = new Particle(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.variability, this.speed);

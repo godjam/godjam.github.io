@@ -128,3 +128,10 @@ Scene.prototype.initThreejsScene = function () {
     this.canvas = this.renderer.domElement;
     container.appendChild(this.canvas);
 };
+
+Scene.prototype.setDarkScene = function () {
+    "use strict";
+    if (this.ctx) {
+        this.ctx.canvas.style.background = "#222";
+    }
+};

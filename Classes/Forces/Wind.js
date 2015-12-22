@@ -1,7 +1,17 @@
 /*global Vector2, Mover*/
-function Wind(ax, ay) {
+function Wind(ax, ay, power) {
     "use strict";
-    this.force = new Vector2(ax, ay);
+    if (ax === undefined) {
+        ax = Math.random() - 0.5;
+    }
+    if (ay === undefined) {
+        ay = Math.random() - 0.5;
+    }
+    if (power === undefined) {
+        power = Math.random() * 5;
+    }
+    this.force = new Vector2(ax, ay).normalizeInPlace();
+    this.force.multInPlace(power);
 }
 
 /*

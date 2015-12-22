@@ -1,10 +1,10 @@
-/*global Vector2, Particle, Tools*/
+/*global Vector2, Particle, Tools, Color*/
 function Confetti(location, baseColor, scene, decrease, theta, variability, speed) {
     "use strict";
-    var color = Color.createBrightColor().h;
-    Particle.call(this, location, color, scene, decrease, theta, variability, speed);
+    var color = Color.createBrightColor().h,
+        angle = Tools.map(location.x, 0, scene.width, 0, Math.PI * 2);
     
-    var angle = Tools.map(location.x, 0, scene.width, 0, Math.PI * 2);
+    Particle.call(this, location, color, scene, decrease, theta, variability, speed);
     this.applyTorque(angle);
 }
 Confetti.prototype = Object.create(Particle.prototype);

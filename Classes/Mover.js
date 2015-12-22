@@ -72,6 +72,28 @@ Mover.prototype.displayAsCircle = function (ctx) {
     ctx.closePath();
 };
 
+
+Mover.prototype.displayAsSmoke = function (ctx) {
+    "use strict";
+    // (x0, y0, r0, x1, y1, r1);
+    // x0: The x axis of the coordinate of the start circle.
+    // y0: The y axis of the coordinate of the start circle.
+    // r0: The radius of the start circle.
+    // x1: The x axis of the coordinate of the end circle.
+    // y1: The y axis of the coordinate of the end circle.
+    // r1: The radius of the end circle.
+    var x = this.location.x,
+        y = this.location.y,
+        m = this.mass * 3,
+        c = this.color,
+        grd = ctx.createRadialGradient(x, y, 0, x, y, m);
+    // Add colors
+    grd.addColorStop(0.000, 'rgba(' + c.r + ',' + c.g + ',' + c.b + ', 1.0)');
+    grd.addColorStop(1.000, 'rgba(255, 255, 255, 0.000)');
+    ctx.fillStyle = grd;
+    ctx.fillRect(x - m, y - m, m * 2, m * 2);
+};
+
 Mover.prototype.displayAsPoly = function (ctx, p) {
     "use strict";
     if (p === undefined) {

@@ -5,7 +5,8 @@ var AttractiveParticlesScene = function () {
     Scene.call(this);
     this.attractor = new Attractor(0, 0, 30, 3);
     this.gravity = new MouseAttractor(this, this.attractor);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 15);
+    this.mover = new Mover(this.width / 2, this.height / 2, this, 30);
+    this.mover.initRandomly();
     this.emitter = new Emitter(this);
     this.emitter.setOwner(this.mover);
     this.emitter.setInnerAttractiveForce(0.3);

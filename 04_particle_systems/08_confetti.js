@@ -1,4 +1,4 @@
-/*global Scene, Emitter, Mover, MouseAttractor, Gravity, Attractor*/
+/*global Scene, Emitter, Mover, MouseAttractor, Gravity, Attractor, Confetti*/
 //*************************************************
 var ConfettiScene = function () {
 	"use strict";
@@ -6,7 +6,7 @@ var ConfettiScene = function () {
     this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
     this.emitter = new Emitter(this);
     this.emitter.setOwner(this.mover);
-    this.emitter.setConfettiProbability(0.5);
+    this.emitter.setAlternativeParticle(Confetti, 0.5);
     this.emitter.setParticlesLife(200, 0.004);
     this.emitter.setParticlesSpeed(20);
     

@@ -91,15 +91,15 @@ Color.prototype.fromHex = function (hex) {
     return this;
 };
 
-Color.prototype.lighten = function () {
+Color.prototype.lighten = function (l) {
     "use strict";
-    var l = 0.05;
+    if (l === undefined) { l = 0.05; }
     return this.modify(l / 2, 0, l);
 };
 
-Color.prototype.darken = function () {
+Color.prototype.darken = function (l) {
     "use strict";
-    var l = 0.05;
+    if (l === undefined) { l = 0.05; }
     return this.modify(-l / 2, 0, -l);
 };
 
