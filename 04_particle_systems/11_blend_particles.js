@@ -6,20 +6,20 @@ var BlendParticlesScene = function () {
     this.setDarkScene();
     
     this.emitter0 = new Emitter(this);
-    this.emitter0.setAngle(0, Math.PI / 2);
+    this.emitter0.setAngle(0, Math.PI * 2);
     this.emitter0.setParticlesSpeed(4);
     this.emitter0.setAlternativeParticle(Smoke, 1);
     this.emitter0.setParticlesLife(50, 0);
     
     
     this.emitter1 = new Emitter(this, new Vector2(this.width / 2, this.height / 4));
-    this.emitter1.setAngle(0, Math.PI / 2);
+    this.emitter1.setAngle(0, Math.PI * 2);
     this.emitter1.setParticlesSpeed(4);
     this.emitter1.setAlternativeParticle(Smoke, 1);
     this.emitter1.setParticlesLife(50, 0);
     
     
-    this.attractor = new Attractor(0, 0, 30, 1);
+    this.attractor = new Attractor(0, 0, 30, 4);
     this.mouseAttractor = new MouseAttractor(this, this.attractor);
     
     this.ctx.globalCompositeOperation = "lighter";
