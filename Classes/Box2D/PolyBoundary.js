@@ -14,7 +14,7 @@ var PolyBoundary = function (w, h, world) {
     this.body = this.addBody(0, h, world, true);
     this.addFixture(shape, this.body);
 };
-PolyBoundary.prototype = new Box2dEntity();
+PolyBoundary.prototype = Object.create(Box2dEntity.prototype);
 PolyBoundary.prototype.constructor = PolyBoundary;
 
 //************************************************

@@ -1,10 +1,10 @@
 /*global Mover, Color, Vector2*/
-var Food = function (worldW, worldH) {
+var Food = function (scene) {
     "use strict";
-    Mover.call(this, 0, 0, worldW, worldH, 10);
+    Mover.call(this, 0, 0, scene, 10);
     this.initRandomly();
     this.velocity = new Vector2(0, 0);
-    this.color = Color.createNormalDistribColor().ToHex();
+    this.color = Color.createNormalDistribColor();
     this.alive = true;
 };
 Food.prototype = Object.create(Mover.prototype);

@@ -24,7 +24,7 @@ var Boundary = function (w, h, world) {
     this.body = world.CreateBody(bd);
     this.body.CreateFixture(fd);
 };
-Boundary.prototype = new Box2dEntity();
+Boundary.prototype = Object.create(Box2dEntity.prototype);
 Boundary.prototype.constructor = Boundary;
 
 

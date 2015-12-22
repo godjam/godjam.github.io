@@ -1,7 +1,7 @@
 /*global Box2dEntity, B2BodyDef, B2FixtureDef, B2PolygonShape, B2DynamicBody, B2StaticBody*/
-var Box = function (x, y, w, h, world, boxW, boxH, isStatic) {
+var Box = function (x, y, scene, world, scale, boxW, boxH, isStatic) {
     "use strict";
-    Box2dEntity.call(this, x, y, w, h, world);
+    Box2dEntity.call(this, x, y, scene, world, scale);
     
     if (boxW === undefined) {
         this.boxW = Math.random() * 16 + 8;

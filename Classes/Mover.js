@@ -79,7 +79,7 @@ Mover.prototype.displayAsSmoke = function (ctx) {
     // x0: The x axis of the coordinate of the start circle.
     // y0: The y axis of the coordinate of the start circle.
     // r0: The radius of the start circle.
-    // x1: The x axis of the coordinate of the end circle.
+    // x1: The x axis of the nate of the end circle.
     // y1: The y axis of the coordinate of the end circle.
     // r1: The radius of the end circle.
     var x = this.location.x,

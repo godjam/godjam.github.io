@@ -1,4 +1,4 @@
-/*global Box2D*/
+/*global Box2D, Scene, Color*/
 var B2BodyDef = Box2D.Dynamics.b2BodyDef,
     B2FixtureDef = Box2D.Dynamics.b2FixtureDef,
     B2DynamicBody = Box2D.Dynamics.b2Body.b2_dynamicBody,
@@ -15,19 +15,34 @@ var B2BodyDef = Box2D.Dynamics.b2BodyDef,
     B2Vec2 = Box2D.Common.Math.b2Vec2;
 
 //*************************************************
-var Box2dEntity = function (x, y, w, h, world) {
+var Box2dEntity = function (x, y, scene, world, scale) {
     "use strict";
+    if (typeof x !== 'number') {
+        throw "Box2dEntity.constructor: x is not a scalar";
+    }
+    if (typeof y !== 'number') {
+        throw "Box2dEntity.constructor: y is not a scalar";
+    }
+    if (scene instanceof Scene === false) {
+        throw "Box2dEntity.constructor: scene is not a Scene";
+    }
+    if (world instanceof B2World === false) {
+        throw "Box2dEntity.constructor: world is not a World";
+    }
+    if (typeof scale !== 'number') {
+        throw "Box2dEntity.constructor: scale 1 is not a scalar";
+    }
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.h = h;
+    this.w = scene.width;
+    this.h = scene.height;
     this.body = null;
     this.nameArray = []; // array of entities names
     this.entitiesArray = []; // array of entities objects
-    this.scale = 30;
+    this.scale = scale;
     this.lineWidth = 0.5;
     this.strokeStyle = "#888";
-    this.fillStyle = "#ccc";
+    this.color = Color.createBrightColor();
     this.deletion = false;
     
 };
@@ -329,7 +344,7 @@ Box2dEntity.prototype.drawRect = function (ctx, center, angle, width, height) {
     "use strict";
     ctx.save();
     ctx.lineWidth = this.lineWidth;
-    ctx.fillStyle = this.fillStyle;
+    ctx.fillStyle = this.color.ToHex();
     ctx.strokeStyle = this.strokeStyle;
     ctx.beginPath();
 
@@ -349,7 +364,7 @@ Box2dEntity.prototype.drawCircle = function (ctx, center, angle, radius) {
     "use strict";
     ctx.save();
     ctx.lineWidth = this.lineWidth;
-    ctx.fillStyle = this.fillStyle;
+    ctx.fillStyle = this.color.ToHex();
     ctx.strokeStyle = this.strokeStyle;
     ctx.beginPath();
 
@@ -371,7 +386,7 @@ Box2dEntity.prototype.drawClosedPolygon = function (ctx, center, angle, vertices
     var i = 0;
     ctx.save();
     ctx.lineWidth = this.lineWidth;
-    ctx.fillStyle = this.fillStyle;
+    ctx.fillStyle = this.color.ToHex();
     ctx.strokeStyle = this.strokeStyle;
     ctx.beginPath();
 

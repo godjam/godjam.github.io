@@ -1,9 +1,9 @@
 /*global Mover, Color, Creature*/
-var Predator = function (worldW, worldH) {
+var Predator = function (scene) {
     "use strict";
-    Mover.call(this, 0, 0, worldW, worldH, 20);
+    Mover.call(this, 0, 0, scene, 20);
     this.initRandomly();
-    this.color = Color.createNormalDistribColor(0.1).ToHex();
+    this.color = Color.createNormalDistribColor(0.1);
     this.alive = true;
 };
 Predator.prototype = Object.create(Mover.prototype);
