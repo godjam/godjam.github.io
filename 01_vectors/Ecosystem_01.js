@@ -31,16 +31,16 @@ var EcosystemScene_01 = function () {
     
     // apply palette
     // gravity on 0, 1, 3
-    this.movers[0].color = this.colors[0].mutate().ToHex();
-    this.movers[1].color = this.colors[0].mutate().ToHex();
-    this.movers[3].color = this.colors[0].mutate().ToHex();
+    this.movers[0].color = this.colors[0].mutate();
+    this.movers[1].color = this.colors[0].mutate();
+    this.movers[3].color = this.colors[0].mutate();
     // follow on 1 et 2
-    this.movers[1].color = this.colors[1].mutate().ToHex();
-    this.movers[2].color = this.colors[1].mutate().ToHex();
+    this.movers[1].color = this.colors[1].mutate();
+    this.movers[2].color = this.colors[1].mutate();
     // nothing on 4
-    this.movers[4].color = this.colors[2].mutate().ToHex();
+    this.movers[4].color = this.colors[2].mutate();
     // random on 5
-    this.movers[5].color = this.colors[3].mutate().ToHex();
+    this.movers[5].color = this.colors[3].mutate();
 };
 EcosystemScene_01.prototype = Object.create(Scene.prototype);
 EcosystemScene_01.prototype.constructor =  EcosystemScene_01;
@@ -48,7 +48,7 @@ EcosystemScene_01.prototype.constructor =  EcosystemScene_01;
 EcosystemScene_01.prototype.loop = function () {
     "use strict";
     var i = 0;
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
     // gravity on 0, 1, 3
     this.gravity.applyOn(this.movers[0]);

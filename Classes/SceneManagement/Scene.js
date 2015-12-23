@@ -1,4 +1,4 @@
-/*global Context, FrameLoop, THREE*/
+/*global Context, FrameLoop, THREE, Vector2*/
 var Scene = function (options) {
     "use strict";
     // canvas
@@ -13,7 +13,6 @@ var Scene = function (options) {
     
     // window
     window.addEventListener('resize', this.resize.bind(this));
-    this.resize();
     
     // frames
     this.frameloop = new FrameLoop();
@@ -28,6 +27,7 @@ var Scene = function (options) {
         this.init2DCanvasScene();
     }
     
+    this.resize();
 };
 
 Scene.prototype.start = function () {"use strict"; };
@@ -56,17 +56,16 @@ Scene.prototype.stop = function () {
 
 Scene.prototype.resize = function () {
     "use strict";
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    this.size = new Vector2(window.innerWidth, window.innerHeight);
     // 2D canvas scene
     if (this.canvas !== null) {
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
+        this.canvas.width = this.size.x;
+        this.canvas.height = this.size.y;
     }
     // threejs scene
     if (this.renderer !== null) {
-        this.renderer.setSize(this.width, this.height);
-        this.camera.aspect = this.width / this.height;
+        this.renderer.setSize(this.size.x, this.size.y);
+        this.camera.aspect = this.size.x / this.size.y;
         this.camera.updateProjectionMatrix();
     }
 };
@@ -78,18 +77,21 @@ Scene.prototype.init2DCanvasScene = function () {
     
     if (this.canvas !== null) { container.removeChild(this.canvas); }
     
+    this.size = new Vector2(window.innerWidth, window.innerHeight);
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
+    this.canvas.width = this.size.x;
+    this.canvas.height = this.size.y;
     container.appendChild(this.canvas);
 };
 
 Scene.prototype.initThreejsScene = function () {
     "use strict";
+    
+    this.size = new Vector2(window.innerWidth, window.innerHeight);
     // camera attributes
     var VIEW_ANGLE = 30,
-        ASPECT = this.width / this.height,
+        ASPECT = this.size.x / this.size.y,
         NEAR = 0.1,
         FAR = 10000,
 
@@ -119,7 +121,7 @@ Scene.prototype.initThreejsScene = function () {
     this.camera.position.z = 300;
 
     // start the renderer
-    this.renderer.setSize(this.width, this.height);
+    this.renderer.setSize(this.size.x, this.size.y);
 
     // attach the render-supplied DOM element
     if (this.canvas !== null) { container.removeChild(this.canvas); }

@@ -14,7 +14,7 @@ var BoxesScene = function () {
 //    this.world.SetDebugDraw(this.debugDraw);
     this.scale = 30;
     this.boxes = [];
-    this.createBox(new Vector2(this.width / 2, this.height / 2));
+    this.createBox(new Vector2(this.size.xx / 2, this.size.y / 2));
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.createBox);
 };
 BoxesScene.prototype = Object.create(Scene.prototype);
@@ -24,7 +24,7 @@ BoxesScene.prototype.constructor = BoxesScene;
 BoxesScene.prototype.loop = function () {
     "use strict";
     var i = 0;
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.world.Step(
         1 / 60,   //frame-rate
         10,       //velocity iterations

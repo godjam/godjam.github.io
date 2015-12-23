@@ -1,21 +1,21 @@
-/*global Scene, B2Vec2, B2World, MouseEvtListener, Box2dEntity, Circle, Vector2, PerlinBoundary*/
+/*global Scene, B2Vec2, B2World, MouseEvtListener, Box2dEntity, Circle, Vector2, CurvyBoundary, Poly*/
 //*************************************************
-var ChainShapeScene = function () {
+var PolygonShapeScene = function () {
 	"use strict";
     Scene.call(this);
     var gravity = new B2Vec2(0, 10);
     this.world = new B2World(gravity, true);
     this.scale = 30;
     this.boxes = [];
-    this.createCircle(new Vector2(this.size.x / 2, this.size.y / 2));
-    this.boundary = new PerlinBoundary(this, this.world, this.scale);
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.createCircle);
+    this.createPolygon(new Vector2(this.size.x / 2, this.size.y / 2));
+    this.boundary = new CurvyBoundary(this, this.world, this.scale);
+    this.mouseListener = new MouseEvtListener(this.canvas, this, this.createPolygon);
 };
-ChainShapeScene.prototype = Object.create(Scene.prototype);
-ChainShapeScene.prototype.constructor = ChainShapeScene;
+PolygonShapeScene.prototype = Object.create(Scene.prototype);
+PolygonShapeScene.prototype.constructor = PolygonShapeScene;
 
 
-ChainShapeScene.prototype.loop = function () {
+PolygonShapeScene.prototype.loop = function () {
     "use strict";
     var i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
@@ -38,9 +38,9 @@ ChainShapeScene.prototype.loop = function () {
 };
 
 
-ChainShapeScene.prototype.createCircle = function (position) {
+PolygonShapeScene.prototype.createPolygon = function (position) {
     "use strict";
-    this.boxes.push(new Circle(position.x, position.y, this, this.world, this.scale));
+    this.boxes.push(new Poly(position.x, position.y, this, this.world, this.scale));
     if (this.boxes.length > 50) {
         this.boxes[0].killBody();
         this.boxes.shift();

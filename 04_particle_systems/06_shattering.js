@@ -3,7 +3,7 @@ var ShatteringScene = function () {
 	"use strict";
     Scene.call(this);
     this.maxMovers = 30;
-    this.size = Math.min(this.width, this.height) / this.maxMovers;
+    this.s = Math.min(this.size.x, this.size.y) / this.maxMovers;
     
     this.movers = [];
     this.emitters = [];
@@ -20,7 +20,7 @@ ShatteringScene.prototype.constructor = ShatteringScene;
 
 ShatteringScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     var i = 0;
     
     if (this.movers.length < this.maxMovers && Math.random() < 0.02) {
@@ -53,8 +53,8 @@ ShatteringScene.prototype.shatter = function (position) {
     "use strict";
     var i = 0, d = 0, m = null;
     for (i = this.movers.length - 1; i >= 0; i -= 1) {
-        if (position.x - this.movers[i].location.x < this.size) {
-            if (position.y - this.movers[i].location.y < this.size) {
+        if (position.x - this.movers[i].location.x < this.s) {
+            if (position.y - this.movers[i].location.y < this.s) {
                 d = Vector2.distance(position, this.movers[i].location);
 
                 if (d <= this.movers[i].mass) {
@@ -87,7 +87,7 @@ ShatteringScene.prototype.createEmitter = function (position, mass, hue) {
 
 ShatteringScene.prototype.createMover = function () {
     "use strict";
-    var mover = new Mover(0, 0, this, this.size);
+    var mover = new Mover(0, 0, this, this.s);
     mover.initRandomly();
     this.movers.push(mover);
 };

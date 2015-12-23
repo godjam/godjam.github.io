@@ -27,13 +27,13 @@ ColorTestScene.prototype.constructor = ColorTestScene;
 ColorTestScene.prototype.loop = function () {
     "use strict";
     var i = 0, j = 0, c = null,
-        min = Math.min(this.width, this.height),
+        min = Math.min(this.size.x, this.size.y),
         step =  min / this.count,
-        dx = (this.width - min) / 2,
-        dy = (this.height - min) / 2;
+        dx = (this.size.x - min) / 2,
+        dy = (this.size.y - min) / 2;
     
 
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     for (i = 0; i < this.colors.getWidth(); i += 1) {
         for (j = 0; j < this.colors.getHeight(); j += 1) {
             c = this.colors.get(i, j);

@@ -3,7 +3,7 @@
 var ParticlesScene = function () {
 	"use strict";
     Scene.call(this);
-    this.mover = new Mover(this.width / 2, 15, this, 15);
+    this.mover = new Mover(this.size.x / 2, 15, this, 15);
     this.mover.angle = -Math.PI / 2;
     this.emitter = new Emitter(this);
     this.emitter.setOwner(this.mover, new Vector2(-1, 0));
@@ -18,7 +18,7 @@ ParticlesScene.prototype.constructor =  ParticlesScene;
 
 ParticlesScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.mover.display(this.ctx);
     this.emitter.apply(this.gravity);
     this.emitter.step(this.ctx);

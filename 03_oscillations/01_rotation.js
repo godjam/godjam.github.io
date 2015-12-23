@@ -3,8 +3,8 @@
 var RotationScene = function () {
     "use strict";
     Scene.call(this);
-    var w = this.width,
-        h = this.height;
+    var w = this.size.x,
+        h = this.size.y;
     this.r = Math.min(w, h) / 2 * 0.8;
     this.c1 = Color.createBrightColor();
     this.c2 = Color.createBrightColor();
@@ -19,7 +19,7 @@ RotationScene.prototype.constructor =  RotationScene;
 
 RotationScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
     this.ctx.lineWidth = 6;
     this.ctx.strokeStyle = "#ccc";

@@ -18,7 +18,7 @@ HeliumBalloonScene.prototype.constructor =  HeliumBalloonScene;
 HeliumBalloonScene.prototype.loop = function () {
     "use strict";
     var i = 0;
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     
     // update 
     for (i = 0; i < this.ballons.length; i += 1) {

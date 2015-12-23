@@ -3,8 +3,8 @@
 var CannonScene = function () {
     "use strict";
     Scene.call(this);
-    var w = this.width,
-        h = this.height,
+    var w = this.size.x,
+        h = this.size.y,
         force = new Vector2(0, 0);
     
     this.r = Math.min(w, h) / 40;
@@ -35,7 +35,7 @@ CannonScene.prototype.constructor =  CannonScene;
 CannonScene.prototype.loop = function () {
     "use strict";
     var i = 0;
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     
     // update bullets
     for (i = 0; i < this.bullets.length; i += 1) {

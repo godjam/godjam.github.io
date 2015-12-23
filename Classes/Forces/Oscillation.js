@@ -1,5 +1,4 @@
 /*global Vector2, Mover*/
-// 822 412 4855
 function Oscillation(amplitude, angularVelocity) {
     "use strict";
     this.location = new Vector2(0, 0);

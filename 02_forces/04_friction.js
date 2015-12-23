@@ -4,10 +4,10 @@ var FrictionForceScene = function () {
 	"use strict";
     Scene.call(this);
     var i = 0,
-        w = this.width,
-        h = this.height;
+        w = this.size.x,
+        h = this.size.y;
     this.movers = [];
-    this.wind = new Wind(0.01, 0);
+    this.wind = new Wind(1, 0, 0.01);
     this.gravity = new Gravity(0, 0.1);
     this.globalFriction = new Friction(0.02);
     this.friction = new ActiveArea(w / 8, h / 2,
@@ -27,7 +27,7 @@ FrictionForceScene.prototype.constructor =  FrictionForceScene;
     
 FrictionForceScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     var i = 0;
     for (i = 0; i < this.movers.length; i += 1) {
         this.gravity.applyOn(this.movers[i]);

@@ -1,12 +1,11 @@
 /*global Color, Tools, toxi*/
-function Walker(x, y, maxWidth, maxHeight, options) {
+function Walker(x, y, scene, options) {
 	"use strict";
     this.x = x;
 	this.y = y;
     this.t = 0;
     this.size = 5;
-    this.maxWidth = maxWidth;
-	this.maxHeight = maxHeight;
+    this.scene = scene;
     this.stepsize = 1;
     this.color = Color.createLightColor();
     this.mousePosition = null;
@@ -19,7 +18,7 @@ function Walker(x, y, maxWidth, maxHeight, options) {
 
 Walker.prototype.display = function (ctx) {
 	"use strict";
-    var c = this.color.modify(this.stepsize / this.maxWidth, 0, 0);
+    var c = this.color.modify(this.stepsize / this.scene.size.x, 0, 0);
     this.color = c;
     ctx.fillStyle = c.ToHex();
     ctx.beginPath();
@@ -51,11 +50,11 @@ Walker.prototype.step = function () {
         this.stepPerlin();
     }
     
-    if (this.x <= 0) { this.x += this.maxWidth; }
-    if (this.y <= 0) { this.y += this.maxHeight; }
+    if (this.x <= 0) { this.x += this.scene.size.x; }
+    if (this.y <= 0) { this.y += this.scene.size.y; }
     
-    if (this.x > this.maxWidth) { this.x -= this.maxWidth; }
-    if (this.y > this.maxHeight) { this.y -= this.maxHeight; }
+    if (this.x > this.scene.size.x) { this.x -= this.scene.size.x; }
+    if (this.y > this.scene.size.y) { this.y -= this.scene.size.y; }
 };
 
 Walker.prototype.stepRight = function () {
@@ -68,11 +67,11 @@ Walker.prototype.stepRight = function () {
 	this.x += stepx;
 	this.y += stepy;
     
-    if (this.x <= 0) { this.x += this.maxWidth; }
-    if (this.y <= 0) { this.y += this.maxHeight; }
+    if (this.x <= 0) { this.x += this.scene.size.x; }
+    if (this.y <= 0) { this.y += this.scene.size.y; }
     
-    if (this.x > this.maxWidth) { this.x -= this.maxWidth; }
-    if (this.y > this.maxHeight) { this.y -= this.maxHeight; }
+    if (this.x > this.scene.size.x) { this.x -= this.scene.size.x; }
+    if (this.y > this.scene.size.y) { this.y -= this.scene.size.y; }
 };
 
 
@@ -113,8 +112,8 @@ Walker.prototype.stepPerlin = function () {
 	"use strict";
     var stepsize = 3,
         // map x and y to [-1, 1]
-        x = (this.x - this.maxWidth / 2) / this.maxWidth,
-        y = (this.y - this.maxHeight / 2) / this.maxHeight,
+        x = (this.x - this.scene.size.x / 2) / this.scene.size.x,
+        y = (this.y - this.scene.size.y / 2) / this.scene.size.y,
         a =  toxi.math.noise.simplexNoise.noise(x, y, this.t),
         stepx = Math.cos(a * Math.PI) * stepsize,
         stepy = Math.sin(a * Math.PI) * stepsize;

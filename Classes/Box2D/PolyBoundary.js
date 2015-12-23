@@ -11,7 +11,7 @@ var PolyBoundary = function (scene, world, scale) {
             { x: 600,  y: 13 }
         ],
         shape = this.createPolyShape(points);
-    this.body = this.addBody(0, scene.height, world, true);
+    this.body = this.addBody(0, scene.size.x, world, true);
     this.addFixture(shape, this.body);
 };
 PolyBoundary.prototype = Object.create(Box2dEntity.prototype);

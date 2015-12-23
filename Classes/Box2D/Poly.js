@@ -1,7 +1,7 @@
 /*global Box2dEntity, B2BodyDef, B2FixtureDef, B2PolygonShape, B2DynamicBody, B2Vec2*/
-var Poly = function (x, y, w, h, world) {
+var Poly = function (x, y, scene, world, scale) {
     "use strict";
-    Box2dEntity.call(this, x, y, w, h, world);
+    Box2dEntity.call(this, x, y, scene, world, scale);
     
     var points = [
             { x: -15,   y: 25 },

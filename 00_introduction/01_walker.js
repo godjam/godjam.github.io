@@ -3,9 +3,8 @@
 var WalkerScene = function (options) {
     "use strict";
     Scene.call(this);
-    this.walker = new Walker(this.width / 2, this.height / 2,
-                             this.width, this.height,
-                             options);
+    this.walker = new Walker(this.size.x / 2, this.size.y / 2,
+                             this, options);
     this.mouseListener = new MouseEvtListener(this.canvas, this.walker, this.walker.mouseEvent);
 };
 WalkerScene.prototype = Object.create(Scene.prototype);

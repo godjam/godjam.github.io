@@ -6,14 +6,14 @@ var SystemOfSystemsScene = function () {
     this.lastTime = 500;
     this.emitters = [];
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.createEmitter);
-    this.createEmitter(new Vector2(this.width / 2, this.height / 2));
+    this.createEmitter(new Vector2(this.size.x / 2, this.size.y / 2));
 };
 SystemOfSystemsScene.prototype = Object.create(Scene.prototype);
 SystemOfSystemsScene.prototype.constructor = SystemOfSystemsScene;
 
 SystemOfSystemsScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.lastTime += this.frameloop.delta;
     
     var i = 0;

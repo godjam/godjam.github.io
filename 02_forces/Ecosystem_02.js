@@ -22,7 +22,7 @@ EcosystemScene_02.prototype.constructor =  EcosystemScene_02;
 EcosystemScene_02.prototype.loop = function () {
     "use strict";
     var i = 0;
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     for (i = 0; i < this.movers.length; i += 1) {
         this.movers[i].update(this.movers);
         this.movers[i].display(this.ctx);

@@ -27,7 +27,7 @@ BouncingBall3DScene.prototype.constructor = BouncingBall3DScene;
 BouncingBall3DScene.prototype.loop = function () {
     "use strict";
     var i = 0, sphere = null, velocity = null,
-        size = Math.min(this.width, this.height) / 100;
+        size = Math.min(this.size.x, this.size.y) / 100;
     
     for (i = 0; i < this.spheres.length; i += 1) {
         sphere = this.spheres[i];
@@ -56,7 +56,7 @@ BouncingBall3DScene.prototype.loop = function () {
 BouncingBall3DScene.prototype.addSpheres = function (position) {
     "use strict";
     var i = 0, velocity = null,
-        size = Math.min(this.width, this.height) / 100,
+        size = Math.min(this.size.x, this.size.y) / 100,
         geometry = new THREE.SphereGeometry(size, 16, 16),
         material = new THREE.MeshLambertMaterial({
             color: Color.createStrongColor().ToInt()

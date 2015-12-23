@@ -4,7 +4,7 @@ var CanvasTestScene = function () {
     Scene.call(this);
     
     this.radius = 50;
-    this.pos = new Vector2(this.width / 2, this.height / 2);
+    this.pos = new Vector2(this.size.x / 2, this.size.y / 2);
     this.color = Color.createLightColor();
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
     this.motionX = null;
@@ -27,7 +27,7 @@ CanvasTestScene.prototype.loop = function () {
     }
     
     // render
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.ctx.beginPath();
     this.ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2, true);
     this.ctx.closePath();
@@ -49,5 +49,5 @@ CanvasTestScene.prototype.mouseEvent = function (position) {
     this.motionX = new Tools.Motion(this.pos, "x", this.pos.x, position.x, 2000, Tools.elasticEaseOut);
     this.motionY = new Tools.Motion(this.pos, "y", this.pos.y, position.y, 2000, Tools.elasticEaseOut);
     // link x position to hue
-    this.motionH = new Tools.Motion(this.color, "h", (this.pos.x / this.width), (position.x / this.width), 2000, Tools.elasticEaseOut);
+    this.motionH = new Tools.Motion(this.color, "h", (this.pos.x / this.size.x), (position.x / this.size.x), 2000, Tools.elasticEaseOut);
 };

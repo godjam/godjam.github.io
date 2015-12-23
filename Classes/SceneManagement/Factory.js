@@ -9,7 +9,7 @@ RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
 OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
 ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
 ShatteringScene, ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
-BlendParticlesScene, BoxesScene, ChainShapeScene */
+BlendParticlesScene, BoxesScene, ChainShapeScene, PolygonShapeScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -67,7 +67,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "05_03",
+    var defaultKey = "05_04",
         key = "";
     
     if (window !== null) {
@@ -169,6 +169,7 @@ Factory.init = function () {
     // chap 5 : Physics Libraries
     this.cache["05_02"] = BoxesScene;
     this.cache["05_03"] = ChainShapeScene;
+    this.cache["05_04"] = PolygonShapeScene;
 };
 
 Factory.autoclose = function () {

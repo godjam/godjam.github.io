@@ -3,7 +3,7 @@
 var ConfettiScene = function () {
 	"use strict";
     Scene.call(this);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
+    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
     this.emitter = new Emitter(this);
     this.emitter.setOwner(this.mover);
     this.emitter.setAlternativeParticle(Confetti, 0.5);
@@ -18,7 +18,7 @@ ConfettiScene.prototype.constructor = ConfettiScene;
     
 ConfettiScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     
     this.mouseAttractor.applyOn(this.mover);
 

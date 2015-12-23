@@ -12,25 +12,32 @@ var BlendParticlesScene = function () {
     this.emitter0.setParticlesLife(50, 0);
     
     
-    this.emitter1 = new Emitter(this, new Vector2(this.width / 2, this.height / 4));
+    this.emitter1 = new Emitter(this, new Vector2(this.size.x / 2, this.size.y / 4));
     this.emitter1.setAngle(0, Math.PI * 2);
     this.emitter1.setParticlesSpeed(4);
     this.emitter1.setAlternativeParticle(Smoke, 1);
     this.emitter1.setParticlesLife(50, 0);
     
-    
     this.attractor = new Attractor(0, 0, 30, 4);
     this.mouseAttractor = new MouseAttractor(this, this.attractor);
-    
-    this.ctx.globalCompositeOperation = "lighter";
 };
 BlendParticlesScene.prototype = Object.create(Scene.prototype);
 BlendParticlesScene.prototype.constructor =  BlendParticlesScene;
 
 
+BlendParticlesScene.prototype.resize = function () {
+    "use strict";
+    Scene.prototype.resize.call(this);
+    this.ctx.globalCompositeOperation = "lighter";
+    if (this.emitter0 && this.emitter1) {
+        this.emitter0.loc = new Vector2(this.size.x / 2, this.size.y / 2);
+        this.emitter1.loc = new Vector2(this.size.x / 2, this.size.y / 4);
+    }
+};
+
 BlendParticlesScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.emitter0.apply(this.attractor);
     this.emitter0.step(this.ctx);
     

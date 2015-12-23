@@ -5,7 +5,7 @@ var AttractiveParticlesScene = function () {
     Scene.call(this);
     this.attractor = new Attractor(0, 0, 30, 3);
     this.gravity = new MouseAttractor(this, this.attractor);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 30);
+    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 30);
     this.mover.initRandomly();
     this.emitter = new Emitter(this);
     this.emitter.setOwner(this.mover);
@@ -18,7 +18,7 @@ AttractiveParticlesScene.prototype.constructor = AttractiveParticlesScene;
     
 AttractiveParticlesScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     
     this.gravity.applyOn(this.mover);
     this.mover.update();

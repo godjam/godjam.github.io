@@ -5,7 +5,7 @@ var PerlinNoiseScene = function () {
     this.t = 0;
     this.color = Color.createLightColor();
     this.perlin = toxi.math.noise.simplexNoise;
-    this.image = this.ctx.getImageData(0, 0, this.width, this.height);
+    this.image = this.ctx.getImageData(0, 0, this.size.x, this.size.y);
     this.data = this.image.data;
 };
 PerlinNoiseScene.prototype = Object.create(Scene.prototype);
@@ -22,13 +22,13 @@ PerlinNoiseScene.prototype.loop = function () {
         j = 0,
         index = 0;
     
-    for (i = 0; i < this.width; i += 1) {
-        for (j = 0; j < this.height; j += 1) {
-            x = (i / this.width);
-            y = (j / this.height);
+    for (i = 0; i < this.size.x; i += 1) {
+        for (j = 0; j < this.size.y; j += 1) {
+            x = (i / this.size.x);
+            y = (j / this.size.y);
             n = this.perlin.noise(x, y, this.t) - 0.5;
             c = this.color.copy().modify(n, 0, 0);
-            index = Math.round(i + j * this.width) * 4;
+            index = Math.round(i + j * this.size.x) * 4;
             this.data[index] = c.r;
             this.data[index + 1] = c.g;
             this.data[index + 2] = c.b;

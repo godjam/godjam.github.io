@@ -2,8 +2,8 @@
 var SpringsScene = function () {
     "use strict";
     Scene.call(this);
-    var w = this.width,
-        h = this.height,
+    var w = this.size.x,
+        h = this.size.y,
         s = Math.min(w, h),
         r0 = Math.random() * s / 4 + s / 4;
     this.spring0 = new Spring(w / 2, 0, r0);
@@ -22,7 +22,7 @@ SpringsScene.prototype.constructor = SpringsScene;
 
 SpringsScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     
     this.spring0.applyOn(this.mover0);
     this.gravity.applyOn(this.mover0);
@@ -49,5 +49,5 @@ SpringsScene.prototype.loop = function () {
 SpringsScene.prototype.attract = function (position) {
     "use strict";
     this.mover0.location = position;
-    //this.mover0.location.x = this.width / 2;
+    //this.mover0.location.x = this.size.x / 2;
 };

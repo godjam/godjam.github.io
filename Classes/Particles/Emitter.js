@@ -5,7 +5,7 @@ function Emitter(scene, position) {
         throw "Emitter ctor : param 1 is not a Scene";
     }
     if (position === undefined) {
-        position = new Vector2(scene.width / 2, scene.height / 2);
+        position = new Vector2(scene.size.x / 2, scene.size.y / 2);
     }
     if (position instanceof Vector2 === false) {
         throw "Emitter ctor : param 2 is not a Vector2";

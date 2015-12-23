@@ -4,8 +4,8 @@ var GravitationalAttractionScene = function () {
 	"use strict";
     Scene.call(this);
     var i = 0,
-        w = this.width,
-        h = this.height,
+        w = this.size.x,
+        h = this.size.y,
         s = 0,
         attractor = new Attractor(0, 0, 20, 1);
     this.movers = [];
@@ -22,7 +22,7 @@ GravitationalAttractionScene.prototype.constructor = GravitationalAttractionScen
     
 GravitationalAttractionScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     var i = 0, j = 0;
     for (i = 0; i < this.movers.length; i += 1) {
         for (j = 0; j < this.movers.length; j += 1) {

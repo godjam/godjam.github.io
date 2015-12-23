@@ -9,7 +9,7 @@ OscillatorScene.prototype.constructor = OscillatorScene;
 
 OscillatorScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.oscillator.update();
     this.oscillator.display(this.ctx);
     Scene.prototype.loop.call(this);

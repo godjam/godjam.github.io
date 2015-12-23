@@ -2,8 +2,8 @@
 var OscillationScene = function () {
     "use strict";
     Scene.call(this);
-    var w = this.width,
-        h = this.height,
+    var w = this.size.x,
+        h = this.size.y,
         s = Math.max(w, h),
         r0 = Math.random() * s / 4 + s / 4,
         r1 = Math.random() * s / 8 + s / 4;
@@ -18,7 +18,7 @@ OscillationScene.prototype.constructor = OscillationScene;
 
 OscillationScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     
     this.pendulum0.applyOn(this.mover0);
     this.pendulum1.origin = this.pendulum0.location;

@@ -4,7 +4,7 @@ var AsteroidsScene = function () {
 	"use strict";
     Scene.call(this);
     this.friction = new Friction(0.2);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
+    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
     this.emitter = new Emitter(this);
     this.emitter.setOwner(this.mover, new Vector2(-1, 0));
     this.emitter.setAngle(Math.PI * 3 / 2, Math.PI / 8);
@@ -22,7 +22,7 @@ AsteroidsScene.prototype.constructor = AsteroidsScene;
     
 AsteroidsScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.updateReactors();
     
     this.friction.applyOn(this.mover);

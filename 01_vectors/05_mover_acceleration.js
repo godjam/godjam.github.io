@@ -3,7 +3,7 @@ var MoverAccelerationScene = function () {
     "use strict";
     Scene.call(this);
     this.delta = new Vector2(0, 0);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
+    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
 };
 MoverAccelerationScene.prototype = Object.create(Scene.prototype);
@@ -13,7 +13,7 @@ MoverAccelerationScene.prototype.loop = function () {
     "use strict";
     this.mover.update(true);
     
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.mover.display(this.ctx);
     this.drawController();
     // reinit delta
@@ -25,9 +25,9 @@ MoverAccelerationScene.prototype.loop = function () {
 
 MoverAccelerationScene.prototype.drawController = function () {
     "use strict";
-    var s = this.width / 20,
-        x = (this.delta.x * s * 2) + this.width / 2,
-        y = (this.delta.y * s * 2) + this.height / 2;
+    var s = this.size.x / 20,
+        x = (this.delta.x * s * 2) + this.size.x / 2,
+        y = (this.delta.y * s * 2) + this.size.y / 2;
     this.ctx.beginPath();
     this.ctx.strokeStyle = "#000";
     this.ctx.lineWidth = 4;
@@ -39,9 +39,9 @@ MoverAccelerationScene.prototype.drawController = function () {
 MoverAccelerationScene.prototype.mouseEvent = function (position) {
     "use strict";
     // move top / down
-    this.delta.y = (position.y - this.height / 2) / this.height;
+    this.delta.y = (position.y - this.size.y / 2) / this.size.y;
     // turn left / right
-    this.delta.x = (position.x - this.width / 2) / this.width;
+    this.delta.x = (position.x - this.size.x / 2) / this.size.x;
     this.delta.normalizeInPlace();
     this.delta.multInPlace(0.5);
     

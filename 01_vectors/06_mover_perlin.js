@@ -2,7 +2,7 @@
 var MoverPerlinScene = function () {
     "use strict";
     Scene.call(this);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 40);
+    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 40);
     this.p = new toxi.math.noise.PerlinNoise();
     this.lastAccel = new Vector2(0, 0);
 };
@@ -26,7 +26,7 @@ MoverPerlinScene.prototype.loop = function () {
     this.lastAccel = acceleration.copy();
     this.mover.update(true);
     
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.mover.display(this.ctx);
     
     Scene.prototype.loop.call(this);

@@ -2,7 +2,7 @@
 var MoverFollowScene = function () {
     "use strict";
     Scene.call(this);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
+    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
 };
 MoverFollowScene.prototype = Object.create(Scene.prototype);
@@ -12,7 +12,7 @@ MoverFollowScene.prototype.loop = function () {
     "use strict";
     this.mover.update(true);
     
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.mover.display(this.ctx);
     
     Scene.prototype.loop.call(this);

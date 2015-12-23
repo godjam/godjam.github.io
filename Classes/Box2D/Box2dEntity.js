@@ -34,8 +34,7 @@ var Box2dEntity = function (x, y, scene, world, scale) {
     }
     this.x = x;
     this.y = y;
-    this.w = scene.width;
-    this.h = scene.height;
+    this.scene = scene;
     this.body = null;
     this.nameArray = []; // array of entities names
     this.entitiesArray = []; // array of entities objects
@@ -120,11 +119,11 @@ Box2dEntity.prototype.isOut = function () {
     } else if (this.deletion === true) {
         isOut = true;
     
-    // if it is completely out of the screen    
+    // if completely out of the screen    
     } else if (this.x > -delta &&
-                this.x < this.w + delta &&
+                this.x < this.scene.size.x + delta &&
                 this.y > -delta &&
-                this.y < this.h + delta) {
+                this.y < this.scene.size.y + delta) {
         isOut = false;
     }
     
@@ -346,17 +345,11 @@ Box2dEntity.prototype.drawRect = function (ctx, center, angle, width, height) {
     ctx.lineWidth = this.lineWidth;
     ctx.fillStyle = this.color.ToHex();
     ctx.strokeStyle = this.strokeStyle;
-    ctx.beginPath();
 
     ctx.translate(center.x * this.scale, center.y * this.scale);
     ctx.rotate(angle);
     ctx.translate(-width / 2, -height / 2);
-    ctx.rect(0, 0, width, height);
-    
-    ctx.fill();
-    //ctx.stroke();
-
-    ctx.closePath();
+    ctx.fillRect(0, 0, width, height);
     ctx.restore();
 };
 

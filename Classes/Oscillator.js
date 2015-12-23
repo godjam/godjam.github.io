@@ -10,19 +10,17 @@ var Oscillator = function (scene, options) {
     this.angle = 0;
     this.velocity = 0.2;
     this.count = 50;
-    this.w = scene.width;
-    this.h = scene.height;
-    this.size = this.w / this.count;
-    this.amplitude = this.h / 4;
+    this.scene = scene;
+    this.size = this.scene.size.x / this.count;
+    this.amplitude = this.scene.size.y / 4;
     this.startAngle = 0;
     this.movers = [];
     var i = 0;
     for (i = 0; i < this.count; i += 1) {
-        this.movers[i] = new Mover(i * this.size, this.h / 2, scene, this.size);
+        this.movers[i] = new Mover((i + 1) * this.size, this.scene.size.y / 2, scene, this.size);
         this.movers[i].useAngularAcceleration = true;
     }
 };
-
 
 Oscillator.prototype.update = function () {
     "use strict";
@@ -76,7 +74,7 @@ Oscillator.prototype.display = function (ctx) {
 Oscillator.prototype.updateWave = function (i, mover) {
     "use strict";
     var ox = this.size / 2,
-        oy = this.h / 2,
+        oy = this.scene.size.y / 2,
         x = i * this.size,
         y = Math.sin(this.angle) * this.amplitude;
     this.movers[i].location.x = ox + x;
@@ -86,7 +84,7 @@ Oscillator.prototype.updateWave = function (i, mover) {
 Oscillator.prototype.updateInsectLike = function (i, mover) {
     "use strict";
     var ox = this.size / 2,
-        oy = this.h / 2,
+        oy = this.scene.size.y / 2,
         x = i * this.size,
         y = Math.min(Math.sin(this.angle) * this.amplitude, 0);
         //y = -Math.abs(Math.sin(this.angle) * this.amplitude);
@@ -99,7 +97,7 @@ Oscillator.prototype.updateAngularAcceleration = function (i, mover) {
     "use strict";
     
     var ox = this.size / 2,
-        oy = this.h / 2,
+        oy = this.scene.size.y / 2,
         x = i * this.size,
         y = Math.sin(this.angle) * this.amplitude;
     
@@ -111,9 +109,9 @@ Oscillator.prototype.updateAngularAcceleration = function (i, mover) {
 Oscillator.prototype.updatePerlinNoise = function (i, mover) {
     "use strict";
     var ox = this.size / 2,
-        oy = this.h / 2,
+        oy = this.scene.size.y / 2,
         x = i * this.size,
-        y = toxi.math.noise.simplexNoise.noise(this.w / 2, this.angle / 2) * this.amplitude;
+        y = toxi.math.noise.simplexNoise.noise(this.scene.size.y / 2, this.angle / 2) * this.amplitude;
     this.movers[i].location.x = ox + x;
     this.movers[i].location.y = oy + y;
 };
@@ -121,9 +119,9 @@ Oscillator.prototype.updatePerlinNoise = function (i, mover) {
 Oscillator.prototype.updateTwoWaves = function (i, mover) {
     "use strict";
     var ox = this.size / 2,
-        oy = this.h / 2,
+        oy = this.scene.size.y / 2,
         x = i * this.size,
-        y = toxi.math.noise.simplexNoise.noise(this.w / 2, this.angle / 2) * this.amplitude,
+        y = toxi.math.noise.simplexNoise.noise(this.scene.size.x / 2, this.angle / 2) * this.amplitude,
         s = Math.pow(Math.cos(this.angle), 5) * this.size;
     this.movers[i].location.x = ox + x;
     this.movers[i].location.y = oy + y;
@@ -133,9 +131,9 @@ Oscillator.prototype.updateTwoWaves = function (i, mover) {
 Oscillator.prototype.updateAdditiveWaves = function (i, mover) {
     "use strict";
     var ox = this.size / 2,
-        oy = this.h / 2,
+        oy = this.scene.size.y / 2,
         x = i * this.size,
-        y = toxi.math.noise.simplexNoise.noise(this.angle / 2, this.w / 2),
+        y = toxi.math.noise.simplexNoise.noise(this.angle / 2, this.scene.size.y / 2),
         s = Math.pow(Math.cos(this.angle), 3);
     this.movers[i].angle = Math.sin(this.angle);
     this.movers[i].location.x = ox + x;

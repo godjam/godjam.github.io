@@ -9,7 +9,7 @@ var NoiseScapeScene = function () {
     this.dy = 0;
     this.res = 20;
     
-    var size = Math.min(this.width, this.height) / 4,
+    var size = Math.min(this.size.x, this.size.y) / 4,
         geometry = new THREE.PlaneGeometry(size, size, this.res, this.res),
         material = new THREE.MeshNormalMaterial({
             side: THREE.DoubleSide
@@ -86,8 +86,8 @@ NoiseScapeScene.prototype.loop = function () {
 NoiseScapeScene.prototype.mouseEvent = function (position) {
     "use strict";
     
-    var x = (position.x - this.width / 2) / (this.width / 2),
-        y = (position.y - this.height / 2) / (this.height / 2);
+    var x = (position.x - this.size.x / 2) / (this.size.x / 2),
+        y = (position.y - this.size.y / 2) / (this.size.y / 2);
     
     this.dx = y / 100;
     this.dy = x / 100;

@@ -15,8 +15,7 @@ function Mover(x, y, scene, m) {
     this.velocity = new Vector2(0, 0);
     this.acceleration = new Vector2(0, 0);
     this.mass = m;
-    this.worldW = scene.width;
-    this.worldH = scene.height;
+    this.scene = scene;
     
     this.p1 = new Vector2(-1, -1);
     this.p2 = new Vector2(-1, 1);
@@ -33,8 +32,8 @@ function Mover(x, y, scene, m) {
 Mover.prototype.initRandomly = function () {
     "use strict";
     this.location = new Vector2(
-        Math.random() * this.worldW,
-        Math.random() * this.worldH
+        Math.random() * this.scene.size.x,
+        Math.random() * this.scene.size.y
     );
     this.velocity = new Vector2(
         Math.random() * 6 - 3,
@@ -129,7 +128,6 @@ Mover.prototype.display = function (ctx) {
     l3.addInPlace(this.location);
     l4.addInPlace(this.location);
     
-    ctx.save();
     ctx.fillStyle = this.color.ToHex();
     ctx.beginPath();
     ctx.moveTo(l1.x, l1.y);
@@ -138,23 +136,21 @@ Mover.prototype.display = function (ctx) {
     ctx.lineTo(l4.x, l4.y);
     ctx.closePath();
     ctx.fill();
-    ctx.restore();
-
 };
 
 Mover.prototype.checkEdge = function () {
 	"use strict";
-    if (this.location.x + this.mass / 2 > this.worldW) {
+    if (this.location.x + this.mass / 2 > this.scene.size.x) {
         this.velocity.x *= -1;
-        this.location.x = this.worldW - this.mass / 2;
+        this.location.x = this.scene.size.x - this.mass / 2;
     }
     if (this.location.x - this.mass / 2 < 0) {
         this.velocity.x *= -1;
         this.location.x = this.mass / 2;
     }
-    if (this.location.y + this.mass / 2 > this.worldH) {
+    if (this.location.y + this.mass / 2 > this.scene.size.y) {
         this.velocity.y *= -1;
-        this.location.y = this.worldH - this.mass / 2;
+        this.location.y = this.scene.size.y - this.mass / 2;
     }
     if (this.location.y - this.mass / 2 < 0) {
         this.velocity.y *= -1;

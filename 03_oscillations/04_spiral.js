@@ -10,17 +10,24 @@ var SpiralScene = function () {
 SpiralScene.prototype = Object.create(Scene.prototype);
 SpiralScene.prototype.constructor =  SpiralScene;
 
+SpiralScene.prototype.resize = function () {
+    "use strict";
+    this.r = 0;
+    this.theta = 0;
+    Scene.prototype.resize.call(this);
+};
+
 SpiralScene.prototype.loop = function () {
     "use strict";
-    if (this.r * 2 + 10 < this.width) {
+    if (this.r * 2 + 10 < this.size.x) {
         var v1 = new Vector2(0, 0),
             i = 0;
         
         for (i = 0; i < 50; i += 1) {
             v1 = Vector2.fromPolar(this.r, this.theta);
             this.ctx.beginPath();
-            this.ctx.arc(this.width / 2 + v1.x,
-                         this.height / 2 + v1.y,
+            this.ctx.arc(this.size.x / 2 + v1.x,
+                         this.size.y / 2 + v1.y,
                          10, 0, Math.PI * 2);
             this.ctx.closePath();
             this.color = this.color.mutate();

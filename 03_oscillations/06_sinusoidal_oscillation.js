@@ -2,8 +2,8 @@
 var SinusoidalOcillationScene = function () {
     "use strict";
     Scene.call(this);
-    this.mover = new Mover(this.width / 2, this.height / 2, this, 20);
-    this.delta = this.width / 10;
+    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
+    this.delta = this.size.x / 10;
     this.t = 0;
 };
 SinusoidalOcillationScene.prototype = Object.create(Scene.prototype);
@@ -11,9 +11,9 @@ SinusoidalOcillationScene.prototype.constructor = SinusoidalOcillationScene;
 
 SinusoidalOcillationScene.prototype.loop = function () {
     "use strict";
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.t += 0.01;
-    var w = this.width / 2;
+    var w = this.size.x / 2;
     this.mover.location.x = w + w * Math.cos(Math.PI * 2 * this.t);
     this.mover.location.y = Math.abs(w * Math.sin(Math.PI * 2 * this.t));
     
