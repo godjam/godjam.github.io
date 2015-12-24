@@ -8,7 +8,7 @@ var Boundary = function (scene, world, scale) {
         
     bd.type = B2StaticBody;
     this.x = scene.size.x / 2;
-    this.y = scene.size.y / 3;
+    this.y = scene.size.y / 2;
     this.boxW = scene.size.y / 4;
     this.boxH = 10;
     
@@ -30,6 +30,7 @@ Boundary.prototype.constructor = Boundary;
 
 Boundary.prototype.display = function (ctx) {
     "use strict";
+    ctx.fillStyle = this.color.ToHex();
     ctx.fillRect(this.x - this.boxW / 2,
                  this.y - this.boxH / 2,
                  this.boxW, this.boxH);

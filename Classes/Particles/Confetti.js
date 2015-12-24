@@ -2,7 +2,7 @@
 function Confetti(location, baseColor, scene, decrease, theta, variability, speed) {
     "use strict";
     var color = Color.createBrightColor().h,
-        angle = Tools.map(location.x, 0, scene.width, 0, Math.PI * 2);
+        angle = Tools.map(location.x, 0, scene.size.x, 0, Math.PI * 2);
     
     Particle.call(this, location, color, scene, decrease, theta, variability, speed);
     this.applyTorque(angle);

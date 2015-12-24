@@ -36,6 +36,10 @@ Scene.prototype.loop = function () {
     "use strict";
     this.frameloop.update();
     this.requestId = window.requestAnimationFrame(this.loop.bind(this));
+    
+    if (this.mouseListener) {
+        this.mouseListener.update();
+    }
 };
 
 Scene.prototype.stop = function () {
@@ -118,7 +122,7 @@ Scene.prototype.initThreejsScene = function () {
     this.scene.add(this.camera);
 
     // the camera start position
-    this.camera.position.z = 300;
+    this.camera.position.y = -300;
 
     // start the renderer
     this.renderer.setSize(this.size.x, this.size.y);

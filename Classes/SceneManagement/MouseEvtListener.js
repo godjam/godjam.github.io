@@ -20,6 +20,10 @@ var MouseEvtListener = function (canvas, callbackOwner, callback) {
     // attach event listener to the doc (with capturing)
     this.canvas.addEventListener("mousedown", this.mouseDown.bind(this));
     this.canvas.addEventListener("mouseup", this.mouseUp.bind(this));
+
+    this.canvas.addEventListener("touchstart", this.mouseDown.bind(this));
+    this.canvas.addEventListener("touchend", this.mouseUp.bind(this));
+  
     this.canvas.addEventListener("mousemove", this.move.bind(this));
     this.canvas.addEventListener("touchmove", this.move.bind(this));
 };
@@ -35,7 +39,7 @@ MouseEvtListener.prototype.stop = function () {
 MouseEvtListener.prototype.move = function (event) {
     "use strict";
     event.preventDefault();
-    var x = null, y = null, bindedCall = null;
+    var x = null, y = null;
     
     if (event.touches !== undefined && event.touches.length > 0) {
         x = event.touches[0].clientX;
@@ -47,19 +51,28 @@ MouseEvtListener.prototype.move = function (event) {
 
     if (x !== null && y !== null) {
         this.position.x = x - this.origin.x;
-        this.position.y = y - this.origin.y + 16;
+        this.position.y = y - this.origin.y - 16;
         
+        this.update();
+    }
+};
+
+MouseEvtListener.prototype.update = function () {
+    "use strict";
+    if (this.mouseClick && this.position.x !== null && this.position.y !== null) {
         if (this.callback !== null) {
-            bindedCall = this.callback.bind(this.callbackOwner);
+            var bindedCall = this.callback.bind(this.callbackOwner);
             bindedCall(this.position.copy());
         }
     }
 };
 
+
 MouseEvtListener.prototype.mouseDown = function (event) {
     "use strict";
     event.preventDefault();
     this.mouseClick = true;
+    this.move(event);
 };
 
 MouseEvtListener.prototype.mouseUp = function (event) {
