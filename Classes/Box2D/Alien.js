@@ -57,12 +57,12 @@ Alien.prototype.display = function (ctx) {
     // head/helm
     ctx.beginPath();
     ctx.arc(0, 0, this.headRadius, 0, p * 2);
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 1;
     ctx.stroke();
     ctx.closePath();
     
     // face
-    ctx.strokeStyle = "#000";
-    ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.arc(0, 3, this.headRadius / 2, m, p - m);
     ctx.stroke();
