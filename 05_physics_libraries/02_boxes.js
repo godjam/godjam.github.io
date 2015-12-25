@@ -1,5 +1,5 @@
 /*global Scene, B2Vec2, B2World, MouseEvtListener, Box2dEntity, Vector2,
-Box, Circle, Poly, Alien, PerlinBoundary, CurvyBoundary, Boundary, PolyBoundary*/
+Box, Circle, Poly, Alien, JointPair, PerlinBoundary, CurvyBoundary, Boundary, PolyBoundary, ChainBoundary*/
 //*************************************************
 var BoxesScene = function (options) {
 	"use strict";
@@ -82,9 +82,17 @@ BoxesScene.prototype.createBox = function (position) {
     } else if (this.options.boxes_type === 2) {
         this.boxes.push(new Poly(position.x, position.y, this, this.world, this.scale));
     
-        // Alien
+    // Alien
     } else if (this.options.boxes_type === 3) {
         this.boxes.push(new Alien(position.x, position.y, this, this.world, this.scale));
+    
+    // Pair
+    } else if (this.options.boxes_type === 4) {
+        this.boxes.push(new JointPair(position.x, position.y, this, this.world, this.scale));
+        
+    // ChainBoundary
+    } else if (this.options.boxes_type === 5) {
+        this.boxes.push(new Box(position.x, position.y, this, this.world, this.scale));
     }
     
     // limit boxes number
@@ -108,5 +116,13 @@ BoxesScene.prototype.createBoundary = function (position) {
     // Alien
     } else if (this.options.boxes_type === 3) {
         this.boundary = new PolyBoundary(this, this.world, this.scale);
+    
+    // Pair
+    } else if (this.options.boxes_type === 4) {
+        this.boundary = new PerlinBoundary(this, this.world, this.scale);
+    
+    // ChainBoundary
+    } else if (this.options.boxes_type === 5) {
+        this.boundary = new ChainBoundary(this, this.world, this.scale);
     }
 };

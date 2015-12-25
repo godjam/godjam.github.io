@@ -1,5 +1,5 @@
 /*global toxi, Vec2D, Particle, VerletSpring2D*/
-var Pair = function (position, physics) {
+var ToxiPair = function (position, physics) {
     "use strict";
     if (position instanceof toxi.geom.Vec2D === false) {
         throw "Pair.constructor : position is not a Vec2D";
@@ -15,7 +15,7 @@ var Pair = function (position, physics) {
 };
 
 
-Pair.prototype.display = function (ctx) {
+ToxiPair.prototype.display = function (ctx) {
     "use strict";
     this.p1.display(ctx);
     this.p2.display(ctx);

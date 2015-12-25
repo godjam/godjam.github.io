@@ -4,7 +4,7 @@ var Alien = function (x, y, scene, world, scale) {
     Box2dEntity.call(this, x, y, scene, world, scale);
     
     this.halfBoxWidth = 8;
-    this.halfBoxHeight = 15;
+    this.halfBoxHeight = 16;
     this.headRadius = 15;
     
     this.offset = new B2Vec2(0, -10);

@@ -88,13 +88,12 @@ Box2dEntity.prototype.display = function (ctx) {
         center = this.body.GetWorldCenter();
         this.x = center.x * this.scale;
         this.y = center.y * this.scale;
+        ctx.save();
+        ctx.fillStyle = "#000";
+        ctx.translate(this.x, this.y);
+        ctx.fillRect(-0.5, -0.5, 1, 1);
+        ctx.restore();
     }
-        
-    ctx.save();
-    ctx.fillStyle = "#000";
-    ctx.translate(this.x, this.y);
-    ctx.fillRect(-0.5, -0.5, 1, 1);
-    ctx.restore();
     
     for (i = 0; i < this.entitiesArray.length; i += 1) {
         this.entitiesArray[i].display(ctx);

@@ -1,18 +1,18 @@
 /*global Box2dEntity, Circle*/
-var Pair = function (x, y, w, h, world) {
+var JointPair = function (x, y, scene, world, scale) {
     "use strict";
-    Box2dEntity.call(this, x, y, w, h, world);
-    var p1 = new Circle(x - 1, y, w, h, world),
-        p2 = new Circle(x + 1, y, w, h, world);
+    Box2dEntity.call(this, x, y, scene, world, scale);
+    var p1 = new Circle(x - 1, y, scene, world, scale),
+        p2 = new Circle(x + 1, y, scene, world, scale);
     this.addEntity("p1", p1);
     this.addEntity("p2", p2);
     this.addDistanceJoint(p1.body, p2.body, world, 32);
 };
-Pair.prototype = Object.create(Box2dEntity.prototype);
-Pair.prototype.constructor = Pair;
+JointPair.prototype = Object.create(Box2dEntity.prototype);
+JointPair.prototype.constructor = JointPair;
 
 
-Pair.prototype.display = function (ctx) {
+JointPair.prototype.display = function (ctx) {
     "use strict";
     var vertices = [this.getEntityByName("p1").body.GetWorldCenter(),
                     this.getEntityByName("p2").body.GetWorldCenter()];

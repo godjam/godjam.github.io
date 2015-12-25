@@ -12,11 +12,13 @@ var PerlinBoundary = function (scene, world, scale) {
         h = scene.size.y,
         scaleW = 0.3,
         scaleH = h / 4,
-        step = 50;
+        step = 50,
+        d = new Date(),
+        t = d.getHours() * 60 + d.getMinutes();
     this.body = this.addBody(0, h, world, true);
     for (i = 0; i <= step; i += 1) {
         x = i * w / step;
-        y = scaleH + toxi.math.noise.simplexNoise.noise(i * scaleW * w / step / 100, 0.1) * scaleH;
+        y = scaleH + toxi.math.noise.simplexNoise.noise(i * scaleW * w / step / 100, t) * scaleH;
         points.push({x: x, y: y});
     }
         
