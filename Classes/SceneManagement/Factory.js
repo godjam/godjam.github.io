@@ -182,8 +182,8 @@ Factory.init = function () {
     this.cache["05_06"] = BoxesScene;
     this.objOp["05_06"] = {boxes_type: 4};
     
-    this.cache["05_06"] = BoxesScene;
-    this.objOp["05_06"] = {boxes_type: 5};
+    this.cache["05_07"] = BoxesScene;
+    this.objOp["05_07"] = {boxes_type: 5};
     
 };
 
