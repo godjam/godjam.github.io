@@ -327,17 +327,6 @@ Box2dEntity.prototype.addDistanceJoint = function (body1, body2, world, length) 
 //*****************************************************************************
 // draw functions
 //*****************************************************************************
-Box2dEntity.prototype.changeColor = function () {
-    "use strict";
-    this.fillStyle = "#dd22aa";
-};
-
-Box2dEntity.prototype.resetColor = function () {
-    "use strict";
-    this.fillStyle = "#ccc";
-};
-
-
 Box2dEntity.prototype.drawRect = function (ctx, center, angle, width, height) {
     "use strict";
     ctx.save();
@@ -359,12 +348,11 @@ Box2dEntity.prototype.drawCircle = function (ctx, center, angle, radius) {
     ctx.fillStyle = this.color.ToHex();
     ctx.strokeStyle = this.strokeStyle;
     ctx.beginPath();
-
+    
     ctx.translate(center.x * this.scale, center.y * this.scale);
     ctx.rotate(angle);
     ctx.arc(0, 0, radius, 0, Math.PI * 2);
     ctx.lineTo(0, 0);
-    
     ctx.fill();
     ctx.stroke();
     

@@ -1,16 +1,15 @@
-/*global Box2dEntity, Circle, Box, B2RevoluteJointDef*/
-var Car = function (x, y, w, h, world) {
+/*global Box2dEntity, Circle, Box, console*/
+var Car = function (x, y, scene, world, scale) {
     "use strict";
-    Box2dEntity.call(this, x, y, w, h, world);
-    var carW = 110,
-        carH = 60,
-        wheelR = 15,
-        motorSpeed = -100,
+    Box2dEntity.call(this, x, y, scene, world, scale);
+    var carW = 50,
+        carH = 25,
+        wheelR = 16,
+        motorSpeed = -15,
         maxMotorTorque = 6000,
-        
-        chassis = new Box(x, y, w, h, world, carW, carH, false),
-        wheel1 = new Circle(x - carW / 2 + 2, y + carH / 2, w, h, world, wheelR, false),
-        wheel2 = new Circle(x + carW / 2 - 2, y + carH / 2, w, h, world, wheelR, false);
+        chassis = new Box(x, y, scene, world, scale, carW, carH),
+        wheel1 = new Circle(x - carW / 2 + 2, y + carH / 2, scene, world, scale, wheelR, false),
+        wheel2 = new Circle(x + carW / 2 - 2, y + carH / 2, scene, world, scale, wheelR, false);
     
     this.addEntity("chassis", chassis);
     this.addEntity("wheel1", wheel1);

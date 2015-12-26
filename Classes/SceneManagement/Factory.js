@@ -184,7 +184,10 @@ Factory.init = function () {
     
     this.cache["05_07"] = BoxesScene;
     this.objOp["05_07"] = {boxes_type: 5};
-    
+
+    this.cache["05_08"] = BoxesScene;
+    this.objOp["05_08"] = {boxes_type: 6};
+
 };
 
 Factory.autoclose = function () {

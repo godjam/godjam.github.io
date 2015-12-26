@@ -1,4 +1,4 @@
-/*global Box2dEntity, Circle*/
+/*global Box2dEntity, Circle, Box*/
 var ChainBoundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);

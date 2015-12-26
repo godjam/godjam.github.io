@@ -1,28 +1,20 @@
-/*global Box2dEntity, B2BodyDef, B2FixtureDef, B2StaticBody, B2PolygonShape */
+/*global Box2dEntity, Box */
 var Boundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
    
-    var bd = new B2BodyDef(),
-        fd = new B2FixtureDef();
-        
-    bd.type = B2StaticBody;
-    this.x = scene.size.x / 2;
-    this.y = scene.size.y / 2;
-    this.boxW = scene.size.y / 4;
-    this.boxH = 10;
-    
-    bd.position.x = this.x / this.scale;
-    bd.position.y = this.y / this.scale;
-    
-    fd.shape = new B2PolygonShape();
-    fd.shape.SetAsBox(
-        this.boxW / 2 / this.scale,
-        this.boxH / 2 / this.scale
-    );
-    
-    this.body = world.CreateBody(bd);
-    this.body.CreateFixture(fd);
+    var x0 = scene.size.x / 2,
+        x1 = scene.size.x / 4,
+        x2 = scene.size.x / 4 * 3,
+        y0 = scene.size.y / 3 * 2,
+        y1 = scene.size.y / 6 * 5,
+        w = scene.size.x / 4,
+        b0 = new Box(x0, y0, scene, world, scale, w, 10, true),
+        b1 = new Box(x1, y1, scene, world, scale, w, 10, true),
+        b2 = new Box(x2, y1, scene, world, scale, w, 10, true);
+    this.addEntity("b0", b0);
+    this.addEntity("b1", b1);
+    this.addEntity("b2", b2);
 };
 Boundary.prototype = Object.create(Box2dEntity.prototype);
 Boundary.prototype.constructor = Boundary;
