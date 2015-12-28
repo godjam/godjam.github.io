@@ -43,7 +43,6 @@ var Box2dEntity = function (x, y, scene, world, scale) {
     this.strokeStyle = "#888";
     this.color = Color.createBrightColor();
     this.deletion = false;
-    
 };
 
 Box2dEntity.prototype.addEntity = function (name, /* Box2dEntity */ entity) {
@@ -303,12 +302,13 @@ Box2dEntity.prototype.addRevoluteJoint = function (body1, body2, world) {
 };
 
 
-Box2dEntity.prototype.addMouseJoint = function (body, world, x, y) {
+Box2dEntity.addMouseJoint = function (body, world, position) {
     "use strict";
     var joint = new B2MouseJointDef();
     joint.bodyA = world.GetGroundBody();
     joint.bodyB = body;
-    joint.target = new B2Vec2(x / this.scale, y / this.scale);
+    joint.target = new B2Vec2(position.x / body.scale,
+                              position.y / body.scale);
     joint.maxForce = 5000;
     return world.CreateJoint(joint);
 };
@@ -322,6 +322,31 @@ Box2dEntity.prototype.addDistanceJoint = function (body1, body2, world, length) 
     joint.frequencyHz = 0;
     joint.dampingRatio = 0;
     return world.CreateJoint(joint);
+};
+
+Box2dEntity.getBodyAt = function (position, world, scale) {
+    "use strict";
+    var p = new B2Vec2(position.x / scale, position.y / scale),
+        body = null,
+        inside = false,
+        aabb = new B2AABB();
+    aabb.lowerBound.Set(p.x - 0.001, p.y - 0.001);
+    aabb.upperBound.Set(p.x + 0.001, p.y + 0.001);
+    // Query the world for overlapping shapes.
+    function getBodyCallback(fixture) {
+        var shape = fixture.GetShape();
+        if (fixture.GetBody().GetType() !== B2StaticBody) {
+            body = fixture.GetBody();
+            inside = shape.TestPoint(fixture.GetBody().GetTransform(), position);
+            if (inside) {
+                body = fixture.GetBody();
+                return false;
+            }
+        }
+        return true;
+    }
+    world.QueryAABB(getBodyCallback, aabb);
+    return body;
 };
 
 //*****************************************************************************

@@ -6,6 +6,7 @@ var Alien = function (x, y, scene, world, scale) {
     this.halfBoxWidth = 8;
     this.halfBoxHeight = 16;
     this.headRadius = 15;
+    this.sColor = Color.createLightColor();
     
     this.offset = new B2Vec2(0, -10);
     var torsoShape = this.createBoxShape(this.halfBoxWidth, this.halfBoxHeight),
@@ -29,9 +30,6 @@ Alien.prototype.display = function (ctx) {
         angle = this.body.GetAngle(),
         l = this.offset.Copy();
     l.Multiply(1 / 2);
-    ctx.lineWidth = this.lineWidth;
-    ctx.fillStyle = this.color.ToHex();
-    ctx.strokeStyle = this.strokeStyle;
     
     ctx.save();
     ctx.translate(center.x * this.scale, center.y * this.scale);
@@ -39,15 +37,18 @@ Alien.prototype.display = function (ctx) {
     ctx.save();
     
     // antenas
+    ctx.fillStyle = this.sColor.ToHex();
     ctx.fillRect(-3, -this.halfBoxWidth, l.y, -this.halfBoxHeight);
     ctx.fillRect(8, -this.halfBoxWidth, l.y, -this.halfBoxHeight);
     
     ctx.translate(-this.halfBoxWidth, -this.halfBoxHeight);
     ctx.translate(-l.x, -l.y);
-    // body
-    ctx.fillRect(0, 0, this.halfBoxWidth * 2, this.halfBoxHeight * 2);
     // arms
     ctx.fillRect(-this.halfBoxWidth, -l.y * 4, this.halfBoxWidth * 4, l.y);
+    
+    // body
+    ctx.fillStyle = this.color.ToHex();
+    ctx.fillRect(0, 0, this.halfBoxWidth * 2, this.halfBoxHeight * 2);
     ctx.restore();
     
     //head
@@ -57,7 +58,7 @@ Alien.prototype.display = function (ctx) {
     // head/helm
     ctx.beginPath();
     ctx.arc(0, 0, this.headRadius, 0, p * 2);
-    ctx.strokeStyle = "#000";
+    ctx.strokeStyle = "#333";
     ctx.lineWidth = 1;
     ctx.stroke();
     ctx.closePath();

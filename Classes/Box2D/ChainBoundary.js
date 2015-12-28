@@ -3,8 +3,8 @@ var ChainBoundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
     var i = 0,
-        max = 30,
-        s = scene.size.x / max,
+        s = 25,
+        max = Math.round(scene.size.x / s),
         y = 0.6 * scene.size.y,
         a = null,
         b = null,

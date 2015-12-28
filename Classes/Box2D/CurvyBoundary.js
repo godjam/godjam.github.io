@@ -18,9 +18,8 @@ var CurvyBoundary = function (scene, world, scale) {
     for (i = 0; i <= step; i += 1) {
         x = i * w / step;
         y = Math.sin(x / 100) * h / 4 + h / 4; // sin wave
-        //y: scaleH + noise.perlin2(i * scaleW * w / step / 100, 0.1) * scaleH}); // perlin wave
         points.push({x: x, y: y});
-    }
+    
         
     for (i = 0; i < points.length - 1; i += 1) {
         shape = this.createEdgeShape(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
