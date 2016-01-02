@@ -13,15 +13,16 @@ var BoxesScene = function (options) {
     this.options = options;
     this.maxBoxes = 50;
     this.scale = 30;
-        
-//    this.debugDraw = new B2DebugDraw();
-//    this.debugDraw.SetSprite(this.ctx);
-//    this.debugDraw.SetDrawScale(30.0);
-//    this.debugDraw.SetFillAlpha(0.3);
-//    this.debugDraw.SetLineThickness(1.0);
-//    this.debugDraw.SetFlags(Box2D.Dynamics.b2DebugDraw.e_shapeBit | Box2D.Dynamics.b2DebugDraw.e_jointBit);
-//    this.world.SetDebugDraw(this.debugDraw);
     
+    /*
+    this.debugDraw = new B2DebugDraw();
+    this.debugDraw.SetSprite(this.ctx);
+    this.debugDraw.SetDrawScale(30.0);
+    this.debugDraw.SetFillAlpha(0.3);
+    this.debugDraw.SetLineThickness(1.0);
+    this.debugDraw.SetFlags(Box2D.Dynamics.b2DebugDraw.e_shapeBit | Box2D.Dynamics.b2DebugDraw.e_jointBit);
+    this.world.SetDebugDraw(this.debugDraw);
+    */
     this.boxes = [];
     this.boundary = null;
     this.mouseJoint = null;
@@ -30,7 +31,7 @@ var BoxesScene = function (options) {
     this.initScene();
     this.createBoundary();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
+    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt);
 };
 BoxesScene.prototype = Object.create(Scene.prototype);
 BoxesScene.prototype.constructor = BoxesScene;
@@ -41,7 +42,7 @@ BoxesScene.prototype.loop = function () {
     var i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.world.Step(
-        1 / 60,   //frame-rate
+        1 / 30,   //frame-rate
         10,       //velocity iterations
         10       //position iterations
     );
@@ -64,6 +65,14 @@ BoxesScene.prototype.loop = function () {
             }
         }
     }
+
+    /*
+    if (this.boxes[0] && this.boxes[0].body) {
+        var c = this.boxes[0].body.GetWorldCenter();
+        this.ctx.fillStyle = "#000";
+        this.ctx.fillText(parseInt(c.x) + " " + parseInt(c.y), 64, 64);
+    }
+    */
     this.frameloop.display(this.ctx);
 	Scene.prototype.loop.call(this);
 };
@@ -132,48 +141,59 @@ BoxesScene.prototype.createBoundary = function (position) {
     // Circle
     if (this.options.boxes_type === 1) {
         this.boundary = new PerlinBoundary(this, this.world, this.scale);
-    
+
     // Polygon
     } else if (this.options.boxes_type === 2) {
         this.boundary = new CurvyBoundary(this, this.world, this.scale);
-    
+
     // Alien
     } else if (this.options.boxes_type === 3) {
         this.boundary = new PolyBoundary(this, this.world, this.scale);
-    
+
     // Pair
     } else if (this.options.boxes_type === 4) {
         this.boundary = new Boundary(this, this.world, this.scale);
-    
+
     // ChainBoundary
     } else if (this.options.boxes_type === 5) {
         this.boundary = new ChainBoundary(this, this.world, this.scale);
-        
+
     // Car
     } else if (this.options.boxes_type === 6) {
         this.boundary = new PerlinBoundary(this, this.world, this.scale);
-    
+
     // MouseJoint
     } else if (this.options.boxes_type === 7) {
-        this.boxes.push(new Boundary(this, this.world, this.scale));
+        this.boundary = new Boundary(this, this.world, this.scale);
     }
 };
-
-BoxesScene.prototype.mouseEvent = function (position) {
+BoxesScene.prototype.mouseStartEvt = function (position) {
     "use strict";
+    var body = null,
+        p = new B2Vec2(position.x / this.scale, position.y / this.scale);
+        
      // if no mouse joint
     if (this.mouseJoint === null) {
-        var body = Box2dEntity.getBodyAt(position, this.world, this.scale);
+        body = Box2dEntity.getBodyAt(p, this.world);
 
         // if nothing => new creation
         if (body === null) {
             this.createBox(position);
             this.mouseJoint = null;
         } else if (this.mouseJointActif === true) {
-            this.mouseJoint = Box2dEntity.addMouseJoint(body, this.world, position);
+            //body.ApplyImpulse({ x: 1000, y: -1000 }, body.GetWorldCenter());
+            this.mouseJoint = Box2dEntity.addMouseJoint(body, position, this.world, this.scale);
         }
     // if mouse joint exists
     } else {
-        this.mouseJoint.SetTarget(position);
+        this.mouseJoint.SetTarget(p);
+    }
+};
+
+BoxesScene.prototype.mouseStopEvt = function (position) {
+    "use strict";
+    if (this.mouseJoint !== null) {
+        this.world.DestroyJoint(this.mouseJoint);
+        this.mouseJoint = null;
     }
 };

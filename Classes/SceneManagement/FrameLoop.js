@@ -15,11 +15,7 @@ FrameLoop.prototype.update = function () {
 
 FrameLoop.prototype.display = function (ctx) {
     "use strict";
-    ctx.save();
-    ctx.beginPath();
     ctx.fillStyle = "#000";
     ctx.font = "16px Arial";
     ctx.fillText("delta: " + this.delta, 64, 32);
-    ctx.closePath();
-    ctx.restore();
 };

@@ -19,7 +19,7 @@ var CurvyBoundary = function (scene, world, scale) {
         x = i * w / step;
         y = Math.sin(x / 100) * h / 4 + h / 4; // sin wave
         points.push({x: x, y: y});
-    
+    }
         
     for (i = 0; i < points.length - 1; i += 1) {
         shape = this.createEdgeShape(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
@@ -38,6 +38,5 @@ CurvyBoundary.prototype.display = function (ctx) {
         shape = node.GetShape();
         this.drawOpenPolygon(ctx, center, 0, shape.GetVertices());
     }
-    //Box2dEntity.prototype.display.call(this, ctx);
 };
 

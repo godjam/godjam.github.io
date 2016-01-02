@@ -67,7 +67,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "05_08",
+    var defaultKey = "05_09",
         key = "";
     
     if (window !== null) {
@@ -187,6 +187,9 @@ Factory.init = function () {
 
     this.cache["05_08"] = BoxesScene;
     this.objOp["05_08"] = {boxes_type: 6};
+    
+    this.cache["05_09"] = BoxesScene;
+    this.objOp["05_09"] = {boxes_type: 7};
 };
 
 Factory.autoclose = function () {

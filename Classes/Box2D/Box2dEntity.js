@@ -2,7 +2,7 @@
 var B2BodyDef = Box2D.Dynamics.b2BodyDef,
     B2FixtureDef = Box2D.Dynamics.b2FixtureDef,
     B2DynamicBody = Box2D.Dynamics.b2Body.b2_dynamicBody,
-    B2StaticBody = Box2D.Dynamics.b2Body.b2_StaticBody,
+    B2StaticBody = Box2D.Dynamics.b2Body.b2_staticBody,
     B2World = Box2D.Dynamics.b2World,
     B2DebugDraw = Box2D.Dynamics.b2DebugDraw,
     B2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef,
@@ -301,18 +301,6 @@ Box2dEntity.prototype.addRevoluteJoint = function (body1, body2, world) {
     world.CreateJoint(joint);
 };
 
-
-Box2dEntity.addMouseJoint = function (body, world, position) {
-    "use strict";
-    var joint = new B2MouseJointDef();
-    joint.bodyA = world.GetGroundBody();
-    joint.bodyB = body;
-    joint.target = new B2Vec2(position.x / body.scale,
-                              position.y / body.scale);
-    joint.maxForce = 5000;
-    return world.CreateJoint(joint);
-};
-
 Box2dEntity.prototype.addDistanceJoint = function (body1, body2, world, length) {
     "use strict";
     var joint = new B2DistanceJointDef();
@@ -324,10 +312,53 @@ Box2dEntity.prototype.addDistanceJoint = function (body1, body2, world, length) 
     return world.CreateJoint(joint);
 };
 
-Box2dEntity.getBodyAt = function (position, world, scale) {
+Box2dEntity.addSpringJoint = function (body1, body2, world, length) {
     "use strict";
-    var p = new B2Vec2(position.x / scale, position.y / scale),
-        body = null,
+    var joint = new B2DistanceJointDef(),
+        tmp = null;
+    joint.bodyA = body1;
+    joint.bodyB = body2;
+    joint.length = length;
+    joint.frequencyHz = 4.0;
+    joint.dampingRatio = 0.5;
+    return world.CreateJoint(joint);
+};
+
+
+Box2dEntity.addMouseJoint = function (body, position, world, scale) {
+    "use strict";
+    var joint = new B2MouseJointDef();
+    joint.bodyA = world.GetGroundBody();
+    joint.bodyB = body;
+    joint.target.Set(position.x / scale, position.y / scale);
+    joint.maxForce = 1000 * body.GetMass();
+    return world.CreateJoint(joint);
+};
+
+// http://www.binarytides.com/mouse-joint-box2d-javascript/
+/**
+ * p is a b2Vec2, represent mouse position in the world coordinates
+ * world is the box2D world
+ */
+Box2dEntity.getBodyAt = function (p, world) {
+    "use strict";
+    var body = null;
+        // Query the world for overlapping shapes.
+    function getBodyCallback(fixture) {
+        var b = fixture.GetBody();
+        if (b.GetType() !== B2StaticBody) {
+            body = fixture.GetBody();
+            return false;
+        }
+        return true;
+    }
+    world.QueryPoint(getBodyCallback, p);
+    return body;
+};
+
+/*Box2dEntity.getBodyAt = function (p, world) {
+    "use strict";
+    var body = null,
         inside = false,
         aabb = new B2AABB();
     aabb.lowerBound.Set(p.x - 0.001, p.y - 0.001);
@@ -337,7 +368,7 @@ Box2dEntity.getBodyAt = function (position, world, scale) {
         var shape = fixture.GetShape();
         if (fixture.GetBody().GetType() !== B2StaticBody) {
             body = fixture.GetBody();
-            inside = shape.TestPoint(fixture.GetBody().GetTransform(), position);
+            inside = shape.TestPoint(fixture.GetBody().GetTransform(), p);
             if (inside) {
                 body = fixture.GetBody();
                 return false;
@@ -347,7 +378,7 @@ Box2dEntity.getBodyAt = function (position, world, scale) {
     }
     world.QueryAABB(getBodyCallback, aabb);
     return body;
-};
+};*/
 
 //*****************************************************************************
 // draw functions
