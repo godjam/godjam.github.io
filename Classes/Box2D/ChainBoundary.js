@@ -1,4 +1,4 @@
-/*global Box2dEntity, Circle, Box*/
+/*global Box2dEntity, Circle, Box, B2DynamicBody, B2StaticBody*/
 var ChainBoundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
@@ -8,17 +8,17 @@ var ChainBoundary = function (scene, world, scale) {
         y = 0.6 * scene.size.y,
         a = null,
         b = null,
-        isStatic = false;
+        bodyType = B2DynamicBody;
     
     for (i = 0; i <= max; i += 1) {
-        isStatic = false;
+        bodyType = B2DynamicBody;
         // lock 1st and last
         if (i === 0 || i === max) {
-            isStatic = true;
+            bodyType = B2StaticBody;
         }
         if (b) {a = b; }
         
-        b = new Box(i * s, y, scene, world, scale, 10, 10, isStatic);
+        b = new Box(i * s, y, scene, world, scale, 10, 10, bodyType);
         this.addEntity("b" + i, b);
         if (a !== null) {
             this.addDistanceJoint(a.body, b.body, world, s - 1);

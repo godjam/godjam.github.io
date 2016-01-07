@@ -1,5 +1,5 @@
 /*global Box2dEntity, B2BodyDef, B2FixtureDef, B2CircleShape, B2DynamicBody, B2StaticBody*/
-var Circle = function (x, y, scene, world, scale, radius, isStatic) {
+var Circle = function (x, y, scene, world, scale, radius, bodyType) {
     "use strict";
     Box2dEntity.call(this, x, y, scene, world, scale);
     
@@ -7,7 +7,9 @@ var Circle = function (x, y, scene, world, scale, radius, isStatic) {
         this.radius = Math.random() * 16 + 4;
     } else { this.radius = radius; }
     
-    this.body = this.addBody(x, y, world, isStatic, this);
+    if (bodyType === undefined) {bodyType = B2DynamicBody; }
+    
+    this.body = this.addBody(x, y, world, bodyType, this);
     var shape = this.createCircleShape(this.radius);
     this.addFixture(shape, this.body);
 };

@@ -15,7 +15,7 @@ var PerlinBoundary = function (scene, world, scale) {
         step = 50,
         d = new Date(),
         t = d.getHours() * 60 + d.getMinutes();
-    this.body = this.addBody(0, h, world, true);
+    this.body = this.addBody(0, h, world, B2StaticBody);
     for (i = 0; i <= step; i += 1) {
         x = i * w / step;
         y = scaleH + toxi.math.noise.simplexNoise.noise(i * scaleW * w / step / 100, t) * scaleH;

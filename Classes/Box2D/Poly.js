@@ -10,7 +10,7 @@ var Poly = function (x, y, scene, world, scale) {
             { x: -10,   y: -10 }
         ],
         shape = this.createPolyShape(points);
-    this.body = this.addBody(x, y, world, false, this);
+    this.body = this.addBody(x, y, world, B2DynamicBody, this);
     this.addFixture(shape, this.body);
 };
 Poly.prototype = Object.create(Box2dEntity.prototype);

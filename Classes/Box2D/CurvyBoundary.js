@@ -13,7 +13,7 @@ var CurvyBoundary = function (scene, world, scale) {
         step = 50;
     
     Box2dEntity.call(this, 0, 0, scene, world, scale);
-    this.body = this.addBody(0, h, world, true);
+    this.body = this.addBody(0, h, world, B2StaticBody);
     
     for (i = 0; i <= step; i += 1) {
         x = i * w / step;

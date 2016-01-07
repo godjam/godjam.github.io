@@ -1,4 +1,4 @@
-/*global Box2dEntity, B2CircleShape, B2PolygonShape, B2Vec2, Color*/
+/*global Box2dEntity, B2CircleShape, B2PolygonShape, B2Vec2, Color, B2DynamicBody*/
 var Alien = function (x, y, scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, x, y, scene, world, scale);
@@ -14,7 +14,7 @@ var Alien = function (x, y, scene, world, scale) {
         scaledOffset = this.offset.Copy();
     scaledOffset.Multiply(1 / this.scale);
     headShape.SetLocalPosition(scaledOffset);
-    this.body = this.addBody(x, y, world, false, this);
+    this.body = this.addBody(x, y, world, B2DynamicBody, this);
     this.addFixture(torsoShape, this.body);
     this.addFixture(headShape, this.body);
 };

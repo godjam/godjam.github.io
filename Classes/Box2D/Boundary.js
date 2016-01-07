@@ -1,4 +1,4 @@
-/*global Box2dEntity, Box */
+/*global Box2dEntity, Box, B2StaticBody */
 var Boundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
@@ -9,9 +9,9 @@ var Boundary = function (scene, world, scale) {
         y0 = scene.size.y / 3 * 2,
         y1 = scene.size.y / 6 * 5,
         w = scene.size.x / 4,
-        b0 = new Box(x0, y0, scene, world, scale, w, 10, true),
-        b1 = new Box(x1, y1, scene, world, scale, w, 10, true),
-        b2 = new Box(x2, y1, scene, world, scale, w, 10, true);
+        b0 = new Box(x0, y0, scene, world, scale, w, 10, B2StaticBody),
+        b1 = new Box(x1, y1, scene, world, scale, w, 10, B2StaticBody),
+        b2 = new Box(x2, y1, scene, world, scale, w, 10, B2StaticBody);
     this.addEntity("b0", b0);
     this.addEntity("b1", b1);
     this.addEntity("b2", b2);

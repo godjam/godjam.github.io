@@ -3,6 +3,7 @@ var B2BodyDef = Box2D.Dynamics.b2BodyDef,
     B2FixtureDef = Box2D.Dynamics.b2FixtureDef,
     B2DynamicBody = Box2D.Dynamics.b2Body.b2_dynamicBody,
     B2StaticBody = Box2D.Dynamics.b2Body.b2_staticBody,
+    B2KinematicBody = Box2D.Dynamics.b2Body.b2_kinematicBody,
     B2World = Box2D.Dynamics.b2World,
     B2DebugDraw = Box2D.Dynamics.b2DebugDraw,
     B2DistanceJointDef = Box2D.Dynamics.Joints.b2DistanceJointDef,
@@ -77,6 +78,14 @@ Box2dEntity.prototype.getEntityByName = function (name) {
   
 };
 
+Box2dEntity.prototype.update = function () {
+    "use strict";
+    var i = 0;
+    
+    for (i = 0; i < this.entitiesArray.length; i += 1) {
+        this.entitiesArray[i].update();
+    }
+};
 
 Box2dEntity.prototype.display = function (ctx) {
     "use strict";
@@ -196,17 +205,13 @@ Box2dEntity.prototype.attract = function (m) {
 //*****************************************************************************
 // Box2d helper functions
 //*****************************************************************************
-Box2dEntity.prototype.addBody = function (x, y, world, isStatic, data) {
+Box2dEntity.prototype.addBody = function (x, y, world, bodyType, data) {
     "use strict";
     var bd = new B2BodyDef(),
         body = null;
     bd.position.x = x / this.scale;
     bd.position.y = y / this.scale;
-    if (isStatic === true) {
-        bd.type = B2StaticBody;
-    } else {
-        bd.type = B2DynamicBody;
-    }
+    bd.type = bodyType;
     body = world.CreateBody(bd);
     if (body !== null && data !== undefined) {
         body.SetUserData(data);
@@ -290,7 +295,7 @@ Box2dEntity.prototype.addMotorJoint = function (body1, body2, world, speed, maxT
     joint.motorSpeed = speed;
     joint.maxMotorTorque = maxTorque;
     joint.enableMotor = true;
-    world.CreateJoint(joint);
+    return world.CreateJoint(joint);
 };
 
 

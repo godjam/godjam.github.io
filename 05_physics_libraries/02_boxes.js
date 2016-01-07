@@ -1,5 +1,6 @@
 /*global Scene, B2Vec2, B2World, MouseEvtListener, Box2dEntity, Vector2,
-Box, Circle, Poly, Alien, Car, JointPair, PerlinBoundary, CurvyBoundary, Boundary, PolyBoundary, ChainBoundary*/
+Box, Circle, Poly, Alien, Car, JointPair, PerlinBoundary, CurvyBoundary,
+Boundary, PolyBoundary, ChainBoundary, KinematicObstacle*/
 //*************************************************
 var BoxesScene = function (options) {
 	"use strict";
@@ -24,12 +25,12 @@ var BoxesScene = function (options) {
     this.world.SetDebugDraw(this.debugDraw);
     */
     this.boxes = [];
-    this.boundary = null;
+    this.boundaries = [];
     this.mouseJoint = null;
     this.mouseJointActif = false;
     
     this.initScene();
-    this.createBoundary();
+    this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt);
 };
@@ -49,11 +50,13 @@ BoxesScene.prototype.loop = function () {
     //this.world.DrawDebugData();
     this.world.ClearForces();
     
-    if (this.boundary) {
-        this.boundary.display(this.ctx);
+    for (i = 0; i < this.boundaries.length; i += 1) {
+        this.boundaries[i].update();
+        this.boundaries[i].display(this.ctx);
     }
     
     for (i = 0; i < this.boxes.length; i += 1) {
+        this.boxes[i].update();
         this.boxes[i].display(this.ctx);
     }
 
@@ -126,6 +129,10 @@ BoxesScene.prototype.createBox = function (position) {
     // MouseJoint
     } else if (this.options.boxes_type === 7) {
         this.boxes.push(new Box(position.x, position.y, this, this.world, this.scale));
+    
+    
+    } else if (this.options.boxes_type === 8) {
+        this.boxes.push(new Box(position.x, position.y, this, this.world, this.scale));
     }
     
     // limit boxes number
@@ -135,36 +142,40 @@ BoxesScene.prototype.createBox = function (position) {
     }
 };
 
-BoxesScene.prototype.createBoundary = function (position) {
+BoxesScene.prototype.createboundaries = function (position) {
     "use strict";
     // no boundary for boxes_type === 0
     // Circle
     if (this.options.boxes_type === 1) {
-        this.boundary = new PerlinBoundary(this, this.world, this.scale);
+        this.boundaries.push(new PerlinBoundary(this, this.world, this.scale));
 
     // Polygon
     } else if (this.options.boxes_type === 2) {
-        this.boundary = new CurvyBoundary(this, this.world, this.scale);
+        this.boundaries.push(new CurvyBoundary(this, this.world, this.scale));
 
     // Alien
     } else if (this.options.boxes_type === 3) {
-        this.boundary = new PolyBoundary(this, this.world, this.scale);
+        this.boundaries.push(new PolyBoundary(this, this.world, this.scale));
 
     // Pair
     } else if (this.options.boxes_type === 4) {
-        this.boundary = new Boundary(this, this.world, this.scale);
+        this.boundaries.push(new Boundary(this, this.world, this.scale));
 
     // ChainBoundary
     } else if (this.options.boxes_type === 5) {
-        this.boundary = new ChainBoundary(this, this.world, this.scale);
+        this.boundaries.push(new ChainBoundary(this, this.world, this.scale));
 
     // Car
     } else if (this.options.boxes_type === 6) {
-        this.boundary = new PerlinBoundary(this, this.world, this.scale);
+        this.boundaries.push(new PerlinBoundary(this, this.world, this.scale));
 
     // MouseJoint
     } else if (this.options.boxes_type === 7) {
-        this.boundary = new Boundary(this, this.world, this.scale);
+        this.boundaries.push(new Boundary(this, this.world, this.scale));
+    
+    } else if (this.options.boxes_type === 8) {
+        this.boundaries.push(new KinematicObstacle(this, this.world, this.scale));
+        this.boundaries.push(new Boundary(this, this.world, this.scale));
     }
 };
 BoxesScene.prototype.mouseStartEvt = function (position) {
