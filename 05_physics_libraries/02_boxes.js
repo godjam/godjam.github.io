@@ -1,13 +1,10 @@
 /*global Scene, B2Vec2, B2World, MouseEvtListener, Box2dEntity, Vector2,
 Box, Circle, Poly, Alien, Car, JointPair, PerlinBoundary, CurvyBoundary,
-Boundary, PolyBoundary, ChainBoundary, KinematicObstacle*/
+Boundary, PolyBoundary, ChainBoundary, KinematicObstacle, CircleBoundary*/
 //*************************************************
 var BoxesScene = function (options) {
 	"use strict";
     Scene.call(this);
-    var gravity = new B2Vec2(0, 10);
-    this.world = new B2World(gravity, true);
-    
     if (options === undefined) {
         options.boxes_type = 0;
     }
@@ -28,8 +25,11 @@ var BoxesScene = function (options) {
     this.boundaries = [];
     this.mouseJoint = null;
     this.mouseJointActif = false;
+    this.gravity = new B2Vec2(0, 10);
     
     this.initScene();
+    
+    this.world = new B2World(this.gravity, true);
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt);
@@ -69,13 +69,6 @@ BoxesScene.prototype.loop = function () {
         }
     }
 
-    /*
-    if (this.boxes[0] && this.boxes[0].body) {
-        var c = this.boxes[0].body.GetWorldCenter();
-        this.ctx.fillStyle = "#000";
-        this.ctx.fillText(parseInt(c.x) + " " + parseInt(c.y), 64, 64);
-    }
-    */
     this.frameloop.display(this.ctx);
 	Scene.prototype.loop.call(this);
 };
@@ -93,6 +86,12 @@ BoxesScene.prototype.initScene = function () {
     
     // MouseJoint
     if (this.options.boxes_type === 7) { this.mouseJointActif = true; }
+    
+    // Attraction Force 
+    if (this.options.boxes_type === 9) {
+        this.mouseJointActif = true;
+        this.gravity = new B2Vec2(0, 0);
+    }
 };
 
 
@@ -130,9 +129,13 @@ BoxesScene.prototype.createBox = function (position) {
     } else if (this.options.boxes_type === 7) {
         this.boxes.push(new Box(position.x, position.y, this, this.world, this.scale));
     
-    
+    // KinematicBody
     } else if (this.options.boxes_type === 8) {
-        this.boxes.push(new Box(position.x, position.y, this, this.world, this.scale));
+        this.boxes.push(new Circle(position.x, position.y, this, this.world, this.scale));
+        
+    // Attraction Force
+    } else if (this.options.boxes_type === 9) {
+        this.boxes.push(new Circle(position.x, position.y, this, this.world, this.scale));
     }
     
     // limit boxes number
@@ -173,11 +176,16 @@ BoxesScene.prototype.createboundaries = function (position) {
     } else if (this.options.boxes_type === 7) {
         this.boundaries.push(new Boundary(this, this.world, this.scale));
     
+    // KinemaicBoundary 
     } else if (this.options.boxes_type === 8) {
         this.boundaries.push(new KinematicObstacle(this, this.world, this.scale));
-        this.boundaries.push(new Boundary(this, this.world, this.scale));
+        
+    // Attraction Force
+    } else if (this.options.boxes_type === 9) {
+        this.boundaries.push(new CircleBoundary(this, this.world, this.scale));
     }
 };
+
 BoxesScene.prototype.mouseStartEvt = function (position) {
     "use strict";
     var body = null,

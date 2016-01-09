@@ -61,7 +61,6 @@ Box2dEntity.prototype.addEntity = function (name, /* Box2dEntity */ entity) {
     this.entitiesArray.push(entity); // array of entities objects
 };
 
-
 Box2dEntity.prototype.getEntityByName = function (name) {
     "use strict";
     
@@ -108,7 +107,6 @@ Box2dEntity.prototype.display = function (ctx) {
     }
 };
 
-
 Box2dEntity.prototype.isOut = function () {
     "use strict";
     var i = 0,
@@ -137,7 +135,6 @@ Box2dEntity.prototype.isOut = function () {
     return isOut;
 };
 
-
 Box2dEntity.prototype.killBody = function () {
     "use strict";
     var i = 0,
@@ -154,7 +151,6 @@ Box2dEntity.prototype.killBody = function () {
         }
     }
 };
-
 
 Box2dEntity.prototype.applyForce = function (force) {
     "use strict";
@@ -180,28 +176,37 @@ Box2dEntity.prototype.applyForce = function (force) {
     
 };
 
-
-Box2dEntity.prototype.constrain = function (v, min, max) {
+Box2dEntity.prototype.attract = function (b, e, G) {
     "use strict";
-    if (v < min) { v = min; }
-    if (v > max) { v = max; }
-};
-
-Box2dEntity.prototype.attract = function (m) {
-    "use strict";
-    var pos = this.body.GetWorldCenter(),
-        moverPos = m.body.GetWorldCenter(),
-        force = pos.sub(moverPos),
-        distance = force.length(),
-        G = 3,
-        strength = 0;
-    distance = this.constrain(distance, 1, 5);
-    force.normalize();
-    strength = (G * m.body.GetMass() * m.body.GetMass()) / (distance * distance);
-    force.multLocal(strength);
-    return force;
+    if (b instanceof Box2dEntity === false) {
+        throw "Box2dEntity.attract : b is not another Box2dEntity";
+    }
     
+    if (e instanceof Box2dEntity === false) {
+        throw "Box2dEntity.attract : e is not another Box2dEntity";
+    }
+    
+    if (G === undefined) {
+        G = 3;
+    }
+    
+    var bPos = b.body.GetWorldCenter(),
+        ePos = e.body.GetWorldCenter(),
+        mass = 1.8,
+        force = bPos.Copy(),
+        dist = 0,
+        strength = 0;
+    force.Subtract(ePos);
+    // distance
+    dist = force.Length();
+    // strength computation
+    strength = (G * mass * mass) / (dist * dist);
+    // force computation
+    force.Normalize();
+    force.Multiply(strength);
+    return force;
 };
+
 //*****************************************************************************
 // Box2d helper functions
 //*****************************************************************************
@@ -219,7 +224,6 @@ Box2dEntity.prototype.addBody = function (x, y, world, bodyType, data) {
     return body;
 };
 
-
 Box2dEntity.prototype.createBoxShape = function (halfBoxWidth, halfBoxHeight) {
     "use strict";
     var shape = new B2PolygonShape();
@@ -229,7 +233,6 @@ Box2dEntity.prototype.createBoxShape = function (halfBoxWidth, halfBoxHeight) {
     );
     return shape;
 };
-
 
 Box2dEntity.prototype.createCircleShape = function (radius) {
     "use strict";
@@ -274,7 +277,6 @@ Box2dEntity.prototype.createEdgeShape = function (x1, y1, x2, y2) {
     return shape;
 };
 
-
 Box2dEntity.prototype.addFixture = function (shape, body) {
     "use strict";
     var fixDef = new B2FixtureDef();
@@ -287,7 +289,6 @@ Box2dEntity.prototype.addFixture = function (shape, body) {
     return body.CreateFixture(fixDef);
 };
 
-
 Box2dEntity.prototype.addMotorJoint = function (body1, body2, world, speed, maxTorque) {
     "use strict";
     var joint = new B2RevoluteJointDef();
@@ -297,7 +298,6 @@ Box2dEntity.prototype.addMotorJoint = function (body1, body2, world, speed, maxT
     joint.enableMotor = true;
     return world.CreateJoint(joint);
 };
-
 
 Box2dEntity.prototype.addRevoluteJoint = function (body1, body2, world) {
     "use strict";
@@ -328,7 +328,6 @@ Box2dEntity.addSpringJoint = function (body1, body2, world, length) {
     joint.dampingRatio = 0.5;
     return world.CreateJoint(joint);
 };
-
 
 Box2dEntity.addMouseJoint = function (body, position, world, scale) {
     "use strict";
@@ -421,7 +420,6 @@ Box2dEntity.prototype.drawCircle = function (ctx, center, angle, radius) {
     ctx.restore();
 };
 
-
 Box2dEntity.prototype.drawClosedPolygon = function (ctx, center, angle, vertices) {
     "use strict";
     var i = 0;
@@ -486,4 +484,3 @@ Box2dEntity.prototype.drawOpenPolygon = function (ctx, center, angle, vertices) 
     ctx.closePath();
     ctx.restore();
 };
-

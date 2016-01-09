@@ -22,7 +22,6 @@ Vector2.create2D = function () {
     return v.normalizeInPlace();
 };
 
-
 Vector2.prototype.copy = function () {
 	"use strict";
     return new Vector2(
@@ -30,7 +29,6 @@ Vector2.prototype.copy = function () {
         this.y
     );
 };
-
 
 Vector2.prototype.add = function (vector) {
 	"use strict";
@@ -43,7 +41,6 @@ Vector2.prototype.add = function (vector) {
     );
 };
 
-
 Vector2.prototype.addInPlace = function (vector) {
 	"use strict";
     if (vector instanceof Vector2 === false) {
@@ -53,7 +50,6 @@ Vector2.prototype.addInPlace = function (vector) {
     this.y += vector.y;
     return this;
 };
-
 
 Vector2.prototype.sub = function (vector) {
 	"use strict";
@@ -66,7 +62,6 @@ Vector2.prototype.sub = function (vector) {
     );
 };
 
-
 Vector2.prototype.subInPlace = function (vector) {
 	"use strict";
     if (vector instanceof Vector2 === false) {
@@ -76,7 +71,6 @@ Vector2.prototype.subInPlace = function (vector) {
     this.y -= vector.y;
     return this;
 };
-
 
 Vector2.prototype.mult = function (scalar) {
 	"use strict";
@@ -89,7 +83,6 @@ Vector2.prototype.mult = function (scalar) {
     );
 };
 
-
 Vector2.prototype.multInPlace = function (scalar) {
 	"use strict";
     if (typeof scalar !== 'number') {
@@ -99,7 +92,6 @@ Vector2.prototype.multInPlace = function (scalar) {
     this.y *= scalar;
     return this;
 };
-
 
 Vector2.prototype.div = function (scalar) {
 	"use strict";
@@ -112,7 +104,6 @@ Vector2.prototype.div = function (scalar) {
     );
 };
 
-
 Vector2.prototype.divInPlace = function (scalar) {
 	"use strict";
     if (typeof scalar !== 'number') {
@@ -122,7 +113,6 @@ Vector2.prototype.divInPlace = function (scalar) {
     this.y /= scalar;
     return this;
 };
-
 
 Vector2.prototype.mag = function () {
 	"use strict";
@@ -162,7 +152,6 @@ Vector2.prototype.normalize = function () {
     }
 };
 
-
 Vector2.prototype.normalizeInPlace = function () {
 	"use strict";
     var l = this.mag();
@@ -172,7 +161,6 @@ Vector2.prototype.normalizeInPlace = function () {
         return new Vector2(0, 0);
     }
 };
-
 
 Vector2.prototype.limit = function (max) {
 	"use strict";
@@ -185,7 +173,6 @@ Vector2.prototype.limit = function (max) {
     }
     return this;
 };
-
 
 Vector2.prototype.constrainLength = function (min, max) {
 	"use strict";
@@ -207,7 +194,6 @@ Vector2.prototype.constrainLength = function (min, max) {
     return this;
 };
 
-
 Vector2.toRadian = function (deg) {
 	"use strict";
     if (typeof deg !== 'number') {
@@ -223,8 +209,6 @@ Vector2.toDegree = function (rad) {
     }
     return rad * 180 / Math.PI;
 };
-
-
 
 Vector2.prototype.rotateInPlace = function (radian, center) {
 	"use strict";
@@ -242,7 +226,6 @@ Vector2.prototype.rotateInPlace = function (radian, center) {
     this.x = copy.x;
     this.y = copy.y;
 };
-
 
 Vector2.prototype.rotate = function (radian, center) {
 	"use strict";
@@ -265,12 +248,10 @@ Vector2.prototype.rotate = function (radian, center) {
     return copy;
 };
 
-
 Vector2.prototype.heading = function () {
     "use strict";
     return Math.atan2(this.y, this.x);
 };
-
 
 Vector2.fromPolar = function (r, theta) {
     "use strict";

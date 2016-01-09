@@ -26,9 +26,7 @@ Car.prototype.update = function () {
     "use strict";
     this.motorSpeed *= 1.001;
     this.motorTorque *= 1.005;
-    
-    console.log(this.motorSpeed);
-    
+     
     this.joint0.SetMotorSpeed(this.motorSpeed);
     this.joint0.SetMaxMotorTorque(this.motorTorque);
     
