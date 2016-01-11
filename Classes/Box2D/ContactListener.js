@@ -23,11 +23,10 @@ ContactListener.prototype.BeginContact = function (contact) {
     entityA = bodyA.GetUserData();
     entityB = bodyB.GetUserData();
     
-    if (entityA !== null) { entityA.fillStyle = "#dd22aa"; }
-    if (entityB !== null) { entityB.fillStyle = "#dd22aa"; }
-    
-    // useless: only a method prototype
-    // B2ContactListener.prototype.BeginContact.call(this, contact);
+    if (entityA !== null && entityB !== null) {
+        entityA.startContact(entityB);
+        entityB.startContact(entityA);
+    }
 };
 
 
@@ -45,10 +44,10 @@ ContactListener.prototype.EndContact = function (contact) {
     entityA = bodyA.GetUserData();
     entityB = bodyB.GetUserData();
     
-    if (entityA !== null) { entityA.fillStyle = "#ccc"; }
-    if (entityB !== null) { entityB.fillStyle = "#ccc"; }
-    // useless: only a method prototype
-    // B2ContactListener.prototype.EndContact.call(this, contact);
+    if (entityA !== null && entityB !== null) {
+        entityA.endContact(entityB);
+        entityB.endContact(entityA);
+    }
 };
 
 

@@ -14,7 +14,7 @@ var Alien = function (x, y, scene, world, scale) {
         scaledOffset = this.offset.Copy();
     scaledOffset.Multiply(1 / this.scale);
     headShape.SetLocalPosition(scaledOffset);
-    this.body = this.addBody(x, y, world, B2DynamicBody, this);
+    this.body = this.addBody(x, y, world, B2DynamicBody);
     this.addFixture(torsoShape, this.body);
     this.addFixture(headShape, this.body);
 };

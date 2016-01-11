@@ -1,4 +1,4 @@
-/*global Box2dEntity, Circle, B2StaticBody */
+/*global Box2dEntity, Circle, B2KinematicBody */
 var CircleBoundary = function (scene, world, scale) {
     "use strict";
     var x = scene.size.x / 2,
@@ -6,7 +6,8 @@ var CircleBoundary = function (scene, world, scale) {
         b = null;
     
     Box2dEntity.call(this, x, y, scene, world, scale);
-    b = new Circle(x, y, scene, world, scale, scene.size.y / 8, B2StaticBody);
+    b = new Circle(x, y, scene, world, scale, scene.size.y / 8, B2KinematicBody);
+    b.body.SetAngularVelocity(Math.random() * Math.PI);
     this.addEntity("b", b);
 };
 CircleBoundary.prototype = Object.create(Box2dEntity.prototype);

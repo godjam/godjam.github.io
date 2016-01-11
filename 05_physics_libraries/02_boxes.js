@@ -28,8 +28,8 @@ var BoxesScene = function (options) {
     this.gravity = new B2Vec2(0, 10);
     
     this.initScene();
-    
     this.world = new B2World(this.gravity, true);
+    
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt);
@@ -92,6 +92,9 @@ BoxesScene.prototype.initScene = function () {
         this.mouseJointActif = true;
         this.gravity = new B2Vec2(0, 0);
     }
+    
+    // collistion listening Force 
+    if (this.options.boxes_type === 10) { this.listeningCollision = true; }
 };
 
 

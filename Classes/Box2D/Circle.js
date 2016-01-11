@@ -9,7 +9,7 @@ var Circle = function (x, y, scene, world, scale, radius, bodyType) {
     
     if (bodyType === undefined) {bodyType = B2DynamicBody; }
     
-    this.body = this.addBody(x, y, world, bodyType, this);
+    this.body = this.addBody(x, y, world, bodyType);
     var shape = this.createCircleShape(this.radius);
     this.addFixture(shape, this.body);
 };

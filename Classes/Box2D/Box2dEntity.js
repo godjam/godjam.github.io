@@ -43,7 +43,12 @@ var Box2dEntity = function (x, y, scene, world, scale) {
     this.lineWidth = 0.5;
     this.strokeStyle = "#888";
     this.color = Color.createBrightColor();
+    this.originColor = this.color.copy();
     this.deletion = false;
+    // collision events
+    this.collisionCallbackOwner = null;
+    this.startCollisionCallback = null;
+    this.endCollisionCallback = null;
 };
 
 Box2dEntity.prototype.addEntity = function (name, /* Box2dEntity */ entity) {
@@ -192,7 +197,7 @@ Box2dEntity.prototype.attract = function (b, e, G) {
     
     var bPos = b.body.GetWorldCenter(),
         ePos = e.body.GetWorldCenter(),
-        mass = 1.8,
+        mass = 5,
         force = bPos.Copy(),
         dist = 0,
         strength = 0;
@@ -208,9 +213,44 @@ Box2dEntity.prototype.attract = function (b, e, G) {
 };
 
 //*****************************************************************************
+// Collision Events
+//*****************************************************************************
+
+Box2dEntity.prototype.setCollisionEvents = function (callbackOwner, startCollisionCallback, endCollisionCallback) {
+    "use strict";
+    this.collisionCallbackOwner = callbackOwner;
+    this.startCollisionCallback = startCollisionCallback;
+    this.endCollisionCallback = endCollisionCallback;
+};
+
+Box2dEntity.prototype.startContact = function (e) {
+    "use strict";
+    if (e instanceof Box2dEntity === false) {
+        throw "Box2dEntity.startContact : e is not another Box2dEntity";
+    }
+    
+    if (this.collisionCallbackOwner !== null && this.startCollisionCallback !== null) {
+        var c = this.startCollisionCallback.bind(this.collisionCallbackOwner);
+        c(this, e);
+    }
+};
+
+Box2dEntity.prototype.endContact = function (e) {
+    "use strict";
+    if (e instanceof Box2dEntity === false) {
+        throw "Box2dEntity.endContact : e is not another Box2dEntity";
+    }
+    
+    if (this.collisionCallbackOwner !== null && this.endCollisionCallback !== null) {
+        var c = this.endCollisionCallback.bind(this.collisionCallbackOwner);
+        c(this, e);
+    }
+};
+
+//*****************************************************************************
 // Box2d helper functions
 //*****************************************************************************
-Box2dEntity.prototype.addBody = function (x, y, world, bodyType, data) {
+Box2dEntity.prototype.addBody = function (x, y, world, bodyType) {
     "use strict";
     var bd = new B2BodyDef(),
         body = null;
@@ -218,8 +258,8 @@ Box2dEntity.prototype.addBody = function (x, y, world, bodyType, data) {
     bd.position.y = y / this.scale;
     bd.type = bodyType;
     body = world.CreateBody(bd);
-    if (body !== null && data !== undefined) {
-        body.SetUserData(data);
+    if (body !== null) {
+        body.SetUserData(this);
     }
     return body;
 };
@@ -483,4 +523,16 @@ Box2dEntity.prototype.drawOpenPolygon = function (ctx, center, angle, vertices) 
 
     ctx.closePath();
     ctx.restore();
+};
+
+Box2dEntity.prototype.changeColor = function (c) {
+    "use strict";
+    this.color = c;
+};
+
+Box2dEntity.prototype.restoreColor = function () {
+    "use strict";
+    if (this.originColor) {
+        this.color = this.originColor;
+    }
 };
