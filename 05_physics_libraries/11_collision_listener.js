@@ -5,7 +5,7 @@ var CollisionListenerScene = function () {
 	"use strict";
     Scene.call(this);
     this.maxBoxes = 50;
-    this.scale = 30;
+    this.scale = 10;
     
     this.color = Color.createHsl(0.85, 0.9, 0.65);
     this.boxes = [];
