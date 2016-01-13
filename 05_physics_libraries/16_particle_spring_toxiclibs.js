@@ -1,49 +1,63 @@
-/*global toxi, console, requestAnimationFrame, ToxiParticle, Array2D, LineCluster, Cluster*/
+/*global toxi, requestAnimationFrame, ToxiParticle, Array2D, LineCluster, Cluster, GridCluster, Scene, MouseEvtListener*/
 var Rect = toxi.geom.Rect,
     Vec2D = toxi.geom.Vec2D,
     GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
     VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
     VerletSpring2D = toxi.physics2d.VerletSpring2D;
 
-
 //*************************************************
-document.addEventListener("DOMContentLoaded", function (event) {
+var ClothSimulationScene = function () {
 	"use strict";
-    var ctx = document.getElementById("canvas").getContext("2d"),
-        width = ctx.canvas.width = window.innerWidth,
-        height = ctx.canvas.height = window.innerHeight,
-        physics = new VerletPhysics2D(),
-        cluster = new Cluster(new Vec2D(width / 2, 50), physics);
+    Scene.call(this);
+    this.physics = new VerletPhysics2D();
+    this.particle = null;
+    //this.cluster = new LineCluster(this.size.x, this.size.y, this.physics);
+    this.cluster = new GridCluster(this.size.x, this.size.y, this.physics);
+    //this.cluster = new Cluster(new Vec2D(this.size.x / 2, 50), this.physics);
     
-    physics.setWorldBounds(new Rect(0, 0, width, height));
-    physics.addBehavior(new GravityBehavior(new Vec2D(0, 0.5)));
-    
-    function animate() {
-        requestAnimationFrame(animate);
-        physics.update();
-        ctx.clearRect(0, 0, width, height);
-        cluster.display(ctx);
-    }
-    
-    function move(event) {
-        event.preventDefault();
-        var x = event.clientX - ctx.canvas.clientLeft,
-            y = event.clientY - ctx.canvas.clientTop - 16;
-    }
-    
-    function mouseDown(event) {
-        event.preventDefault();
-    }
+    this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
+    this.physics.addBehavior(new GravityBehavior(new Vec2D(0, 0.5)));
+    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt);
+};
+ClothSimulationScene.prototype = Object.create(Scene.prototype);
+ClothSimulationScene.prototype.constructor = ClothSimulationScene;
 
-    function mouseUp(event) {
-        event.preventDefault();
+ClothSimulationScene.prototype.loop = function () {
+    "use strict";
+    this.physics.update();
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
+    this.cluster.display(this.ctx);
+    Scene.prototype.loop.call(this);
+};
+
+ClothSimulationScene.prototype.mouseStartEvt = function (position) {
+    "use strict";
+    var i = 0,
+        particle = null,
+        isIn = false,
+        p1 = new Vec2D(position.x, position.y),
+        p2 = null;
+    
+    if (this.particle === null) {
+    // search for a particle near to the mouse
+        for (i = 0; i < this.physics.particles.length; i += 1) {
+            particle = this.physics.particles[i];
+            if (particle.isLocked === false) {
+                p2 = new Vec2D(particle.x, particle.y);
+                isIn = p1.isInCircle(p2, 16);
+                if (isIn) {this.particle = particle; }
+            }
+        }
     }
     
-	window.requestAnimationFrame(animate);
-    
-    // attach event listener to the doc
-    document.addEventListener("mousedown", mouseDown.bind(this));
-    document.addEventListener("mouseup", mouseUp.bind(this));
-    document.addEventListener("mousemove", move.bind(this));
-    document.addEventListener("touchmove", move.bind(this));
-});
+    if (this.particle !== null) {
+        this.particle.x = p1.x;
+        this.particle.y = p1.y;
+    }
+};
+
+ClothSimulationScene.prototype.mouseStoptEvt = function () {
+    "use strict";
+    // release particle
+    this.particle = null;
+};

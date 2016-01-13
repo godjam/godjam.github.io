@@ -9,7 +9,7 @@ RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
 OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
 ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
 ShatteringScene, ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
-BlendParticlesScene, BoxesScene, CollisionListenerScene */
+BlendParticlesScene, BoxesScene, CollisionListenerScene, ClothSimulationScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -67,7 +67,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "05_11",
+    var defaultKey = "05_13",
         key = "";
     
     if (window !== null) {
@@ -198,6 +198,7 @@ Factory.init = function () {
     this.objOp["05_10"] = {boxes_type: 9};
     
     this.cache["05_11"] = CollisionListenerScene;
+    this.cache["05_13"] = ClothSimulationScene;
 };
 
 Factory.autoclose = function () {

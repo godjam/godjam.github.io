@@ -1,4 +1,4 @@
-/*global Particle, Vec2D, VerletSpring2D*/
+/*global ToxiParticle, Vec2D, VerletSpring2D*/
 var LineCluster = function (width, height, physics) {
     "use strict";
     var i = 0,
@@ -11,7 +11,7 @@ var LineCluster = function (width, height, physics) {
     this.particles = [];
     
     for (i = 0; i <= count; i += 1) {
-        particle = new Particle(new Vec2D(i * len, 10), physics);
+        particle = new ToxiParticle(new Vec2D(i * len, 10), physics);
         this.particles.push(particle);
         if (i === 0 || i === 20) {
             particle.p.lock();

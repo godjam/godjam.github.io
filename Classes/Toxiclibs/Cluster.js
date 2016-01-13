@@ -1,4 +1,4 @@
-/*global toxi, Particle, Vec2D, VerletSpring2D*/
+/*global toxi, ToxiParticle, Vec2D, VerletSpring2D*/
 var Cluster = function (position, physics) {
     "use strict";
     
@@ -21,7 +21,7 @@ var Cluster = function (position, physics) {
         center = Vec2D.randomVector();
         center.x += position.x;
         center.y += position.y;
-        particle = new Particle(center, physics);
+        particle = new ToxiParticle(center, physics);
         this.particles.push(particle);
     }
     
