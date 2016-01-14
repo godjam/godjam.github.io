@@ -44,7 +44,7 @@ MouseEvtListener.prototype.stop = function () {
 MouseEvtListener.prototype.move = function (event) {
     "use strict";
     event.preventDefault();
-    var x = null, y = null, bindedCall = null;
+    var x = null, y = null;
     
     if (event.touches !== undefined && event.touches.length > 0) {
         x = event.touches[0].clientX;
@@ -58,14 +58,20 @@ MouseEvtListener.prototype.move = function (event) {
         this.position.x = x - this.origin.x;
         this.position.y = y - this.origin.y - 16;
         
-        if (this.mouseClick && this.position.x !== null && this.position.y !== null) {
-            if (this.callbackMove !== null) {
-                bindedCall = this.callbackMove.bind(this.callbackOwner);
-                bindedCall(this.position.copy());
-            }
+        this.update();
+    }
+};
+
+MouseEvtListener.prototype.update = function () {
+    "use strict";
+    if (this.mouseClick && this.position.x !== null && this.position.y !== null) {
+        if (this.callbackMove !== null) {
+            var bindedCall = this.callbackMove.bind(this.callbackOwner);
+            bindedCall(this.position.copy());
         }
     }
 };
+
 
 MouseEvtListener.prototype.release = function () {
     "use strict";

@@ -1,4 +1,4 @@
-/*global ToxiParticle, Vec2D, VerletSpring2D, Array2D*/
+/*global ToxiParticle, Vec2D, VerletSpring2D, Array2D, Color*/
 var GridCluster = function (width, height, physics) {
     "use strict";
     var i = 0,
@@ -6,14 +6,15 @@ var GridCluster = function (width, height, physics) {
         particle = null,
         spring = null,
         simWidth = 16,
-        simHeight = 9,
         len = (width / (simWidth - 1)),
+        simHeight = Math.round(height / len / 2),
         strength = 0.1,
         n1 = null,
         n2 = null,
         n3 = null,
         n4 = null;
     
+    this.color = Color.createBrightColor();
     this.array2D = new Array2D(simWidth, simHeight);
     
     for (i = 0; i < simWidth; i += 1) {
@@ -44,9 +45,10 @@ var GridCluster = function (width, height, physics) {
 
 GridCluster.prototype.display = function (ctx) {
     "use strict";
-    var i = 0, j = 0,
+    var i = 0, j = 0, c = this.color.copy(),
         k = null, n2 = null, n4 = null, n1 = null, n3 = null;
     for (i = 0; i < this.array2D.getWidth(); i += 1) {
+        c = c.darken(0.02);
         for (j = 0; j < this.array2D.getHeight(); j += 1) {
             k = this.array2D.get(i, j);
             n1 = this.array2D.get(i - 1, j);
@@ -55,8 +57,7 @@ GridCluster.prototype.display = function (ctx) {
             n4 = this.array2D.get(i, j + 1);
             
             if (k !== undefined) {
-                //k.display(ctx);
-                ctx.lineWidth = 0.5;
+                ctx.lineWidth = 1;
                 ctx.beginPath();
                 if (n1 !== undefined) {
                     ctx.moveTo(n1.p.x, n1.p.y);
@@ -66,6 +67,7 @@ GridCluster.prototype.display = function (ctx) {
                     ctx.moveTo(n3.p.x, n3.p.y);
                     ctx.lineTo(k.p.x, k.p.y);
                 }
+                ctx.strokeStyle = c.ToHex();
                 ctx.closePath();
                 ctx.stroke();
             }

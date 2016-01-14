@@ -35,6 +35,7 @@ Scene.prototype.start = function () {"use strict"; };
 Scene.prototype.loop = function () {
     "use strict";
     this.frameloop.update();
+    this.mouseListener.update();
     this.requestId = window.requestAnimationFrame(this.loop.bind(this));
 };
 

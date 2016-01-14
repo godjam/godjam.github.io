@@ -120,14 +120,16 @@ Color.prototype.saturate = function () {
     return this.modify(0, 0.1, -0.05);
 };
 
-Color.prototype.redify = function () {
+Color.prototype.redify = function (h) {
     "use strict";
-    return this.modify(-0.05, 0, 0);
+    if (h === undefined) { h = 0.05; }
+    return this.modify(-h, 0, 0);
 };
 
-Color.prototype.bluify = function () {
+Color.prototype.bluify = function (h) {
     "use strict";
-    return this.modify(0.05, 0, 0);
+    if (h === undefined) { h = 0.05; }
+    return this.modify(h, 0, 0);
 };
 
 Color.prototype.modify = function (h, s, l) {
