@@ -1,4 +1,4 @@
-/*global toxi, requestAnimationFrame, ToxiParticle, Array2D, LineCluster, Cluster, GridCluster, Scene, MouseEvtListener*/
+/*global toxi, requestAnimationFrame, ToxiParticle, Array2D, LineCluster, Cluster, GridCluster, Scene, MouseEvtListener, ToxiCreature*/
 var Rect = toxi.geom.Rect,
     Vec2D = toxi.geom.Vec2D,
     GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
@@ -14,6 +14,8 @@ var ClothSimulationScene = function () {
     //this.cluster = new LineCluster(this.size.x, this.size.y, this.physics);
     this.cluster = new GridCluster(this.size.x, this.size.y, this.physics);
     //this.cluster = new Cluster(new Vec2D(this.size.x / 2, 50), this.physics);
+    //this.cluster = new ToxiCreature(new Vec2D(this.size.x / 2, 50), this.physics);
+    
     
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
     this.physics.addBehavior(new GravityBehavior(new Vec2D(0, 0.5)));

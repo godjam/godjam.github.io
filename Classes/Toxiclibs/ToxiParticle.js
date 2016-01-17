@@ -10,10 +10,8 @@ var ToxiParticle = function (position, physics) {
 
 ToxiParticle.prototype.display = function (ctx) {
     "use strict";
-    ctx.save();
     ctx.beginPath();
     ctx.arc(this.p.x, this.p.y, 16, 0, Math.PI * 2);
     ctx.stroke();
     ctx.closePath();
-    ctx.restore();
 };

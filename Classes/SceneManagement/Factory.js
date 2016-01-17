@@ -67,7 +67,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "05_13",
+    var defaultKey = "05_11",
         key = "";
     
     if (window !== null) {

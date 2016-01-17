@@ -321,8 +321,9 @@ Box2dEntity.prototype.addFixture = function (shape, body) {
     "use strict";
     var fixDef = new B2FixtureDef();
     fixDef.shape = shape;
+    fixDef.density = 1;
+    
     if (body.GetType() === B2DynamicBody) {
-        fixDef.density = 1;
         fixDef.friction = 0.3;
         fixDef.restitution = 0.5;
     }
@@ -525,6 +526,9 @@ Box2dEntity.prototype.drawOpenPolygon = function (ctx, center, angle, vertices) 
     ctx.restore();
 };
 
+//******************************************************************
+// Color management
+//******************************************************************
 Box2dEntity.prototype.changeColor = function (c) {
     "use strict";
     this.color = c;
@@ -536,3 +540,10 @@ Box2dEntity.prototype.restoreColor = function () {
         this.color = this.originColor;
     }
 };
+
+Box2dEntity.prototype.setColor = function (color) {
+    "use strict";
+    this.originColor = color;
+    this.color = color;
+};
+

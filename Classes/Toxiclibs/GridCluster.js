@@ -5,7 +5,7 @@ var GridCluster = function (width, height, physics) {
         j = 0,
         particle = null,
         spring = null,
-        simWidth = 16,
+        simWidth = 12,
         len = (width / (simWidth - 1)),
         simHeight = Math.round(height / len / 2),
         strength = 0.1,
@@ -48,7 +48,7 @@ GridCluster.prototype.display = function (ctx) {
     var i = 0, j = 0, c = this.color.copy(),
         k = null, n2 = null, n4 = null, n1 = null, n3 = null;
     for (i = 0; i < this.array2D.getWidth(); i += 1) {
-        c = c.darken(0.02);
+        c = c.bluify(0.01);
         for (j = 0; j < this.array2D.getHeight(); j += 1) {
             k = this.array2D.get(i, j);
             n1 = this.array2D.get(i - 1, j);

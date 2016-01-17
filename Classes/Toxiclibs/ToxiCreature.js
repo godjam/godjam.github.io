@@ -1,5 +1,5 @@
 /*global toxi, ToxiParticle, Vec2D, VerletSpring2D*/
-var Cluster = function (position, physics) {
+var ToxiCreature = function (position, physics) {
     "use strict";
     
     if (position instanceof toxi.geom.Vec2D === false) {
@@ -10,15 +10,22 @@ var Cluster = function (position, physics) {
         j = 0,
         particle = null,
         spring = null,
-        count = 12,
-        diameter = 130,
-        strength = 0.01,
-        center = null;
+        count = 5,
+        radius = 50,
+        strength = 0.005,
+        center = null,
+        angle = 0;
     
+    // paticles of the border
     this.particles = [];
+
+    // center particle
+    center = new ToxiParticle(Vec2D.randomVector(), physics);
     
-    for (i = 0; i <= count; i += 1) {
-        center = Vec2D.randomVector();
+    for (i = 0; i < count; i += 1) {
+        
+        angle += i * Math.PI * 2 / count;
+        
         center.x += position.x;
         center.y += position.y;
         particle = new ToxiParticle(center, physics);
@@ -26,7 +33,7 @@ var Cluster = function (position, physics) {
     }
     
     for (i = 0; i <= count - 1; i += 1) {
-        for (j = i + 1; j <= count; j += 1) {
+        for (j = i + 1; j < count; j += 1) {
             spring = new VerletSpring2D(
                 this.particles[i].p,
                 this.particles[j].p,
@@ -38,24 +45,18 @@ var Cluster = function (position, physics) {
     }
 };
 
-Cluster.prototype.display = function (ctx) {
+ToxiCreature.prototype.display = function (ctx) {
     "use strict";
     var i = 0,
         j = 0,
         l = this.particles.length;
-    
-    for (i = 0; i < this.particles.length; i += 1) {
-        this.particles[i].display(ctx);
-    }
-    
+ 
     ctx.beginPath();
-    ctx.lineWidth = 0.3;
-    for (i = 0; i < l - 1; i += 1) {
-        for (j = i; j < l; j += 1) {
-            ctx.moveTo(this.particles[i].p.x, this.particles[i].p.y);
-            ctx.lineTo(this.particles[j].p.x, this.particles[j].p.y);
-
-        }
+    for (i = 0; i < l; i += 1) {
+        j = i + 1;
+        if (j === l) { j = 0; }
+        ctx.moveTo(this.particles[i].p.x, this.particles[i].p.y);
+        ctx.lineTo(this.particles[j].p.x, this.particles[j].p.y);
     }
     ctx.stroke();
     ctx.closePath();
