@@ -6,11 +6,16 @@ var Rect = toxi.geom.Rect,
     VerletSpring2D = toxi.physics2d.VerletSpring2D;
 
 //*************************************************
-var ClothSimulationScene = function () {
+var ClothSimulationScene = function (options) {
 	"use strict";
     Scene.call(this);
+    if(options === undefined) {options = {simtype: 0}; }
+    this.options = options;
     this.physics = new VerletPhysics2D();
+    // use to displace an element
     this.particle = null;
+    
+    
     //this.cluster = new LineCluster(this.size.x, this.size.y, this.physics);
     this.cluster = new GridCluster(this.size.x, this.size.y, this.physics);
     //this.cluster = new Cluster(new Vec2D(this.size.x / 2, 50), this.physics);

@@ -68,13 +68,15 @@ CollisionListenerScene.prototype.createBox = function (position, nextInfos) {
         boxH = Math.random() * 16 + 16,
         color = null,
         force = null,
+        torque = null,
         b = null;
     
     if (nextInfos) {
         if (nextInfos.boxW) { boxW = nextInfos.boxW; }
         if (nextInfos.boxH) { boxH = nextInfos.boxH; }
         if (nextInfos.color) { color = nextInfos.color; }
-        if (nextInfos.force) { force = nextInfos.force; force.Multiply(1.2); }
+        if (nextInfos.force) { force = nextInfos.force; /*force.Multiply(1.2);*/ }
+        if (nextInfos.torque) { torque = nextInfos.torque; torque *= 0.1; }
     }
     
     // box +  size
@@ -86,8 +88,9 @@ CollisionListenerScene.prototype.createBox = function (position, nextInfos) {
     // color
     if (color) {b.setColor(color); }
     
-    // force
+    // forces
     if (force) {b.applyForce(force); }
+    if (torque) {b.body.ApplyTorque(torque); }
     
     this.boxes.push(b);
     
@@ -107,7 +110,7 @@ CollisionListenerScene.prototype.createNextBoxes = function () {
         i = 0,
         r = Math.round(Math.random() * 2 + 1);
     
-    if (this.nextBoxesInfos.length > 0) {
+    while (this.nextBoxesInfos.length > 0) {
         nextInfos = this.nextBoxesInfos.shift();
         pos = nextInfos.position;
         
@@ -116,7 +119,6 @@ CollisionListenerScene.prototype.createNextBoxes = function () {
         }
     }
 };
-
 
 CollisionListenerScene.prototype.createboundaries = function (position) {
     "use strict";
@@ -158,14 +160,15 @@ CollisionListenerScene.prototype.endCollisionEvent = function (e1, e2) {
         v = v1.Copy(),
         d = 0,
         e = 0,
-        p = e1.body.GetWorldCenter();
+        p = e1.body.GetWorldCenter(),
+        a = e1.body.GetAngularVelocity();
     
     v.Subtract(v2);
     d = v.Length();
     e = (m1 + m2) * d * d * 0.5;
 
     // console.log(d.toFixed(0), m1.toFixed(0), m2.toFixed(0), e.toFixed(0));
-    console.log(m1.toFixed(0), e.toFixed(0));
+    // console.log(m1.toFixed(0), e.toFixed(0));
     
                 
     if (e > m1 * m1 * 20) {
@@ -176,7 +179,8 @@ CollisionListenerScene.prototype.endCollisionEvent = function (e1, e2) {
                 boxW: e1.boxW / 2,
                 boxH: e1.boxH / 2,
                 color: e1.originColor,
-                force: v1
+                force: v1,
+                torque: a
             });
         }
     }
