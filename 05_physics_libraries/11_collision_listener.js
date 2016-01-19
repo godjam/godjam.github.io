@@ -8,7 +8,6 @@ var CollisionListenerScene = function () {
     this.scale = 30;
     this.nextBoxesInfos = [];
     
-    this.color = Color.createHsl(0.85, 0.9, 0.65);
     this.boxes = [];
     this.boundaries = [];
     
@@ -142,12 +141,14 @@ CollisionListenerScene.prototype.mouseStartEvt = function (position) {
 
 CollisionListenerScene.prototype.startCollisionEvent = function (e1, e2) {
     "use strict";
+    // TODO : change border color to "#888";
     //e1.changeColor(this.color);
     
 };
 
 CollisionListenerScene.prototype.endCollisionEvent = function (e1, e2) {
     "use strict";
+    // TODO : change border color to null;
     //e1.restoreColor();
     
     if (e2.boxW === undefined) {e2.boxW = 3; }

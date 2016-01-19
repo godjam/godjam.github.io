@@ -1,4 +1,4 @@
-/*global toxi, requestAnimationFrame, ToxiParticle, Array2D, LineCluster, Cluster, GridCluster, Scene, MouseEvtListener, ToxiCreature*/
+/*global toxi,  LineCluster, Cluster, GridCluster, Scene, MouseEvtListener, ToxiCreature*/
 var Rect = toxi.geom.Rect,
     Vec2D = toxi.geom.Vec2D,
     GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
@@ -9,19 +9,24 @@ var Rect = toxi.geom.Rect,
 var ClothSimulationScene = function (options) {
 	"use strict";
     Scene.call(this);
-    if(options === undefined) {options = {simtype: 0}; }
+    if(options === undefined) {options = {sim_type: 0}; }
     this.options = options;
     this.physics = new VerletPhysics2D();
     // use to displace an element
     this.particle = null;
-    
-    
-    //this.cluster = new LineCluster(this.size.x, this.size.y, this.physics);
-    this.cluster = new GridCluster(this.size.x, this.size.y, this.physics);
+
+
+    if (options.sim_type === 0) {
+        //this.cluster = new LineCluster(this.size.x, this.size.y, this.physics);
+        this.cluster = new GridCluster(this.size.x, this.size.y, this.physics);
+    }
+    else if (options.sim_type === 1) {
+        this.cluster = new ToxiCreature(new Vec2D(this.size.x / 2, 50), this.physics);
+    }
+    // TODO next exercice
     //this.cluster = new Cluster(new Vec2D(this.size.x / 2, 50), this.physics);
-    //this.cluster = new ToxiCreature(new Vec2D(this.size.x / 2, 50), this.physics);
-    
-    
+
+
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
     this.physics.addBehavior(new GravityBehavior(new Vec2D(0, 0.5)));
     this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt);
@@ -44,7 +49,7 @@ ClothSimulationScene.prototype.mouseStartEvt = function (position) {
         isIn = false,
         p1 = new Vec2D(position.x, position.y),
         p2 = null;
-    
+
     if (this.particle === null) {
     // search for a particle near to the mouse
         for (i = 0; i < this.physics.particles.length; i += 1) {
@@ -56,7 +61,7 @@ ClothSimulationScene.prototype.mouseStartEvt = function (position) {
             }
         }
     }
-    
+
     if (this.particle !== null) {
         this.particle.x = p1.x;
         this.particle.y = p1.y;
