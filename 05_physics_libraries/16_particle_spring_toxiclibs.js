@@ -6,10 +6,14 @@ var Rect = toxi.geom.Rect,
     VerletSpring2D = toxi.physics2d.VerletSpring2D;
 
 //*************************************************
-var ClothSimulationScene = function (options) {
-	"use strict";
+var ClothSimulationScene = function(options) {
+    "use strict";
     Scene.call(this);
-    if(options === undefined) {options = {sim_type: 0}; }
+    if (options === undefined) {
+        options = {
+            sim_type: 0
+        };
+    }
     this.options = options;
     this.physics = new VerletPhysics2D();
     // use to displace an element
@@ -34,7 +38,7 @@ var ClothSimulationScene = function (options) {
 ClothSimulationScene.prototype = Object.create(Scene.prototype);
 ClothSimulationScene.prototype.constructor = ClothSimulationScene;
 
-ClothSimulationScene.prototype.loop = function () {
+ClothSimulationScene.prototype.loop = function() {
     "use strict";
     this.physics.update();
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
@@ -42,7 +46,7 @@ ClothSimulationScene.prototype.loop = function () {
     Scene.prototype.loop.call(this);
 };
 
-ClothSimulationScene.prototype.mouseStartEvt = function (position) {
+ClothSimulationScene.prototype.mouseStartEvt = function(position) {
     "use strict";
     var i = 0,
         particle = null,
@@ -51,13 +55,15 @@ ClothSimulationScene.prototype.mouseStartEvt = function (position) {
         p2 = null;
 
     if (this.particle === null) {
-    // search for a particle near to the mouse
+        // search for a particle near to the mouse
         for (i = 0; i < this.physics.particles.length; i += 1) {
             particle = this.physics.particles[i];
             if (particle.isLocked === false) {
                 p2 = new Vec2D(particle.x, particle.y);
                 isIn = p1.isInCircle(p2, 16);
-                if (isIn) {this.particle = particle; }
+                if (isIn) {
+                    this.particle = particle;
+                }
             }
         }
     }
@@ -68,7 +74,7 @@ ClothSimulationScene.prototype.mouseStartEvt = function (position) {
     }
 };
 
-ClothSimulationScene.prototype.mouseStoptEvt = function () {
+ClothSimulationScene.prototype.mouseStoptEvt = function() {
     "use strict";
     // release particle
     this.particle = null;
