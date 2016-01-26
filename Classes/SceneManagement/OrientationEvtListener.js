@@ -39,19 +39,19 @@ OrientationEvtListener.prototype.move = function(event) {
         tiltLR = event.gamma; // left-right (in deg)
 
     // limits tiltFB
-    if (tiltFB > 60) {
-        tiltFB = 60;
+    if (tiltFB > 30) {
+        tiltFB = 30;
     }
-    if (tiltFB < -60) {
-        tiltFB = -60;
+    if (tiltFB < -30) {
+        tiltFB = -30;
     }
 
     // limits tiltLR
-    if (tiltLR > 60) {
-        tiltLR = 60;
+    if (tiltLR > 30) {
+        tiltLR = 30;
     }
-    if (tiltLR < -60) {
-        tiltLR = -60;
+    if (tiltLR < -30) {
+        tiltLR = -30;
     }
 
     console.log(dir, tiltFB, tiltLR);
