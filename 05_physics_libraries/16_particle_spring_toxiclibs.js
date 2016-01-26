@@ -86,7 +86,24 @@ ToxiSimulationScene.prototype.mouseStoptEvt = function() {
 ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
     "use strict";
     // release particle
-    this.gravity.x += tiltLR / 30;
-    this.gravity.y += tiltFB / 30;
+    this.gravity.x += tiltLR / (30 * 10);
+    this.gravity.y += tiltFB / (30 * 10);
+    
+        // limits tiltFB
+    if (this.gravity.x > 2) {
+        this.gravity.x = 2;
+    }
+    if (this.gravity.x < -2) {
+        this.gravity.x = -2;
+    }
+
+    // limits tiltLR
+    if (this.gravity.y > 2) {
+        this.gravity.y = 2;
+    }
+    if (this.gravity.y < -2) {
+        this.gravity.y = -2;
+    }
+    
     this.gravityBehavior.setForce(this.gravity);
 };

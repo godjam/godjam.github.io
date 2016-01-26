@@ -11,6 +11,18 @@ var OrientationEvtListener = function(canvas, callbackOwner, callback) {
         console.log("DeviceOrientation is not supported");
     }
 
+    screen.lockOrientationUniversal = screen.lockOrientation || screen.mozLockOrientation || screen.msLockOrientation;
+
+    if (screen.lockOrientationUniversal(["landscape-primary", "landscape-secondary"])) {
+      // orientation was locked
+    } else {
+      // orientation lock failed
+    }
+    
+    console.log("The orientation of the screen is: " + screen.orientation);
+    screen.lockOrientation(screen.orientation);
+
+
     this.canvas = canvas;
     this.callbackOwner = callbackOwner;
     this.callback = null;
@@ -27,6 +39,7 @@ var OrientationEvtListener = function(canvas, callbackOwner, callback) {
 OrientationEvtListener.prototype.stop = function() {
     "use strict";
     window.removeEventListener("deviceorientation", this.move);
+    screen.unlockOrientation(screen.orientation);
 };
 
 OrientationEvtListener.prototype.move = function(event) {
