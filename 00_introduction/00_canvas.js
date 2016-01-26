@@ -6,7 +6,7 @@ var CanvasTestScene = function () {
     this.radius = 50;
     this.pos = new Vector2(this.size.x / 2, this.size.y / 2);
     this.color = Color.createLightColor();
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseEvent));
     this.motionX = null;
     this.motionY = null;
     this.motionH = null;

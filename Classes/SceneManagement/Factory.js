@@ -9,7 +9,8 @@ RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
 OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
 ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
 ShatteringScene, ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
-BlendParticlesScene, BoxesScene, CollisionListenerScene, ClothSimulationScene */
+BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
+ClustersSystemScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -85,7 +86,11 @@ Factory.parseURL = function () {
 Factory.init = function () {
     "use strict";
     console.log("%c Nature %c Code ", "color: #fff; background: #ff00bb;", "color: #fff; background: #00ffbb;");
-        
+    
+    // Hides mobile browser's address bar when page is done loading.
+    // http://www.html5rocks.com/en/mobile/mobifying/
+    window.scrollTo(0, 1);
+    
     // based on : http://eloquentjavascript.net/10_modules.html
     this.cache = Object.create(null);
     this.objOp = Object.create(null);
@@ -199,11 +204,13 @@ Factory.init = function () {
     
     this.cache["05_11"] = CollisionListenerScene;
     
-    this.cache["05_13"] = ClothSimulationScene;
+    this.cache["05_13"] = ToxiSimulationScene;
     this.objOp["05_13"] = {sim_type: 0};
     
-    this.cache["05_14"] = ClothSimulationScene;
+    this.cache["05_14"] = ToxiSimulationScene;
     this.objOp["05_14"] = {sim_type: 1};
+    
+    this.cache["05_15"] = ClustersSystemScene;
 };
 
 Factory.autoclose = function () {

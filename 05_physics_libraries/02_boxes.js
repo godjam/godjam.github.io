@@ -32,7 +32,7 @@ var BoxesScene = function (options) {
     
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
 };
 BoxesScene.prototype = Object.create(Scene.prototype);
 BoxesScene.prototype.constructor = BoxesScene;

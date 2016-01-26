@@ -10,7 +10,7 @@ var AsteroidsScene = function () {
     this.emitter.setAngle(Math.PI * 3 / 2, Math.PI / 8);
     this.emitter.addParticle();
     
-    // this.mouseListener = new MouseEvtListener(this.canvas, this, this.controls);
+    // this.mouseListener = new MouseEvtListener(this.canvas, this, this.controls); // TODO : keyboard listener
     this.reactorLeft = false;
     this.reactorRight = false;
     

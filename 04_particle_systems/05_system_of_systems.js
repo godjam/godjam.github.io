@@ -5,7 +5,7 @@ var SystemOfSystemsScene = function () {
     Scene.call(this);
     this.lastTime = 500;
     this.emitters = [];
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.createEmitter);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.createEmitter));
     this.createEmitter(new Vector2(this.size.x / 2, this.size.y / 2));
 };
 SystemOfSystemsScene.prototype = Object.create(Scene.prototype);

@@ -3,7 +3,7 @@ var MoverFollowScene = function () {
     "use strict";
     Scene.call(this);
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseEvent);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseEvent));
 };
 MoverFollowScene.prototype = Object.create(Scene.prototype);
 MoverFollowScene.prototype.constructor =  MoverFollowScene;

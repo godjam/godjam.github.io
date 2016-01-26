@@ -3,6 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>The Nature Of Code</title>
     <link rel="stylesheet" type="text/css" href="main.css"/>
     <script src="Libs/three.min.js"></script>
@@ -76,6 +78,7 @@
     
     <!-- scene management -->
     <script src="Classes/SceneManagement/MouseEvtListener.js"></script>
+    <script src="Classes/SceneManagement/OrientationEvtListener.js"></script>
     <script src="Classes/SceneManagement/FrameLoop.js"></script>
     <script src="Classes/SceneManagement/Scene.js"></script>
     <!-- scenes -->
@@ -122,6 +125,7 @@
     <script src="05_physics_libraries/11_collision_listener.js"></script>
     <!-- <script src="05_physics_libraries/01_cozy.js"></script>  -->
     <script src="05_physics_libraries/16_particle_spring_toxiclibs.js"></script>
+    <script src="05_physics_libraries/17_clusters_system.js"></script>
     <!-- <script src="06_autonomous_agents/01_seeking_target.js"></script>  -->
     <!-- <script src="06_autonomous_agents/04_wander.js"></script>  -->
     <!-- <script src="06_autonomous_agents/09_angle.js"></script> -->
@@ -213,7 +217,8 @@
                 <button onClick="Factory.createScene('05_09')">09 - Kinematic Body</button>
                 <button onClick="Factory.createScene('05_10')">10 - Attraction</button>        
                 <button onClick="Factory.createScene('05_11')">11 - Collision Listening</button>        
-                <button onClick="Factory.createScene('05_13')">13 - Cloth Sim</button>        
+                <button onClick="Factory.createScene('05_13')">13 - Cloth Sim</button>
+                <button onClick="Factory.createScene('05_14')">14 - Creature</button>
                 
                 <h2>by Godjam</h2>
             </nav>

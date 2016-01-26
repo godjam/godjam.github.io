@@ -1,12 +1,11 @@
-/*global toxi,  LineCluster, Cluster, GridCluster, Scene, MouseEvtListener, ToxiCreature*/
+/*global toxi,  LineCluster, Cluster, GridCluster, Scene, MouseEvtListener, ToxiCreature, OrientationEvtListener*/
 var Rect = toxi.geom.Rect,
     Vec2D = toxi.geom.Vec2D,
     GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
-    VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
-    VerletSpring2D = toxi.physics2d.VerletSpring2D;
+    VerletPhysics2D = toxi.physics2d.VerletPhysics2D;
 
 //*************************************************
-var ClothSimulationScene = function(options) {
+var ToxiSimulationScene = function(options) {
     "use strict";
     Scene.call(this);
     if (options === undefined) {
@@ -18,8 +17,10 @@ var ClothSimulationScene = function(options) {
     this.physics = new VerletPhysics2D();
     // use to displace an element
     this.particle = null;
-
-
+    // gravity
+    this.gravity = new Vec2D(0, 1);
+    this.gravityBehavior = new GravityBehavior(this.gravity);
+    
     if (options.sim_type === 0) {
         //this.cluster = new LineCluster(this.size.x, this.size.y, this.physics);
         this.cluster = new GridCluster(this.size.x, this.size.y, this.physics);
@@ -30,15 +31,17 @@ var ClothSimulationScene = function(options) {
     // TODO next exercice
     //this.cluster = new Cluster(new Vec2D(this.size.x / 2, 50), this.physics);
 
-
+    // TODO : resize : change world bound
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
-    this.physics.addBehavior(new GravityBehavior(new Vec2D(0, 0.5)));
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt);
+    // TODO : Orientation : change gravity
+    this.physics.addBehavior(this.gravityBehavior);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
+    this.eventListeners.push(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
 };
-ClothSimulationScene.prototype = Object.create(Scene.prototype);
-ClothSimulationScene.prototype.constructor = ClothSimulationScene;
+ToxiSimulationScene.prototype = Object.create(Scene.prototype);
+ToxiSimulationScene.prototype.constructor = ToxiSimulationScene;
 
-ClothSimulationScene.prototype.loop = function() {
+ToxiSimulationScene.prototype.loop = function() {
     "use strict";
     this.physics.update();
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
@@ -46,7 +49,7 @@ ClothSimulationScene.prototype.loop = function() {
     Scene.prototype.loop.call(this);
 };
 
-ClothSimulationScene.prototype.mouseStartEvt = function(position) {
+ToxiSimulationScene.prototype.mouseStartEvt = function(position) {
     "use strict";
     var i = 0,
         particle = null,
@@ -74,8 +77,16 @@ ClothSimulationScene.prototype.mouseStartEvt = function(position) {
     }
 };
 
-ClothSimulationScene.prototype.mouseStoptEvt = function() {
+ToxiSimulationScene.prototype.mouseStoptEvt = function() {
     "use strict";
     // release particle
     this.particle = null;
+};
+
+ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
+    "use strict";
+    // release particle
+    this.gravity.x = tiltLR / 60;
+    this.gravity.y = tiltFB / 60;
+    this.gravityBehavior.setForce(this.gravity);
 };

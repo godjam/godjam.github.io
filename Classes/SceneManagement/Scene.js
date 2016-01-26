@@ -1,5 +1,5 @@
 /*global Context, FrameLoop, THREE, Vector2*/
-var Scene = function (options) {
+var Scene = function(options) {
     "use strict";
     // canvas
     this.canvas = document.querySelector('canvas');
@@ -9,53 +9,66 @@ var Scene = function (options) {
     this.renderer = null;
     this.camera = null;
     this.scene = null;
-    this.mouseListener = null;
-    
+    this.eventListeners = [];
+
     // window
     window.addEventListener('resize', this.resize.bind(this));
-    
+
     // frames
     this.frameloop = new FrameLoop();
     this.requestId = null;
-    
+
     // init a Threejs scene
     if (options !== undefined && options.threejs === true) {
         this.initThreejsScene();
-    
-    // init a std 2D canvas.
-    } else {
+
+        // init a std 2D canvas.
+    }
+    else {
         this.init2DCanvasScene();
     }
-    
+
     this.resize();
 };
 
-Scene.prototype.start = function () {"use strict"; };
-
-Scene.prototype.loop = function () {
+Scene.prototype.start = function() {
     "use strict";
+};
+
+Scene.prototype.loop = function() {
+    "use strict";
+    var i = 0;
     this.frameloop.update();
-    this.mouseListener.update();
+    for (i = 0; i < this.eventListeners.length; i += 1) {
+        if (this.eventListeners[i].update) {
+            this.eventListeners[i].update();
+        }
+    }
     this.requestId = window.requestAnimationFrame(this.loop.bind(this));
 };
 
-Scene.prototype.stop = function () {
+Scene.prototype.stop = function() {
     "use strict";
+    var i = 0;
+
     if (this.requestId !== null) {
         window.cancelAnimationFrame(this.requestId);
         this.requestId = null;
     }
-    
+
     if (this.resize !== null) {
         window.removeEventListener('resize', this.resize);
     }
-    
-    if (this.mouseListener !== null) {
-        this.mouseListener.stop();
+
+    for (i = 0; i < this.eventListeners.length; i += 1) {
+        if (this.eventListeners[i] !== null) {
+            this.eventListeners[i].stop();
+        }
     }
+
 };
 
-Scene.prototype.resize = function () {
+Scene.prototype.resize = function() {
     "use strict";
     this.size = new Vector2(window.innerWidth, window.innerHeight);
     // 2D canvas scene
@@ -71,13 +84,15 @@ Scene.prototype.resize = function () {
     }
 };
 
-Scene.prototype.init2DCanvasScene = function () {
+Scene.prototype.init2DCanvasScene = function() {
     "use strict";
-	var canvas = document.createElement('canvas'),
+    var canvas = document.createElement('canvas'),
         container = document.querySelector('#main-container');
-    
-    if (this.canvas !== null) { container.removeChild(this.canvas); }
-    
+
+    if (this.canvas !== null) {
+        container.removeChild(this.canvas);
+    }
+
     this.size = new Vector2(window.innerWidth, window.innerHeight);
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
@@ -86,9 +101,9 @@ Scene.prototype.init2DCanvasScene = function () {
     container.appendChild(this.canvas);
 };
 
-Scene.prototype.initThreejsScene = function () {
+Scene.prototype.initThreejsScene = function() {
     "use strict";
-    
+
     this.size = new Vector2(window.innerWidth, window.innerHeight);
     // camera attributes
     var VIEW_ANGLE = 30,
@@ -98,7 +113,7 @@ Scene.prototype.initThreejsScene = function () {
 
         // get the DOM element to attach to
         container = document.querySelector('#main-container');
-    
+
 
     // create a WebGL renderer, camera
     // and a scene
@@ -125,14 +140,16 @@ Scene.prototype.initThreejsScene = function () {
     this.renderer.setSize(this.size.x, this.size.y);
 
     // attach the render-supplied DOM element
-    if (this.canvas !== null) { container.removeChild(this.canvas); }
-    
+    if (this.canvas !== null) {
+        container.removeChild(this.canvas);
+    }
+
     // save the canvas ref
     this.canvas = this.renderer.domElement;
     container.appendChild(this.canvas);
 };
 
-Scene.prototype.setDarkScene = function () {
+Scene.prototype.setDarkScene = function() {
     "use strict";
     if (this.ctx) {
         this.ctx.canvas.style.background = "#222";

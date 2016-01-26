@@ -5,7 +5,7 @@ var WalkerScene = function (options) {
     Scene.call(this);
     this.walker = new Walker(this.size.x / 2, this.size.y / 2,
                              this, options);
-    this.mouseListener = new MouseEvtListener(this.canvas, this.walker, this.walker.mouseEvent);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this.walker, this.walker.mouseEvent));
 };
 WalkerScene.prototype = Object.create(Scene.prototype);
 WalkerScene.prototype.constructor = WalkerScene;

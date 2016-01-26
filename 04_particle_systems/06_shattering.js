@@ -7,7 +7,7 @@ var ShatteringScene = function () {
     
     this.movers = [];
     this.emitters = [];
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.shatter);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.shatter));
     this.gravity = new Gravity(0, 0.08);
     
     var i = 0;

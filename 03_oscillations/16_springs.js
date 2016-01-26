@@ -15,7 +15,7 @@ var SpringsScene = function () {
     this.gravity = new Gravity(0, 0.02);
     this.friction = new Friction(0.2);
 
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.attract);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.attract));
 };
 SpringsScene.prototype = Object.create(Scene.prototype);
 SpringsScene.prototype.constructor = SpringsScene;

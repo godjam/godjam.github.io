@@ -16,7 +16,7 @@ var CollisionListenerScene = function () {
     
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
-    this.mouseListener = new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt);
+    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
 };
 CollisionListenerScene.prototype = Object.create(Scene.prototype);
 CollisionListenerScene.prototype.constructor = CollisionListenerScene;
