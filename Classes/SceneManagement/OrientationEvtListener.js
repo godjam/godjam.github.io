@@ -36,33 +36,9 @@ OrientationEvtListener.prototype.move = function(event) {
     "use strict";
     // A voir
     event.preventDefault();
-    var absolute = event.absolute,
-        dir = event.alpha, // compass direction (in deg)
+    var dir = event.alpha, // compass direction (in deg)
         tiltFB = event.beta, // front-back (in deg)
         tiltLR = event.gamma; // left-right (in deg)
-
-    // limits tiltFB
-    if (tiltFB > 30) {
-        tiltFB = 30;
-    }
-    if (tiltFB < -30) {
-        tiltFB = -30;
-    }
-
-    // limits tiltLR
-    if (tiltLR > 30) {
-        tiltLR = 30;
-    }
-    if (tiltLR < -30) {
-        tiltLR = -30;
-    }
-
-    console.log(dir, tiltFB, tiltLR);
-
-    // Apply the transform to the canvas
-    this.canvas.style.webkitTransform = "rotate3d(0,1,0," + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
-    this.canvas.style.MozTransform = "rotate3d(0,1,0," + tiltLR + "deg)";
-    this.canvas.style.transform = "rotate3d(0,1,0," + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
 
     var bindedCall = this.callback.bind(this.callbackOwner);
     bindedCall(dir, tiltFB, tiltLR);

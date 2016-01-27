@@ -18,6 +18,7 @@ var ToxiSimulationScene = function(options) {
     // use to displace an element
     this.particle = null;
     // gravity
+    this.rotation = new Vec2D(0, 0);
     this.gravity = new Vec2D(0, 1);
     this.gravityBehavior = new GravityBehavior(this.gravity);
     
@@ -85,6 +86,26 @@ ToxiSimulationScene.prototype.mouseStoptEvt = function() {
 
 ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
     "use strict";
+    
+    // limits tiltFB
+    if (tiltFB > 30) {
+        tiltFB = 30;
+    }
+    if (tiltFB < -30) {
+        tiltFB = -30;
+    }
+
+    // limits tiltLR
+    if (tiltLR > 30) {
+        tiltLR = 30;
+    }
+    if (tiltLR < -30) {
+        tiltLR = -30;
+    }
+
+    // TODO : remove
+    console.log(dir, tiltFB, tiltLR);
+
     // release particle
     this.gravity.x += tiltLR / (30 * 10);
     this.gravity.y += tiltFB / (30 * 10);
@@ -105,5 +126,14 @@ ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
         this.gravity.y = -2;
     }
     
+    // canvas rotation
+    this.rotation.x = this.gravity.x * 10;
+    this.rotation.y = this.gravity.y * 10;
+
+    // Apply the transform to the canvas
+    this.canvas.style.webkitTransform = "rotate3d(0,1,0," + this.rotation.x + "deg) rotate3d(1,0,0, " + (this.rotation.y * -1) + "deg)";
+    this.canvas.style.MozTransform = "rotate3d(0,1,0," + this.rotation.x + "deg)";
+    this.canvas.style.transform = "rotate3d(0,1,0," + this.rotation.x + "deg) rotate3d(1,0,0, " + (this.rotation.y * -1) + "deg)";
+ 
     this.gravityBehavior.setForce(this.gravity);
 };
