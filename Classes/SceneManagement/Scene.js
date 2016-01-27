@@ -10,6 +10,8 @@ var Scene = function(options) {
     this.camera = null;
     this.scene = null;
     this.eventListeners = [];
+    this.orientation = screen.mozLockOrientation || screen.msLockOrientation || screen.orientation;
+
 
     // window
     window.addEventListener('resize', this.resize.bind(this));
@@ -153,5 +155,27 @@ Scene.prototype.setDarkScene = function() {
     "use strict";
     if (this.ctx) {
         this.ctx.canvas.style.background = "#222";
+    }
+};
+
+/**
+ * Lock the screen orientation 
+ **/
+Scene.orientationLock = function() {
+    if (this.orientation && this.orientation.lock) {
+        var currentOrientation = this.orientation.type;
+        this.orientation.lock(currentOrientation);
+    }
+    else {
+        console.log("screen orientation locking is not supported")
+    }
+};
+
+/**
+ * unlock the screen orientation 
+ **/
+Scene.orientationUnlock = function() {
+    if (this.orientation && this.orientation.unlock) {
+        this.orientation.unlock();
     }
 };
