@@ -1,4 +1,4 @@
-/*global toxi, ToxiParticle, Vec2D, VerletSpring2D, Color*/
+/*global toxi, ToxiParticle, Vec2D, VerletSpring2D, Color, Tools*/
 var ToxiCreature = function(position, physics) {
     "use strict";
 
@@ -15,16 +15,14 @@ var ToxiCreature = function(position, physics) {
         radius = 50,
         strength = 0.003,
         point = new Vec2D(0, 0),
-        angle = 0,
-        l = 0;
+        angle = 0;
     
     this.color = Color.createBrightColor().mutate();
     this.physics = physics;
     // paticles of the border
     this.body = [];
+    this.faceAngle = 0;
 
-    // create all around particles
-    l = Math.sin(Math.PI / bodyLength) * radius * 2;
     //console.log(l, radius);
     for (i = 0; i < bodyLength; i += 1) {
         angle = i * Math.PI * 2 / bodyLength;
@@ -58,9 +56,9 @@ var ToxiCreature = function(position, physics) {
             tail.push(particle);
             
             if (j === 0) {
-                spring = new VerletSpring2D(this.body[2 + i * 2].p, tail[j].p, 2, strength);
+                spring = new VerletSpring2D(this.body[2 + i * 2].p, tail[j].p, 20, strength * 10);
             } else {
-                spring = new VerletSpring2D(tail[j-1].p, tail[j].p, 2, strength);
+                spring = new VerletSpring2D(tail[j-1].p, tail[j].p, 20, strength * 10);
             }
             physics.addSpring(spring);
         }
@@ -99,29 +97,32 @@ ToxiCreature.prototype.display = function(ctx) {
     c.y /= this.body.length;
 
     // test ear
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    ctx.rotate(this.faceAngle);
     ctx.beginPath();
-    ctx.arc(c.x - 40, c.y - 40, 5, 0, Math.PI * 2);
-    ctx.arc(c.x + 40, c.y - 40, 5, 0, Math.PI * 2);
+    ctx.arc(-40, -40, 5, 0, Math.PI * 2);
+    ctx.arc(40, -40, 5, 0, Math.PI * 2);
     ctx.fill();
     ctx.closePath();
     // eyes
     ctx.fillStyle = "#fff";
     ctx.beginPath();
-    ctx.arc(c.x - 30, c.y, 15, 0, Math.PI, true);
+    ctx.arc(-30, 0, 15, 0, Math.PI, true);
     ctx.fill();
     ctx.closePath();
 
     ctx.beginPath();
-    ctx.arc(c.x + 30, c.y, 15, 0, Math.PI, true);
+    ctx.arc(30, 0, 15, 0, Math.PI, true);
     ctx.fill();
     ctx.closePath();
 
     // smile
     ctx.beginPath();
-    ctx.arc(c.x, c.y + 10, 20, 0, Math.PI);
+    ctx.arc(0, 10, 20, 0, Math.PI);
     ctx.fill();
     ctx.closePath();
-    
+    ctx.restore();
     
     // *************************************************
     /*
@@ -142,3 +143,7 @@ ToxiCreature.prototype.display = function(ctx) {
     }
     */
 };
+
+ToxiCreature.prototype.setFaceAngle = function(angle) {
+    this.faceAngle = Tools.clamp(angle, -Math.PI / 2, Math.PI);
+}

@@ -11,8 +11,6 @@ var OrientationEvtListener = function(canvas, callbackOwner, callback) {
         console.log("DeviceOrientation is not supported");
     }
 
-    Scene.orientationLock();
-
     this.canvas = canvas;
     this.callbackOwner = callbackOwner;
     this.callback = null;
@@ -29,19 +27,21 @@ var OrientationEvtListener = function(canvas, callbackOwner, callback) {
 OrientationEvtListener.prototype.stop = function() {
     "use strict";
     window.removeEventListener("deviceorientation", this.move);
-    Scene.orientationUnlock();
 };
 
 OrientationEvtListener.prototype.move = function(event) {
     "use strict";
     // A voir
     event.preventDefault();
-    var dir = event.alpha, // compass direction (in deg)
+    var bindedCall = null,
+        dir = event.alpha, // compass direction (in deg)
         tiltFB = event.beta, // front-back (in deg)
         tiltLR = event.gamma; // left-right (in deg)
 
-    var bindedCall = this.callback.bind(this.callbackOwner);
-    bindedCall(dir, tiltFB, tiltLR);
+    if (dir && tiltFB && tiltLR) {
+        bindedCall = this.callback.bind(this.callbackOwner);
+        bindedCall(dir, tiltFB, tiltLR);
+    }
 };
 
 OrientationEvtListener.prototype.update = function() {
