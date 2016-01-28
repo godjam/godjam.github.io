@@ -2,6 +2,7 @@
 var Box = function (x, y, scene, world, scale, boxW, boxH, bodyType) {
     "use strict";
     Box2dEntity.call(this, x, y, scene, world, scale);
+    this.strokeStyle = null;
     
     if (boxW === undefined) {
         this.boxW = Math.random() * 16 + 8;

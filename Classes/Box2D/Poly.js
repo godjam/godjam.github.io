@@ -2,6 +2,7 @@
 var Poly = function (x, y, scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, x, y, scene, world, scale);
+    this.strokeStyle = null;
     
     var points = [
             { x: -15,   y: 25 },

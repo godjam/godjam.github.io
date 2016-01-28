@@ -40,7 +40,7 @@ var Box2dEntity = function (x, y, scene, world, scale) {
     this.nameArray = []; // array of entities names
     this.entitiesArray = []; // array of entities objects
     this.scale = scale;
-    this.lineWidth = 0.5;
+    this.lineWidth = 1;
     this.strokeStyle = "#888";
     this.color = Color.createBrightColor();
     this.originColor = this.color.copy();
@@ -431,14 +431,18 @@ Box2dEntity.getBodyAt = function (p, world) {
 Box2dEntity.prototype.drawRect = function (ctx, center, angle, width, height) {
     "use strict";
     ctx.save();
-    ctx.lineWidth = this.lineWidth;
     ctx.fillStyle = this.color.ToHex();
-    ctx.strokeStyle = this.strokeStyle;
 
     ctx.translate(center.x * this.scale, center.y * this.scale);
     ctx.rotate(angle);
     ctx.translate(-width / 2, -height / 2);
     ctx.fillRect(0, 0, width, height);
+    
+    if (this.strokeStyle !== null) {
+        ctx.lineWidth = this.lineWidth;
+        ctx.strokeStyle = this.strokeStyle;
+        ctx.strokeRect(0, 0, width, height);
+    }
     ctx.restore();
 };
 
@@ -453,10 +457,13 @@ Box2dEntity.prototype.drawCircle = function (ctx, center, angle, radius) {
     ctx.translate(center.x * this.scale, center.y * this.scale);
     ctx.rotate(angle);
     ctx.arc(0, 0, radius, 0, Math.PI * 2);
-    ctx.lineTo(0, 0);
     ctx.fill();
-    ctx.stroke();
+    ctx.closePath();
     
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, radius);
+    ctx.stroke();
     ctx.closePath();
     ctx.restore();
 };
@@ -465,9 +472,7 @@ Box2dEntity.prototype.drawClosedPolygon = function (ctx, center, angle, vertices
     "use strict";
     var i = 0;
     ctx.save();
-    ctx.lineWidth = this.lineWidth;
     ctx.fillStyle = this.color.ToHex();
-    ctx.strokeStyle = this.strokeStyle;
     ctx.beginPath();
 
     ctx.translate(center.x * this.scale, center.y * this.scale);
@@ -489,11 +494,15 @@ Box2dEntity.prototype.drawClosedPolygon = function (ctx, center, angle, vertices
         vertices[0].x * this.scale,
         vertices[0].y * this.scale
     );
-
-    ctx.stroke();
+    ctx.closePath();
     ctx.fill();
 
-    ctx.closePath();
+    if (this.strokeStyle !== null) {
+        ctx.lineWidth = this.lineWidth;
+        ctx.strokeStyle = this.strokeStyle;
+        ctx.stroke();
+    }
+
     ctx.restore();
 };
 

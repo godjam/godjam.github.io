@@ -15,7 +15,7 @@ var CollisionListenerScene = function () {
     this.world.SetContactListener(new ContactListener());
     
     this.createboundaries();
-    this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
+    this.createBox(new Vector2(this.size.x / 2, 0));
     this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
 };
 CollisionListenerScene.prototype = Object.create(Scene.prototype);
@@ -107,11 +107,12 @@ CollisionListenerScene.prototype.createNextBoxes = function () {
     var pos = null,
         nextInfos = null,
         i = 0,
-        r = Math.round(Math.random() * 2 + 1);
+        r = 0;
     
     while (this.nextBoxesInfos.length > 0) {
         nextInfos = this.nextBoxesInfos.shift();
         pos = nextInfos.position;
+        r = Math.round(Math.random() + 2);
         
         for (i = 0; i < r; i += 1) {
             this.createBox(pos, nextInfos);
@@ -121,7 +122,8 @@ CollisionListenerScene.prototype.createNextBoxes = function () {
 
 CollisionListenerScene.prototype.createboundaries = function (position) {
     "use strict";
-    var boundary = new Boundary(this, this.world, this.scale);//new CircleBoundary(this, this.world, this.scale);
+    var boundary = new Boundary(this, this.world, this.scale);
+    //var boundary = new CircleBoundary(this, this.world, this.scale);
     //boundary.getEntityByName("b").body.SetAngularVelocity(Math.PI / 2);
     this.boundaries.push(boundary);
 };
@@ -141,16 +143,17 @@ CollisionListenerScene.prototype.mouseStartEvt = function (position) {
 
 CollisionListenerScene.prototype.startCollisionEvent = function (e1, e2) {
     "use strict";
-    // TODO : change border color to "#888";
-    //e1.changeColor(this.color);
-    
+    e1.strokeStyle = "#888";
+    this.collide(e1, e2);
 };
 
 CollisionListenerScene.prototype.endCollisionEvent = function (e1, e2) {
     "use strict";
-    // TODO : change border color to null;
-    //e1.restoreColor();
-    
+    e1.strokeStyle = null;
+};
+
+CollisionListenerScene.prototype.collide = function (e1, e2) {
+    "use strict";
     if (e2.boxW === undefined) {e2.boxW = 3; }
     if (e2.boxH === undefined) {e2.boxH = 3; }
     
@@ -172,7 +175,7 @@ CollisionListenerScene.prototype.endCollisionEvent = function (e1, e2) {
     // console.log(m1.toFixed(0), e.toFixed(0));
     
                 
-    if (e > m1 * m1 * 20) {
+    if (e > m1 * m1 * 40) {
         e1.deletion = true;
         if (m1 > 1) {
             this.nextBoxesInfos.push({
