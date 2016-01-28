@@ -56,9 +56,9 @@ var ToxiCreature = function(position, physics) {
             tail.push(particle);
             
             if (j === 0) {
-                spring = new VerletSpring2D(this.body[2 + i * 2].p, tail[j].p, 20, strength * 10);
+                spring = new VerletSpring2D(this.body[2 + i * 2].p, tail[j].p, 30, strength * 10);
             } else {
-                spring = new VerletSpring2D(tail[j-1].p, tail[j].p, 20, strength * 10);
+                spring = new VerletSpring2D(tail[j-1].p, tail[j].p, 30 - (i * 4), strength * 10);
             }
             physics.addSpring(spring);
         }

@@ -17,7 +17,7 @@ var Scene = function(options) {
     // frames
     this.frameloop = new FrameLoop();
     this.requestId = null;
-
+    
     // init a Threejs scene
     if (options !== undefined && options.threejs === true) {
         this.initThreejsScene();
@@ -27,6 +27,8 @@ var Scene = function(options) {
     else {
         this.init2DCanvasScene();
     }
+    
+    this.resize();
 };
 
 Scene.prototype.start = function() {

@@ -48,7 +48,9 @@ ToxiSimulationScene.prototype.stop = function() {
 ToxiSimulationScene.prototype.resize = function() {
     "use strict";
     Scene.prototype.resize.call(this);
-    this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
+    if (this.physics) {
+        this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
+    }
 };
 
 ToxiSimulationScene.prototype.loop = function() {
@@ -109,7 +111,7 @@ ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
     this.gravity.x = Tools.clamp(this.gravity.x, -1, 1);
     this.gravity.y = Tools.clamp(this.gravity.y, -1, 1);
 
-    if(this.options.sim_type === 1)
+    if (this.options.sim_type === 1)
         this.changeClusterOrientation();
 
     // Apply the transform to the canvas
@@ -117,8 +119,8 @@ ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
     this.gravityBehavior.setForce(this.gravity);
 };
 
-ToxiSimulationScene.prototype.changeClusterOrientation = function () {
-    
+ToxiSimulationScene.prototype.changeClusterOrientation = function() {
+
     var aX = Math.abs(this.gravity.x),
         aY = Math.abs(this.gravity.y);
     // x axis 

@@ -5,11 +5,7 @@ function MouseAttractor(scene, attractor) {
     if (scene instanceof Scene === false) {
         throw "MouseAttractor.ctor : scene is not a Scene";
     }
-    
-    if (scene.mouseListener !== null) {
-        throw "MouseAttractor.ctor : mouseListener is not null";
-    }
-    
+
     if (scene.canvas instanceof HTMLCanvasElement === false) {
         throw "MouseAttractor.ctor : canvas is not a HTMLCanvasElement";
     }
@@ -24,7 +20,7 @@ function MouseAttractor(scene, attractor) {
     
     
     // init listener
-    scene.mouseListener = new MouseEvtListener(scene.canvas, this, this.update);
+    scene.eventListeners.push(new MouseEvtListener(scene.canvas, this, this.update));
 }
 
 MouseAttractor.prototype.update = function (position) {
