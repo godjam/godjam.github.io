@@ -11,7 +11,7 @@ var Rect = toxi.geom.Rect,
 var ClustersSystemScene = function(options) {
     "use strict";
     Scene.call(this);
-    
+
     this.threshold = Math.max(this.size.x, this.size.y) / 5;
     this.time = 0;
     this.colorDot = Color.createBrightColor();
@@ -29,6 +29,7 @@ var ClustersSystemScene = function(options) {
     this.physics.addBehavior(this.gravityBehavior);
     this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
     this.eventListeners.push(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
+    this.addFirstParticles();
 };
 ClustersSystemScene.prototype = Object.create(Scene.prototype);
 ClustersSystemScene.prototype.constructor = ClustersSystemScene;
@@ -148,7 +149,8 @@ ClustersSystemScene.prototype.addParticle = function(position) {
         d = position.distanceTo(p.getPreviousPosition());
         if (d < this.threshold) {
             s = new VerletSpring2D(n, p, d, f);
-        } else {
+        }
+        else {
             s = new VerletMDSpring2D(n, p, d, f);
         }
         this.physics.addSpring(s);
@@ -156,3 +158,16 @@ ClustersSystemScene.prototype.addParticle = function(position) {
 
     this.physics.addParticle(n);
 };
+
+
+ClustersSystemScene.prototype.addFirstParticles = function() {
+    "use strict";
+    var i = 0,
+        x = 0,
+        y = 0;
+    for (i = 0; i < 3; i += 1) {
+        x = Math.random() * 100 - 50;
+        y = Math.random() * 100 - 50;
+        this.addParticle(new Vec2D(this.size.x / 2 + x, this.size.y / 2 + y));
+    }
+}

@@ -1,4 +1,4 @@
-/*global Scene, Emitter, Mover, MouseEvtListener, Vector2, Friction, console*/
+/*global Scene, Emitter, Mover, Vector2, Friction, VirtualDPad, console*/
 //*************************************************
 var AsteroidsScene = function () {
 	"use strict";
@@ -9,13 +9,8 @@ var AsteroidsScene = function () {
     this.emitter.setOwner(this.mover, new Vector2(-1, 0));
     this.emitter.setAngle(Math.PI * 3 / 2, Math.PI / 8);
     this.emitter.addParticle();
-    
-    // this.mouseListener = new MouseEvtListener(this.canvas, this, this.controls); // TODO : keyboard listener
-    this.reactorLeft = false;
-    this.reactorRight = false;
-    
-    window.addEventListener("keydown", this.keyDownListener.bind(this), true);
-    window.addEventListener("keyup", this.keyUpListener.bind(this), true);
+    // VirtualDPad
+    this.eventListeners.push(new VirtualDPad(this.canvas, this, this.updateReactors))
 };
 AsteroidsScene.prototype = Object.create(Scene.prototype);
 AsteroidsScene.prototype.constructor = AsteroidsScene;
@@ -23,7 +18,6 @@ AsteroidsScene.prototype.constructor = AsteroidsScene;
 AsteroidsScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    this.updateReactors();
     
     this.friction.applyOn(this.mover);
     this.mover.update(true);
@@ -33,62 +27,24 @@ AsteroidsScene.prototype.loop = function () {
 	Scene.prototype.loop.call(this);
 };
 
-AsteroidsScene.prototype.keyDownListener = function (event) {
+AsteroidsScene.prototype.updateReactors = function (padState) {
     "use strict";
-    if (event.defaultPrevented) {
-        return; // Should do nothing if the key event was already consumed.
-    }
-    switch (event.keyCode) {
-    case 38:
-        this.reactorLeft = true;
-        this.reactorRight = true;
-        break;
-    case 37:
-        this.reactorLeft = true;
-        break;
-    case 39:
-        this.reactorRight = true;
-        break;
-    }
-    event.preventDefault();
-};
-
-AsteroidsScene.prototype.keyUpListener = function (event) {
-    "use strict";
-    if (event.defaultPrevented) {
-        return; // Should do nothing if the key event was already consumed.
-    }
-    switch (event.keyCode) {
-    case 38: // up
-        this.reactorLeft = false;
-        this.reactorRight = false;
-        break;
-    case 37: // left
-        this.reactorLeft = false;
-        break;
-    case 39: // right
-        this.reactorRight = false;
-        break;
-    }
-    event.preventDefault();
-};
-
-AsteroidsScene.prototype.updateReactors = function () {
-    "use strict";
-    if (this.reactorLeft && this.reactorRight === false) {
+    // padState
+    if (padState.d.x > 0) {
         this.mover.applyTorque(-0.1);
         this.emitter.setActive(true);
-        
-    } else if (this.reactorRight && this.reactorLeft === false) {
+    } 
+    else if (padState.d.x < 0) {
         this.mover.applyTorque(0.1);
         this.emitter.setActive(true);
-    
-    } else if (this.reactorRight && this.reactorLeft) {
+    }
+    else if (padState.action === true) {
         var c = Math.cos(this.mover.angle) * 5,
             s = Math.sin(this.mover.angle) * 5;
         this.mover.applyForce(new Vector2(c, s));
         this.emitter.setActive(true);
-    } else {
+    }
+    else {
         this.emitter.setActive(false);
     }
     
@@ -96,12 +52,5 @@ AsteroidsScene.prototype.updateReactors = function () {
 };
 
 AsteroidsScene.prototype.stop = function () {
-    "use strict";
-    if (this.keyDownListener) {
-        window.removeEventListener("keydown", this.keyDownListener);
-    }
-    if (this.keyUpListener) {
-        window.removeEventListener("keyup", this.keyUpListener);
-    }
     Scene.prototype.stop.call(this);
 };

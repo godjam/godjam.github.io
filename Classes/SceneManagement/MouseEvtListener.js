@@ -1,4 +1,4 @@
-/*global TouchEvent, Vector2, HTMLCanvasElement*/
+/*global Vector2, HTMLCanvasElement*/
 var MouseEvtListener = function (canvas, callbackOwner, callbackMove, callbackRelease) {
     "use strict";
     
@@ -38,11 +38,15 @@ MouseEvtListener.prototype.stop = function () {
     this.canvas.removeEventListener("mousedown", this.mouseDown);
     this.canvas.removeEventListener("mouseup", this.mouseUp);
     this.canvas.removeEventListener("mousemove", this.move);
+    
+    this.canvas.removeEventListener("touchstart", this.mouseDown);
+    this.canvas.removeEventListener("touchend", this.mouseUp);
     this.canvas.removeEventListener("touchmove", this.move);
 };
 
 MouseEvtListener.prototype.move = function (event) {
     "use strict";
+    // TODO : let acces to multitouch
     event.preventDefault();
     var x = null, y = null;
     

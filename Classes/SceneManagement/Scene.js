@@ -1,4 +1,4 @@
-/*global Context, FrameLoop, THREE, Vector2*/
+/*global FrameLoop, THREE, Vector2*/
 var Scene = function(options) {
     "use strict";
     // canvas
@@ -43,6 +43,9 @@ Scene.prototype.loop = function() {
         if (this.eventListeners[i].update) {
             this.eventListeners[i].update();
         }
+        if (this.eventListeners[i].display) {
+            this.eventListeners[i].display(this.ctx);
+        }
     }
     this.requestId = window.requestAnimationFrame(this.loop.bind(this));
 };
@@ -70,6 +73,7 @@ Scene.prototype.stop = function() {
 
 Scene.prototype.resize = function() {
     "use strict";
+    window.scrollTo(0,0);
     this.size = new Vector2(window.innerWidth, window.innerHeight);
     // 2D canvas scene
     if (this.canvas !== null) {
