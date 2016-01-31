@@ -1,4 +1,4 @@
-/*global toxi, GridCluster, Scene, MouseEvtListener, ToxiCreature, OrientationEvtListener, Tools*/
+/*global toxi, GridCluster, Scene, MouseEvtListener, ToxiCreature, ToxiSystem, OrientationEvtListener, Tools*/
 var Rect = toxi.geom.Rect,
     Vec2D = toxi.geom.Vec2D,
     GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
@@ -16,23 +16,25 @@ var ToxiSimulationScene = function(options) {
     this.options = options;
     this.physics = new VerletPhysics2D();
     // use to displace an element
-    this.particle = null;
-    // gravity
+    this.particle = null;    // gravity
     this.gravity = new Vec2D(0, 1);
-    this.gravityBehavior = new GravityBehavior(this.gravity);
+    this.behavior = new GravityBehavior(this.gravity);
 
     if (options.sim_type === 0) {
         //this.cluster = new LineCluster(this.size.x, this.size.y, this.physics);
-        this.cluster = new GridCluster(this.size.x, this.size.y, this.physics);
+        this.cluster = new GridCluster(this.size, this.physics);
     }
     else if (options.sim_type === 1) {
         this.cluster = new ToxiCreature(new Vec2D(this.size.x / 2, 50), this.physics);
+    } 
+    else if (options.sim_type === 2) {
+        this.behavior.force.y = 0;
+        this.cluster = new ToxiSystem(this.size, this.physics);
     }
-
     // resize : change world bound
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
     // Orientation : change gravity
-    this.physics.addBehavior(this.gravityBehavior);
+    this.physics.addBehavior(this.behavior);
     this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
     this.eventListeners.push(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
 };
@@ -116,7 +118,7 @@ ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
 
     // Apply the transform to the canvas
     //this.canvas.style.transform = "rotate3d(0,1,0," + this.rotation.x + "deg) rotate3d(1,0,0, " + (this.rotation.y * -1) + "deg)";
-    this.gravityBehavior.setForce(this.gravity);
+    this.behavior.setForce(this.gravity);
 };
 
 ToxiSimulationScene.prototype.changeClusterOrientation = function() {

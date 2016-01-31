@@ -22,9 +22,11 @@ var VirtualDPad = function(canvas, callbackOwner, callback) {
         space: 32
     };
     
+    this.r = Math.max(canvas.width / 20, 50);
+    
     this.showOnStart = true;
-    var v0 = new Vector2(100, canvas.height - 100);
-    var v1 = new Vector2(canvas.width - 100, canvas.height - 100);
+    var v0 = new Vector2(this.r * 2, canvas.height - this.r * 2);
+    var v1 = new Vector2(canvas.width - this.r * 2, canvas.height - this.r * 2);
 
     this.supportTouch = ('ontouchstart' in window);
     this.leftTouchID = 0; // -1
@@ -32,7 +34,6 @@ var VirtualDPad = function(canvas, callbackOwner, callback) {
     this.leftTouchPos = v0.copy();
     this.leftTouchStartPos = v0.copy();
     this.rightTouchPos = v1.copy();
-
 
     this.canvas = canvas;
     this.callbackOwner = callbackOwner;
@@ -115,11 +116,11 @@ VirtualDPad.prototype.touchMove = function(event) {
     for (i = 0; i < event.changedTouches.length; i += 1) {
         t = event.changedTouches[i];
         if (this.leftTouchID === t.identifier) {
-            this.padState.d.x = (t.clientX - this.leftTouchStartPos.x) / 50;
-            this.padState.d.y = (t.clientY - this.leftTouchStartPos.y) / 50;
+            this.padState.d.x = (t.clientX - this.leftTouchStartPos.x) / this.r;
+            this.padState.d.y = (t.clientY - this.leftTouchStartPos.y) / this.r;
             this.padState.d.limit(1);
-            this.leftTouchPos.x = this.leftTouchStartPos.x + this.padState.d.x * 50;
-            this.leftTouchPos.y = this.leftTouchStartPos.y + this.padState.d.y * 50;
+            this.leftTouchPos.x = this.leftTouchStartPos.x + this.padState.d.x * this.r;
+            this.leftTouchPos.y = this.leftTouchStartPos.y + this.padState.d.y * this.r;
             continue;
         }
         else if (this.rightTouchID === t.identifier) {
@@ -204,33 +205,35 @@ VirtualDPad.prototype.display = function(ctx) {
     if (this.supportTouch === false) {
         return
     };
-    // TODO replace 50 by a member + cyan
     var i = 0, 
         PI2 = 2 * Math.PI;
 
     if (this.leftTouchID > -1) {
-        ctx.strokeStyle = "#889";
+        ctx.strokeStyle = "#BB8";
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.arc(this.leftTouchStartPos.x, this.leftTouchStartPos.y, 50, 0, PI2);
+        ctx.arc(this.leftTouchStartPos.x, this.leftTouchStartPos.y, this.r, 0, PI2);
         ctx.stroke();
         ctx.closePath();
         
         ctx.beginPath();
-        ctx.arc(this.leftTouchStartPos.x, this.leftTouchStartPos.y, 55, 0, PI2);
+        ctx.arc(this.leftTouchStartPos.x, this.leftTouchStartPos.y, this.r * 1.1, 0, PI2);
         ctx.stroke();
         ctx.closePath();
-                
+        
+        ctx.strokeStyle = "#444";        
         ctx.lineWidth = 4;
         ctx.beginPath();
-        ctx.arc(this.leftTouchPos.x, this.leftTouchPos.y, 50, 0, PI2);
+        ctx.arc(this.leftTouchPos.x, this.leftTouchPos.y, this.r * 0.9, 0, PI2);
         ctx.stroke();
         ctx.closePath();
     }
 
     if (this.rightTouchID > -1) {
+        ctx.fillStyle = "#222";    
         ctx.beginPath();
-        ctx.arc(this.rightTouchPos.x, this.rightTouchPos.y, 50, 0, PI2);
+        ctx.arc(this.rightTouchPos.x, this.rightTouchPos.y, this.r * 0.9, 0, PI2);
+        ctx.fill();
         ctx.stroke();
         ctx.closePath();
     }

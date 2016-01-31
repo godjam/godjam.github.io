@@ -1,4 +1,4 @@
-/*global Vec2D, toxi*/
+/*global toxi*/
 var ToxiParticle = function (position, physics) {
     "use strict";
     if (position instanceof toxi.geom.Vec2D === false) {
@@ -11,7 +11,6 @@ var ToxiParticle = function (position, physics) {
 ToxiParticle.prototype.display = function (ctx) {
     "use strict";
     ctx.beginPath();
-    ctx.arc(this.p.x, this.p.y, 16, 0, Math.PI * 2);
-    ctx.stroke();
+    ctx.fillRect(this.p.x - 2, this.p.y -2, 4, 4);
     ctx.closePath();
 };

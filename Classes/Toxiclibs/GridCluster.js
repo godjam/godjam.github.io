@@ -1,13 +1,13 @@
 /*global ToxiParticle, Vec2D, VerletSpring2D, Array2D, Color*/
-var GridCluster = function (width, height, physics) {
+var GridCluster = function (size, physics) {
     "use strict";
     var i = 0,
         j = 0,
         particle = null,
         spring = null,
         simWidth = 12,
-        len = (width / (simWidth - 1)),
-        simHeight = Math.round(height / len / 2),
+        len = (size.x / (simWidth - 1)),
+        simHeight = Math.round(size.y / len / 2),
         strength = 0.1,
         n1 = null,
         n2 = null,

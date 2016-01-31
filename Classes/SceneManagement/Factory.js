@@ -68,7 +68,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "04_04",
+    var defaultKey = "05_16",
         key = "";
     
     if (window !== null) {
@@ -211,6 +211,9 @@ Factory.init = function () {
     this.objOp["05_14"] = {sim_type: 1};
     
     this.cache["05_15"] = ClustersSystemScene;
+    
+    this.cache["05_16"] = ToxiSimulationScene;
+    this.objOp["05_16"] = {sim_type: 2};
 };
 
 Factory.autoclose = function () {
