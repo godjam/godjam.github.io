@@ -3,8 +3,27 @@
 var WalkerScene = function (options) {
     "use strict";
     Scene.call(this);
-    this.walker = new Walker(this.size.x / 2, this.size.y / 2,
-                             this, options);
+    // right walker
+    if (options.walkertype === 0) {
+        this.intro("Right Walker", "Walker will go right.");
+        
+    // mouse weighted walker
+    } else if (options.walkertype === 1) {
+        this.intro("Weighted random Walker", "Walker reacts to touch.");
+    // mormal distrib walker
+    } else if (options.walkertype === 2) {
+        this.intro("Normal Distribution Walker", "Walker step size follow normal ditribution.");
+            
+    // monte carlo walker
+    } else if (options.walkertype === 3) {
+        this.intro("Monte Carlo Walker", "Walker step size follow Monte Carlo method.");
+
+    // perlin walker
+    } else if (options.walkertype === 4) {
+        this.intro("Perlin Walker", "Walker follow a Perlin noise.");
+    }
+    
+    this.walker = new Walker(this.size.x / 2, this.size.y / 2, this, options);
     this.eventListeners.push(new MouseEvtListener(this.canvas, this.walker, this.walker.mouseEvent));
 };
 WalkerScene.prototype = Object.create(Scene.prototype);

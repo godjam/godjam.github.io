@@ -1,7 +1,9 @@
-/*global Scene, THREE, MouseEvtListener, Color*/
+/*global Scene, THREE, Color*/
 var BouncingBall3DScene = function () {
     "use strict";
     Scene.call(this, {threejs: true});
+    this.intro("3D Bouncing Balls", "Touch to move camera.");
+    
     //light
     var color = Color.createSoftColor().ToInt(),
         light = new THREE.AmbientLight(0xffffff); // soft white light

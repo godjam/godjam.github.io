@@ -3,6 +3,7 @@
 var ColorTestScene = function () {
     "use strict";
     Scene.call(this);
+    this.intro("Simple color experiment", "Each dot evolve with time.");
     
     var i = 0,
         j = 0,

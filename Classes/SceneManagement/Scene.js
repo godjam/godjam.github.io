@@ -1,6 +1,7 @@
 /*global FrameLoop, THREE, Vector2*/
-var Scene = function(options) {
+var Scene = function(options, title, description) {
     "use strict";
+
     // canvas
     this.canvas = document.querySelector('canvas');
     // 2D context
@@ -160,14 +161,16 @@ Scene.prototype.setDarkScene = function() {
     }
 };
 
-
-Scene.prototype.setIntro = function(text) {
+Scene.prototype.intro = function(title, desc) {
     "use strict";
     // from https://css-tricks.com/restart-css-animation/
     var intro = document.getElementById('intro'),
-        clone = null;
+        clone = null,
+        text = '';
     if (intro) {
-        intro.textContent = text;
+        if (title) { text = '<h3>' + title + '</h3>'; }
+        if (desc) { text += '<br>' + desc; }
+        intro.innerHTML = text;
         clone = intro.cloneNode(true);
         intro.parentNode.replaceChild(clone, intro);
     }

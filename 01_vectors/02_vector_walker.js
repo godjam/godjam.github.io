@@ -1,11 +1,13 @@
-/*global Scene, Color, Tools, toxi, Vector2, MouseEvtListener*/
+/*global Scene, Color, toxi, Vector2, MouseEvtListener*/
 var VectorWalkerScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Another Random Walker", "Perlin based movement, influenced by touch.");
+    
     this.position = new Vector2(this.size.x / 2, this.size.y / 2);
     this.velocity = new Vector2(0, 0);
     this.t = 0;
-    this.size = 5;
+    this.w = 5;
     this.stepsize = 1;
     this.color = Color.createNormalDistribColor();
     this.mousePosition = null;
@@ -22,7 +24,7 @@ VectorWalkerScene.prototype.loop = function (ctx) {
     
     this.ctx.fillStyle = c.ToHex();
     this.ctx.beginPath();
-    this.ctx.arc(this.position.x, this.position.y, this.size, 0, Math.PI * 2);
+    this.ctx.arc(this.position.x, this.position.y, this.w, 0, Math.PI * 2);
     this.ctx.closePath();
     this.ctx.fill();
 

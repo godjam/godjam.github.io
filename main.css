@@ -208,8 +208,9 @@ canvas {
 	transform:translate3D(-50%, -50%, 0);
     z-index:10;
     pointer-events:none;
+    text-align:center;
 }
 
 .intro_fade {
-    animation: vanish 3s linear 1s 1 normal forwards;
+    animation: vanish 3s linear 5s 1 normal forwards;
 }

@@ -2,6 +2,8 @@
 var PerlinNoiseScene = function () {
     "use strict";
     Scene.call(this);
+    this.intro("Perlin Noise", "2D plot of Perlin noise. Evolve with time.");
+    
     this.t = 0;
     this.color = Color.createLightColor();
     this.perlin = toxi.math.noise.simplexNoise;

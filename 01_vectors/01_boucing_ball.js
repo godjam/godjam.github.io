@@ -2,6 +2,8 @@
 var BouncingBallScene = function () {
     "use strict";
     Scene.call(this);
+    this.intro("Simple Bouncing Ball", "Yeay, everything begins here.");
+    
     this.r = Math.min(this.size.x, this.size.y) / 10;
     this.location = new Vector2(this.r * 2, this.r * 2);
     this.velocity = new Vector2(2.5, 5);

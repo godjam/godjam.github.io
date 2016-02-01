@@ -2,6 +2,8 @@
 var NormalDistribScene = function () {
     "use strict";
     Scene.call(this);
+    this.intro("Splatter", "Position and color follow a normal distribution.");
+    
     this.sd = Math.min(this.size.x, this.size.y) / 2;
     this.baseHue = Math.random();
 };

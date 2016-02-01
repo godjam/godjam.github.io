@@ -11,6 +11,7 @@ var Rect = toxi.geom.Rect,
 var ClustersSystemScene = function(options) {
     "use strict";
     Scene.call(this);
+    this.intro("Force Directed Graph", "Touch to add new elements in clusters.<br>Reacts to orientation API.<br>Screen lock is recomended");
 
     this.threshold = Math.max(this.size.x, this.size.y) / 5;
     this.time = 0;

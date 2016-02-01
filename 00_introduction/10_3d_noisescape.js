@@ -3,6 +3,7 @@
 var NoiseScapeScene = function () {
     "use strict";
     Scene.call(this, {threejs : true});
+    this.intro("Noise Scape", "3D plot of Perlin noise.<br>Evolve with time.");
     
     this.t = 0;
     this.dx = -0.001;
