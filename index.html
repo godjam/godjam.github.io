@@ -151,7 +151,7 @@
     <!-- <script src="05_physics_libraries/01_cozy.js"></script>  -->
     <script src="05_physics_libraries/16_particle_spring_toxiclibs.js"></script>
     <script src="05_physics_libraries/17_clusters_system.js"></script>
-    <!-- <script src="06_autonomous_agents/01_seeking_target.js"></script>  -->
+    <script src="06_autonomous_agents/01_vehicles_system.js"></script>
     <!-- <script src="06_autonomous_agents/04_wander.js"></script>  -->
     <!-- <script src="06_autonomous_agents/09_angle.js"></script> -->
     <!-- <script src="06_autonomous_agents/10_following_path.js"></script>  -->
@@ -247,11 +247,14 @@
                 <button onClick="Factory.createScene('05_15')">15 - Force directed Graph</button>
                 <button onClick="Factory.createScene('05_16')">16 - Toxi Attractor</button>
                 
+                <h2>Chap 06 - Steering Behaviors</h2>
+                <button onClick="Factory.createScene('06_01')">01 - Seek</button>
                 <h2>by Godjam</h2>
             </nav>
         <!-- contentarea -->
 		<div id="main-container">
 			<label for="togglebox" id="navtoggler">Menu</label>
+			<div id="intro" class="intro_fade unselectable">Hello world</div>
             <canvas></canvas>
 		</div>
 	</div>

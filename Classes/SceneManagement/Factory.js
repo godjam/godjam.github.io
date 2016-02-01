@@ -10,7 +10,7 @@ OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
 ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
 ShatteringScene, ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
 BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
-ClustersSystemScene */
+ClustersSystemScene, VehiclesSystemScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -68,7 +68,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "05_16",
+    var defaultKey = "06_01",
         key = "";
     
     if (window !== null) {
@@ -184,9 +184,6 @@ Factory.init = function () {
     this.cache["05_05"] = BoxesScene;
     this.objOp["05_05"] = {boxes_type: 3};
     
-    //this.cache["05_06"] = BoxesScene;
-    //this.objOp["05_06"] = {boxes_type: 4};
-    
     this.cache["05_06"] = BoxesScene;
     this.objOp["05_06"] = {boxes_type: 5};
 
@@ -214,6 +211,9 @@ Factory.init = function () {
     
     this.cache["05_16"] = ToxiSimulationScene;
     this.objOp["05_16"] = {sim_type: 2};
+    
+    // chap 5 : Steering Behaviors
+    this.cache["06_01"] = VehiclesSystemScene;
 };
 
 Factory.autoclose = function () {

@@ -159,3 +159,16 @@ Scene.prototype.setDarkScene = function() {
         this.ctx.canvas.style.background = "#222";
     }
 };
+
+
+Scene.prototype.setIntro = function(text) {
+    "use strict";
+    // from https://css-tricks.com/restart-css-animation/
+    var intro = document.getElementById('intro'),
+        clone = null;
+    if (intro) {
+        intro.textContent = text;
+        clone = intro.cloneNode(true);
+        intro.parentNode.replaceChild(clone, intro);
+    }
+};

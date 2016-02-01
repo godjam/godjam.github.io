@@ -1,20 +1,20 @@
-/*global Mover, Vector2, Array2D, Flowfield, Path*/
-var Vehicle = function (x, y, scene) {
+/*global Mover, Vector2, Flowfield, Path, Color*/
+var Vehicle = function (scene, x, y) {
     "use strict";
     this.mover = new Mover(x, y, scene, 1);
     this.r = 10;
     this.maxForce = 0.1;
     this.maxSpeed = 4;
-    this.fillStyle = "#000";
+    this.fillStyle = Color.createBrightColor().ToHex();
     this.desired = null;
-    this.viewRadius = scene.width / 10;
-    this.avoidanceRadius = scene.width / 40;
+    this.viewRadius = scene.size.w / 10;
+    this.avoidanceRadius = scene.size.w / 40;
 };
 
 Vehicle.prototype.applyForce = function (force, weight) {
     "use strict";
     if (force) {
-        force.multInPlace(weight);
+        if(weight) { force.multInPlace(weight); }
         this.mover.applyForce(force);
     }
 };
@@ -114,7 +114,7 @@ Vehicle.prototype.pathFollowing = function (path) {
 
     // predict position
     var i = 0, rx = 0, ry = 0,
-        a = null, b = null, dir = null,
+        a = null, b = null,
         target = null,
         normalPoint = null,
         distance = 0,
@@ -261,9 +261,7 @@ Vehicle.prototype.cohesion = function (vehicles) {
 
 Vehicle.prototype.display = function (ctx) {
     "use strict";
-    var i = 0,
-        pi2 = Math.PI * 2,
-        theta = this.mover.velocity.heading() + Math.PI / 2; // normal
+    var theta = this.mover.velocity.heading() + Math.PI / 2; // normal
     ctx.save();
     ctx.translate(this.mover.location.x, this.mover.location.y);
     ctx.rotate(theta);
