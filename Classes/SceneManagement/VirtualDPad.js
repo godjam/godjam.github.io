@@ -1,4 +1,4 @@
-/*global Vector2, HTMLCanvasElement, Tools*/
+/*global Vector2, HTMLCanvasElement, Color*/
 // adapted from https://github.com/sebleedelisle/JSTouchController/blob/master/TouchControl.html
 var VirtualDPad = function(canvas, callbackOwner, callback) {
     "use strict";
@@ -23,6 +23,7 @@ var VirtualDPad = function(canvas, callbackOwner, callback) {
     };
     
     this.r = Math.max(canvas.width / 20, 50);
+    this.color = Color.createBrightColor();
     
     this.showOnStart = true;
     var v0 = new Vector2(this.r * 2, canvas.height - this.r * 2);
@@ -205,11 +206,11 @@ VirtualDPad.prototype.display = function(ctx) {
     if (this.supportTouch === false) {
         return
     };
-    var i = 0, 
-        PI2 = 2 * Math.PI;
+    var PI2 = 2 * Math.PI;
+        
 
     if (this.leftTouchID > -1) {
-        ctx.strokeStyle = "#BB8";
+        ctx.strokeStyle = this.color.ToHex();
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(this.leftTouchStartPos.x, this.leftTouchStartPos.y, this.r, 0, PI2);
@@ -230,6 +231,7 @@ VirtualDPad.prototype.display = function(ctx) {
     }
 
     if (this.rightTouchID > -1) {
+        ctx.strokeStyle = this.color.ToHex();
         ctx.fillStyle = "#222";    
         ctx.beginPath();
         ctx.arc(this.rightTouchPos.x, this.rightTouchPos.y, this.r * 0.9, 0, PI2);

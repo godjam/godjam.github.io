@@ -3,6 +3,8 @@
 var RepulsiveMoversScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Repulsion", "Movers repel each others but are attracted by the attractor.");
+    
     var i = 0,
         s = 0,
         attractor = new Attractor(0, 0, 30, 20);

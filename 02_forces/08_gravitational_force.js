@@ -3,6 +3,8 @@
 var GravitationalAttractionScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Attraction", "Movers are attracted by the attractor. Plus, they attract each others.<br>Touch to move the attractor.");
+    
     var i = 0,
         w = this.size.x,
         h = this.size.y,

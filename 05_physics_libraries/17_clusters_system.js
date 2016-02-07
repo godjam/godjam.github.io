@@ -8,10 +8,10 @@ var Rect = toxi.geom.Rect,
     VerletMDSpring2D = toxi.physics2d.VerletMinDistanceSpring2D;
 
 //*************************************************
-var ClustersSystemScene = function(options) {
+var ClustersSystemScene = function() {
     "use strict";
     Scene.call(this);
-    this.intro("Force Directed Graph", "Touch to add new elements in clusters.<br>Reacts to orientation API.<br>Screen lock is recomended");
+    this.intro("Force Directed Graph", "Touch to add new elements in clusters.<br>Reacts to orientation events.<br>Screen lock is recomended.");
 
     this.threshold = Math.max(this.size.x, this.size.y) / 5;
     this.time = 0;
@@ -121,7 +121,6 @@ ClustersSystemScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
     tiltFB = Tools.clamp(tiltFB, -45, 45);
     tiltLR = Tools.clamp(tiltLR, -45, 45);
 
-    // TODO : maybe use a tween for gravity
     // release particle
     this.gravity.x = tiltLR / 45;
     this.gravity.y = tiltFB / 45;

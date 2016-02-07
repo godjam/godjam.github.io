@@ -2,14 +2,16 @@
 var ShatteringScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Shattering", "Touch a mover to explode it.");
+
     this.maxMovers = 30;
     this.s = Math.min(this.size.x, this.size.y) / this.maxMovers;
-    
+
     this.movers = [];
     this.emitters = [];
     this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.shatter));
     this.gravity = new Gravity(0, 0.08);
-    
+
     var i = 0;
     for (i; i < this.maxMovers; i += 1) {
         this.createMover();
@@ -22,11 +24,11 @@ ShatteringScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     var i = 0;
-    
-    if (this.movers.length < this.maxMovers && Math.random() < 0.02) {
-        this.createMover();
-    }
-    
+
+    //if (this.movers.length < this.maxMovers && Math.random() < 0.02) {
+    //    this.createMover();
+    //}
+
     for (i = 0; i < this.movers.length; i += 1) {
         this.gravity.applyOn(this.movers[i]);
         this.movers[i].update(true);
@@ -37,13 +39,13 @@ ShatteringScene.prototype.loop = function () {
         this.emitters[i].apply(this.gravity);
         this.emitters[i].step(this.ctx);
     }
-   
+
     for (i = this.emitters.length - 1; i >= 0; i -= 1) {
         if (this.emitters[i].isAlive === false) {
             this.emitters.splice(i, 1);
         }
     }
-    
+
     this.frameloop.display(this.ctx);
 	Scene.prototype.loop.call(this);
 };
@@ -72,13 +74,13 @@ ShatteringScene.prototype.createEmitter = function (position, mass, hue) {
     var emitter = new Emitter(this, position),
         angle = Math.PI * 4 * (Math.random() - 0.5);
     emitter.setAngle(0, Math.PI * 2);
-    // 8: particles emitted / frame 
+    // 8: particles emitted / frame
     // 6: emitter's life (in frames)
     emitter.setEmitterLife(8, mass / 4);
     // 200: max particles count each frame
     // 0.03: the particle decrease rate over time
     emitter.setParticlesLife(200, 0.03);
-    // 3: particles speed 
+    // 3: particles speed
     emitter.setParticlesSpeed(5);
     emitter.setParticlesTorque(angle);
     emitter.baseColor = hue;

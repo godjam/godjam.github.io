@@ -3,6 +3,8 @@
 var CannonScene = function () {
     "use strict";
     Scene.call(this);
+    this.intro("Cannon", "Touch to shoot.");
+    
     var w = this.size.x,
         h = this.size.y,
         force = new Vector2(0, 0);

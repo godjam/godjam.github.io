@@ -1,6 +1,7 @@
 /*global Scene, Mover, toxi, Vector2*/
 var MoverPerlinScene = function () {
     "use strict";
+    this.intro("Mover: Perlin Acceleration", "Mover's acceleration follows a Perlin noise.");
     Scene.call(this);
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 40);
     this.p = new toxi.math.noise.PerlinNoise();

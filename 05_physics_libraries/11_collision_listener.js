@@ -4,16 +4,18 @@ Vector2, Box, Boundary, ContactListener, Color, Tools*/
 var CollisionListenerScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Collision Detection", "Massive collisions will destroy blocks");
+
     this.maxBoxes = 50;
     this.scale = 30;
     this.nextBoxesInfos = [];
-    
+
     this.boxes = [];
     this.boundaries = [];
-    
+
     this.world = new B2World(new B2Vec2(0, 10), true);
     this.world.SetContactListener(new ContactListener());
-    
+
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, 0));
     this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
@@ -32,12 +34,12 @@ CollisionListenerScene.prototype.loop = function () {
         10       //position iterations
     );
     this.world.ClearForces();
-    
+
     for (i = 0; i < this.boundaries.length; i += 1) {
         this.boundaries[i].update();
         this.boundaries[i].display(this.ctx);
     }
-    
+
     for (i = 0; i < this.boxes.length; i += 1) {
         this.boxes[i].update();
         this.boxes[i].display(this.ctx);
@@ -47,7 +49,7 @@ CollisionListenerScene.prototype.loop = function () {
         this.createNextBoxes();
     }
 
-    
+
     for (i = this.boxes.length - 1; i >= 0; i -= 1) {
         if (this.boxes[i] instanceof Box2dEntity) {
             if (this.boxes[i].isOut()) {
@@ -56,7 +58,7 @@ CollisionListenerScene.prototype.loop = function () {
             }
         }
     }
-    
+
     this.frameloop.display(this.ctx);
 	Scene.prototype.loop.call(this);
 };
@@ -69,7 +71,7 @@ CollisionListenerScene.prototype.createBox = function (position, nextInfos) {
         force = null,
         torque = null,
         b = null;
-    
+
     if (nextInfos) {
         if (nextInfos.boxW) { boxW = nextInfos.boxW; }
         if (nextInfos.boxH) { boxH = nextInfos.boxH; }
@@ -77,22 +79,22 @@ CollisionListenerScene.prototype.createBox = function (position, nextInfos) {
         if (nextInfos.force) { force = nextInfos.force; /*force.Multiply(1.2);*/ }
         if (nextInfos.torque) { torque = nextInfos.torque; torque *= 0.1; }
     }
-    
+
     // box +  size
     b = new Box(position.x, position.y, this, this.world, this.scale, boxW, boxH);
-    
+
     // collision events
     b.setCollisionEvents(this, this.startCollisionEvent, this.endCollisionEvent);
-    
+
     // color
     if (color) {b.setColor(color); }
-    
+
     // forces
     if (force) {b.applyForce(force); }
     if (torque) {b.body.ApplyTorque(torque); }
-    
+
     this.boxes.push(b);
-    
+
     // limit boxes number
     /*
     if (this.boxes.length > this.maxBoxes) {
@@ -108,12 +110,12 @@ CollisionListenerScene.prototype.createNextBoxes = function () {
         nextInfos = null,
         i = 0,
         r = 0;
-    
+
     while (this.nextBoxesInfos.length > 0) {
         nextInfos = this.nextBoxesInfos.shift();
         pos = nextInfos.position;
         r = Math.round(Math.random() + 2);
-        
+
         for (i = 0; i < r; i += 1) {
             this.createBox(pos, nextInfos);
         }
@@ -156,7 +158,7 @@ CollisionListenerScene.prototype.collide = function (e1, e2) {
     "use strict";
     if (e2.boxW === undefined) {e2.boxW = 3; }
     if (e2.boxH === undefined) {e2.boxH = 3; }
-    
+
     var v1 = e1.body.GetLinearVelocity(),
         v2 = e2.body.GetLinearVelocity(),
         m1 = Tools.clamp(e1.boxW * e1.boxH / 100, 1, 10),
@@ -166,15 +168,15 @@ CollisionListenerScene.prototype.collide = function (e1, e2) {
         e = 0,
         p = e1.body.GetWorldCenter(),
         a = e1.body.GetAngularVelocity();
-    
+
     v.Subtract(v2);
     d = v.Length();
     e = (m1 + m2) * d * d * 0.5;
 
     // console.log(d.toFixed(0), m1.toFixed(0), m2.toFixed(0), e.toFixed(0));
     // console.log(m1.toFixed(0), e.toFixed(0));
-    
-                
+
+
     if (e > m1 * m1 * 40) {
         e1.deletion = true;
         if (m1 > 1) {

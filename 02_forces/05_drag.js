@@ -3,6 +3,8 @@
 var DragForceScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Drag force", "TODO : touch to add new movers");
+    
     var i = 0,
         w = this.size.x,
         h = this.size.y,

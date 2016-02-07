@@ -2,6 +2,8 @@
 var MoverFollowScene = function () {
     "use strict";
     Scene.call(this);
+    this.intro("Mover: Pointer Tracking", "The walker will follow the touch events.");
+    
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
     this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseEvent));
 };

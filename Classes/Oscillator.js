@@ -1,12 +1,12 @@
-/*global Vector2, Mover, toxi*/
+/*global Mover, toxi*/
 var Oscillator = function (scene, options) {
     "use strict";
     this.options = options;
-    
+
     if (this.options === undefined) {
         this.options = {oscillatortype: 0};
     }
-    
+
     this.angle = 0;
     this.velocity = 0.2;
     this.count = 50;
@@ -24,35 +24,35 @@ var Oscillator = function (scene, options) {
 
 Oscillator.prototype.update = function () {
     "use strict";
-    
+
     var i = 0;
-    
+
     this.startAngle -= 0.02;
     this.angle = this.startAngle;
-    
+
     for (i = 0; i < this.count; i += 1) {
         if (this.options.oscillatortype === 0) {
-            this.updateWave(i, this.movers[i]);
-        
+            this.updateWave(i);
+
         // 3.7 insect-like wave
         } else if (this.options.oscillatortype === 1) {
-            this.updateInsectLike(i, this.movers[i]);
-        
-        // 3.8 angular acceleration wave 
+            this.updateInsectLike(i);
+
+        // 3.8 angular acceleration wave
         } else if (this.options.oscillatortype === 2) {
-            this.updateAngularAcceleration(i, this.movers[i]);
-        
-        // 3.9 : Perlin noise 
+            this.updateAngularAcceleration(i);
+
+        // 3.9 : Perlin noise
         } else if (this.options.oscillatortype === 3) {
-            this.updatePerlinNoise(i, this.movers[i]);
-            
-        // 3.10 : two waves 
+            this.updatePerlinNoise(i);
+
+        // 3.10 : two waves
         } else if (this.options.oscillatortype === 4) {
-            this.updateTwoWaves(i, this.movers[i]);
-        
-        // 3.11 : additive waves 
+            this.updateTwoWaves(i);
+
+        // 3.11 : additive waves
         } else if (this.options.oscillatortype === 5) {
-            this.updateAdditiveWaves(i, this.movers[i]);
+            this.updateAdditiveWaves(i);
         }
 
         this.movers[i].update();
@@ -60,18 +60,22 @@ Oscillator.prototype.update = function () {
     }
 };
 
+
 Oscillator.prototype.display = function (ctx) {
     "use strict";
-    var i = 0,
-        x = 0,
-        y = 0;
-
+    var i = 0;
     for (i = 0; i < this.count; i += 1) {
         this.movers[i].display(ctx);
     }
 };
 
-Oscillator.prototype.updateWave = function (i, mover) {
+
+Oscillator.prototype.resize = function () {
+    "use strict";
+    this.size = this.scene.size.x / this.count;
+};
+
+Oscillator.prototype.updateWave = function (i) {
     "use strict";
     var ox = this.size / 2,
         oy = this.scene.size.y / 2,
@@ -81,7 +85,7 @@ Oscillator.prototype.updateWave = function (i, mover) {
     this.movers[i].location.y = oy + y;
 };
 
-Oscillator.prototype.updateInsectLike = function (i, mover) {
+Oscillator.prototype.updateInsectLike = function (i) {
     "use strict";
     var ox = this.size / 2,
         oy = this.scene.size.y / 2,
@@ -90,23 +94,23 @@ Oscillator.prototype.updateInsectLike = function (i, mover) {
         //y = -Math.abs(Math.sin(this.angle) * this.amplitude);
     this.movers[i].location.x = ox + x;
     this.movers[i].location.y = oy + y;
-   
+
 };
 
-Oscillator.prototype.updateAngularAcceleration = function (i, mover) {
+Oscillator.prototype.updateAngularAcceleration = function (i) {
     "use strict";
-    
+
     var ox = this.size / 2,
         oy = this.scene.size.y / 2,
         x = i * this.size,
         y = Math.sin(this.angle) * this.amplitude;
-    
+
     this.movers[i].angle = Math.cos(this.angle);
     this.movers[i].location.x = ox + x;
     this.movers[i].location.y = oy + y;
 };
 
-Oscillator.prototype.updatePerlinNoise = function (i, mover) {
+Oscillator.prototype.updatePerlinNoise = function (i) {
     "use strict";
     var ox = this.size / 2,
         oy = this.scene.size.y / 2,
@@ -116,7 +120,7 @@ Oscillator.prototype.updatePerlinNoise = function (i, mover) {
     this.movers[i].location.y = oy + y;
 };
 
-Oscillator.prototype.updateTwoWaves = function (i, mover) {
+Oscillator.prototype.updateTwoWaves = function (i) {
     "use strict";
     var ox = this.size / 2,
         oy = this.scene.size.y / 2,
@@ -128,7 +132,7 @@ Oscillator.prototype.updateTwoWaves = function (i, mover) {
     this.movers[i].mass = s;
 };
 
-Oscillator.prototype.updateAdditiveWaves = function (i, mover) {
+Oscillator.prototype.updateAdditiveWaves = function (i) {
     "use strict";
     var ox = this.size / 2,
         oy = this.scene.size.y / 2,

@@ -3,6 +3,8 @@
 var SpiralScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Spiral");
+    
     this.r = 0;
     this.theta = 0;
     this.color = Color.createLightColor();

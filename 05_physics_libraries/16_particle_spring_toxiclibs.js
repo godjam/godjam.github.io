@@ -8,6 +8,7 @@ var Rect = toxi.geom.Rect,
 var ToxiSimulationScene = function(options) {
     "use strict";
     Scene.call(this);
+
     if (options === undefined) {
         options = {
             sim_type: 0
@@ -21,13 +22,15 @@ var ToxiSimulationScene = function(options) {
     this.behavior = new GravityBehavior(this.gravity);
 
     if (options.sim_type === 0) {
-        //this.cluster = new LineCluster(this.size.x, this.size.y, this.physics);
+        this.intro("Cloth Simulation (Toxiclibs)", "Reacts to touch events and to orientation events.<br>Screen lock is recomended.");
         this.cluster = new GridCluster(this.size, this.physics);
     }
     else if (options.sim_type === 1) {
+        this.intro("Creature (Toxiclibs)", "Reacts to touch events and to orientation events.<br>Screen lock is recomended.");
         this.cluster = new ToxiCreature(new Vec2D(this.size.x / 2, 50), this.physics);
-    } 
+    }
     else if (options.sim_type === 2) {
+        this.intro("Toxi Attractor", "Far movers are attracted by the attractor. Close movers are repel.");
         this.behavior.force.y = 0;
         this.cluster = new ToxiSystem(this.size, this.physics);
     }
@@ -104,7 +107,6 @@ ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
     tiltFB = Tools.clamp(tiltFB, -45, 45);
     tiltLR = Tools.clamp(tiltLR, -45, 45);
 
-    // TODO : maybe use a tween for gravity
     // release particle
     this.gravity.x = tiltLR / 45;
     this.gravity.y = tiltFB / 45;
@@ -125,7 +127,7 @@ ToxiSimulationScene.prototype.changeClusterOrientation = function() {
 
     var aX = Math.abs(this.gravity.x),
         aY = Math.abs(this.gravity.y);
-    // x axis 
+    // x axis
     if (aX > aY) {
         if (this.gravity.x < 0) {
             this.cluster.setFaceAngle(Math.PI / 2);

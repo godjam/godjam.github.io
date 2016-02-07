@@ -2,7 +2,7 @@
 var VectorWalkerScene = function () {
 	"use strict";
     Scene.call(this);
-    this.intro("Another Random Walker", "Perlin based movement, influenced by touch.");
+    this.intro("Vector Walker", "Perlin based movement, influenced by touch.");
     
     this.position = new Vector2(this.size.x / 2, this.size.y / 2);
     this.velocity = new Vector2(0, 0);

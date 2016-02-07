@@ -2,7 +2,7 @@
 var CanvasTestScene = function () {
 	"use strict";
     Scene.call(this);
-    this.intro("Simple canvas experiment", "Reacts to touch.");
+    this.intro("Simple canvas experiment", "Reacts to pointer events with easing.");
     
     this.radius = 50;
     this.pos = new Vector2(this.size.x / 2, this.size.y / 2);

@@ -11,7 +11,7 @@ var BoxesScene = function (options) {
     this.options = options;
     this.maxBoxes = 50;
     this.scale = 30;
-    
+
     /*
     this.debugDraw = new B2DebugDraw();
     this.debugDraw.SetSprite(this.ctx);
@@ -26,10 +26,10 @@ var BoxesScene = function (options) {
     this.mouseJoint = null;
     this.mouseJointActif = false;
     this.gravity = new B2Vec2(0, 10);
-    
+
     this.initScene();
     this.world = new B2World(this.gravity, true);
-    
+
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
     this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
@@ -49,12 +49,12 @@ BoxesScene.prototype.loop = function () {
     );
     //this.world.DrawDebugData();
     this.world.ClearForces();
-    
+
     for (i = 0; i < this.boundaries.length; i += 1) {
         this.boundaries[i].update();
         this.boundaries[i].display(this.ctx);
     }
-    
+
     for (i = 0; i < this.boxes.length; i += 1) {
         this.boxes[i].update();
         this.boxes[i].display(this.ctx);
@@ -76,25 +76,54 @@ BoxesScene.prototype.loop = function () {
 BoxesScene.prototype.initScene = function () {
     "use strict";
     // Box
-    if (this.options.boxes_type === 0) { this.maxBoxes = 300; }
-    
-    // Pair
-    if (this.options.boxes_type === 4) { this.maxBoxes = 20; }
+    if (this.options.boxes_type === 0) {
+        this.intro("Boxes (Box2D)", "Write your name.");
+        this.maxBoxes = 300;
+    }
 
+    // Circle
+    else if (this.options.boxes_type === 1) {
+        this.intro("Perlin shape (Box2D)", "The ground shape is generated using a Perlin noise.");
+    }
+
+    // Polygon
+    else if (this.options.boxes_type === 2) {
+        this.intro("Polygon shape (Box2D)", "Touch to add polygon shapes.");
+    }
+    // Alien
+    else if (this.options.boxes_type === 3) {
+        this.intro("Alien shape (Box2D)", "Touch to add little aliens.<br>These aliens are made with composite shapes.");
+    }
+    // Pair
+    else if (this.options.boxes_type === 4) {
+        this.intro("");
+        this.maxBoxes = 20;
+    }
+    // ChainBoundary
+    else if (this.options.boxes_type === 5) {
+        this.intro("Bridge boundary (Box2D)", "Touch to add new shapes.");
+    }
     // Car
-    if (this.options.boxes_type === 6) { this.maxBoxes = 10; }
-    
+    if (this.options.boxes_type === 6) {
+        this.intro("Car (Box2D)", "Touch to add cars.");
+        this.maxBoxes = 10;
+    }
     // MouseJoint
-    if (this.options.boxes_type === 7) { this.mouseJointActif = true; }
-    
-    // Attraction Force 
-    if (this.options.boxes_type === 9) {
+    else if (this.options.boxes_type === 7) {
+        this.intro("Mouse Joint (Box2D)", "Touh to add a new shape. Touch a shape to move it.");
+        this.mouseJointActif = true;
+    }
+    // KinematicBody
+    else if (this.options.boxes_type === 8) {
+        this.intro("Kinematic Body (Box2D)", "Rainbow pachinko.");
+    }
+
+    // Attraction Force
+    else if (this.options.boxes_type === 9) {
+        this.intro("Attraction (Box2D)", "Touch to add shapes. Shapes are attracted by the center 'planet'.");
         this.mouseJointActif = true;
         this.gravity = new B2Vec2(0, 0);
     }
-    
-    // collistion listening Force 
-    if (this.options.boxes_type === 10) { this.listeningCollision = true; }
 };
 
 
@@ -103,44 +132,44 @@ BoxesScene.prototype.createBox = function (position) {
     // Box
     if (this.options.boxes_type === 0) {
         this.boxes.push(new Box(position.x, position.y, this, this.world, this.scale));
-    
+
     // Circle
     } else if (this.options.boxes_type === 1) {
         this.boxes.push(new Circle(position.x, position.y, this, this.world, this.scale));
-    
+
     // Polygon
     } else if (this.options.boxes_type === 2) {
         this.boxes.push(new Poly(position.x, position.y, this, this.world, this.scale));
-    
+
     // Alien
     } else if (this.options.boxes_type === 3) {
         this.boxes.push(new Alien(position.x, position.y, this, this.world, this.scale));
-    
+
     // Pair
     } else if (this.options.boxes_type === 4) {
         this.boxes.push(new JointPair(position.x, position.y, this, this.world, this.scale));
-        
+
     // ChainBoundary
     } else if (this.options.boxes_type === 5) {
         this.boxes.push(new Box(position.x, position.y, this, this.world, this.scale));
-    
+
     // Car
     } else if (this.options.boxes_type === 6) {
         this.boxes.push(new Car(position.x, position.y, this, this.world, this.scale));
-    
+
     // MouseJoint
     } else if (this.options.boxes_type === 7) {
         this.boxes.push(new Box(position.x, position.y, this, this.world, this.scale));
-    
+
     // KinematicBody
     } else if (this.options.boxes_type === 8) {
         this.boxes.push(new Circle(position.x, position.y, this, this.world, this.scale));
-        
+
     // Attraction Force
     } else if (this.options.boxes_type === 9) {
         this.boxes.push(new Circle(position.x, position.y, this, this.world, this.scale));
     }
-    
+
     // limit boxes number
     if (this.boxes.length > this.maxBoxes) {
         this.boxes[0].killBody();
@@ -178,11 +207,11 @@ BoxesScene.prototype.createboundaries = function (position) {
     // MouseJoint
     } else if (this.options.boxes_type === 7) {
         this.boundaries.push(new Boundary(this, this.world, this.scale));
-    
-    // KinemaicBoundary 
+
+    // KinemaicBoundary
     } else if (this.options.boxes_type === 8) {
         this.boundaries.push(new KinematicObstacle(this, this.world, this.scale));
-        
+
     // Attraction Force
     } else if (this.options.boxes_type === 9) {
         this.boundaries.push(new CircleBoundary(this, this.world, this.scale));
@@ -193,7 +222,7 @@ BoxesScene.prototype.mouseStartEvt = function (position) {
     "use strict";
     var body = null,
         p = new B2Vec2(position.x / this.scale, position.y / this.scale);
-        
+
      // if no mouse joint
     if (this.mouseJoint === null) {
         body = Box2dEntity.getBodyAt(p, this.world);
@@ -212,7 +241,7 @@ BoxesScene.prototype.mouseStartEvt = function (position) {
     }
 };
 
-BoxesScene.prototype.mouseStopEvt = function (position) {
+BoxesScene.prototype.mouseStopEvt = function () {
     "use strict";
     if (this.mouseJoint !== null) {
         this.world.DestroyJoint(this.mouseJoint);

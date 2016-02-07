@@ -1,4 +1,4 @@
-/*global Scene, Vector2, Mover, Gravity, MouseAttractor, RandomForce, Color, Attractor*/
+/*global Scene, Mover, Gravity, MouseAttractor, RandomForce, Color, Attractor*/
 /* 
  * project "artificial life"
  * 3 type of movers (force based) :
@@ -10,6 +10,7 @@
 var EcosystemScene_01 = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("The Ecosystem Project 01", "Here are 4 groups of movers with distinct behaviors.");
     var i = 0,
         attractor = new Attractor(0, 0, 30, 3);
     

@@ -3,6 +3,8 @@
 var AttractiveParticlesScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Attractive particles", "The movers react to the attractor.<br>The particles attract each other.");
+
     this.attractor = new Attractor(0, 0, 30, 3);
     this.gravity = new MouseAttractor(this, this.attractor);
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 30);
@@ -15,16 +17,16 @@ var AttractiveParticlesScene = function () {
 };
 AttractiveParticlesScene.prototype = Object.create(Scene.prototype);
 AttractiveParticlesScene.prototype.constructor = AttractiveParticlesScene;
-    
+
 AttractiveParticlesScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    
+
     this.gravity.applyOn(this.mover);
     this.mover.update();
     this.mover.display(this.ctx);
     this.emitter.step(this.ctx);
-    
+
     this.gravity.display(this.ctx);
     Scene.prototype.loop.call(this);
 };

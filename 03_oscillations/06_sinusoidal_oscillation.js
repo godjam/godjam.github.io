@@ -2,6 +2,8 @@
 var SinusoidalOcillationScene = function () {
     "use strict";
     Scene.call(this);
+    this.intro("Spring emulation");
+    
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
     this.delta = this.size.x / 10;
     this.t = 0;

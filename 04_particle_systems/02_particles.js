@@ -3,6 +3,8 @@
 var ParticlesScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Particles", "Touch to move the emitter.");
+
     this.mover = new Mover(this.size.x / 2, 15, this, 15);
     this.mover.angle = -Math.PI / 2;
     this.emitter = new Emitter(this);

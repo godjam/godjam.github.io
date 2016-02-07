@@ -3,6 +3,8 @@
 var CustomAttractionScene = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("Custom Attraction", "Far movers are attracted by the attractor. Close movers are repel.");
+    
     var i = 0,
         s = 0,
         attractor = new StrangeAttractor(this.size.x, this.size.y);

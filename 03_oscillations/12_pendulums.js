@@ -1,6 +1,8 @@
 /*global Scene, MouseEvtListener, Pendulum, Mover, console*/
 var OscillationScene = function () {
     "use strict";
+    this.intro("Pendulum", "Simulates a pendulum attached to a pendulum.");
+
     Scene.call(this);
     var w = this.size.x,
         h = this.size.y,
@@ -19,7 +21,7 @@ OscillationScene.prototype.constructor = OscillationScene;
 OscillationScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    
+
     this.pendulum0.applyOn(this.mover0);
     this.pendulum1.origin = this.pendulum0.location;
     this.pendulum1.applyOn(this.mover1);
@@ -36,7 +38,7 @@ OscillationScene.prototype.attract = function (position) {
     var d = this.pendulum0.origin.sub(position);
     this.pendulum0.angle = -d.heading() - (Math.PI / 2);
     this.pendulum0.angularVelocity = 0;
-    
+
     this.pendulum1.angle = this.pendulum0.angle / 2;
     this.pendulum1.angularVelocity = 0;
 };

@@ -1,24 +1,26 @@
-/*global Scene, Gravity, Food, Creature, Predator*/
+/*global Scene, Food, Creature, Predator*/
 //*************************************************
 var EcosystemScene_02 = function () {
 	"use strict";
     Scene.call(this);
+    this.intro("The Ecosystem Project 02", "Food grows. Creatures seek food. Predators hunt creatures.");
+
     var i = 0;
     this.movers = [];
-    
+
     for (i = 0; i < 15; i += 1) {
         this.movers.push(new Food(this));
     }
-    
+
     for (i = 0; i < 3; i += 1) {
         this.movers.push(new Creature(this));
     }
-    
+
     this.movers.push(new Predator(this));
 };
 EcosystemScene_02.prototype = Object.create(Scene.prototype);
 EcosystemScene_02.prototype.constructor =  EcosystemScene_02;
-    
+
 EcosystemScene_02.prototype.loop = function () {
     "use strict";
     var i = 0;
@@ -27,15 +29,15 @@ EcosystemScene_02.prototype.loop = function () {
         this.movers[i].update(this.movers);
         this.movers[i].display(this.ctx);
     }
-    
+
     for (i = this.movers.length - 1; i >= 0; i -= 1) {
         if (this.movers[i].alive === false) {
             this.movers.splice(i, 1);
         }
     }
-    
+
     this.createNewCreature();
-    
+
 	Scene.prototype.loop.call(this);
 };
 
@@ -47,7 +49,7 @@ EcosystemScene_02.prototype.createNewCreature = function () {
         if (this.movers[i] instanceof Creature) {c += 1; }
         if (this.movers[i] instanceof Predator) {p += 1; }
     }
-    
+
     for (i = 0; i < this.movers.length; i += 1) {
         if (this.movers[i] instanceof Food
                 && this.movers[i].mass > 25
@@ -55,22 +57,22 @@ EcosystemScene_02.prototype.createNewCreature = function () {
             this.movers[i].mass *= 0.5;
             this.movers.push(new Food(this));
         }
-        
+
         if (this.movers[i] instanceof Creature
                 && this.movers[i].mass > 20) {
             this.movers.push(new Creature(this));
             this.movers[i].mass *= 0.5;
         }
-        
+
         if (this.movers[i] instanceof Predator
                 && this.movers[i].mass > 25) {
             this.movers.push(new Predator(this));
             this.movers[i].mass *= 0.5;
         }
-        
+
         if (c === 0) {this.movers.push(new Creature(this)); }
         if (p === 0) {this.movers.push(new Predator(this)); }
-        
+
     }
 };
 

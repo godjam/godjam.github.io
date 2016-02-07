@@ -17,9 +17,6 @@ var BouncingBall3DScene = function () {
     this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
     this.spheres = [];
     this.velocities = [];
-    //this.controls.enableDamping = true;
-    //this.controls.dampingFactor = 0.85;
-    //this.controls.enableZoom = false;
 
     this.addSpheres();
 };

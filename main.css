@@ -212,5 +212,5 @@ canvas {
 }
 
 .intro_fade {
-    animation: vanish 3s linear 5s 1 normal forwards;
+    animation: vanish 3s linear 15s 1 normal forwards;
 }

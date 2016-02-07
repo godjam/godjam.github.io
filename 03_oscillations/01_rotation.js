@@ -3,6 +3,8 @@
 var RotationScene = function () {
     "use strict";
     Scene.call(this);
+    this.intro("Rotation");
+    
     var w = this.size.x,
         h = this.size.y;
     this.r = Math.min(w, h) / 2 * 0.8;

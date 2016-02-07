@@ -9,15 +9,15 @@ var ToxiAttractor = function (size, position, physics) {
     this.p = new toxi.physics2d.VerletParticle2D(position);
     this.p.lock();
     physics.addParticle(this.p);
-    
+
     physics.addBehavior(new toxi.physics2d.behaviors.AttractionBehavior(this.p, this.r, -1));
     physics.addBehavior(new toxi.physics2d.behaviors.AttractionBehavior(this.p, s, 0.5));
 };
 
 ToxiAttractor.prototype.display = function (ctx) {
     "use strict";
-    ctx.strokeStyle = "#888";
-    ctx.lineWidth = 1.1;
+    ctx.strokeStyle = "#def";
+    ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.arc(this.p.x, this.p.y, this.r, 0, Math.PI * 2);
     ctx.stroke();

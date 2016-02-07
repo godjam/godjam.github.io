@@ -32,7 +32,7 @@
     <script src="Libs/OrbitControls.js"></script>
     <script src="Libs/Box2dWeb-2.1.a.3.js"></script>
     <script src="Libs/toxiclibs.min.js"></script>
-    
+
     <script src="Classes/Tools.js"></script>
     <script src="Classes/Color.js"></script>
     <script src="Classes/Vector2.js"></script>
@@ -95,11 +95,11 @@
     <script src="Classes/CA/CA2DContinuous.js"></script>
     <script src="Classes/Fractals/Kochcurve.js"></script>
     <script src="Classes/Fractals/RecursiveTree.js"></script>
-    
+
     <script src="Classes/Ecosystem/Creature.js"></script>
     <script src="Classes/Ecosystem/Food.js"></script>
     <script src="Classes/Ecosystem/Predator.js"></script>
-    
+
     <!-- scene management -->
     <script src="Classes/SceneManagement/MouseEvtListener.js"></script>
     <script src="Classes/SceneManagement/OrientationEvtListener.js"></script>
@@ -179,25 +179,25 @@
 
                 <h2>Introduction</h2>
                 <button onClick="Factory.createScene('00_01')">01 - Right Walker</button>
-                <button onClick="Factory.createScene('00_03')">03 - Dynamic proba Walker</button>
+                <button onClick="Factory.createScene('00_03')">03 - Weighted Random Walker</button>
                 <button onClick="Factory.createScene('00_04')">04 - Splatter</button>
                 <button onClick="Factory.createScene('00_05')">05 - Normal distrib Walker</button>
-                <button onClick="Factory.createScene('00_06')">06 - Montecarlo Walker</button>
+                <button onClick="Factory.createScene('00_06')">06 - Monte Carlo Walker</button>
                 <button onClick="Factory.createScene('00_07')">07 - Perlin Walker</button>
                 <button onClick="Factory.createScene('00_09')">09 - Perlin noise 2D (slow!)</button>
-                <button onClick="Factory.createScene('00_10')">10 - NoiseScape</button>
+                <button onClick="Factory.createScene('00_10')">10 - Noise Scape</button>
 
                 <h2>Chap 01 - Vectors</h2>
-                <button onClick="Factory.createScene('01_01')">01 - Bouncing ball</button>
+                <button onClick="Factory.createScene('01_01')">01 - Bouncing Ball</button>
                 <button onClick="Factory.createScene('01_02')">02 - Vector Walker</button>
-                <button onClick="Factory.createScene('01_03')">03 - Bouncing ball 3D</button>
+                <button onClick="Factory.createScene('01_03')">03 - 3D Bouncing Balls</button>
                 <button onClick="Factory.createScene('01_05')">05 - Mover: Acceleration</button>
-                <button onClick="Factory.createScene('01_06')">06 - Mover: Perlin accel.</button>
-                <button onClick="Factory.createScene('01_08')">08 - Mover: Mouse tracking</button>
+                <button onClick="Factory.createScene('01_06')">06 - Mover: Perlin Accel.</button>
+                <button onClick="Factory.createScene('01_08')">08 - Mover: Pointer Tracking</button>
                 <button onClick="Factory.createScene('ES_01')">The Ecosystem Project</button>
 
                 <h2>Chap 02 - Forces</h2>
-                <button onClick="Factory.createScene('02_01')">01 - Helium Balloon</button>
+                <button onClick="Factory.createScene('02_01')">01 - Helium Balloons</button>
                 <button onClick="Factory.createScene('02_03')">03 - Center force</button>
                 <button onClick="Factory.createScene('02_04')">04 - Friction force</button>
                 <button onClick="Factory.createScene('02_05')">05 - Drag force</button>
@@ -205,7 +205,7 @@
                 <button onClick="Factory.createScene('02_09')">09 - Custom Attraction</button>
                 <button onClick="Factory.createScene('02_10')">10 - Repulsion</button>
                 <button onClick="Factory.createScene('ES_02')">The Ecosystem Project</button>
-                
+
                 <h2>Chap 03 - Oscillation</h2>
                 <button onClick="Factory.createScene('03_01')">01 - Rotation</button>
                 <button onClick="Factory.createScene('03_02')">02 - Cannon</button>
@@ -219,7 +219,7 @@
                 <button onClick="Factory.createScene('03_12')">12 - Pendulum</button>
                 <button onClick="Factory.createScene('03_16')">16 - Springs</button>
                 <button onClick="Factory.createScene('ES_03')">The Ecosystem Project</button>
-    
+
                 <h2>Chap 04 - Particles systems</h2>
                 <button onClick="Factory.createScene('04_02')">02 - Particles</button>
                 <button onClick="Factory.createScene('04_03')">03 - Emitters attractor</button>
@@ -230,7 +230,7 @@
                 <button onClick="Factory.createScene('04_09')">09 - Particles repeller</button>
                 <button onClick="Factory.createScene('04_10')">10 - Attractive particles</button>
                 <button onClick="Factory.createScene('04_11')">11 - Blend particles</button>
-                
+
                 <h2>Chap 05 - Physics Libraries</h2>
                 <button onClick="Factory.createScene('05_02')">02 - Boxes</button>
                 <button onClick="Factory.createScene('05_03')">03 - Perlin shape</button>
@@ -240,15 +240,22 @@
                 <button onClick="Factory.createScene('05_07')">07 - Car</button>
                 <button onClick="Factory.createScene('05_08')">08 - Mouse Joint</button>
                 <button onClick="Factory.createScene('05_09')">09 - Kinematic Body</button>
-                <button onClick="Factory.createScene('05_10')">10 - Attraction</button>        
-                <button onClick="Factory.createScene('05_11')">11 - Collision Listening</button>        
+                <button onClick="Factory.createScene('05_10')">10 - Attraction</button>
+                <button onClick="Factory.createScene('05_11')">11 - Collision Listening</button>
                 <button onClick="Factory.createScene('05_13')">13 - Cloth Sim</button>
                 <button onClick="Factory.createScene('05_14')">14 - Creature</button>
                 <button onClick="Factory.createScene('05_15')">15 - Force directed Graph</button>
                 <button onClick="Factory.createScene('05_16')">16 - Toxi Attractor</button>
-                
+
                 <h2>Chap 06 - Steering Behaviors</h2>
-                <button onClick="Factory.createScene('06_01')">01 - Seek</button>
+                <button onClick="Factory.createScene('06_01')">01 - Flee</button>
+                <button onClick="Factory.createScene('06_02')">02 - Pursuit</button>
+                <button onClick="Factory.createScene('06_03')">03 - Center Trap</button>
+                <button onClick="Factory.createScene('06_04')">04 - Wandering</button>
+                <button onClick="Factory.createScene('06_05')">05 - Avoid Walls</button>
+                <button onClick="Factory.createScene('06_06')">06 - Flowfield following</button>
+                <button onClick="Factory.createScene('06_07')">10 - Path following</button> <!-- TODO : wrong index -->
+                <button onClick="Factory.createScene('06_08')">11 - Path evolution</button>
                 <h2>by Godjam</h2>
             </nav>
         <!-- contentarea -->

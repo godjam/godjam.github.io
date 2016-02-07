@@ -68,51 +68,51 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "06_01",
+    var defaultKey = "06_08",
         key = "";
-    
+
     if (window !== null) {
         key = window.location.search;
         key = key.replace("?s=", "");
     }
-    
+
     if (this.cache[key] === undefined) {
         key = defaultKey;
     }
-    
+
     Factory.createScene(key);
 };
 
 Factory.init = function () {
     "use strict";
     console.log("%c Nature %c Code ", "color: #fff; background: #ff00bb;", "color: #fff; background: #00ffbb;");
-    
+
     // Hides mobile browser's address bar when page is done loading.
     // http://www.html5rocks.com/en/mobile/mobifying/
     window.scrollTo(0, 1);
-    
+
     // based on : http://eloquentjavascript.net/10_modules.html
     this.cache = Object.create(null);
     this.objOp = Object.create(null);
-    
+
     // tests
     this.cache["00"] = CanvasTestScene;
     this.cache["01"] = ColorTestScene;
     // chap 0 : introduction
     this.cache["00_01"] = WalkerScene;
     this.objOp["00_01"] = {walkertype: 0};
-    
+
     this.cache["00_03"] = WalkerScene;
     this.objOp["00_03"] = {walkertype: 1};
-    
+
     this.cache["00_04"] = NormalDistribScene;
 
     this.cache["00_05"] = WalkerScene;
     this.objOp["00_05"] = {walkertype: 2};
-    
+
     this.cache["00_06"] = WalkerScene;
     this.objOp["00_06"] = {walkertype: 3};
-    
+
     this.cache["00_07"] = WalkerScene;
     this.objOp["00_07"] = {walkertype: 4};
 
@@ -140,26 +140,26 @@ Factory.init = function () {
     this.cache["03_02"] = CannonScene;
     this.cache["03_04"] = SpiralScene;
     this.cache["03_06"] = SinusoidalOcillationScene;
-    
+
     this.cache["03_07"] = OscillatorScene;
     this.objOp["03_07"] = {oscillatortype: 1};
-    
+
     this.cache["03_08"] = OscillatorScene;
     this.objOp["03_08"] = {oscillatortype: 2};
-    
+
     this.cache["03_09"] = OscillatorScene;
     this.objOp["03_09"] = {oscillatortype: 3};
-    
+
     this.cache["03_10"] = OscillatorScene;
     this.objOp["03_10"] = {oscillatortype: 4};
-    
+
     this.cache["03_11"] = OscillatorScene;
     this.objOp["03_11"] = {oscillatortype: 5};
-    
+
     this.cache["03_12"] = OscillationScene;
     this.cache["03_16"] = SpringsScene;
     this.cache.ES_03 = EcosystemScene_03;
-    
+
     // chap 4 : Particles
     this.cache["04_02"] = ParticlesScene;
     this.cache["04_03"] = ParticlesAttractorScene;
@@ -170,50 +170,72 @@ Factory.init = function () {
     this.cache["04_09"] = ParticlesRepellerScene;
     this.cache["04_10"] = AttractiveParticlesScene;
     this.cache["04_11"] = BlendParticlesScene;
-    
+
     // chap 5 : Physics Libraries
     this.cache["05_02"] = BoxesScene;
     this.objOp["05_02"] = {boxes_type: 0};
-    
+
     this.cache["05_03"] = BoxesScene;
     this.objOp["05_03"] = {boxes_type: 1};
-    
+
     this.cache["05_04"] = BoxesScene;
     this.objOp["05_04"] = {boxes_type: 2};
-    
+
     this.cache["05_05"] = BoxesScene;
     this.objOp["05_05"] = {boxes_type: 3};
-    
+
     this.cache["05_06"] = BoxesScene;
     this.objOp["05_06"] = {boxes_type: 5};
 
     this.cache["05_07"] = BoxesScene;
     this.objOp["05_07"] = {boxes_type: 6};
-    
+
     this.cache["05_08"] = BoxesScene;
     this.objOp["05_08"] = {boxes_type: 7};
-    
+
     this.cache["05_09"] = BoxesScene;
     this.objOp["05_09"] = {boxes_type: 8};
-    
+
     this.cache["05_10"] = BoxesScene;
     this.objOp["05_10"] = {boxes_type: 9};
-    
+
     this.cache["05_11"] = CollisionListenerScene;
-    
+
     this.cache["05_13"] = ToxiSimulationScene;
     this.objOp["05_13"] = {sim_type: 0};
-    
+
     this.cache["05_14"] = ToxiSimulationScene;
     this.objOp["05_14"] = {sim_type: 1};
-    
+
     this.cache["05_15"] = ClustersSystemScene;
-    
+
     this.cache["05_16"] = ToxiSimulationScene;
     this.objOp["05_16"] = {sim_type: 2};
-    
+
     // chap 5 : Steering Behaviors
     this.cache["06_01"] = VehiclesSystemScene;
+    this.objOp["06_01"] = {behavior_type: 0};
+
+    this.cache["06_02"] = VehiclesSystemScene;
+    this.objOp["06_02"] = {behavior_type: 1};
+
+    this.cache["06_03"] = VehiclesSystemScene;
+    this.objOp["06_03"] = {behavior_type: 2};
+
+    this.cache["06_04"] = VehiclesSystemScene;
+    this.objOp["06_04"] = {behavior_type: 3};
+
+    this.cache["06_05"] = VehiclesSystemScene;
+    this.objOp["06_05"] = {behavior_type: 4};
+
+    this.cache["06_06"] = VehiclesSystemScene;
+    this.objOp["06_06"] = {behavior_type: 5};
+
+    this.cache["06_07"] = VehiclesSystemScene;
+    this.objOp["06_07"] = {behavior_type: 6};
+
+    this.cache["06_08"] = VehiclesSystemScene;
+    this.objOp["06_08"] = {behavior_type: 7};
 };
 
 Factory.autoclose = function () {
@@ -227,11 +249,11 @@ Factory.createScene = function (key) {
     if (typeof key !== "string") {
         throw "Factory.createScene : key is not a string";
     }
-    
+
     if (this.cache[key] === undefined) {
         throw "Factory.createScene : specified key doesn't exists";
     }
-    
+
     Factory.start(new this.cache[key](this.objOp[key]));
 };
 
@@ -240,7 +262,7 @@ Factory.start = function (scene) {
     if (scene instanceof Scene === false) {
         throw "Factory.start : scene is not a Scene";
     }
-    
+
     this.stop();
     this.scene = scene;
     this.requestAnimValue = window.requestAnimationFrame(scene.loop.bind(scene));

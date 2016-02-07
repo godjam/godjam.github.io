@@ -3,6 +3,8 @@
 var FrictionForceScene = function () {
 	"use strict";
     Scene.call(this);
+	this.intro("Friction force", "Friction is high in the left area: movers slow down.<br><br>Friction is negative in the rigth one: movers accelerate.");
+    
     var i = 0,
         w = this.size.x,
         h = this.size.y;

@@ -2,34 +2,48 @@
 var BouncingBallScene = function () {
     "use strict";
     Scene.call(this);
-    this.intro("Simple Bouncing Ball", "Yeay, everything begins here.");
-    
+    this.intro("Bouncing Ball", "It all starts with small things.");
+
     this.r = Math.min(this.size.x, this.size.y) / 10;
-    this.location = new Vector2(this.r * 2, this.r * 2);
-    this.velocity = new Vector2(2.5, 5);
-    this.color = Color.createLightColor();
+
+    this.locations = [];
+    this.velocities = [];
+    this.colors = [];
+
+    var i = 0;
+    for (i = 0; i < 50; i += 1) {
+        this.locations.push(new Vector2(Math.random() * (this.size.x - this.r * 2) + this.r,
+                                        Math.random() * (this.size.y - this.r * 2) + this.r));
+        this.velocities.push(new Vector2(Math.random() * 5, Math.random() * 5));
+        this.colors.push(Color.createLightColor());
+    }
 };
 BouncingBallScene.prototype = Object.create(Scene.prototype);
 BouncingBallScene.prototype.constructor = BouncingBallScene;
 
 BouncingBallScene.prototype.loop = function () {
     "use strict";
-    this.location.addInPlace(this.velocity);
-    if ((this.location.x + this.r > this.size.x) || (this.location.x - this.r < 0)) {
-        this.velocity.x *= -1;
-    }
-    if ((this.location.y + this.r > this.size.y) || (this.location.y - this.r < 0)) {
-        this.velocity.y *= -1;
-    }
-    
-    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    this.ctx.fillStyle = this.color.ToHex();
-    this.ctx.shadowColor = this.color.copy().darken().ToHex();
-    this.ctx.beginPath();
-    this.ctx.arc(this.location.x, this.location.y, this.r, 0, Math.PI * 2, true);
-    this.ctx.closePath();
+    var i = 0;
+
     this.ctx.shadowBlur = 6;
     this.ctx.shadowOffsetY = 6;
-    this.ctx.fill();
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
+
+    for (i = 0; i < this.locations.length; i += 1) {
+        this.locations[i].addInPlace(this.velocities[i]);
+        if ((this.locations[i].x + this.r > this.size.x) || (this.locations[i].x - this.r < 0)) {
+            this.velocities[i].x *= -1;
+        }
+        if ((this.locations[i].y + this.r > this.size.y) || (this.locations[i].y - this.r < 0)) {
+            this.velocities[i].y *= -1;
+        }
+
+        this.ctx.fillStyle = this.colors[i].ToHex();
+        this.ctx.shadowColor = this.colors[i].copy().darken().ToHex();
+        this.ctx.beginPath();
+        this.ctx.arc(this.locations[i].x, this.locations[i].y, this.r, 0, Math.PI * 2, true);
+        this.ctx.closePath();
+        this.ctx.fill();
+    }
     Scene.prototype.loop.call(this);
 };
