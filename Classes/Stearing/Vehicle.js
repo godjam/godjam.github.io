@@ -7,16 +7,20 @@ var Vehicle = function(scene, x, y) {
     this.agressivity = Math.random() * 0.9 + 0.1;
     this.maxForce = this.agressivity / 10;
     this.maxSpeed = this.agressivity * 2 + 2;
-    this.fillStyle = Color.createBrightColor().ToHex();
+    this.viewAngle = Math.PI / 2;
+    this.viewRadius = 100 + this.agressivity * 30;
+    this.avoidanceRadius = 30 + this.agressivity * 10;
+    this.color = Color.createHsl(this.agressivity, 1, 0.65);
+    this.fillStyle = this.color.ToHex();
+
+    this.listInRange = [];
+    this.listInFov = [];
     this.desired = new Vector2(0, 0);
     this.steer = new Vector2(0, 0);
     this.predict = new Vector2(0, 0);
     this.tmp = new Vector2(0, 0);
     this.tmpA = new Vector2(0, 0);
     this.tmpB = new Vector2(0, 0);
-    this.viewAngle = Math.PI / 2;
-    this.viewRadius = 100 + this.agressivity * 30;
-    this.avoidanceRadius = 30 + this.agressivity * 10;
 };
 
 Vehicle.prototype.applyForce = function(force, weight) {
@@ -40,23 +44,22 @@ Vehicle.prototype.setDesiredTarget = function(radius) {
         radius = 0;
     }
 
-    if (this.desired) {
-        var desiredMag = this.desired.magSq(),
-            speed = this.maxSpeed;
-        this.desired.normalizeInPlace();
+    var desiredMag = this.desired.magSq(),
+        speed = this.maxSpeed;
+    this.desired.normalizeInPlace();
 
-        if (desiredMag < radius * radius) {
-            speed = desiredMag / radius * this.maxSpeed;
-        }
-
-        this.desired.multInPlace(speed);
-
-        this.steer.x = this.desired.x - this.mover.velocity.x;
-        this.steer.y = this.desired.y - this.mover.velocity.y;
-        this.steer.limit(this.maxForce);
-        return this.steer;
-        // need to manually call this.mover.applyForce(this.steer);
+    if (desiredMag < radius * radius) {
+        speed = desiredMag / radius * this.maxSpeed;
     }
+
+    this.desired.multInPlace(speed);
+
+    this.steer.x = this.desired.x - this.mover.velocity.x;
+    this.steer.y = this.desired.y - this.mover.velocity.y;
+    this.steer.limit(this.maxForce);
+    return this.steer;
+    // need to manually call this.mover.applyForce(this.steer);
+
 };
 
 Vehicle.prototype.applyDesiredTarget = function(radius, weight) {
@@ -126,6 +129,7 @@ Vehicle.prototype.avoidWalls = function(weight) {
 
     this.desired.x = this.mover.velocity.x;
     this.desired.y = this.mover.velocity.y;
+
     if (this.mover.location.x < threshold) {
         d = threshold - this.mover.location.x;
         this.desired.x = f * d;
@@ -160,7 +164,11 @@ Vehicle.prototype.flowFieldFollowing = function(flowfield, weight) {
         throw "Vehicle.flowFieldFollowing : flowField is not a FlowField";
     }
     // get right field coords
-    this.desired = flowfield.get(this.mover.location.x, this.mover.location.y);
+    var t = flowfield.get(this.mover.location.x, this.mover.location.y);
+    if (t) {
+       this.desired.x = t.x;
+       this.desired.y = t.y;
+    }
     // go
     return this.applyDesiredTarget(0, weight);
 };
@@ -177,16 +185,18 @@ Vehicle.prototype.pathFollowing = function(path, weight) {
         target = null,
         normalPoint = null,
         distance = 0,
-        predictLoc = null,
-        minDistance = 10000,
-        predict = this.mover.velocity.copy();
+        predictLoc = new Vector2(0, 0),
+        minDistance = 10000;
 
-    if (predict.mag() === 0) { predict = Vector2.create2D(); }
+    this.predict.x = this.mover.velocity.x;
+    this.predict.y = this.mover.velocity.y;
+
+    if (this.predict.mag() === 0) { this.predict = Vector2.create2D(); }
 
     // look at 25 pix ahead
-    predict.normalizeInPlace();
-    predict.multInPlace(this.agressivity * 25);
-    predictLoc = this.mover.location.add(predict);
+    this.predict.setMag(this.agressivity * 25);
+    predictLoc.x = this.mover.location.x + this.predict.x;
+    predictLoc.y = this.mover.location.y + this.predict.y;
 
     this.normals = [];
     for (i = 0; i < path.points.length - 1; i += 1) {
@@ -212,8 +222,8 @@ Vehicle.prototype.pathFollowing = function(path, weight) {
     }
 
     if (target !== null && minDistance > path.radius) {
-        target.addInPlace(predict);
-        return this.seek(target);
+        target.addInPlace(this.predict);
+        return this.seek(target, weight);
     }
 };
 
@@ -237,49 +247,59 @@ Vehicle.prototype.getNormalPoint = function(p, a, b) {
 Vehicle.prototype.separate = function(vehicles, weight) {
     "use strict";
     var i = 0,
+        c = 0,
         loc = this.mover.location;
 
     this.desired.set(0, 0);
     for (i = 0; i < vehicles.length; i += 1) {
-        this.desired.addInPlace(vehicles[i].mover.location); // separate from average location
+        this.tmp.x = loc.x - vehicles[i].mover.location.x;
+        this.tmp.y = loc.y - vehicles[i].mover.location.y;
+        if (this.tmp.magSq() < this.avoidanceRadius * this.avoidanceRadius) {
+            this.tmp.normalizeInPlace();
+            this.desired.x += this.tmp.x;
+            this.desired.y += this.tmp.y;
+            c += 1;
+        }
     }
 
-    if (vehicles.length > 0) {
-        this.desired.divInPlace(vehicles.length);
-        this.desired.x = loc.x - this.desired.x;
-        this.desired.y = loc.y - this.desired.y;
-        this.desired.setMag(this.avoidanceRadius);
+    if (c > 0) {
+        this.desired.divInPlace(c);
+        this.desired.setMag(this.maxSpeed);
         this.applyDesiredTarget(0, weight);
     }
 };
 
 Vehicle.prototype.align = function(vehicles, weight) {
     "use strict";
-    var i = 0;
+    var i = 0,
+        c = 0;
 
     this.desired.set(0, 0);
     for (i = 0; i < vehicles.length; i += 1) {
         this.desired.addInPlace(vehicles[i].mover.velocity); // average velocity
+        c += 1;
     }
 
-    if (vehicles.length > 0) {
-        this.desired.divInPlace(vehicles.length);
+    if (c > 0) {
+        this.desired.divInPlace(c);
         this.applyDesiredTarget(0, weight);
     }
 };
 
 Vehicle.prototype.cohesion = function(vehicles, weight) {
     "use strict";
-    var i = 0;
+    var i = 0,
+        c = 0;
 
-    this.desired.set(0, 0); // TODO : use temp
+    this.tmp.set(0, 0);
     for (i = 0; i < vehicles.length; i += 1) {
-        this.desired.addInPlace(vehicles[i].mover.location); // average location
+        this.tmp.addInPlace(vehicles[i].mover.location); // average location
+        c += 1;
     }
 
-    if (vehicles.length > 0) {
-        this.desired.divInPlace(vehicles.length);
-        this.seek(this.desired, weight);
+    if (c > 0) {
+        this.tmp.divInPlace(c);
+        this.seek(this.tmp, weight);
     }
 };
 
@@ -307,9 +327,9 @@ Vehicle.prototype.view = function(vehicles, weight) {
         if (a > Math.PI) { a -= Math.PI * 2; }
 
         if (a < 0) {
-            this.desired.rotateInPlace90(1);
-        } else {
             this.desired.rotateInPlace90(-1);
+        } else {
+            this.desired.rotateInPlace90(1);
         }
 
         this.desired.setMag(this.maxSpeed);
@@ -320,34 +340,34 @@ Vehicle.prototype.view = function(vehicles, weight) {
 
 Vehicle.prototype.getVehiclesInRange = function(vehicles, range) {
     "use strict";
-    var i = 0,
-        list = [];
+    var i = 0;
 
+    this.listInRange = [];
     for (i = 0; i < vehicles.length; i += 1) {
         if (vehicles[i] !== this) {
             this.tmp.x = vehicles[i].mover.location.x;
             this.tmp.y = vehicles[i].mover.location.y;
             if (Math.abs(this.mover.location.x - this.tmp.x) < range &&
                 Math.abs(this.mover.location.y - this.tmp.y) < range) {
-                this.tmp.x = this.mover.location.x - this.tmp.x;
-                this.tmp.y = this.mover.location.y - this.tmp.y;
-                if (this.tmp.magSq() < range * range) {
-                    list.push(vehicles[i]);
+                if ((this.mover.location.x - this.tmp.x) * (this.mover.location.x - this.tmp.x)
+                    + (this.mover.location.y - this.tmp.y) * (this.mover.location.y - this.tmp.y)
+                    < range * range) {
+                    this.listInRange.push(vehicles[i]);
                 }
             }
         }
     }
-    return list;
+    return this.listInRange;
 };
 
 Vehicle.prototype.getVehiclesInFOV = function(vehicles, range, ctx) {
     "use strict";
     var i = 0,
-        list = [],
         loc = this.mover.location,
         heading = this.mover.velocity.heading(),
         a = 0, aMin = 0, aMax = 0;
 
+    this.listInFov = [];
     for (i = 0; i < vehicles.length; i += 1) {
         if (vehicles[i] !== this) {
             this.tmp.x = vehicles[i].mover.location.x;
@@ -361,50 +381,15 @@ Vehicle.prototype.getVehiclesInFOV = function(vehicles, range, ctx) {
                     aMax = a - (heading + this.viewAngle / 2);
                     if (aMin >= Math.PI) { aMin -= Math.PI * 2; } // map on [-PI, PI]
                     if (aMax >= Math.PI) { aMax -= Math.PI * 2; } // map on [-PI, PI]
-                    /*
-                    console.log(a1, a2);
-
-                    ctx.lineWidth = 4;
-                    // a
-                    ctx.beginPath();
-                    ctx.strokeStyle = this.fillStyle;
-                    ctx.moveTo(this.mover.location.x, this.mover.location.y);
-                    ctx.lineTo(this.mover.location.x + Math.cos(a) * 40, this.mover.location.y +  Math.sin(a) * 40);
-                    ctx.stroke();
-                    ctx.closePath();
-                    // aMin
-                    ctx.beginPath();
-                    ctx.strokeStyle = "#000";
-                    ctx.moveTo(this.mover.location.x, this.mover.location.y);
-                    ctx.lineTo(this.mover.location.x + Math.cos(aMin) * 40, this.mover.location.y +  Math.sin(aMin) * 40);
-                    // aMax
-                    ctx.moveTo(this.mover.location.x, this.mover.location.y);
-                    ctx.lineTo(this.mover.location.x + Math.cos(aMax) * 40, this.mover.location.y +  Math.sin(aMax) * 40);
-                    ctx.stroke();
-                    ctx.closePath();
-                    */
-
-
                     if (aMin > 0 && aMax < 0) {
-                        list.push(vehicles[i]);
                         // in view
-                        /*
-                        ctx.beginPath();
-                        ctx.lineWidth = 4;
-                        ctx.strokeStyle = this.fillStyle;
-                        ctx.arc(vehicles[i].mover.location.x, vehicles[i].mover.location.y, 15, 0, Math.PI * 2);
-                        ctx.stroke();
-                        ctx.closePath();
-                        */
+                        this.listInFov.push(vehicles[i]);
                     }
                 }
             }
         }
     }
-    //if (list.length > 0 ) {
-    //    console.log("found vehicles : " + list.length)
-    //}
-    return list;
+    return this.listInFov;
 };
 
 Vehicle.prototype.display = function(ctx) {
@@ -445,4 +430,29 @@ Vehicle.prototype.display = function(ctx) {
     }
     //*/
 
+};
+
+
+Vehicle.prototype.displayAsNetwork = function(ctx) {
+    "use strict";
+    var i = 0,
+        list = this.listInFov;
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = this.fillStyle;
+
+    for(i = 0; i < list.length; i += 1) {
+        if (Math.abs(this.mover.location.x - list[i].mover.location.x) > this.viewRadius) {
+            continue;
+        }
+        if (Math.abs(this.mover.location.y - list[i].mover.location.y) > this.viewRadius) {
+            continue;
+        }
+
+        if (i > 10) { break; }
+        ctx.beginPath();
+        ctx.moveTo(this.mover.location.x, this.mover.location.y);
+        ctx.lineTo(list[i].mover.location.x, list[i].mover.location.y);
+        ctx.stroke();
+        ctx.closePath();
+    }
 };

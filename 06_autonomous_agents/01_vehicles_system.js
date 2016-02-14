@@ -85,9 +85,17 @@ VehiclesSystemScene.prototype.loop = function () {
         if (this.options.behavior_type === 13) {
             this.updateFlockView(i);
         }
+        if (this.options.behavior_type === 14) {
+            this.updateFlockView2(i);
+        }
 
         this.vehicles[i].update();
-        this.vehicles[i].display(this.ctx);
+        if (this.options.behavior_type === 14) {
+            this.vehicles[i].displayAsNetwork(this.ctx);
+        }
+        else {
+            this.vehicles[i].display(this.ctx);
+        }
     }
 
     Scene.prototype.loop.call(this);
@@ -151,12 +159,16 @@ VehiclesSystemScene.prototype.initScene = function () {
         this.intro("Behavior: Flock", "Separation, Align and Cohesion. Use FOV");
     }
     if (this.options.behavior_type === 12) {
-        this.intro("Behavior: Flock And Path Following", "Separation, Align, Cohesion and Path Following. Use FOV");
-        a = Math.round(Math.random() * 8 + 2);
+        this.intro("Behavior: Flock And Path Following", "Flock and Path Following. Use FOV");
+        a = Math.round(Math.random() * 5 + 3);
         this.path = new Path(a, this);
     }
     if (this.options.behavior_type === 13) {
-        this.intro("Behavior: Flock View", "Separation, Align, Cohesion and View. Use FOV");
+        this.intro("Behavior: Flock View", "Flock and View. Use FOV");
+    }
+    if (this.options.behavior_type === 14) {
+        this.intro("Behavior: Visualization", "Display the flock as a network.<br>Flock, View and Flowfield. Use FOV");
+        this.field = new Flowfield(20, 20, this);
     }
 
 };
@@ -233,28 +245,48 @@ VehiclesSystemScene.prototype.updateSeekSeparate = function (i) {
 };
 
 VehiclesSystemScene.prototype.updateFlock = function (i) {
-    var vehiclesAvoid = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].avoidanceRadius);
-    var vehiclesView = this.vehicles[i].getVehiclesInFOV(this.vehicles, this.vehicles[i].viewRadius, this.ctx);
-    this.vehicles[i].separate(vehiclesAvoid, 1.5);
-    this.vehicles[i].align(vehiclesView, 0.5);
-    this.vehicles[i].cohesion(vehiclesView, 0.5);
+    var vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+    var vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
+    this.vehicles[i].separate(vehiclesRange, 1.5);
+    this.vehicles[i].align(vehiclesView, 1);
+    this.vehicles[i].cohesion(vehiclesView, 1);
 
 };
 
 VehiclesSystemScene.prototype.updateFlockPath = function (i) {
-    var vehiclesAvoid = this.vehicles[i].getVehiclesInFOV(this.vehicles, this.vehicles[i].avoidanceRadius);
-    var vehiclesView = this.vehicles[i].getVehiclesInFOV(this.vehicles, this.vehicles[i].viewRadius);
-    this.vehicles[i].separate(vehiclesAvoid);
+    var vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+    var vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
+    this.vehicles[i].separate(vehiclesRange, 1.5);
     this.vehicles[i].align(vehiclesView);
-    this.vehicles[i].cohesion(vehiclesView);
+    this.vehicles[i].cohesion(vehiclesView, 0.5);
     this.vehicles[i].pathFollowing(this.path, 2);
 };
 
 VehiclesSystemScene.prototype.updateFlockView = function (i) {
-    var vehiclesAvoid = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].avoidanceRadius);
-    var vehiclesView = this.vehicles[i].getVehiclesInFOV(this.vehicles, this.vehicles[i].viewRadius, this.ctx);
-    this.vehicles[i].separate(vehiclesAvoid, 1.5);
-    this.vehicles[i].align(vehiclesView, 0.5);
+    var vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+    var vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
+    this.vehicles[i].separate(vehiclesRange, 1.5);
+    this.vehicles[i].align(vehiclesView, 1);
     this.vehicles[i].cohesion(vehiclesView, 0.5);
-    this.vehicles[i].view(vehiclesView, 1.5);
+    this.vehicles[i].view(vehiclesView, 1);
+};
+
+
+VehiclesSystemScene.prototype.updateFlockView2 = function (i) {
+    var v = this.field.get(this.vehicles[i].mover.location.x, this.vehicles[i].mover.location.y);
+    if (v) {
+        v.x = Tools.clamp(v.x + 1, 1, 5);
+        v.y = Tools.clamp(v.y + 1, 0, 5);
+
+        var vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+        var vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
+        this.vehicles[i].separate(vehiclesRange, 1.5);
+        this.vehicles[i].align(vehiclesView, v.x);
+        this.vehicles[i].cohesion(vehiclesView, v.y);
+        this.vehicles[i].view(vehiclesView, 1 - v.x);
+        if (this.target) {
+            this.vehicles[i].pursuit(this.target, this.targetSpeed, v.y);
+        }
+        this.vehicles[i].flowFieldFollowing(this.field, (1 - v.y) * 2);
+    }
 };

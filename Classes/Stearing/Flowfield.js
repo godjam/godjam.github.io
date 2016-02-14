@@ -1,4 +1,4 @@
-/*global Array2D, toxi, Vector2*/
+/*global Array2D, toxi, Vector2, Tools*/
 var Flowfield = function (cols, rows, scene) {
     "use strict";
     this.cols = cols;
@@ -51,8 +51,8 @@ Flowfield.prototype.get = function (xPix, yPix) {
     "use strict";
     var scaleX = this.scene.size.x / this.cols,
         scaleY = this.scene.size.y / this.rows,
-        i = ~~(xPix / scaleX),
-        j = ~~(yPix / scaleY);
+        i = Tools.clamp(~~(xPix / scaleX), 0, this.cols - 1),
+        j = Tools.clamp(~~(yPix / scaleY), 0, this.rows - 1);
 
     return this.field.get(i, j);
 };

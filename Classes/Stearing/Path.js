@@ -10,9 +10,10 @@ var Path = function (count, scene) {
     this.points = [];
     this.radius = 20;
     this.scene = scene;
+    this.p = new Vector2(0, 0);
+    this.v = new Vector2(0, 0);
 
     var i = 0, theta = 0,
-        v = null,
         center = new Vector2(this.scene.size.x / 2, this.scene.size.y / 2),
         r = Math.min(this.scene.size.x, this.scene.size.y) / 2 - 20;
 
@@ -23,7 +24,7 @@ var Path = function (count, scene) {
     }
 
     for (i = 0; i < count; i += 1) {
-        v = Vector2.fromPolar(r, i * theta);
+        var v = Vector2.fromPolar(r, i * theta);
         v.addInPlace(center);
         this.points.push(v);
     }
@@ -32,22 +33,20 @@ var Path = function (count, scene) {
 Path.prototype.updatePerlin = function () {
     "use strict";
     var a = 0,
-        i = 0,
-        p = null,
-        v = null;
+        i = 0;
 
     this.z += 0.01;
     for (i = 0; i < this.points.length - 1; i += 1) {
-        p = this.points[i];
-        a = toxi.math.noise.simplexNoise.noise(p.x / this.scene.size.x,
-                                                p.y / this.scene.size.y,
+        this.p = this.points[i];
+        a = toxi.math.noise.simplexNoise.noise(this.p.x / this.scene.size.x,
+                                                this.p.y / this.scene.size.y,
                                                 this.z) + 1;
         a *= Math.PI * 2;
-        v = Vector2.fromPolar(1, a);
-        v.normalizeInPlace();
-        p.addInPlace(v);
-        p.x = Tools.clamp(p.x, 0, this.scene.size.x);
-        p.y = Tools.clamp(p.y, 0, this.scene.size.y);
+        this.v.fromPolar(1, a);
+        this.v.normalizeInPlace();
+        this.p.addInPlace(this.v);
+        this.p.x = Tools.clamp(this.p.x, 0, this.scene.size.x);
+        this.p.y = Tools.clamp(this.p.y, 0, this.scene.size.y);
     }
     this.points[i] = this.points[0];
 };

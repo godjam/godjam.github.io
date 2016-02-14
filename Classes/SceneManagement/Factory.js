@@ -68,7 +68,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "06_10",
+    var defaultKey = "06_19",
         key = "";
 
     if (window !== null) {
@@ -254,6 +254,10 @@ Factory.init = function () {
 
     this.cache["06_17"] = VehiclesSystemScene;
     this.objOp["06_17"] = {behavior_type: 13};
+
+    this.cache["06_19"] = VehiclesSystemScene;
+    this.objOp["06_19"] = {behavior_type: 14};
+
 };
 
 Factory.autoclose = function () {
