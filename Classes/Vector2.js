@@ -4,13 +4,15 @@ function Vector2(x, y) {
     if (typeof x !== 'number') {
         throw "Vector2.constructor : x is not a scalar";
     }
-    
+
     if (typeof y !== 'number') {
         throw "Vector2.constructor : y is not a scalar";
     }
     this.x = x;
 	this.y = y;
-    
+
+    //console.log("Vector2 creation");
+
     return this;
 }
 
@@ -28,6 +30,18 @@ Vector2.prototype.copy = function () {
         this.x,
         this.y
     );
+};
+
+Vector2.prototype.copyFrom = function (orig) {
+	"use strict";
+    this.x = orig.x;
+    this.y = orig.y;
+};
+
+Vector2.prototype.set = function (x, y) {
+	"use strict";
+    this.x = x;
+    this.y = y;
 };
 
 Vector2.prototype.add = function (vector) {
@@ -119,6 +133,13 @@ Vector2.prototype.mag = function () {
     return Math.sqrt(this.x * this.x + this.y * this.y);
 };
 
+Vector2.prototype.setMag = function (m) {
+	"use strict";
+	this.normalizeInPlace();
+	this.multInPlace(m);
+    return this;
+};
+
 Vector2.prototype.magSq = function () {
 	"use strict";
     return this.x * this.x + this.y * this.y;
@@ -156,7 +177,8 @@ Vector2.prototype.normalizeInPlace = function () {
 	"use strict";
     var l = this.mag();
     if (l !== 0) {
-        return this.divInPlace(l);
+        this.divInPlace(l);
+        return this;
     } else {
         return new Vector2(0, 0);
     }
@@ -215,7 +237,7 @@ Vector2.prototype.rotateInPlace = function (radian, center) {
     if (typeof radian !== 'number') {
         throw "Vector2.rotate : param 1 is not a scalar";
     }
-    
+
     if (center === undefined) {
         center = new Vector2(0, 0);
     }
@@ -225,6 +247,7 @@ Vector2.prototype.rotateInPlace = function (radian, center) {
     var copy = this.rotate(radian, center);
     this.x = copy.x;
     this.y = copy.y;
+    return this;
 };
 
 Vector2.prototype.rotate = function (radian, center) {
@@ -248,6 +271,19 @@ Vector2.prototype.rotate = function (radian, center) {
     return copy;
 };
 
+Vector2.prototype.rotateInPlace90 = function (dir) {
+	"use strict";
+	var x = this.x;
+    if (dir > 0) {
+        this.x = -this.y;
+        this.y = x;
+    } else {
+        this.x = this.y;
+        this.y = -x;
+    }
+    return this;
+};
+
 Vector2.prototype.heading = function () {
     "use strict";
     return Math.atan2(this.y, this.x);
@@ -255,15 +291,23 @@ Vector2.prototype.heading = function () {
 
 Vector2.fromPolar = function (r, theta) {
     "use strict";
+    var v = new Vector2(0, 0);
+    v.fromPolar(r, theta);
+    return v;
+};
+
+Vector2.prototype.fromPolar = function (r, theta) {
+    "use strict";
     if (typeof r !== 'number') {
         throw "Vector2.fromPolar : param 1 is not a scalar";
     }
     if (typeof theta !== 'number') {
         throw "Vector2.fromPolar : param 2 is not a scalar";
     }
-    
-    var v = new Vector2(r * Math.sin(theta), r * Math.cos(theta));
-    return v;
+
+    this.x = r * Math.sin(theta);
+    this.y = r * Math.cos(theta);
+    return this;
 };
 
 Vector2.prototype.dot = function (v) {
@@ -271,7 +315,7 @@ Vector2.prototype.dot = function (v) {
     if (v instanceof Vector2 === false) {
         throw "Vector2.dot : v is not a Vector2";
     }
-    
+
     return (this.x * v.x + this.y * v.y);
 };
 
@@ -298,7 +342,7 @@ Vector2.getScalarProjection = function (v1, v2) {
     var projection = null;
     // b is now a vector of length 1
     v2.normalizeInPlace();
-    // b has now a length of the projection point 
+    // b has now a length of the projection point
     projection = v2.mult(v1.dot(v2));
     return projection;
 };

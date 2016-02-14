@@ -4,13 +4,13 @@ var RepulsiveMoversScene = function () {
 	"use strict";
     Scene.call(this);
     this.intro("Repulsion", "Movers repel each others but are attracted by the attractor.");
-    
+
     var i = 0,
         s = 0,
         attractor = new Attractor(0, 0, 30, 20);
     this.movers = [];
     this.gravity = new MouseAttractor(this, attractor);
-    
+
     for (i = 0; i < 70; i += 1) {
         s = Math.random() * 20 + 10;
         this.movers[i] = new Mover(0, 0, this, s);
@@ -19,7 +19,7 @@ var RepulsiveMoversScene = function () {
 };
 RepulsiveMoversScene.prototype = Object.create(Scene.prototype);
 RepulsiveMoversScene.prototype.constructor = RepulsiveMoversScene;
-    
+
 RepulsiveMoversScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
@@ -30,9 +30,9 @@ RepulsiveMoversScene.prototype.loop = function () {
                 this.movers[i].attract(this.movers[j], -1);
             }
         }
-        
+
         this.gravity.applyOn(this.movers[i]);
-        this.movers[i].update(true);
+        this.movers[i].update(1);
         this.movers[i].display(this.ctx);
     }
     this.gravity.display(this.ctx);

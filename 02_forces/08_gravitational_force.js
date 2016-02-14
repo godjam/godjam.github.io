@@ -4,7 +4,7 @@ var GravitationalAttractionScene = function () {
 	"use strict";
     Scene.call(this);
     this.intro("Attraction", "Movers are attracted by the attractor. Plus, they attract each others.<br>Touch to move the attractor.");
-    
+
     var i = 0,
         w = this.size.x,
         h = this.size.y,
@@ -12,7 +12,7 @@ var GravitationalAttractionScene = function () {
         attractor = new Attractor(0, 0, 20, 1);
     this.movers = [];
     this.gravity = new MouseAttractor(this, attractor);
-    
+
     for (i = 0; i < 10; i += 1) {
         s = Math.random() * 10 + 10;
         this.movers[i] = new Mover(0, 0, this, s);
@@ -21,7 +21,7 @@ var GravitationalAttractionScene = function () {
 };
 GravitationalAttractionScene.prototype = Object.create(Scene.prototype);
 GravitationalAttractionScene.prototype.constructor = GravitationalAttractionScene;
-    
+
 GravitationalAttractionScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
@@ -32,9 +32,9 @@ GravitationalAttractionScene.prototype.loop = function () {
                 this.movers[i].attract(this.movers[j], 1);
             }
         }
-        
+
         this.gravity.applyOn(this.movers[i]);
-        this.movers[i].update(true);
+        this.movers[i].update(1);
         this.movers[i].display(this.ctx);
     }
     this.gravity.display(this.ctx);

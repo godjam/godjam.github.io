@@ -7,6 +7,7 @@ var Flowfield = function (cols, rows, scene) {
     this.z = 0;
     this.field = new Array2D(cols, rows);
     this.init();
+    this.tmp = new Vector2(0, 0);
 };
 
 
@@ -38,9 +39,10 @@ Flowfield.prototype.updatePerlin = function () {
                               j / this.rows,
                               this.z) + 1;
             a *= Math.PI * 2;
-            v = Vector2.fromPolar(1, a);
-            v.normalizeInPlace();
-            this.field.add(i, j, v);
+            this.tmp.fromPolar(1, a);
+            this.tmp.normalizeInPlace();
+            v = this.field.get(i, j);
+            v.copyFrom(this.tmp);
         }
     }
 };

@@ -13,11 +13,11 @@ Oscillation.prototype.applyOn = function (mover) {
     if (mover instanceof Mover === false) {
         throw "Oscillation.applyOn : param is not a Mover";
     }
-    
+
     this.angle += this.angularVelocity;
     this.location = mover.location.copy();
     this.force = mover.velocity.normalize();
-    this.force.rotateInPlace(Math.PI / 2, new Vector2(0, 0));
+    this.force.rotateInPlace90(1);
     this.force.multInPlace(this.amplitude * Math.sin(this.angle));
     mover.applyForce(this.force);
 };

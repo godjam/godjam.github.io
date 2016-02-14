@@ -13,7 +13,7 @@ MoverAccelerationScene.prototype.constructor =  MoverAccelerationScene;
 
 MoverAccelerationScene.prototype.loop = function () {
     "use strict";
-    this.mover.update(true);
+    this.mover.update(1);
 
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.mover.display(this.ctx);

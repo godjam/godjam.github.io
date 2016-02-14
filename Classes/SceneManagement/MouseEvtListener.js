@@ -1,34 +1,35 @@
 /*global Vector2, HTMLCanvasElement*/
 var MouseEvtListener = function (canvas, callbackOwner, callbackMove, callbackRelease) {
     "use strict";
-    
+
     if (canvas instanceof HTMLCanvasElement === false) {
         throw "MouseEvtListener.ctor : canvas is not a HTMLCanvasElement";
     }
-    
+
     this.mouseClick = false;
     this.position = new Vector2(canvas.clientLeft, canvas.clientTop);
     this.origin = new Vector2(canvas.clientLeft, canvas.clientTop);
+    this.positionCopy = new Vector2(0, 0);
     this.canvas = canvas;
     this.callbackOwner = callbackOwner;
     this.callbackMove = null;
     this.callbackRelease = null;
-    
+
     if (callbackMove !== undefined && callbackMove instanceof Function) {
         this.callbackMove = callbackMove;
     }
-    
+
     if (callbackRelease !== undefined && callbackRelease instanceof Function) {
         this.callbackRelease = callbackRelease;
     }
-    
+
     // attach event listener to the doc (with capturing)
     this.canvas.addEventListener("mousedown", this.mouseDown.bind(this));
     this.canvas.addEventListener("mouseup", this.mouseUp.bind(this));
 
     this.canvas.addEventListener("touchstart", this.mouseDown.bind(this));
     this.canvas.addEventListener("touchend", this.mouseUp.bind(this));
-  
+
     this.canvas.addEventListener("mousemove", this.move.bind(this));
     this.canvas.addEventListener("touchmove", this.move.bind(this));
 };
@@ -38,7 +39,7 @@ MouseEvtListener.prototype.stop = function () {
     this.canvas.removeEventListener("mousedown", this.mouseDown);
     this.canvas.removeEventListener("mouseup", this.mouseUp);
     this.canvas.removeEventListener("mousemove", this.move);
-    
+
     this.canvas.removeEventListener("touchstart", this.mouseDown);
     this.canvas.removeEventListener("touchend", this.mouseUp);
     this.canvas.removeEventListener("touchmove", this.move);
@@ -49,7 +50,7 @@ MouseEvtListener.prototype.move = function (event) {
     // TODO : let acces to multitouch
     event.preventDefault();
     var x = null, y = null;
-    
+
     if (event.touches !== undefined && event.touches.length > 0) {
         x = event.touches[0].clientX;
         y = event.touches[0].clientY;
@@ -61,7 +62,7 @@ MouseEvtListener.prototype.move = function (event) {
     if (x !== null && y !== null) {
         this.position.x = x - this.origin.x;
         this.position.y = y - this.origin.y - 16;
-        
+
         this.update();
     }
 };
@@ -70,8 +71,9 @@ MouseEvtListener.prototype.update = function () {
     "use strict";
     if (this.mouseClick && this.position.x !== null && this.position.y !== null) {
         if (this.callbackMove !== null) {
+            this.positionCopy.copyFrom(this.position);
             var bindedCall = this.callbackMove.bind(this.callbackOwner);
-            bindedCall(this.position.copy());
+            bindedCall(this.positionCopy);
         }
     }
 };

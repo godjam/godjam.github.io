@@ -1,87 +1,96 @@
 /*global Mover, Vector2, Flowfield, Path, Color*/
-var Vehicle = function (scene, x, y) {
+var Vehicle = function(scene, x, y) {
     "use strict";
+    this.r = Math.max(scene.size.x / 100, 5);
     this.mover = new Mover(x, y, scene, 1);
     this.mover.velocity = Vector2.create2D();
-    this.r = 10;
-    this.agressivity = Math.random();
-    this.maxForce = this.agressivity / 2;
+    this.agressivity = Math.random() * 0.9 + 0.1;
+    this.maxForce = this.agressivity / 10;
     this.maxSpeed = this.agressivity * 2 + 2;
     this.fillStyle = Color.createBrightColor().ToHex();
-    this.desired = Vector2.create2D();
-    this.viewRadius = scene.size.y / 10;
-    this.avoidanceRadius = scene.size.y / 40;
+    this.desired = new Vector2(0, 0);
+    this.steer = new Vector2(0, 0);
+    this.predict = new Vector2(0, 0);
+    this.tmp = new Vector2(0, 0);
+    this.tmpA = new Vector2(0, 0);
+    this.tmpB = new Vector2(0, 0);
+    this.viewAngle = Math.PI / 2;
+    this.viewRadius = 100 + this.agressivity * 30;
+    this.avoidanceRadius = 30 + this.agressivity * 10;
 };
 
-Vehicle.prototype.applyForce = function (force, weight) {
+Vehicle.prototype.applyForce = function(force, weight) {
     "use strict";
     if (force) {
-        if(weight) { force.multInPlace(weight); }
+        if (weight) {
+            force.multInPlace(weight);
+        }
         this.mover.applyForce(force);
     }
 };
 
-Vehicle.prototype.update = function () {
+Vehicle.prototype.update = function() {
     "use strict";
-    this.mover.update(true);
+    this.mover.update(2);
 };
 
-Vehicle.prototype.setDesiredTarget = function (desired, radius) {
+Vehicle.prototype.setDesiredTarget = function(radius) {
     "use strict";
-
-    if (desired === undefined) {return null; }
-    if (desired instanceof Vector2 === false) {
-        throw "Vehicle.setDesiredTarget : desired is not a Vector2";
-    }
-
     if (radius === undefined) {
         radius = 0;
     }
 
-    this.desired.x = desired.x;
-    this.desired.y = desired.y;
+    if (this.desired) {
+        var desiredMag = this.desired.magSq(),
+            speed = this.maxSpeed;
+        this.desired.normalizeInPlace();
 
-    var steer = null, desiredMag = 0, speed = this.maxSpeed;
-    desiredMag = desired.mag();
-    desired.normalizeInPlace();
+        if (desiredMag < radius * radius) {
+            speed = desiredMag / radius * this.maxSpeed;
+        }
 
-    if (desiredMag < radius) {
-        speed = desiredMag / radius * this.maxSpeed;
+        this.desired.multInPlace(speed);
+
+        this.steer.x = this.desired.x - this.mover.velocity.x;
+        this.steer.y = this.desired.y - this.mover.velocity.y;
+        this.steer.limit(this.maxForce);
+        return this.steer;
+        // need to manually call this.mover.applyForce(this.steer);
     }
-
-    desired.multInPlace(speed);
-
-    steer = desired.sub(this.mover.velocity);
-    steer.limit(this.maxForce);
-    return steer;
-    // need to manually call this.mover.applyForce(steer);
 };
 
-Vehicle.prototype.applyDesiredTarget = function (desired, radius) {
+Vehicle.prototype.applyDesiredTarget = function(radius, weight) {
     "use strict";
-    var steer = this.setDesiredTarget(desired, radius);
-    if(steer) { this.mover.applyForce(steer); }
+    var steer = this.setDesiredTarget(radius);
+    if (steer) {
+        if (weight && weight !== 1) {
+            steer.multInPlace(weight);
+        }
+        this.mover.applyForce(steer);
+    }
 };
 
-Vehicle.prototype.seek = function (target) {
+Vehicle.prototype.seek = function(target, weight) {
     "use strict";
     if (target instanceof Vector2 === false) {
         throw "Vehicle.seek : target is not a Vector2";
     }
-    var desired = target.sub(this.mover.location);
-    return this.applyDesiredTarget(desired);
+    this.desired.x = target.x - this.mover.location.x;
+    this.desired.y = target.y - this.mover.location.y;
+    return this.applyDesiredTarget(0, weight);
 };
 
-Vehicle.prototype.flee = function (target) {
+Vehicle.prototype.flee = function(target, weight) {
     "use strict";
     if (target instanceof Vector2 === false) {
         throw "Vehicle.flee : target is not a Vector2";
     }
-    var desired = this.mover.location.sub(target);
-    return this.applyDesiredTarget(desired, this.viewRadius);
+    this.desired.x = this.mover.location.x - target.x;
+    this.desired.y = this.mover.location.y - target.y;
+    this.applyDesiredTarget(this.viewRadius, weight);
 };
 
-Vehicle.prototype.pursuit = function (target, targetSpeed) {
+Vehicle.prototype.pursuit = function(target, targetSpeed, weight) {
     "use strict";
     if (target instanceof Vector2 === false) {
         throw "Vehicle.pursuit : target is not a Vector2";
@@ -89,55 +98,74 @@ Vehicle.prototype.pursuit = function (target, targetSpeed) {
     if (targetSpeed instanceof Vector2 === false) {
         throw "Vehicle.pursuit : targetSpeed is not a Vector2";
     }
-    var t = target.add(targetSpeed.mult(10));
-    return this.seek(t);
+    this.tmp.x = target.x + targetSpeed.x * 10;
+    this.tmp.y = target.y + targetSpeed.y * 10;
+    this.seek(this.tmp, weight);
 };
 
-Vehicle.prototype.wandering = function () {
+Vehicle.prototype.wandering = function(weight) {
     "use strict";
-    var desired = null, steps = 50, radius = 30, p = null;
+    var steps = 5,
+        radius = 30;
     // desired location (position relative) is actual position + 10 times the velocity
-    desired = this.mover.velocity.normalize().mult(steps);
+    this.desired.x = this.mover.velocity.x;
+    this.desired.y = this.mover.velocity.y;
+    this.desired.setMag(steps);
     // select a random point on the circle of center on "desired" location with a radius of 20
-    p = Vector2.fromPolar(radius, Math.random() * Math.PI * 2);
-    desired.addInPlace(p);
+    this.tmp.fromPolar(radius, Math.random() * Math.PI * 2);
+    this.desired.addInPlace(this.tmp);
     // go to the desired point
-    return this.applyDesiredTarget(desired, this.viewRadius);
+    this.applyDesiredTarget(this.viewRadius, weight);
 };
 
-Vehicle.prototype.avoidWalls = function () {
+Vehicle.prototype.avoidWalls = function(weight) {
     "use strict";
-    var desired = this.mover.velocity.copy(),
-        threshold = this.viewRadius,
-        f = this.maxSpeed;
+    var threshold = this.viewRadius,
+        f = this.maxSpeed * 10,
+        d = threshold;
+
+    this.desired.x = this.mover.velocity.x;
+    this.desired.y = this.mover.velocity.y;
     if (this.mover.location.x < threshold) {
-        desired.x = f;//-(this.mover.location.x - threshold);
+        d = threshold - this.mover.location.x;
+        this.desired.x = f * d;
     }
     else if (this.mover.location.x > this.mover.scene.size.x - threshold) {
-        desired.x = -f;//-(this.mover.location.x - (this.mover.scene.size.x - threshold));
+        d = this.mover.scene.size.x - this.mover.location.x;
+        this.desired.x = -f * d;
     }
     if (this.mover.location.y < threshold) {
-        desired.y = f;//-(this.mover.location.y - threshold);
+        d = threshold - this.mover.location.y;
+        this.desired.y = f * d;
     }
     else if (this.mover.location.y > this.mover.scene.size.y - threshold) {
-        desired.y = -f;//-(this.mover.location.y - (this.mover.scene.size.y - threshold));
+        d = this.mover.scene.size.y - this.mover.location.y;
+        this.desired.y = -f * d;
     }
     // go to the desired point
-    return this.applyDesiredTarget(desired);
+    return this.applyDesiredTarget(0, weight);
 };
 
-Vehicle.prototype.flowFieldFollowing = function (flowfield) {
+Vehicle.prototype.goCenter = function(weight) {
+    "use strict";
+    var size = this.mover.scene.size;
+    this.desired.x = size.x / 2 - this.mover.location.x;
+    this.desired.y = size.y / 2 - this.mover.location.y;
+    return this.applyDesiredTarget(0, weight)
+};
+
+Vehicle.prototype.flowFieldFollowing = function(flowfield, weight) {
     "use strict";
     if (flowfield instanceof Flowfield === false) {
         throw "Vehicle.flowFieldFollowing : flowField is not a FlowField";
     }
     // get right field coords
-    var desired = flowfield.get(this.mover.location.x, this.mover.location.y);
-    // go to the desired point
-    return this.applyDesiredTarget(desired);
+    this.desired = flowfield.get(this.mover.location.x, this.mover.location.y);
+    // go
+    return this.applyDesiredTarget(0, weight);
 };
 
-Vehicle.prototype.pathFollowing = function (path) {
+Vehicle.prototype.pathFollowing = function(path, weight) {
     "use strict";
     if (path instanceof Path === false) {
         throw "Vehicle.pathFollowing : path is not a Path";
@@ -157,9 +185,8 @@ Vehicle.prototype.pathFollowing = function (path) {
 
     // look at 25 pix ahead
     predict.normalizeInPlace();
-    predict.multInPlace(25);
+    predict.multInPlace(this.agressivity * 25);
     predictLoc = this.mover.location.add(predict);
-
 
     this.normals = [];
     for (i = 0; i < path.points.length - 1; i += 1) {
@@ -190,7 +217,7 @@ Vehicle.prototype.pathFollowing = function (path) {
     }
 };
 
-Vehicle.prototype.getNormalPoint = function (p, a, b) {
+Vehicle.prototype.getNormalPoint = function(p, a, b) {
     "use strict";
     if (p instanceof Vector2 === false) {
         throw "Vehicle.getNormalPoint : p is not a Vector2";
@@ -207,105 +234,196 @@ Vehicle.prototype.getNormalPoint = function (p, a, b) {
     return normalPoint;
 };
 
-Vehicle.prototype.separate = function (vehicles) {
+Vehicle.prototype.separate = function(vehicles, weight) {
     "use strict";
-    var i = 0, d = 0, count = 0,
-        thisLoc = this.mover.location,
-        otherLoc = null, diff = null,
-        sum = new Vector2(0, 0),
-        desiredseparation = this.avoidanceRadius;
+    var i = 0,
+        loc = this.mover.location;
 
+    this.desired.set(0, 0);
     for (i = 0; i < vehicles.length; i += 1) {
-        if (vehicles[i] !== this) {
-            otherLoc = vehicles[i].mover.location;
-            diff = thisLoc.sub(otherLoc);
-            d = diff.magSq();
-            if (d > 0 && d < (desiredseparation * desiredseparation)) {
-                diff.normalizeInPlace();
-                diff.divInPlace(d);
-                sum.addInPlace(diff);
-                count += 1;
-            }
-        }
+        this.desired.addInPlace(vehicles[i].mover.location); // separate from average location
     }
 
-    if (count > 0) {
-        sum.divInPlace(count);
-        sum.normalizeInPlace();
-        return this.setDesiredTarget(sum);
+    if (vehicles.length > 0) {
+        this.desired.divInPlace(vehicles.length);
+        this.desired.x = loc.x - this.desired.x;
+        this.desired.y = loc.y - this.desired.y;
+        this.desired.setMag(this.avoidanceRadius);
+        this.applyDesiredTarget(0, weight);
     }
 };
 
-Vehicle.prototype.align = function (vehicles) {
+Vehicle.prototype.align = function(vehicles, weight) {
     "use strict";
-    var i = 0, d = 0, count = 0,
-        thisLoc = this.mover.location,
-        otherVel = null,
-        otherLoc = null,
-        sum = new Vector2(0, 0),
-        maxRange = this.viewRadius;
+    var i = 0;
 
+    this.desired.set(0, 0);
     for (i = 0; i < vehicles.length; i += 1) {
-        if (vehicles[i] !== this) {
-            otherVel = vehicles[i].mover.velocity;
-            otherLoc = vehicles[i].mover.location;
-            d = Vector2.distanceSq(thisLoc, otherLoc);
+        this.desired.addInPlace(vehicles[i].mover.velocity); // average velocity
+    }
 
-            if (d > 0 && d < (maxRange * maxRange)) {
-                sum.addInPlace(otherVel);
-                count += 1;
-            }
-        }
-
-        if (count > 0) {
-            sum.divInPlace(count);
-            sum.normalizeInPlace();
-            return this.setDesiredTarget(sum);
-        }
+    if (vehicles.length > 0) {
+        this.desired.divInPlace(vehicles.length);
+        this.applyDesiredTarget(0, weight);
     }
 };
 
-Vehicle.prototype.cohesion = function (vehicles) {
+Vehicle.prototype.cohesion = function(vehicles, weight) {
     "use strict";
-    var i = 0, d = 0, count = 0,
-        thisLoc = this.mover.location,
-        otherLoc = null, diff = null,
-        sum = new Vector2(0, 0),
-        cohesionRadius = this.viewRadius;
+    var i = 0;
 
+    this.desired.set(0, 0); // TODO : use temp
     for (i = 0; i < vehicles.length; i += 1) {
-        if (vehicles[i] !== this) {
-            otherLoc = vehicles[i].mover.location;
-            diff = thisLoc.sub(otherLoc);
-            if (d > 0 && d < cohesionRadius) {
-                sum.addInPlace(diff);
-                count += 1;
-            }
-        }
+        this.desired.addInPlace(vehicles[i].mover.location); // average location
     }
 
-    if (count > 0) {
-        sum.divInPlace(count);
-        return this.seek(sum);
+    if (vehicles.length > 0) {
+        this.desired.divInPlace(vehicles.length);
+        this.seek(this.desired, weight);
     }
 };
 
-Vehicle.prototype.display = function (ctx) {
+Vehicle.prototype.view = function(vehicles, weight) {
     "use strict";
-    var theta = this.mover.velocity.heading() + Math.PI / 2; // normal
+    var i = 0,
+        a = 0,
+        max = 100000000,
+        l = max,
+        lMin = max;
+
+    for (i = 0; i < vehicles.length; i += 1) {
+        this.tmp.x = this.mover.location.x - vehicles[i].mover.location.x;
+        this.tmp.y = this.mover.location.y - vehicles[i].mover.location.y;
+        l = this.tmp.magSq();
+        if (l < lMin) {
+            lMin = l;
+            this.desired = this.tmp; // smallest dist
+        }
+    }
+
+    if (lMin < max) {
+        a = this.desired.heading();
+        // map on [-PI, PI]
+        if (a > Math.PI) { a -= Math.PI * 2; }
+
+        if (a < 0) {
+            this.desired.rotateInPlace90(1);
+        } else {
+            this.desired.rotateInPlace90(-1);
+        }
+
+        this.desired.setMag(this.maxSpeed);
+        this.applyDesiredTarget(0, weight);
+    }
+};
+
+
+Vehicle.prototype.getVehiclesInRange = function(vehicles, range) {
+    "use strict";
+    var i = 0,
+        list = [];
+
+    for (i = 0; i < vehicles.length; i += 1) {
+        if (vehicles[i] !== this) {
+            this.tmp.x = vehicles[i].mover.location.x;
+            this.tmp.y = vehicles[i].mover.location.y;
+            if (Math.abs(this.mover.location.x - this.tmp.x) < range &&
+                Math.abs(this.mover.location.y - this.tmp.y) < range) {
+                this.tmp.x = this.mover.location.x - this.tmp.x;
+                this.tmp.y = this.mover.location.y - this.tmp.y;
+                if (this.tmp.magSq() < range * range) {
+                    list.push(vehicles[i]);
+                }
+            }
+        }
+    }
+    return list;
+};
+
+Vehicle.prototype.getVehiclesInFOV = function(vehicles, range, ctx) {
+    "use strict";
+    var i = 0,
+        list = [],
+        loc = this.mover.location,
+        heading = this.mover.velocity.heading(),
+        a = 0, aMin = 0, aMax = 0;
+
+    for (i = 0; i < vehicles.length; i += 1) {
+        if (vehicles[i] !== this) {
+            this.tmp.x = vehicles[i].mover.location.x;
+            this.tmp.y = vehicles[i].mover.location.y;
+            if (Math.abs(loc.x - this.tmp.x) < range && Math.abs(loc.y - this.tmp.y) < range) {
+                this.tmp.x = loc.x - this.tmp.x;
+                this.tmp.y = loc.y - this.tmp.y;
+                if (this.tmp.magSq() < range * range) {
+                    a = Math.PI + this.tmp.heading();
+                    aMin = a - (heading - this.viewAngle / 2);
+                    aMax = a - (heading + this.viewAngle / 2);
+                    if (aMin >= Math.PI) { aMin -= Math.PI * 2; } // map on [-PI, PI]
+                    if (aMax >= Math.PI) { aMax -= Math.PI * 2; } // map on [-PI, PI]
+                    /*
+                    console.log(a1, a2);
+
+                    ctx.lineWidth = 4;
+                    // a
+                    ctx.beginPath();
+                    ctx.strokeStyle = this.fillStyle;
+                    ctx.moveTo(this.mover.location.x, this.mover.location.y);
+                    ctx.lineTo(this.mover.location.x + Math.cos(a) * 40, this.mover.location.y +  Math.sin(a) * 40);
+                    ctx.stroke();
+                    ctx.closePath();
+                    // aMin
+                    ctx.beginPath();
+                    ctx.strokeStyle = "#000";
+                    ctx.moveTo(this.mover.location.x, this.mover.location.y);
+                    ctx.lineTo(this.mover.location.x + Math.cos(aMin) * 40, this.mover.location.y +  Math.sin(aMin) * 40);
+                    // aMax
+                    ctx.moveTo(this.mover.location.x, this.mover.location.y);
+                    ctx.lineTo(this.mover.location.x + Math.cos(aMax) * 40, this.mover.location.y +  Math.sin(aMax) * 40);
+                    ctx.stroke();
+                    ctx.closePath();
+                    */
+
+
+                    if (aMin > 0 && aMax < 0) {
+                        list.push(vehicles[i]);
+                        // in view
+                        /*
+                        ctx.beginPath();
+                        ctx.lineWidth = 4;
+                        ctx.strokeStyle = this.fillStyle;
+                        ctx.arc(vehicles[i].mover.location.x, vehicles[i].mover.location.y, 15, 0, Math.PI * 2);
+                        ctx.stroke();
+                        ctx.closePath();
+                        */
+                    }
+                }
+            }
+        }
+    }
+    //if (list.length > 0 ) {
+    //    console.log("found vehicles : " + list.length)
+    //}
+    return list;
+};
+
+Vehicle.prototype.display = function(ctx) {
+    "use strict";
+
+    ctx.lineWidth = 1;
+    ctx.fillStyle = this.fillStyle;
+    ctx.strokeStyle = this.fillStyle;
+
+    var theta = this.mover.velocity.heading() + Math.PI / 2;
     ctx.save();
     ctx.translate(this.mover.location.x, this.mover.location.y);
     ctx.rotate(theta);
-    ctx.beginPath();
-    ctx.fillStyle = this.fillStyle;
-
     /*
-    ctx.lineWidth = 0.5;
-    ctx.arc(0, 0, this.viewRadius, 0, pi2);
-    ctx.arc(0, 0, this.avoidanceRadius, 0, pi2);
+    ctx.beginPath();
+    ctx.arc(0, 0, this.viewRadius, -this.viewAngle / 2 - Math.PI / 2, this.viewAngle / 2 - Math.PI / 2);
     ctx.stroke();
     ctx.closePath();
-    */
+    //*/
 
     ctx.beginPath();
     ctx.lineTo(0, -this.r);
@@ -313,16 +431,18 @@ Vehicle.prototype.display = function (ctx) {
     ctx.lineTo(this.r, this.r);
     ctx.fill();
     ctx.closePath();
+    ctx.restore();
 
-    // desired loc
+    // desired speed
+    /*
     if (this.desired !== null) {
         ctx.beginPath();
-        ctx.lineWidth = 0.5;
-        ctx.strokeStyle = "#ddd";
-        ctx.lineTo(this.mover.location.x + this.desired.x, this.mover.location.y + this.desired.y);
+        ctx.moveTo(this.mover.location.x, this.mover.location.y);
+        //ctx.lineTo(this.mover.location.x + this.mover.velocity.x * 10, this.mover.location.y + this.mover.velocity.y * 10);
+        ctx.lineTo(this.mover.location.x + this.desired.x * 10, this.mover.location.y + this.desired.y);
         ctx.stroke();
         ctx.closePath();
     }
+    //*/
 
-    ctx.restore();
 };

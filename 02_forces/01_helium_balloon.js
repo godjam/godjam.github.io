@@ -27,7 +27,7 @@ HeliumBalloonScene.prototype.loop = function () {
     for (i = 0; i < this.ballons.length; i += 1) {
         this.wind.applyOn(this.ballons[i]);
         this.gravity.applyOn(this.ballons[i]);
-        this.ballons[i].update(true);
+        this.ballons[i].update(1);
 
         // draw
         this.ballons[i].displayAsCircle(this.ctx);

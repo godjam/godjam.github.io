@@ -68,7 +68,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "06_08",
+    var defaultKey = "06_10",
         key = "";
 
     if (window !== null) {
@@ -228,14 +228,32 @@ Factory.init = function () {
     this.cache["06_05"] = VehiclesSystemScene;
     this.objOp["06_05"] = {behavior_type: 4};
 
-    this.cache["06_06"] = VehiclesSystemScene;
-    this.objOp["06_06"] = {behavior_type: 5};
-
     this.cache["06_07"] = VehiclesSystemScene;
-    this.objOp["06_07"] = {behavior_type: 6};
+    this.objOp["06_07"] = {behavior_type: 5};
 
-    this.cache["06_08"] = VehiclesSystemScene;
-    this.objOp["06_08"] = {behavior_type: 7};
+    this.cache["06_10"] = VehiclesSystemScene;
+    this.objOp["06_10"] = {behavior_type: 6};
+
+    this.cache["06_11"] = VehiclesSystemScene;
+    this.objOp["06_11"] = {behavior_type: 7};
+
+    this.cache["06_12"] = VehiclesSystemScene;
+    this.objOp["06_12"] = {behavior_type: 8};
+
+    this.cache["06_13"] = VehiclesSystemScene;
+    this.objOp["06_13"] = {behavior_type: 9};
+
+    this.cache["06_14"] = VehiclesSystemScene;
+    this.objOp["06_14"] = {behavior_type: 10};
+
+    this.cache["06_15"] = VehiclesSystemScene;
+    this.objOp["06_15"] = {behavior_type: 11};
+
+    this.cache["06_16"] = VehiclesSystemScene;
+    this.objOp["06_16"] = {behavior_type: 12};
+
+    this.cache["06_17"] = VehiclesSystemScene;
+    this.objOp["06_17"] = {behavior_type: 13};
 };
 
 Factory.autoclose = function () {

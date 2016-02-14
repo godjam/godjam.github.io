@@ -22,7 +22,7 @@ AsteroidsScene.prototype.loop = function () {
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
     this.friction.applyOn(this.mover);
-    this.mover.update(true);
+    this.mover.update(1);
     this.mover.displayAsPoly(this.ctx, 3);
     this.emitter.step(this.ctx);
 

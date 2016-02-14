@@ -31,7 +31,7 @@ ShatteringScene.prototype.loop = function () {
 
     for (i = 0; i < this.movers.length; i += 1) {
         this.gravity.applyOn(this.movers[i]);
-        this.movers[i].update(true);
+        this.movers[i].update(1);
         this.movers[i].display(this.ctx);
     }
 

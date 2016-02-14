@@ -25,10 +25,10 @@ MoverPerlinScene.prototype.loop = function () {
     acceleration.normalizeInPlace();
     this.mover.acceleration = acceleration;
     this.lastAccel = acceleration.copy();
-    this.mover.update(true);
-    
+    this.mover.update(1);
+
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.mover.display(this.ctx);
-    
+
     Scene.prototype.loop.call(this);
 };

@@ -34,7 +34,7 @@ EcosystemScene_03.prototype.loop = function () {
         this.oscillations[i].applyOn(this.movers[i]);
         this.attractor.applyOn(this.movers[i]);
 
-        this.movers[i].update(true);
+        this.movers[i].update(1);
         this.movers[i].display(this.ctx);
     }
     this.attractor.display(this.ctx);

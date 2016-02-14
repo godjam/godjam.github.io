@@ -4,7 +4,7 @@ var FrictionForceScene = function () {
 	"use strict";
     Scene.call(this);
 	this.intro("Friction force", "Friction is high in the left area: movers slow down.<br><br>Friction is negative in the rigth one: movers accelerate.");
-    
+
     var i = 0,
         w = this.size.x,
         h = this.size.y;
@@ -18,7 +18,7 @@ var FrictionForceScene = function () {
     this.acceleration = new ActiveArea(w / 8 + w / 2, h / 2,
                                        w / 4, h / 2);
     this.acceleration.setEffect(new Friction(-0.08));
-    
+
     for (i = 0; i < 100; i += 1) {
         this.movers[i] = new Mover(0, 0, this, 10);
         this.movers[i].initRandomly();
@@ -26,7 +26,7 @@ var FrictionForceScene = function () {
 };
 FrictionForceScene.prototype = Object.create(Scene.prototype);
 FrictionForceScene.prototype.constructor =  FrictionForceScene;
-    
+
 FrictionForceScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
@@ -37,7 +37,7 @@ FrictionForceScene.prototype.loop = function () {
         this.globalFriction.applyOn(this.movers[i]);
         this.friction.applyOn(this.movers[i]);
         this.acceleration.applyOn(this.movers[i]);
-        this.movers[i].update(true);
+        this.movers[i].update(1);
         this.movers[i].display(this.ctx);
     }
     this.friction.display(this.ctx);

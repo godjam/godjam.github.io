@@ -2,21 +2,21 @@
 //*************************************************
 function Mover(x, y, scene, m) {
     "use strict";
-    
+
     if (scene instanceof Scene === false) {
         throw "Mover.constructor: scene is not a Scene";
     }
-    
+
     if (m === undefined) {
         m = 10;
     }
-    
+
     this.location = new Vector2(x, y);
     this.velocity = new Vector2(0, 0);
     this.acceleration = new Vector2(0, 0);
     this.mass = m;
     this.scene = scene;
-    
+
     this.p1 = new Vector2(-1, -1);
     this.p2 = new Vector2(-1, 1);
     this.p3 = new Vector2(1, 1);
@@ -27,6 +27,8 @@ function Mover(x, y, scene, m) {
     this.angularAcceleration = 0;
     this.useAngularAcceleration = false;
     this.color = Color.createBrightColor();
+
+    this.appliedForce = new Vector2(0, 0);
 }
 
 Mover.prototype.initRandomly = function () {
@@ -42,13 +44,13 @@ Mover.prototype.initRandomly = function () {
     this.mass = this.mass / 2 + Math.random() * this.mass / 2;
 };
 
-Mover.prototype.update = function (collideWithBorders) {
+Mover.prototype.update = function (collideType) {
     "use strict";
     this.velocity.addInPlace(this.acceleration);
     this.velocity.limit(10);
     this.location.addInPlace(this.velocity);
 
-    // if the angularAcceleration is in use 
+    // if the angularAcceleration is in use
     if (this.useAngularAcceleration === true) {
         this.angularVelocity += this.angularAcceleration;
         this.angle += this.angularVelocity;
@@ -56,10 +58,11 @@ Mover.prototype.update = function (collideWithBorders) {
         // default : set angle according to the velocity
         this.angle = Math.atan2(this.velocity.y, this.velocity.x);
     }
-    
+
     this.acceleration.multInPlace(0); // reset accel (force are applied)
     this.angularAcceleration = 0;
-    if (collideWithBorders === true) { this.checkEdge(); }
+    if (collideType === 1) { this.bouncyEdge(); }
+    else if (collideType === 2) { this.warpEdge(); }
 };
 
 Mover.prototype.displayAsCircle = function (ctx) {
@@ -98,20 +101,20 @@ Mover.prototype.displayAsPoly = function (ctx, p) {
     if (p === undefined) {
         p = 3;
     }
-    
+
     ctx.save();
     ctx.translate(this.location.x, this.location.y);
     ctx.rotate(this.angle);
     Tools.drawPoly(ctx, 0, 0, p, this.mass);
     ctx.fillStyle = this.color.ToHex();
     ctx.fill();
-    
+
     ctx.restore();
 };
 
 Mover.prototype.display = function (ctx) {
 	"use strict";
-    
+
     var o = new Vector2(0, 0),
         scale = this.mass,
         l1 = this.p1.rotate(this.angle, o),
@@ -122,12 +125,12 @@ Mover.prototype.display = function (ctx) {
     l2.multInPlace(scale);
     l3.multInPlace(scale);
     l4.multInPlace(scale);
-    
+
     l1.addInPlace(this.location);
     l2.addInPlace(this.location);
     l3.addInPlace(this.location);
     l4.addInPlace(this.location);
-    
+
     ctx.fillStyle = this.color.ToHex();
     ctx.beginPath();
     ctx.moveTo(l1.x, l1.y);
@@ -138,7 +141,7 @@ Mover.prototype.display = function (ctx) {
     ctx.fill();
 };
 
-Mover.prototype.checkEdge = function () {
+Mover.prototype.bouncyEdge = function () {
 	"use strict";
     if (this.location.x + this.mass / 2 > this.scene.size.x) {
         this.velocity.x *= -1;
@@ -158,6 +161,24 @@ Mover.prototype.checkEdge = function () {
     }
 };
 
+
+Mover.prototype.warpEdge = function () {
+	"use strict";
+    if (this.location.x - 10 > this.scene.size.x) {
+        this.location.x = this.mass / 2;
+    }
+    if (this.location.x + 10 < 0) {
+        this.location.x = this.scene.size.x - this.mass / 2;
+    }
+    if (this.location.y - 10 > this.scene.size.y) {
+        this.location.y = this.mass / 2;
+    }
+    if (this.location.y + 10 < 0) {
+        this.location.y = this.scene.size.y - this.mass / 2;
+    }
+};
+
+
 /*
  * ApplyRotation
  */
@@ -174,23 +195,25 @@ Mover.prototype.applyTorque = function (angularAcceleration) {
 
 /*
  * Newton second law
- * Apply a force dependant from mass 
+ * Apply a force dependant from mass
  * Two object with different mass will undergo the same force differently
- * ie : two objects with different mass will undergo the wind differently 
+ * ie : two objects with different mass will undergo the wind differently
  */
 Mover.prototype.applyForce = function (force) {
 	"use strict";
     if (force instanceof Vector2 === false) {
         throw "Mover.applyForce : param is not a Vector2";
     }
-    var appliedForce = force.div(this.mass);
-    this.acceleration.addInPlace(appliedForce);
+    this.appliedForce.x = force.x / this.mass;
+    this.appliedForce.y = force.y / this.mass;
+
+    this.acceleration.addInPlace(this.appliedForce);
 };
 
 /*
  * Newton second law
- * Apply a force independant from mass 
- * Two object with different mass will undergo the same force the same way 
+ * Apply a force independant from mass
+ * Two object with different mass will undergo the same force the same way
  * ie : two objects with different mass will undergo the gravity the same way
  */
 Mover.prototype.applyUniformForce = function (force) {
@@ -209,15 +232,15 @@ Mover.prototype.attract = function (mover, G) {
     if (mover instanceof Mover === false) {
         throw "Mover.attract : param is not another Mover";
     }
-    
+
     if (G === undefined) {
         G = 1;
     }
-    
+
     var force = this.location.sub(mover.location), // diff
         dist = force.mag(),
         strength = 0;
-        
+
     force.normalizeInPlace();
     if (dist < 5) { dist = 5; }
     if (dist > 10) { dist = 10; }
