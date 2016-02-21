@@ -307,7 +307,7 @@ Vehicle.prototype.view = function(vehicles, weight) {
     "use strict";
     var i = 0,
         a = 0,
-        max = 100000000,
+        max = Number.MAX_VALUE,
         l = max,
         lMin = max;
 

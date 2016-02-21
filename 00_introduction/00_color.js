@@ -4,19 +4,19 @@ var ColorTestScene = function () {
     "use strict";
     Scene.call(this);
     this.intro("Simple color experiment", "Each dot color evolve with time.");
-    
+
     var i = 0,
         j = 0,
         c = null;
-    
+
     this.count = 10;
     this.colors = new Array2D(this.count, this.count);
-    
+
     for (i = 0; i < this.count; i += 1) {
         c = Color.createLightColor();
         for (j = 0; j < this.count; j += 1) {
             c = c.bluify();
-            this.colors.add(i, j, c);
+            this.colors.set(i, j, c);
             //colors.add(i, j, Color.createBrightColor());
         }
     }
@@ -32,7 +32,7 @@ ColorTestScene.prototype.loop = function () {
         step =  min / this.count,
         dx = (this.size.x - min) / 2,
         dy = (this.size.y - min) / 2;
-    
+
 
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     for (i = 0; i < this.colors.getWidth(); i += 1) {
@@ -45,11 +45,11 @@ ColorTestScene.prototype.loop = function () {
             this.ctx.closePath();
             // update ref
             c = c.mutate();
-            this.colors.add(i, j, c);
+            this.colors.set(i, j, c);
         }
     }
-    
+
     this.frameloop.display(this.ctx);
-    
+
     Scene.prototype.loop.call(this);
 };

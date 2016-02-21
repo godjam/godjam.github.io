@@ -1,24 +1,27 @@
-/*global console, requestAnimationFrame, MouseEvtListener, Loop, Vector2, CA*/
+/*global Scene, CA*/
 //*************************************************
-document.addEventListener("DOMContentLoaded", function (event) {
-	"use strict";
-    var ctx = document.getElementById("canvas").getContext("2d"),
-        width = ctx.canvas.width = window.innerWidth,
-        height = ctx.canvas.height = window.innerHeight,
-        listener = new MouseEvtListener(ctx.canvas),
-        loop = new Loop(),
-        ca = new CA(width / 20, width, height);
-    ca.generate();
-    
-    function animate() {
-        requestAnimationFrame(animate);
-        var delta = loop.update();
-        //ca.update(delta);
-        ctx.clearRect(0, 0, width, height);
-        loop.display(ctx);
-        ca.display(ctx);
-        //console.log(listener.getPosition().x, listener.getPosition().y);
-    }
-    
-	window.requestAnimationFrame(animate);
-});
+var WolframCAScene = function () {
+    "use strict";
+    Scene.call(this);
+    this.intro("Wolfram CA", "Generates a new rule every 10s.");
+    this.init();
+};
+WolframCAScene.prototype = Object.create(Scene.prototype);
+WolframCAScene.prototype.constructor = WolframCAScene;
+
+WolframCAScene.prototype.init = function () {
+    "use strict";
+    var cellsize = Math.round(Math.max(8, this.size.x / 50)),
+    columns = Math.round(this.size.x / cellsize),
+    lines = Math.round(this.size.y / cellsize);
+    this.ca = new CA(columns, lines, this);
+    this.addUpdatCallback(this.ca, this.ca.step, 100);
+};
+
+WolframCAScene.prototype.loop = function () {
+    "use strict";
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
+    this.frameloop.display(this.ctx);
+    this.ca.display(this.ctx);
+    Scene.prototype.loop.call(this);
+};

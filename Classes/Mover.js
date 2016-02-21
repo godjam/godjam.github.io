@@ -114,6 +114,8 @@ Mover.prototype.displayAsPoly = function (ctx, p) {
 
 Mover.prototype.display = function (ctx) {
 	"use strict";
+	this.location.x = ~~ this.location.x;
+	this.location.y = ~~ this.location.y;
 
     var o = new Vector2(0, 0),
         scale = this.mass,

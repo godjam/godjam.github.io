@@ -1,21 +1,20 @@
 //*************************************************
 var Array2D = function (width, heigth) {
     "use strict";
-    
+
     if (typeof width !== "number" || typeof heigth !== "number") {
         throw "Array2D.ctor : width or heigth is not a number";
     }
-    
+
     this.width = width;
     this.heigth = heigth;
     this.array = []; // array of values
 };
 
-Array2D.prototype.clone = function () {
+Array2D.prototype.copy = function () {
     "use strict";
-    var i = 0, j = 0,
-        t = new Array2D(this.width, this.heigth);
-    t.array = this.array.slice();
+    var t = new Array2D(this.width, this.heigth);
+    t.array = this.getValues();
     return t;
 };
 
@@ -35,17 +34,17 @@ Array2D.prototype.getValues = function () {
 
 Array2D.prototype.getKey = function (x, y) {
     "use strict";
-    
+
     if (typeof x !== "number" || typeof y !== "number") {
         throw "Array2D.getKey : x or y is not a number";
     }
-    
-    return (x * this.heigth + y);
+
+    return (y * this.width) + x;
 };
 
-Array2D.prototype.add = function (x, y, entity) {
+Array2D.prototype.set = function (x, y, entity) {
     "use strict";
-    
+
     if (typeof x !== "number" || typeof y !== "number") {
         throw "Array2D.add : x or y is not a number";
     }
@@ -56,11 +55,11 @@ Array2D.prototype.add = function (x, y, entity) {
 
 Array2D.prototype.get = function (x, y, isToric) {
     "use strict";
-    
+
     if (typeof x !== "number" || typeof y !== "number") {
         throw "Array2D.get : x or y is not a number";
     }
-    
+
     if (isToric ===  true) {
         if (x < 0) {
             x += this.width;
@@ -75,12 +74,18 @@ Array2D.prototype.get = function (x, y, isToric) {
             y = y % this.heigth;
         }
     }
-    
-    if (x < 0 || x > this.width || y < 0 || y > this.width) {
+
+    if (x < 0 || x > this.width || y < 0 || y > this.height) {
         return undefined;
     }
-    
+
     var key = this.getKey(x, y);
+
+    if (key === undefined || key === null) {
+        console.log("key is undefined");
+        key = this.getKey(x, y);
+    }
+
     return this.array[key];
 };
 

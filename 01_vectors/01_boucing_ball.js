@@ -4,7 +4,7 @@ var BouncingBallScene = function () {
     Scene.call(this);
     this.intro("Bouncing Ball", "It all starts with small things.");
 
-    this.r = Math.min(this.size.x, this.size.y) / 10;
+    this.r = Math.min(this.size.x, this.size.y) / 50;
 
     this.locations = [];
     this.velocities = [];

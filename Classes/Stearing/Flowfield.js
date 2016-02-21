@@ -20,7 +20,7 @@ Flowfield.prototype.init = function () {
     for (i = 0; i < this.cols; i += 1) {
         for (j = 0; j < this.rows; j += 1) {
             v = new Vector2(1, 0);
-            this.field.add(i, j, v);
+            this.field.set(i, j, v);
         }
     }
 };

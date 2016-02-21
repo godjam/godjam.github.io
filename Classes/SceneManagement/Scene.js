@@ -1,5 +1,5 @@
 /*global FrameLoop, THREE, Vector2*/
-var Scene = function(options, title, description) {
+var Scene = function(options) {
     "use strict";
 
     // canvas
@@ -11,14 +11,15 @@ var Scene = function(options, title, description) {
     this.camera = null;
     this.scene = null;
     this.eventListeners = [];
-    
+    this.timeoutList = [];
+
     // window
     window.addEventListener('resize', this.resize.bind(this));
 
     // frames
     this.frameloop = new FrameLoop();
     this.requestId = null;
-    
+
     // init a Threejs scene
     if (options !== undefined && options.threejs === true) {
         this.initThreejsScene();
@@ -28,7 +29,7 @@ var Scene = function(options, title, description) {
     else {
         this.init2DCanvasScene();
     }
-    
+
     this.resize();
 };
 
@@ -67,6 +68,12 @@ Scene.prototype.stop = function() {
     for (i = 0; i < this.eventListeners.length; i += 1) {
         if (this.eventListeners[i] !== null) {
             this.eventListeners[i].stop();
+        }
+    }
+
+    for (i = 0; i < this.timeoutList.length; i += 1) {
+        if (this.timeoutList[i] !== null) {
+            window.clearTimeout(this.timeoutList[i]);
         }
     }
 
@@ -173,5 +180,16 @@ Scene.prototype.intro = function(title, desc) {
         intro.innerHTML = text;
         clone = intro.cloneNode(true);
         intro.parentNode.replaceChild(clone, intro);
+    }
+};
+
+/**
+ * Adapted from https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout
+ */
+Scene.prototype.addUpdatCallback = function(owner, callback, timeout) {
+    "use strict";
+    if (owner !== undefined && callback instanceof Function) {
+        var args = Array.prototype.slice.call(arguments, 3);
+        this.timeoutList.push(window.setInterval(callback.bind(owner), timeout));
     }
 };

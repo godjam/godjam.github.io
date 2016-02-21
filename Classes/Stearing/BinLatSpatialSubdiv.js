@@ -14,21 +14,21 @@ BinLatSpatialSubdiv.prototype.clear = function () {
     var i = 0,
         j = 0,
         v = null;
-    
+
     for (i = 0; i < this.cols; i += 1) {
         for (j = 0; j < this.rows; j += 1) {
-            this.field.add(i, j, []);
+            this.field.set(i, j, []);
         }
     }
 };
 
 BinLatSpatialSubdiv.prototype.add = function (vehicle) {
     "use strict";
-    
+
     if (vehicle instanceof Vehicle === false) {
         throw "BinLatSpatialSubdiv.add : vehicle is not a Vehicle";
     }
-    
+
     var resolutionX = this.worldW / this.cols,
         resolutionY = this.worldH / this.rows,
         i = ~~(vehicle.mover.location.x / resolutionX),
@@ -40,11 +40,11 @@ BinLatSpatialSubdiv.prototype.add = function (vehicle) {
 
 BinLatSpatialSubdiv.prototype.getNeighbors = function (vehicle) {
     "use strict";
-    
+
     if (vehicle instanceof Vehicle === false) {
         throw "BinLatSpatialSubdiv.add : vehicle is not a Vehicle";
     }
-    
+
     var resolutionX = this.worldW / this.cols,
         resolutionY = this.worldH / this.rows,
         i = ~~(vehicle.mover.location.x / resolutionX),
@@ -56,14 +56,14 @@ BinLatSpatialSubdiv.prototype.getNeighbors = function (vehicle) {
 
 BinLatSpatialSubdiv.prototype.display = function (ctx) {
     "use strict";
-    
+
     var i = 0, j = 0, v = null, x = 0, y = 0,
         scaleX = this.worldW / this.cols,
         scaleY = this.worldH / this.rows;
-    
+
     ctx.save();
     ctx.beginPath();
-            
+
     for (i = 0; i < this.cols; i += 1) {
         x = i * scaleX;
         ctx.moveTo(x, 0);

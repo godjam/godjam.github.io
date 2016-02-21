@@ -1,55 +1,60 @@
 /*jslint bitwise: true */
 /*global Tools*/
-var Color = function (r, g, b) {
+var Color = function (r, g, b, a) {
     "use strict";
     if (r === undefined) {r = 1; }
     if (g === undefined) {g = 1; }
     if (b === undefined) {b = 1; }
-    
+    if (a === undefined) {a = 0.5; }
+
+
     this.r = r;
     this.g = g;
     this.b = b;
     this.h = 0;
     this.s = 0;
     this.l = 0;
+    this.a = a;
     // update hsl values
     this.rgbToHsl();
 };
 
-Color.createHsl = function (h, s, l) {
+Color.createHsl = function (h, s, l, a) {
     "use strict";
     var c = new Color();
     c.hslToRgb(h, s, l);
+    c.a = a || c.a;
     return c;
 };
 
 
-Color.createSoftColor = function () {
+Color.createSoftColor = function (a) {
     "use strict";
-    return Color.createHsl(Math.random(), 0.5, 0.9);
+    return Color.createHsl(Math.random(), 0.5, 0.9, a);
 };
 
-Color.createLightColor = function () {
+Color.createLightColor = function (a) {
     "use strict";
     return Color.createHsl(Math.random(),
                            0.2 * Math.random() + 0.8,
-                           0.8);
+                           0.8,
+                           a);
 };
 
-Color.createBrightColor = function () {
+Color.createBrightColor = function (a) {
     "use strict";
-    return Color.createHsl(Math.random(), 1, 0.65);
+    return Color.createHsl(Math.random(), 1, 0.65, a);
 };
 
-Color.createStrongColor = function () {
+Color.createStrongColor = function (a) {
     "use strict";
-    return Color.createHsl(Math.random(), 1, 0.3);
+    return Color.createHsl(Math.random(), 1, 0.3, a);
 };
 
 
-Color.createDarkColor = function () {
+Color.createDarkColor = function (a) {
     "use strict";
-    return Color.createHsl(Math.random(), 1, 0.1);
+    return Color.createHsl(Math.random(), 1, 0.1, a);
 };
 
 
@@ -59,7 +64,7 @@ Color.createNormalDistribColor = function (baseHue) {
     if (baseHue === undefined) {
         baseHue = 0.25;
     }
-    
+
     // normalRnd * sd + mean
     var rnd = Tools.normalRnd() * 0.25 + baseHue;
     return Color.createHsl(rnd, 1, 0.65);
@@ -67,13 +72,14 @@ Color.createNormalDistribColor = function (baseHue) {
 
 Color.prototype.copy = function () {
     "use strict";
-    var c = new Color(this.r, this.g, this.b);
+    var c = new Color(this.r, this.g, this.b, this.a);
     return c;
 };
 
 Color.prototype.ToHex = function () {
     "use strict";
-    return "#" + (this.ToInt()).toString(16).slice(1);
+    var s = "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+    return s;
 };
 
 Color.prototype.ToInt = function () {
@@ -140,9 +146,9 @@ Color.prototype.modify = function (h, s, l) {
 };
 
 
-/** 
+/**
  * http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
- * 
+ *
  * Converts an HSL color value to RGB. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
  * Assumes h, s, and l are contained in the set [0, 1] and
@@ -162,7 +168,7 @@ Color.prototype.hslToRgb = function (h, s, l) {
     if (h !== undefined) {this.h = Tools.clamp(h, 0, 1); }
     if (s !== undefined) {this.s = Tools.clamp(s, 0, 1); }
     if (l !== undefined) {this.l = Tools.clamp(l, 0, 1); }
-    
+
     if (this.s === 0) {
         this.r = this.g = this.b = Math.round(this.l * 255); // achromatic
     } else {
@@ -196,7 +202,7 @@ Color.prototype.hue2rgb = function (p, q, t) {
 
 /**
  * http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
- * 
+ *
  * Converts an RGB color value to HSL. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
  * Assumes r, g, and b are contained in the set [0, 255] and
@@ -215,7 +221,7 @@ Color.prototype.rgbToHsl = function () {
         max = Math.max(r, g, b),
         min = Math.min(r, g, b),
         d;
-    
+
     this.l = (max + min) / 2;
 
     if (max === min) {
@@ -236,4 +242,56 @@ Color.prototype.rgbToHsl = function () {
         }
         this.h /= 6;
     }
+};
+
+
+var ColorMap = function(start, stop, steps) {
+    "use strict";
+    // TODO checks
+
+    var i = 0, t = null,
+        delta = new Color;
+
+    this.steps = steps;
+    this.map = [];
+
+    // delta
+    delta.r = (stop.r - start.r) / steps;
+    delta.g = (stop.g - start.g) / steps;
+    delta.b = (stop.b - start.b) / steps;
+    delta.a = (stop.a - start.a) / steps;
+    // update hsl values
+    delta.rgbToHsl();
+
+    for (i = 0; i < steps; i += 1) {
+        t = start.copy();
+        t.r = ~~(t.r + delta.r * i);
+        t.g = ~~(t.g + delta.g * i);
+        t.b = ~~(t.b + delta.b * i);
+        t.a = t.a + delta.a * i;
+        t.rgbToHsl();
+        this.map[i] = t;
+    }
+};
+
+ColorMap.create = function() {
+    "use strict";
+    var c1 = Color.createLightColor();
+    var c2 = Color.createBrightColor();
+    return new ColorMap(c1, c2, 50);
+};
+
+
+ColorMap.prototype.get = function (index) {
+    "use strict";
+    index = Tools.clamp(index, 0, this.steps);
+    return this.map[index];
+};
+
+ColorMap.prototype.getByVal = function (value, max, min) {
+    "use strict";
+    max = max || this.steps;
+    min = min || 0;
+    value = ~~((value / (max - min) + min) * this.steps);
+    return this.map[value];
 };

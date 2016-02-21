@@ -13,24 +13,24 @@ var GridCluster = function (size, physics) {
         n2 = null,
         n3 = null,
         n4 = null;
-    
+
     this.color = Color.createBrightColor();
     this.array2D = new Array2D(simWidth, simHeight);
-    
+
     for (i = 0; i < simWidth; i += 1) {
         for (j = 0; j < simHeight; j += 1) {
             particle = new ToxiParticle(new Vec2D(i * len, j * len), physics);
-            this.array2D.add(i, j, particle);
-            
+            this.array2D.set(i, j, particle);
+
             if (i === 0 && j === 0) {
                 particle.p.lock();
             } else if (i === simWidth - 1 && j === 0) {
                 particle.p.lock();
             }
-            
+
             n1 = this.array2D.get(i - 1, j);
             n3 = this.array2D.get(i, j - 1);
-            
+
             if (n1 !== undefined) {
                 spring = new VerletSpring2D(particle.p, n1.p, len, strength);
                 physics.addSpring(spring);
@@ -55,7 +55,7 @@ GridCluster.prototype.display = function (ctx) {
             n2 = this.array2D.get(i + 1, j);
             n3 = this.array2D.get(i, j - 1);
             n4 = this.array2D.get(i, j + 1);
-            
+
             if (k !== undefined) {
                 ctx.lineWidth = 1;
                 ctx.beginPath();

@@ -1,82 +1,99 @@
-/*global console*/
-var CA = function (width, worldW, worldH) {
+/*global console, Array2D, ColorMap*/
+var CA = function(columns, lines, scene) {
     "use strict";
-    
-    if (typeof width !== 'number') {
-        throw "CA.constructor: width is not a scalar";
+
+    if (typeof columns !== 'number') {
+        throw "CA.constructor: columns is not a scalar";
     }
-    
-    this.width = width;
-    this.worldW = worldW;
-    this.worldH = worldH;
-    this.cells = [];
-    this.nextGen = [];
-    this.oldGens = [];
+
+    this.scene = scene;
+
+    this.columns = ~~columns;
+    this.lines = ~~lines;
+    this.currentline = 0;
+    this.colormap = ColorMap.create();
+
+    this.gen = null;
+    this.gencopy = null;
     this.ruleset = [];
-    this.life = 1000;
     this.rule = 30;
-    
+
     this.regenerate();
 };
 
 
-CA.prototype.init = function () {
+CA.prototype.init = function() {
     "use strict";
-    var i = 0, m = 0;
-    this.cells = [];
-    this.oldGens = [];
-    
-    for (i = 0; i < this.width; i += 1) {
-        this.cells.push(Math.round(Math.random()));
+    var i = 0,
+        m = 0;
+    this.currentline = 0;
+    this.colormap = ColorMap.create();
+
+    this.gen = new Array2D(this.columns, this.lines);
+    this.gencopy = null;
+
+    for (i = 0; i < this.columns; i += 1) {
+        this.gen.set(i, this.currentline, Math.round(Math.random()));
     }
-    
+
     // set the middle cell to 1
-    //m = Math.floor(this.width / 2);
-    //this.cells[m] = 1;
-    
-    this.oldGens.push(this.cells.slice());
+    // m = Math.floor(this.columns / 2);
+    // this.gen[m] = 1;
+
+    this.gencopy = this.gen.copy();
 };
 
 
-CA.prototype.generate = function () {
+CA.prototype.step = function() {
     "use strict";
-    var i = 0, a = 0, b = 0, c = 0, g = 0;
-    
-    for (g = 0; g < this.width; g += 1) {
-        this.nextGen = this.cells.slice();
-        for (i = 1; i < this.cells.length - 1; i += 1) {
-            a = this.cells[i - 1];
-            b = this.cells[i];
-            c = this.cells[i + 1];
-            this.nextGen[i] = parseInt(this.rules(a, b, c), 10);
-        }
-        this.cells = this.nextGen;
-        this.oldGens.push(this.cells.slice());
+    var i = 0,
+        a = 0,
+        b = 0,
+        c = 0,
+        g = this.currentline;
+    this.currentline += 1;
+
+    this.gen.set(0, this.currentline, this.gen.get(0, g));
+    this.gen.set(this.columns - 1, this.currentline, this.gen.get(this.columns - 1, g));
+
+    for (i = 1; i < this.columns - 1; i += 1) {
+        a = this.gen.get(i - 1, g);
+        b = this.gen.get(i, g);
+        c = this.gen.get(i + 1, g);
+        this.gen.set(i, this.currentline, parseInt(this.rules(a, b, c), 10));
+    }
+
+    this.gencopy = this.gen.copy();
+
+    if (this.currentline > this.lines) {
+        this.regenerate();
     }
 };
 
-CA.prototype.regenerate = function () {
+CA.prototype.regenerate = function() {
     "use strict";
-    var i = 0, s = "", pad = "00000000", a = "", l = 0;
+    var i = 0,
+        s = "",
+        pad = "00000000",
+        a = "",
+        l = 0;
+
+    this.rule = ~~(Math.random() * 256);
     s = this.rule.toString(2);
     a = pad.substring(0, pad.length - s.length) + s;
     l = a.length;
 
-    
     for (i = 0; i < l; i += 1) {
         this.ruleset[i] = a.charAt(l - (i + 1));
-        this.init();
-        this.generate();
     }
-    console.log(this.rule, this.ruleset);
+
+    this.init();
 };
 
 
-CA.prototype.rules = function (a, b, c) {
+CA.prototype.rules = function(a, b, c) {
     "use strict";
-    if (typeof a !== 'number'
-            || typeof b !== 'number'
-            || typeof c !== 'number') {
+    if (typeof a !== 'number' || typeof b !== 'number' || typeof c !== 'number') {
         throw "CA.rules: a or b or c is not a scalar";
     }
     var s = (a).toString() + (b).toString() + (c).toString(),
@@ -84,38 +101,23 @@ CA.prototype.rules = function (a, b, c) {
     return this.ruleset[idx];
 };
 
-CA.prototype.update = function (delta) {
+CA.prototype.display = function(ctx) {
     "use strict";
-    if (typeof delta !== 'number') {
-        throw "CA.update: delta is not a scalar";
-    }
-    
-    this.life -= delta;
-    
-    if (this.life <= 0) {
-        this.life = 1000;
-        this.rule += 1;
-        this.regenerate();
-    }
-};
- 
+    var i = 0, j = 0, x = 0, y = 0,
+        s = this.scene.size.x / this.columns,
+        w = ~~(s / 2);
 
-CA.prototype.display = function (ctx) {
-    "use strict";
-    var i = 0, j = 0, size = this.worldW / this.width;
-    ctx.save();
-    for (i = 0; i < this.oldGens.length; i += 1) {
-        for (j = 0; j < this.oldGens[i].length; j += 1) {
-            if (this.oldGens[i][j] !== 0) {
-                //ctx.fillRect(size * j, size * i, size, size);
-                ctx.beginPath();
-                ctx.arc(size * j, size * i, size / 3, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.closePath();
+    for (j = 0; j < this.gencopy.getHeight(); j += 1) {
+        ctx.fillStyle = this.colormap.getByVal(j, this.lines).ToHex();
+        y = ~~(s * j + w);
+        for (i = 0; i < this.gencopy.getWidth(); i += 1) {
+            x = ~~(s * i + w);
+            if (this.gencopy.get(i, j) !== 0) {
+                ctx.fillRect(x, y, w, w);
             }
         }
     }
-    ctx.restore();
+    ctx.fillStyle = "#000";
+    ctx.font = "16px verdana";
+    ctx.fillText("rule " + this.rule, 64, 32);
 };
-
-

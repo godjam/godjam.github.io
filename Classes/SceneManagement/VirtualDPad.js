@@ -21,10 +21,10 @@ var VirtualDPad = function(canvas, callbackOwner, callback) {
         down: 40,
         space: 32
     };
-    
+
     this.r = Math.max(canvas.width / 20, 50);
     this.color = Color.createBrightColor();
-    
+
     this.showOnStart = true;
     var v0 = new Vector2(this.r * 2, canvas.height - this.r * 2);
     var v1 = new Vector2(canvas.width - this.r * 2, canvas.height - this.r * 2);
@@ -80,7 +80,7 @@ VirtualDPad.prototype.touchStart = function(event) {
     var i = 0,
         t = null;
     event.preventDefault();
-    
+
     if (this.showOnStart === true) {
         this.showOnStart = false;
         this.leftTouchID = -1;
@@ -89,7 +89,7 @@ VirtualDPad.prototype.touchStart = function(event) {
 
     for (i = 0; i < event.changedTouches.length; i += 1) {
         t = event.changedTouches[i];
-        
+
         if (this.leftTouchID < 0 && t.clientX < this.canvas.width / 2) {
             this.leftTouchID = t.identifier;
             this.leftTouchStartPos.x = this.leftTouchPos.x = t.clientX;
@@ -142,7 +142,7 @@ VirtualDPad.prototype.touchEnd = function(event) {
 
     for (i = 0; i < event.changedTouches.length; i += 1) {
         t = event.changedTouches[i];
-        
+
         if (this.leftTouchID === t.identifier) {
             this.leftTouchID = -1;
             this.padState.d.x = 0;
@@ -207,7 +207,7 @@ VirtualDPad.prototype.display = function(ctx) {
         return
     };
     var PI2 = 2 * Math.PI;
-        
+
 
     if (this.leftTouchID > -1) {
         ctx.strokeStyle = this.color.ToHex();
@@ -216,13 +216,13 @@ VirtualDPad.prototype.display = function(ctx) {
         ctx.arc(this.leftTouchStartPos.x, this.leftTouchStartPos.y, this.r, 0, PI2);
         ctx.stroke();
         ctx.closePath();
-        
+
         ctx.beginPath();
         ctx.arc(this.leftTouchStartPos.x, this.leftTouchStartPos.y, this.r * 1.1, 0, PI2);
         ctx.stroke();
         ctx.closePath();
-        
-        ctx.strokeStyle = "#444";        
+
+        ctx.strokeStyle = "#444";
         ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(this.leftTouchPos.x, this.leftTouchPos.y, this.r * 0.9, 0, PI2);
@@ -232,7 +232,7 @@ VirtualDPad.prototype.display = function(ctx) {
 
     if (this.rightTouchID > -1) {
         ctx.strokeStyle = this.color.ToHex();
-        ctx.fillStyle = "#222";    
+        ctx.fillStyle = "#222";
         ctx.beginPath();
         ctx.arc(this.rightTouchPos.x, this.rightTouchPos.y, this.r * 0.9, 0, PI2);
         ctx.fill();

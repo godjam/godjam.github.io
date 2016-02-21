@@ -10,7 +10,7 @@ OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
 ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
 ShatteringScene, ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
 BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
-ClustersSystemScene, VehiclesSystemScene */
+ClustersSystemScene, VehiclesSystemScene, WolframCAScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -68,7 +68,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "06_19",
+    var defaultKey = "07_01",
         key = "";
 
     if (window !== null) {
@@ -257,6 +257,10 @@ Factory.init = function () {
 
     this.cache["06_19"] = VehiclesSystemScene;
     this.objOp["06_19"] = {behavior_type: 14};
+
+    // TODO: Box2DVehicle
+    // TODO: The Ecosystem project (p 343)
+    this.cache["07_01"] = WolframCAScene;
 
 };
 
