@@ -1,9 +1,9 @@
 /*global Vector2, Mover*/
 //*************************************************
 /*
- * x, y : position of the attractor 
- * m : mass of the attractor 
- * G : gravity constant (3 is a good value. If negative, the attractor is now a Repeller 
+ * x, y : position of the attractor
+ * m : mass of the attractor
+ * G : gravity constant (3 is a good value. If negative, the attractor is now a Repeller
  */
 var Attractor = function (x, y, m, G) {
     "use strict";
@@ -17,6 +17,7 @@ Attractor.prototype.display = function (ctx) {
     ctx.beginPath();
     ctx.arc(this.location.x, this.location.y, this.mass * 2, 0, Math.PI * 2);
     ctx.lineWidth = 3;
+    ctx.strokeStyle = "#ffc400";
     ctx.stroke();
     ctx.closePath();
 };
@@ -26,7 +27,7 @@ Attractor.prototype.applyOn = function (mover) {
     if (mover instanceof Mover === false) {
         throw "Attractor.attract : param is not a Mover";
     }
-    
+
     var force = this.location.sub(mover.location), // diff
         dist = force.mag(),
         strength = 0;

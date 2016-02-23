@@ -13,6 +13,15 @@ Tools.clamp = function (v, min, max) {
     return v;
 };
 
+Tools.getRndValue = function (threshold, value0, value1) {
+    "use strict";
+    if (Math.random() <= threshold) {
+        return value0;
+    } else {
+        return value1;
+    }
+};
+
 /*
  * https://processing.org/reference/map_.html
  * Actually Re-map value from [start1, stop1] to [start2, stop2]
@@ -37,7 +46,7 @@ Tools.drawPoly = function (ctx, x, y, p, size) {
     ctx.beginPath();
     //ctx.moveTo(x +  size * Math.cos(0), y + size * Math.sin(0));
     ctx.moveTo(x + size, y);
-    
+
     for (i = 1; i <= p; i += 1) {
         ctx.lineTo(x + size * Math.cos(i * 2 * Math.PI / p),
                    y + size * Math.sin(i * 2 * Math.PI / p));
@@ -49,7 +58,7 @@ Tools.drawPoly = function (ctx, x, y, p, size) {
 /*
  * http://robertpenner.com/easing/penner_chapter7_tweening.pdf
  * http://www.joshondesign.com/2013/03/01/improvedEasingEquations
- * 
+ *
  * t = time (the current time, should be <= to duration)
  * b = begin (start value)
  * c = change (end value - start value)
@@ -105,7 +114,7 @@ Tools.elasticEaseOut = function (t) {
     return Math.pow(2, -10 * t) * Math.sin((t - p / 4) * (2 * Math.PI) / p) + 1;
 };
 
-/* 
+/*
  * The motion object
  */
 Tools.Motion = function (obj, property, begin, end, duration, func, isPingPong) {
@@ -131,7 +140,7 @@ Tools.Motion.prototype.update = function (dt) {
             this.change = -this.change;
             this.t = 0;
         }
-        
+
         if (this.t < this.duration) {
             this.t += dt;
             this.obj[this.property] = Tools.tween(this.t, this.begin, this.change, this.duration, this.func);

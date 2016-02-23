@@ -1,6 +1,9 @@
 //*************************************************
 function Vector2(x, y) {
 	"use strict";
+	x = x || 0;
+	y = y || 0;
+
     if (typeof x !== 'number') {
         throw "Vector2.constructor : x is not a scalar";
     }
@@ -10,9 +13,7 @@ function Vector2(x, y) {
     }
     this.x = x;
 	this.y = y;
-
-    //console.log("Vector2 creation");
-
+	//console.log("Vector2 creation");
     return this;
 }
 
@@ -169,7 +170,7 @@ Vector2.prototype.normalize = function () {
     if (l !== 0) {
         return new Vector2(this.x / l, this.y / l);
     } else {
-        return new Vector2(0, 0);
+        return new Vector2();
     }
 };
 
@@ -180,7 +181,7 @@ Vector2.prototype.normalizeInPlace = function () {
         this.divInPlace(l);
         return this;
     } else {
-        return new Vector2(0, 0);
+        return new Vector2();
     }
 };
 
@@ -239,7 +240,7 @@ Vector2.prototype.rotateInPlace = function (radian, center) {
     }
 
     if (center === undefined) {
-        center = new Vector2(0, 0);
+        center = new Vector2();
     }
     if (center instanceof Vector2 === false) {
         throw "Vector2.rotate : param 2 is not a Vector2";
@@ -256,7 +257,7 @@ Vector2.prototype.rotate = function (radian, center) {
         throw "Vector2.rotate : param 1 is not a scalar";
     }
     if (center === undefined) {
-        center = new Vector2(0, 0);
+        center = new Vector2();
     }
     if (center instanceof Vector2 === false) {
         throw "Vector2.rotate : param 2 is not a Vector2";
@@ -291,7 +292,7 @@ Vector2.prototype.heading = function () {
 
 Vector2.fromPolar = function (r, theta) {
     "use strict";
-    var v = new Vector2(0, 0);
+    var v = new Vector2();
     v.fromPolar(r, theta);
     return v;
 };

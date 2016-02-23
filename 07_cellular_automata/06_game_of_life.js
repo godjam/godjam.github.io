@@ -1,23 +1,28 @@
-/*global console, requestAnimationFrame, MouseEvtListener, Loop, Vector2, CA2D, CA2DHex, CA2DProbabilistic, CA2DContinuous*/
+/*global Scene, CA2D, MouseEvtListener*/
 //*************************************************
-document.addEventListener("DOMContentLoaded", function (event) {
-	"use strict";
-    var ctx = document.getElementById("canvas").getContext("2d"),
-        width = ctx.canvas.width = window.innerWidth,
-        height = ctx.canvas.height = window.innerHeight,
-        loop = new Loop(),
-        ca = new CA2DContinuous(80, width, height),
-        listener = new MouseEvtListener(ctx.canvas, ca, ca.addCell);
-    
-    function animate() {
-        requestAnimationFrame(animate);
-        var delta = loop.update();
-        ca.update();
-        ctx.clearRect(0, 0, width, height);
-        ca.display(ctx);
-        loop.display(ctx);
-        //console.log(listener.getPosition().x, listener.getPosition().y);
-    }
-    
-	window.requestAnimationFrame(animate);
-});
+var GameOfLifeScene = function () {
+    "use strict";
+    Scene.call(this);
+    this.intro("Game Of Life", "Touch to add new cells.");
+    this.init();
+};
+GameOfLifeScene.prototype = Object.create(Scene.prototype);
+GameOfLifeScene.prototype.constructor = GameOfLifeScene;
+
+GameOfLifeScene.prototype.init = function () {
+    "use strict";
+    var cellsize = Math.round(Math.max(8, this.size.x / 50)),
+    columns = Math.round(this.size.x / cellsize),
+    lines = Math.round(this.size.y / cellsize);
+    this.ca = new CA2D(columns, lines, this);
+    this.eventListeners.push(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
+};
+
+GameOfLifeScene.prototype.loop = function () {
+    "use strict";
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
+    //this.frameloop.display(this.ctx);
+    this.ca.update();
+    this.ca.display(this.ctx);
+    Scene.prototype.loop.call(this);
+};

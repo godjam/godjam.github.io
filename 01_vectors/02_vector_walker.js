@@ -3,9 +3,9 @@ var VectorWalkerScene = function () {
 	"use strict";
     Scene.call(this);
     this.intro("Vector Walker", "Perlin based movement, influenced by touch.");
-    
+
     this.position = new Vector2(this.size.x / 2, this.size.y / 2);
-    this.velocity = new Vector2(0, 0);
+    this.velocity = new Vector2();
     this.t = 0;
     this.w = 5;
     this.stepsize = 1;
@@ -21,7 +21,7 @@ VectorWalkerScene.prototype.loop = function (ctx) {
     this.step();
     var c = this.color.modify(this.stepsize / this.size.x, 0, 0);
     this.color = c;
-    
+
     this.ctx.fillStyle = c.ToHex();
     this.ctx.beginPath();
     this.ctx.arc(this.position.x, this.position.y, this.w, 0, Math.PI * 2);
@@ -33,8 +33,8 @@ VectorWalkerScene.prototype.loop = function (ctx) {
 
 VectorWalkerScene.prototype.step = function () {
 	"use strict";
-    
-    // perlin noise based move 
+
+    // perlin noise based move
     var stepsize = 3, dx = 0, dy = 0,
         // map x and y to [-1, 1]
         x = (this.position.x - this.size.x / 2) / this.size.x,
@@ -42,7 +42,7 @@ VectorWalkerScene.prototype.step = function () {
         a =  toxi.math.noise.simplexNoise.noise(x, y, this.t);
     this.velocity.x = Math.cos(a * Math.PI) * stepsize;
     this.velocity.y = Math.sin(a * Math.PI) * stepsize;
-        
+
     // 5% chance to seek the mouse
     if (this.mousePosition !== null && Math.random() < 0.5) {
         dx = (this.position.x - this.mousePosition.x) / this.size.x;
@@ -50,18 +50,18 @@ VectorWalkerScene.prototype.step = function () {
         this.velocity.x += dx;
         this.velocity.y += dy;
     }
-    
+
     // color
     this.stepsize = Math.min(this.velocity.x, this.velocity.y);
 	this.position.x += this.velocity.x;
 	this.position.y += this.velocity.y;
-    
+
     if (this.position.x <= 0) { this.position.x += this.size.x; }
     if (this.position.y <= 0) { this.position.y += this.size.y; }
-    
+
     if (this.position.x > this.size.x) { this.position.x -= this.size.x; }
     if (this.position.y > this.size.y) { this.position.y -= this.size.y; }
-    
+
     this.t += 0.001;
 };
 

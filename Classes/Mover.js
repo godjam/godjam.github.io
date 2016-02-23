@@ -12,8 +12,8 @@ function Mover(x, y, scene, m) {
     }
 
     this.location = new Vector2(x, y);
-    this.velocity = new Vector2(0, 0);
-    this.acceleration = new Vector2(0, 0);
+    this.velocity = new Vector2();
+    this.acceleration = new Vector2();
     this.mass = m;
     this.scene = scene;
 
@@ -28,7 +28,7 @@ function Mover(x, y, scene, m) {
     this.useAngularAcceleration = false;
     this.color = Color.createBrightColor();
 
-    this.appliedForce = new Vector2(0, 0);
+    this.appliedForce = new Vector2();
 }
 
 Mover.prototype.initRandomly = function () {
@@ -117,7 +117,7 @@ Mover.prototype.display = function (ctx) {
 	this.location.x = ~~ this.location.x;
 	this.location.y = ~~ this.location.y;
 
-    var o = new Vector2(0, 0),
+    var o = new Vector2(),
         scale = this.mass,
         l1 = this.p1.rotate(this.angle, o),
         l2 = this.p2.rotate(this.angle, o),

@@ -6,7 +6,7 @@ function Pendulum(ox, oy, r, angle) {
     this.angularVelocity = 0;
     this.angularAcceleration = 0;
     this.origin = new Vector2(ox, oy);
-    this.location = new Vector2(0, 0);
+    this.location = new Vector2();
     this.damping = 0.995;
 }
 
@@ -18,7 +18,7 @@ Pendulum.prototype.applyOn = function (mover) {
     if (mover instanceof Mover === false) {
         throw "Spring.connect : param is not a Mover";
     }
-    
+
     var gravity = 4;
     this.angularAcceleration = (-gravity * Math.sin(this.angle)) / this.r;
     this.angularVelocity += this.angularAcceleration;

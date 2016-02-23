@@ -7,7 +7,7 @@ var Flowfield = function (cols, rows, scene) {
     this.z = 0;
     this.field = new Array2D(cols, rows);
     this.init();
-    this.tmp = new Vector2(0, 0);
+    this.tmp = new Vector2();
 };
 
 

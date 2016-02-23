@@ -9,7 +9,7 @@ var VirtualDPad = function(canvas, callbackOwner, callback) {
 
     this.padState = {
         // direction pad
-        d: new Vector2(0, 0),
+        d: new Vector2(),
         // action btn
         action: false
     };

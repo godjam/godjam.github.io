@@ -4,7 +4,7 @@ var MoverAccelerationScene = function () {
     Scene.call(this);
     this.intro("Mover: Acceleration", "Use the virtual pad or the arrow keys to accelerate the mover.");
 
-    this.delta = new Vector2(0, 0);
+    this.delta = new Vector2();
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
     this.eventListeners.push(new VirtualDPad(this.canvas, this, this.dPadEvent));
 };

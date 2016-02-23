@@ -5,7 +5,7 @@ var MoverPerlinScene = function () {
     Scene.call(this);
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 40);
     this.p = new toxi.math.noise.PerlinNoise();
-    this.lastAccel = new Vector2(0, 0);
+    this.lastAccel = new Vector2();
 };
 MoverPerlinScene.prototype = Object.create(Scene.prototype);
 MoverPerlinScene.prototype.constructor =  MoverPerlinScene;
@@ -15,7 +15,7 @@ MoverPerlinScene.prototype.loop = function () {
     // normalized acceleration
 
     var norm = this.mover.location,
-        acceleration = new Vector2(0, 0),
+        acceleration = new Vector2(),
         ax =  this.p.noise(norm.y, norm.x) - 0.5,
         ay =  this.p.noise(norm.x, norm.y) - 0.5;
     if (isNaN(ax)) {ax = 0; }

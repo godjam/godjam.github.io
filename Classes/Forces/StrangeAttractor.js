@@ -15,7 +15,7 @@ StrangeAttractor.prototype.applyOn = function (mover) {
     if (mover instanceof Mover === false) {
         throw "Attractor.attract : param is not a Mover";
     }
-    
+
     var force = this.location.sub(mover.location), // diff
         dist = force.mag(),
         strength = 0;
@@ -31,6 +31,6 @@ StrangeAttractor.prototype.display = function (ctx) {
     // heptagon
     Tools.drawPoly(ctx, this.location.x, this.location.y, 7, size);
     ctx.lineWidth = 3;
-    ctx.strokeStyle = "#000";
+    ctx.strokeStyle = "#ffc400";
     ctx.stroke();
 };

@@ -80,12 +80,12 @@ Array2D.prototype.get = function (x, y, isToric) {
     }
 
     var key = this.getKey(x, y);
-
+    /*
     if (key === undefined || key === null) {
         console.log("key is undefined");
         key = this.getKey(x, y);
     }
-
+    */
     return this.array[key];
 };
 

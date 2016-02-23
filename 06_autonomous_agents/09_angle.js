@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function move(event) {
         event.preventDefault();
         if (mouseClick === false) { return; }
-        var zero = new Vector2(0, 0);
+        var zero = new Vector2();
         v1.rotateInPlace(Math.PI / 100, zero);
 
         //var x = event.clientX - ctx.canvas.clientLeft,

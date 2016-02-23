@@ -1,7 +1,7 @@
 /*global Vector2*/
 var Kochline = function (start, end) {
     "use strict";
-    
+
     if (start instanceof Vector2 === false ||
             end instanceof Vector2 === false) {
         throw "Kochline.constructor : start or end are not Vector2";
@@ -37,12 +37,12 @@ Kochline.prototype.getKochC = function () {
     var c = null,
         b = this.end.sub(this.start);
     b.divInPlace(3);
-    
+
     c = b.copy();
-    c.rotateInPlace(-Math.PI / 3, new Vector2(0, 0));
+    c.rotateInPlace(-Math.PI / 3, new Vector2());
     c.addInPlace(b);
     c.addInPlace(this.start);
-    
+
     return c;
 };
 
@@ -64,7 +64,7 @@ var Kochcurve = function (start, end) {
     "use strict";
     this.list = [];
     var i = 0;
-    
+
     // add first line
     this.list.push(new Kochline(start, end));
     // generate 5 levels
@@ -76,7 +76,7 @@ var Kochcurve = function (start, end) {
 Kochcurve.prototype.generate = function () {
     "use strict";
     var next = [];
-    
+
     this.list.forEach(function (line) {
         var a = line.getKochA(),
             b = line.getKochB(),
@@ -88,7 +88,7 @@ Kochcurve.prototype.generate = function () {
         next.push(new Kochline(c, d));
         next.push(new Kochline(d, e));
     });
-    
+
     this.list = next;
 };
 

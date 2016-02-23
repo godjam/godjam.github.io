@@ -12,8 +12,8 @@ var VehiclesSystemScene = function (options) {
 
     this.target = null; //new Vector2(Math.random() * this.size.x, Math.random() * this.size.y);
     //remove lastTarget, targetSpeed
-    this.lastTarget = new Vector2(0, 0);
-    this.targetSpeed = new Vector2(0, 0);
+    this.lastTarget = new Vector2();
+    this.targetSpeed = new Vector2();
     this.field = null;
     this.path = null;
 

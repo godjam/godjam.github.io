@@ -15,12 +15,12 @@ var Vehicle = function(scene, x, y) {
 
     this.listInRange = [];
     this.listInFov = [];
-    this.desired = new Vector2(0, 0);
-    this.steer = new Vector2(0, 0);
-    this.predict = new Vector2(0, 0);
-    this.tmp = new Vector2(0, 0);
-    this.tmpA = new Vector2(0, 0);
-    this.tmpB = new Vector2(0, 0);
+    this.desired = new Vector2();
+    this.steer = new Vector2();
+    this.predict = new Vector2();
+    this.tmp = new Vector2();
+    this.tmpA = new Vector2();
+    this.tmpB = new Vector2();
 };
 
 Vehicle.prototype.applyForce = function(force, weight) {
@@ -185,7 +185,7 @@ Vehicle.prototype.pathFollowing = function(path, weight) {
         target = null,
         normalPoint = null,
         distance = 0,
-        predictLoc = new Vector2(0, 0),
+        predictLoc = new Vector2(),
         minDistance = 10000;
 
     this.predict.x = this.mover.velocity.x;

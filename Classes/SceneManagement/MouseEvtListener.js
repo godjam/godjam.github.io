@@ -1,4 +1,4 @@
-/*global Vector2, HTMLCanvasElement*/
+/*global Vector2, HTMLCanvasElement, TouchList*/
 var MouseEvtListener = function (canvas, callbackOwner, callbackMove, callbackRelease) {
     "use strict";
 
@@ -7,13 +7,15 @@ var MouseEvtListener = function (canvas, callbackOwner, callbackMove, callbackRe
     }
 
     this.mouseClick = false;
-    this.position = new Vector2(canvas.clientLeft, canvas.clientTop);
+    this.position = new Vector2();
+    this.pointers = [];
+    this.changes = null;
     this.origin = new Vector2(canvas.clientLeft, canvas.clientTop);
-    this.positionCopy = new Vector2(0, 0);
     this.canvas = canvas;
     this.callbackOwner = callbackOwner;
     this.callbackMove = null;
     this.callbackRelease = null;
+    this.tmp = new Vector2();
 
     if (callbackMove !== undefined && callbackMove instanceof Function) {
         this.callbackMove = callbackMove;
@@ -47,33 +49,39 @@ MouseEvtListener.prototype.stop = function () {
 
 MouseEvtListener.prototype.move = function (event) {
     "use strict";
-    // TODO : let acces to multitouch
     event.preventDefault();
-    var x = null, y = null;
+    var i = 0, pointers = [];
 
-    if (event.touches !== undefined && event.touches.length > 0) {
-        x = event.touches[0].clientX;
-        y = event.touches[0].clientY;
-    } else if (this.mouseClick === true) {
-        x = event.clientX;
-        y = event.clientY;
+    // pointer lists
+    if (event.touches) {
+        for (i = 0; i < event.touches.length; i += 1) {
+            this.tmp.x = event.touches[i].clientX - this.origin.x;
+            this.tmp.y = event.touches[i].clientY - this.origin.y;
+            pointers.push(this.tmp);
+        }
+    }
+    else if (this.mouseClick === true) {
+        this.tmp.x = event.clientX - this.origin.x;
+        this.tmp.y = event.clientY - this.origin.y;
+        pointers.push(this.tmp);
     }
 
-    if (x !== null && y !== null) {
-        this.position.x = x - this.origin.x;
-        this.position.y = y - this.origin.y - 16;
-
-        this.update();
+    if (pointers[0] !== undefined) {
+        this.position.x = pointers[0].x;
+        this.position.y = pointers[0].y - 16;
     }
+
+    this.pointers = pointers;
+    this.changes = event.changedTouches;
+    this.update();
 };
 
 MouseEvtListener.prototype.update = function () {
     "use strict";
-    if (this.mouseClick && this.position.x !== null && this.position.y !== null) {
+    if (this.mouseClick) {
         if (this.callbackMove !== null) {
-            this.positionCopy.copyFrom(this.position);
             var bindedCall = this.callbackMove.bind(this.callbackOwner);
-            bindedCall(this.positionCopy);
+            bindedCall(this.position, this.pointers, this.changes);
         }
     }
 };
@@ -83,7 +91,7 @@ MouseEvtListener.prototype.release = function () {
     "use strict";
     if (this.mouseClick === false && this.callbackRelease !== null) {
         var bindedCall = this.callbackRelease.bind(this.callbackOwner);
-        bindedCall(this.position.copy());
+        bindedCall();
     }
 };
 

@@ -1,8 +1,8 @@
 /*global Vector2, Mover*/
 function Oscillation(amplitude, angularVelocity) {
     "use strict";
-    this.location = new Vector2(0, 0);
-    this.force = new Vector2(0, 0);
+    this.location = new Vector2();
+    this.force = new Vector2();
     this.amplitude = amplitude;
     this.angle = 0;
     this.angularVelocity = angularVelocity;

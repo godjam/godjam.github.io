@@ -48,5 +48,6 @@ SystemOfSystemsScene.prototype.createEmitter = function (position) {
         emitter.setParticlesSpeed(4);
         emitter.setParticlesTorque(angle);
         this.emitters.push(emitter);
+        this.vibrate(60);
     }
 };

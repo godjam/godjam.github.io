@@ -7,7 +7,7 @@ var CannonScene = function () {
 
     var w = this.size.x,
         h = this.size.y,
-        force = new Vector2(0, 0);
+        force = new Vector2();
 
     this.r = Math.min(w, h) / 40;
 

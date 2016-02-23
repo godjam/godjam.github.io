@@ -1,30 +1,33 @@
-/*global Array2D, Cell, Vector2*/
-var CA2D = function (arrayLength, worldW, worldH) {
+/*global Array2D, Cell, Vector2, ColorMap, Color*/
+var CA2D = function (columns, lines, scene) {
     "use strict";
-    this.arrayLength = arrayLength;
-    this.worldW = worldW;
-    this.worldH = worldH;
+    this.columns = columns;
+    this.lines = lines;
+    this.scene = scene;
     this.grid = null;
-    // this.width is a cell's width/height
-    this.width = Math.min(worldW, worldH) / arrayLength;
+    this.cellsize = new Vector2();
+    this.celldraw = new Vector2();
+    this.colormap = new ColorMap(Color.createBrightColor(0.7),
+                                Color.createBrightColor(0.7), 3);
     this.init();
+
+    var i = 0, j = 0;
+    i = Math.floor(this.columns / 2);
+    j = Math.floor(this.lines / 2);
+    this.addPattern("lighweight spaceship", i, j);
 };
 
 
 CA2D.prototype.init = function () {
     "use strict";
-    var i = 0, m = 0, x = 0, y = 0;
-    this.grid = new Array2D(this.arrayLength, this.arrayLength);
+    var x = 0, y = 0;
+    this.grid = new Array2D(this.columns, this.lines);
 
-    for (x = 0; x < this.arrayLength; x += 1) {
-        for (y = 0; y < this.arrayLength; y += 1) {
+    for (x = 0; x < this.columns; x += 1) {
+        for (y = 0; y < this.lines; y += 1) {
             this.grid.set(x, y, new Cell(x, y, 1, 0));
         }
     }
-
-    this.randomize();
-    //m = Math.floor(this.arrayLength / 2);
-    //this.addPattern("lighweight spaceship", m, m);
 };
 
 
@@ -97,7 +100,7 @@ CA2D.prototype.addPattern = function (name, x, y) {
 
         for (i = 0; i < pw; i += 1) {
             for (j = 0; j < ph; j += 1) {
-                this.grid.set(x + j, y + i, new Cell(x + j, y + i, 1, pattern[j][i]));
+                this.grid.set(x + i, y + j, new Cell(x + i, y + j, 1, pattern[j][i]));
             }
         }
     }
@@ -145,16 +148,27 @@ CA2D.prototype.applyRule = function (currentState, neighborhood) {
 };
 
 
-CA2D.prototype.addCell = function (position) {
+CA2D.prototype.addCells = function (position, pointers) {
     "use strict";
-    var i = 0, tile = new Vector2(0, 0), cells = [];
+    var i = 0, c = 0, tile = new Vector2(), targetcell = null,
+        cells = [], v = 0;
 
-    tile = this.toGrid(position);
-    cells = this.getNeighborCells(tile, false);
+    for (i = 0; i < pointers.length; i += 1) {
+        tile = this.toGrid(pointers[i], this.cellsize);
 
-    for (i = 0; i < cells.length; i += 1) {
-        if (cells[i] !== undefined) {
-            cells[i].state = 1;
+        // change center cell value
+        targetcell = this.grid.get(tile.x, tile.y);
+        if (targetcell !== undefined) {
+            v = 1 - targetcell.state;
+            targetcell.value = v;
+        }
+
+        // change neighbor values
+        cells = this.getNeighborCells(tile, true);
+        for (c = 0; c < cells.length; c += 1) {
+            if (cells[c] !== undefined) {
+                cells[c].state = v;
+            }
         }
     }
 };
@@ -188,56 +202,63 @@ CA2D.prototype.getNeighborCells = function (p, isToric) {
     return cells;
 };
 
-CA2D.prototype.toPix = function (grid) {
+CA2D.prototype.toPix = function (tile, cellsize) {
     "use strict";
-    var pix = new Vector2(0, 0);
-    pix.x = this.width * grid.y;
-    pix.y = this.width * grid.x;
+    var pix = new Vector2();
+    pix.x = cellsize.x * tile.x;
+    pix.y = cellsize.y * tile.y;
     return pix;
 };
 
-CA2D.prototype.toGrid = function (position) {
+CA2D.prototype.toGrid = function (position, cellsize) {
     "use strict";
-    var grid = new Vector2(0, 0);
-    grid.x = Math.round(position.y / this.width);
-    grid.y = Math.round(position.x / this.width);
+    var grid = new Vector2();
+    grid.x = Math.round(position.x / cellsize.x);
+    grid.y = Math.round(position.y / cellsize.y);
     return grid;
 };
 
 CA2D.prototype.display = function (ctx) {
     "use strict";
-    var i = 0, cells = this.grid.getValues();
-    for (i = 0; i < cells.length; i += 1) {
-        this.displayCell(ctx, cells[i]);
+    var i = 0;
+    // this.width is a cell's width/height
+    this.cellsize.x = ~~(this.scene.size.x / this.columns);
+    this.cellsize.y = ~~(this.scene.size.y / this.lines);
+    this.celldraw.x = ~~(this.cellsize.x / 2);
+    this.celldraw.y = ~~(this.cellsize.y / 2);
+
+    for (i = 0; i < this.grid.array.length; i += 1) {
+        this.displayCell(ctx, this.grid.array[i], this.cellsize);
     }
 };
 
-CA2D.prototype.displayCell = function (ctx, cell) {
+CA2D.prototype.displayCell = function (ctx, cell, cellsize) {
     "use strict";
 
     if (cell instanceof Cell === false) {
         throw "CA2D.displayCell() : cell is not a Cell";
     }
 
-    // alive : black
-    var color = "#109040", position = this.toPix(cell.pos);
+    // alive
+    var color = this.colormap.get(0),
+        position = this.toPix(cell.pos, cellsize);
 
     // dead
     if (cell.previous === 0 && cell.state === 0) {
         return;
-    // newborn : blue
+    // newborn
     } else if (cell.previous === 0 && cell.state === 1) {
-        color = "#60ff20";
-    // dying : red
+        color = this.colormap.get(1);
+    // dying
     } else if (cell.previous === 1 && cell.state === 0) {
-        color = "#ffff00";
+        color = this.colormap.get(2);
     }
 
 
     // Rect
-    ctx.fillStyle = color;
-    ctx.fillRect(position.x,
-                 position.y,
-                 this.width,
-                 this.width);
+    ctx.fillStyle = color.ToHex();
+    ctx.fillRect(position.x + this.celldraw.x,
+                 position.y + this.celldraw.y,
+                 this.celldraw.x,
+                 this.celldraw.y);
 };

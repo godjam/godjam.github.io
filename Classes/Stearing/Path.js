@@ -10,8 +10,8 @@ var Path = function (count, scene) {
     this.points = [];
     this.radius = 20;
     this.scene = scene;
-    this.p = new Vector2(0, 0);
-    this.v = new Vector2(0, 0);
+    this.p = new Vector2();
+    this.v = new Vector2();
 
     var i = 0, theta = 0,
         center = new Vector2(this.scene.size.x / 2, this.scene.size.y / 2),

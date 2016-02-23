@@ -1,4 +1,4 @@
-/*global Vector2, Mover, Attractor, console*/
+/*global Mover, Attractor, console*/
 //*************************************************
 var HyperAttractor = function (width, heigth) {
     "use strict";
@@ -15,7 +15,7 @@ HyperAttractor.prototype.applyOn = function (mover) {
     if (mover instanceof Mover === false) {
         throw "Attractor.attract : param is not a Mover";
     }
-    
+
     var force = this.location.sub(mover.location), // diff
         dist = force.mag(),
         strength = 0;

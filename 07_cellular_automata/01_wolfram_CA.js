@@ -3,7 +3,7 @@
 var WolframCAScene = function () {
     "use strict";
     Scene.call(this);
-    this.intro("Wolfram CA", "Generates a new rule every 10s.");
+    this.intro("Wolfram CA", "Generates new rules continuously.");
     this.init();
 };
 WolframCAScene.prototype = Object.create(Scene.prototype);
@@ -21,7 +21,6 @@ WolframCAScene.prototype.init = function () {
 WolframCAScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    this.frameloop.display(this.ctx);
     this.ca.display(this.ctx);
     Scene.prototype.loop.call(this);
 };

@@ -11,17 +11,17 @@ RandomForce.prototype.applyOn = function (mover) {
     if (mover instanceof Mover === false) {
         throw "RandomForce.applyOn : param is not a Mover";
     }
-    
-    var force = new Vector2(0, 0);
+
+    var force = new Vector2();
     this.t += 1;
     if (this.t > 300) {this.t = 0; }
-    
+
     if (this.usePerlin) {
         force = this.generatePerlinRnd(mover);
     } else {
         force = this.generateSimpleRnd();
     }
-    
+
     force.limit(1);
     mover.applyUniformForce(force);
 };

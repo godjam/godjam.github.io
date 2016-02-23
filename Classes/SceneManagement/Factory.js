@@ -1,4 +1,4 @@
-/*global console, Color,
+/*global console,
 Scene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
@@ -10,7 +10,8 @@ OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
 ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
 ShatteringScene, ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
 BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
-ClustersSystemScene, VehiclesSystemScene, WolframCAScene */
+ClustersSystemScene, VehiclesSystemScene, WolframCAScene, GameOfLifeScene,
+HexaGameOfLifeScene, ProbaGameOfLifeScene */
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -24,18 +25,6 @@ window.addEventListener("DOMContentLoaded", function () {
     Factory.init();
     Factory.parseURL();
 });
-
-/*
- * Used to create a palette (4 bright colors and 1 dark color)
- */
-Factory.createPalette = function () {
-    "use strict";
-    console.log(Color.createBrightColor().ToHex());
-    console.log(Color.createBrightColor().ToHex());
-    console.log(Color.createBrightColor().ToHex());
-    console.log(Color.createBrightColor().ToHex());
-    console.log(Color.createDarkColor().ToHex());
-};
 
 Factory.toggleFullscreen = function () {
     "use strict";
@@ -68,7 +57,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "07_01",
+    var defaultKey = "07_10",
         key = "";
 
     if (window !== null) {
@@ -86,10 +75,11 @@ Factory.parseURL = function () {
 Factory.init = function () {
     "use strict";
     console.log("%c Nature %c Code ", "color: #fff; background: #ff00bb;", "color: #fff; background: #00ffbb;");
+    console.log("Made with cosmic dust");
 
     // Hides mobile browser's address bar when page is done loading.
     // http://www.html5rocks.com/en/mobile/mobifying/
-    window.scrollTo(0, 1);
+    window.scrollTo(0, 0);
 
     // based on : http://eloquentjavascript.net/10_modules.html
     this.cache = Object.create(null);
@@ -261,6 +251,9 @@ Factory.init = function () {
     // TODO: Box2DVehicle
     // TODO: The Ecosystem project (p 343)
     this.cache["07_01"] = WolframCAScene;
+    this.cache["07_06"] = GameOfLifeScene;
+    this.cache["07_09"] = HexaGameOfLifeScene;
+    this.cache["07_10"] = ProbaGameOfLifeScene;
 
 };
 

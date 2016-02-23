@@ -3,7 +3,7 @@ var Food = function (scene) {
     "use strict";
     Mover.call(this, 0, 0, scene, 10);
     this.initRandomly();
-    this.velocity = new Vector2(0, 0);
+    this.velocity = new Vector2();
     this.color = Color.createNormalDistribColor();
     this.alive = true;
 };

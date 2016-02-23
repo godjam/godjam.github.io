@@ -4,7 +4,7 @@ var SpiralScene = function () {
 	"use strict";
     Scene.call(this);
     this.intro("Spiral");
-    
+
     this.r = 0;
     this.theta = 0;
     this.color = Color.createLightColor();
@@ -22,9 +22,9 @@ SpiralScene.prototype.resize = function () {
 SpiralScene.prototype.loop = function () {
     "use strict";
     if (this.r * 2 + 10 < this.size.x) {
-        var v1 = new Vector2(0, 0),
+        var v1 = new Vector2(),
             i = 0;
-        
+
         for (i = 0; i < 50; i += 1) {
             v1 = Vector2.fromPolar(this.r, this.theta);
             this.ctx.beginPath();

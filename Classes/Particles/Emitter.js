@@ -25,10 +25,10 @@ function Emitter(scene, position) {
     this.alternativeCtor = null;
     this.alternativeProba = 0;
     // position to the owner
-    this.localPos = new Vector2(0, 0);
+    this.localPos = new Vector2();
     this.loc = position;
     this.updateLoc();
-    
+
     this.rate = 1;
     this.life = -1;
     this.isActive = true;
@@ -42,7 +42,7 @@ Emitter.prototype.setOwner = function (owner, localPos) {
         throw "Emitter setOwner : param 1 is not a Mover";
     }
     if (localPos === undefined) {
-        localPos = new Vector2(0, 0);
+        localPos = new Vector2();
     }
     if (localPos instanceof Vector2 === false) {
         throw "Emitter setOwner : param 2 is not a Vector2";
@@ -138,21 +138,21 @@ Emitter.prototype.step = function (ctx) {
                 }
             }
         }
-        
+
         this.particles[i].update();
         this.particles[i].display(ctx);
         if (this.particles[i].isDead()) {
             this.particles.splice(i, 1);
         }
     }
-    
+
     // add particles according to the rate
     if (this.isActive) {
         for (i = 0; i < this.rate; i += 1) {
             this.addParticle();
         }
     }
-    
+
     // system life
     if (this.life > 0) {
         this.life -= 1;
@@ -163,7 +163,7 @@ Emitter.prototype.step = function (ctx) {
     if (this.life === 0 && this.particles.length === 0) {
         this.isAlive = false;
     }
-    
+
 };
 
 Emitter.prototype.addParticle = function () {
@@ -181,7 +181,7 @@ Emitter.prototype.addParticle = function () {
         }
     }
     this.particles.push(particle);
-    
+
     if (this.particles.length > this.maxcount) {
         this.particles.shift();
     }

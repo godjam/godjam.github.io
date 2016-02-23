@@ -168,6 +168,13 @@ Scene.prototype.setDarkScene = function() {
     }
 };
 
+Scene.prototype.vibrate = function(t) {
+    "use strict";
+    if ("vibrate" in navigator) {
+        navigator.vibrate(t);
+    }
+};
+
 Scene.prototype.intro = function(title, desc) {
     "use strict";
     // from https://css-tricks.com/restart-css-animation/

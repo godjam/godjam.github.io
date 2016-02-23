@@ -274,12 +274,14 @@ var ColorMap = function(start, stop, steps) {
     }
 };
 
-ColorMap.create = function() {
+ColorMap.create = function(n) {
     "use strict";
+    n = n || 50;
     var c1 = Color.createLightColor();
     var c2 = Color.createBrightColor();
-    return new ColorMap(c1, c2, 50);
+    return new ColorMap(c1, c2, n);
 };
+
 
 
 ColorMap.prototype.get = function (index) {
