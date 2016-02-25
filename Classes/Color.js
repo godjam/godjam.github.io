@@ -277,8 +277,8 @@ var ColorMap = function(start, stop, steps) {
 ColorMap.create = function(n) {
     "use strict";
     n = n || 50;
-    var c1 = Color.createLightColor();
-    var c2 = Color.createBrightColor();
+    var c1 = Color.createLightColor(),
+        c2 = Color.createBrightColor();
     return new ColorMap(c1, c2, n);
 };
 
@@ -294,6 +294,6 @@ ColorMap.prototype.getByVal = function (value, max, min) {
     "use strict";
     max = max || this.steps;
     min = min || 0;
-    value = ~~((value / (max - min) + min) * this.steps);
+    value = Math.round((value / (max - min) + min) * (this.steps - 1));
     return this.map[value];
 };

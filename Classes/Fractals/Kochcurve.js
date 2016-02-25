@@ -10,9 +10,10 @@ var Kochline = function (start, end) {
     this.end = end.copy();
 };
 
-Kochline.prototype.display = function (ctx) {
+Kochline.prototype.display = function (ctx, color) {
     "use strict";
     ctx.beginPath();
+    ctx.strokeStyle = color.ToHex();
     ctx.moveTo(this.start.x, this.start.y);
     ctx.lineTo(this.end.x, this.end.y);
     ctx.stroke();
@@ -60,15 +61,18 @@ Kochline.prototype.getKochE = function () {
 };
 
 //***************************************************
-var Kochcurve = function (start, end) {
+var Kochcurve = function (start, end, colormap) {
     "use strict";
     this.list = [];
+    this.colormap = colormap;
+    this.max = 0;
+    this.min = 0;
     var i = 0;
 
     // add first line
     this.list.push(new Kochline(start, end));
     // generate 5 levels
-    for (i = 0; i < 5; i += 1) {
+    for (i = 0; i < 4; i += 1) {
         this.generate();
     }
 };
@@ -94,7 +98,18 @@ Kochcurve.prototype.generate = function () {
 
 Kochcurve.prototype.display = function (ctx) {
     "use strict";
-    this.list.forEach(function (line) {
-        line.display(ctx);
-    });
+    var i = 0, color = null;
+
+    if (this.max < this.list.length) {
+        this.max += 1;
+    } else if (this.min < this.list.length) {
+        this.min += 1;
+    } else {
+        this.max = this.min = 0;
+    }
+
+    for (i = this.min; i < this.max; i += 1) {
+        color = this.colormap.getByVal(i, this.list.length);
+        this.list[i].display(ctx, color);
+    }
 };

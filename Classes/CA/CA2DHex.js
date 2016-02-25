@@ -15,6 +15,10 @@ var CA2DHex = function (columns, lines, scene) {
 
     CA2D.call(this, columns, lines, scene);
 
+};
+
+CA2DHex.prototype.firstAdd = function () {
+    "use strict";
     this.randomize();
 };
 

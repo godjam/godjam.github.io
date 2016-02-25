@@ -11,7 +11,8 @@ ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
 ShatteringScene, ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
 BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
 ClustersSystemScene, VehiclesSystemScene, WolframCAScene, GameOfLifeScene,
-HexaGameOfLifeScene, ProbaGameOfLifeScene */
+HexaGameOfLifeScene, ProbaGameOfLifeScene, ContinuousGameOfLifeScene, RecursiveCircleScene,
+KochSnowflakeScene*/
 var Factory = function () {
     "use strict";
     this.scene = undefined;
@@ -57,7 +58,7 @@ Factory.toggleFullscreen = function () {
 
 Factory.parseURL = function () {
     "use strict";
-    var defaultKey = "07_10",
+    var defaultKey = "08_02",
         key = "";
 
     if (window !== null) {
@@ -254,6 +255,15 @@ Factory.init = function () {
     this.cache["07_06"] = GameOfLifeScene;
     this.cache["07_09"] = HexaGameOfLifeScene;
     this.cache["07_10"] = ProbaGameOfLifeScene;
+    this.cache["07_11"] = ContinuousGameOfLifeScene;
+    // TODO: 07_12 Image processing (p 373)
+    // TODO: 07_13 Cell history
+    // TODO: 07_14 CA rules in a flocking system
+    // TODO: 07_15 Nestad CA
+    // TODO: The Ecosystem project
+
+    this.cache["08_01"] = RecursiveCircleScene;
+    this.cache["08_02"] = KochSnowflakeScene
 
 };
 

@@ -2,11 +2,15 @@
 var CA2DProbabilistic = function (columns, lines, scene) {
     "use strict";
     CA2D.call(this, columns, lines, scene);
-
-    this.randomize();
 };
 CA2DProbabilistic.prototype = Object.create(CA2D.prototype);
 CA2DProbabilistic.prototype.constructor = CA2DProbabilistic;
+
+
+CA2DProbabilistic.prototype.firstAdd = function () {
+    "use strict";
+    this.randomize();
+};
 
 CA2DProbabilistic.prototype.applyRule = function (currentState, neighborhood) {
     "use strict";

@@ -1,66 +1,79 @@
-/*global requestAnimationFrame, MouseEvtListener, Loop, drawCircle, cantor, Kochcurve, Vector2*/
+/*global Scene, Kochcurve, Vector2, ColorMap, Color*/
 //*************************************************
-document.addEventListener("DOMContentLoaded", function (event) {
-	"use strict";
-    var ctx = document.getElementById("canvas").getContext("2d"),
-        width = ctx.canvas.width = window.innerWidth,
-        height = ctx.canvas.height = window.innerHeight,
-        loop = new Loop(),
-        center = new Vector2(width / 2, height / 2),
-        r = Math.min(width, height) / 2 - 20,
+var RecursiveCircleScene = function () {
+    "use strict";
+    Scene.call(this);
+    this.intro("Recursive Circles");
+    var center = new Vector2(this.size.x / 2, this.size.y / 2),
+        r = Math.min(this.size.x, this.size.y) / 2 - 20,
         p1 = Vector2.fromPolar(r, 2 * Math.PI / 3).addInPlace(center),
         p2 = Vector2.fromPolar(r, 4 * Math.PI / 3).addInPlace(center),
         p3 = Vector2.fromPolar(r, 0).addInPlace(center),
-        flake1 = new Kochcurve(p2, p1),
-        flake2 = new Kochcurve(p3, p2),
-        flake3 = new Kochcurve(p1, p3);
+        c1 = Color.createLightColor(),
+        c2 = Color.createBrightColor();
+    this.theta = Math.PI * 8 / 3;
+    this.maxdepth = 5;//~~(Math.log(this.size.x));
+    this.colormap = new ColorMap(c1, c2, this.maxdepth);
+    this.flake1 = new Kochcurve(p2, p1);
+    this.flake2 = new Kochcurve(p3, p2);
+    this.flake3 = new Kochcurve(p1, p3);
+};
+RecursiveCircleScene.prototype = Object.create(Scene.prototype);
+RecursiveCircleScene.prototype.constructor = RecursiveCircleScene;
 
-    
-    function animate() {
-        requestAnimationFrame(animate);
-
-        ctx.clearRect(0, 0, width, height);
-        //drawCircle(ctx, width / 2, height / 2, width);
-        //cantor(ctx, 0, 0, width);
-        flake1.display(ctx);
-        flake2.display(ctx);
-        flake3.display(ctx);
-        
-        var delta = loop.update();
-        loop.display(ctx);
-    }
-    
-	window.requestAnimationFrame(animate);
-});
-
-var drawCircle = function (ctx, x, y, radius) {
+RecursiveCircleScene.prototype.loop = function () {
     "use strict";
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
+    this.frameloop.display(this.ctx);
+    var s = Math.sin(this.theta) * 0.6;
+    this.theta += this.frameloop.delta / 500;
+    if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }
+
+    this.ctx.save();
+    this.ctx.translate(this.size.x / 2, this.size.y / 2);
+    this.ctx.scale(s, s);
+    this.ctx.rotate(this.theta);
+    this.drawCircle(this.ctx, 0, 0, this.size.x, 0);
+    this.ctx.restore();
+
+    Scene.prototype.loop.call(this);
+};
+
+RecursiveCircleScene.prototype.drawCircle = function (ctx, x, y, radius, d) {
+    "use strict";
+    //console.log(d);
     ctx.beginPath();
+    ctx.fillStyle = this.colormap.getByVal(d, this.maxdepth).ToHex();
+    x = ~~x;
+    y = ~~y;
+    radius = ~~ radius;
     ctx.arc(x, y, radius, 0, Math.PI * 2);
-    ctx.stroke();
+    ctx.fill();
     ctx.closePath();
-    
-    if (radius > 1) {
+    d += 1;
+
+    if (radius > 5 && d < this.maxdepth) {
         radius *= 0.25;
-        drawCircle(ctx, x + radius, y, radius);
-        drawCircle(ctx, x - radius, y, radius);
-        drawCircle(ctx, x, y + radius, radius);
-        drawCircle(ctx, x, y - radius, radius);
+        this.drawCircle(ctx, x + radius, y, radius, d);
+        this.drawCircle(ctx, x - radius, y, radius, d);
+        this.drawCircle(ctx, x, y + radius, radius, d);
+        this.drawCircle(ctx, x, y - radius, radius, d);
     }
 };
 
-var cantor = function (ctx, x, y, len) {
+RecursiveCircleScene.prototype.cantor = function (ctx, x, y, len) {
     "use strict";
     var height = 40;
     ctx.beginPath();
     ctx.fillRect(x, y, len, height);
     //ctx.stroke();
     ctx.closePath();
-    
+
     if (len > 1) {
         y += height * 2;
-        len /= 3;
-        cantor(ctx, x, y, len);
-        cantor(ctx, x + 2 * len, y, len);
+        len /= 5;
+        this.cantor(ctx, x, y, len);
+        this.cantor(ctx, x + 2 * len, y, len);
+        this.cantor(ctx, x + 4 * len, y, len);
     }
 };

@@ -11,10 +11,7 @@ var CA2D = function (columns, lines, scene) {
                                 Color.createBrightColor(0.7), 3);
     this.init();
 
-    var i = 0, j = 0;
-    i = Math.floor(this.columns / 2);
-    j = Math.floor(this.lines / 2);
-    this.addPattern("lighweight spaceship", i, j);
+    this.firstAdd();
 };
 
 
@@ -31,12 +28,36 @@ CA2D.prototype.init = function () {
 };
 
 
+CA2D.prototype.firstAdd = function () {
+    "use strict";
+     var i = 0, j = 0;
+    i = Math.floor(this.columns / 2);
+    j = Math.floor(this.lines / 2);
+    this.addPattern("lighweight spaceship", i, j);
+}
+
 CA2D.prototype.randomize = function () {
     "use strict";
     var c = 0, cells = this.grid.getValues();
     for (c = 0; c < cells.length; c += 1) {
-        //cells[c].state = 1;
         cells[c].state = Math.round(Math.random());
+    }
+};
+
+CA2D.prototype.uniformize = function (value) {
+    "use strict";
+    var c = 0, cells = this.grid.getValues();
+    for (c = 0; c < cells.length; c += 1) {
+        //cells[c].state = value;
+        cells[c].state = (c / cells.length);
+    }
+};
+
+CA2D.prototype.addDot = function (x, y) {
+    "use strict";
+    var c = 0, cells = this.getNeighborCells(new Vector2(x, y), false);
+    for (c = 0; c < cells.length; c += 1) {
+        cells[c].state = 1;
     }
 };
 
@@ -108,21 +129,24 @@ CA2D.prototype.addPattern = function (name, x, y) {
 
 CA2D.prototype.update = function () {
     "use strict";
-    var c = 0, k = 0, n = 0, v = 0, cells = null, cell = null, neightbor = null;
+    var c = 0, k = 0, neighborhood = 0, neighbors = 0,
+    v = 0, cells = null, cell = null, neightbor = null;
 
     cells = this.grid.getValues();
     for (c = 0; c < cells.length; c += 1) {
-        n = 0;
+        neighborhood = 0;
         cell = cells[c];
         v = cell.state;
+        neighbors = 0;
 
         neightbor = this.getNeighborCells(cell.pos, true);
         for (k = 0; k < neightbor.length; k += 1) {
-            if (neightbor[k] !== undefined) {
-                n += neightbor[k].state;
+            if (neightbor[k] !== undefined && neightbor[k].state !== 0) {
+                neighborhood += neightbor[k].state;
+                neighbors += 1;
             }
         }
-        cell.next = this.applyRule(v, n);
+        cell.next = this.applyRule(v, neighborhood, neighbors);
     }
 
     for (c = 0; c < cells.length; c += 1) {
@@ -150,25 +174,18 @@ CA2D.prototype.applyRule = function (currentState, neighborhood) {
 
 CA2D.prototype.addCells = function (position, pointers) {
     "use strict";
-    var i = 0, c = 0, tile = new Vector2(), targetcell = null,
-        cells = [], v = 0;
+    var i = 0, c = 0, tile = new Vector2(),
+        cells = [];
 
     for (i = 0; i < pointers.length; i += 1) {
         tile = this.toGrid(pointers[i], this.cellsize);
 
-        // change center cell value
-        targetcell = this.grid.get(tile.x, tile.y);
-        if (targetcell !== undefined) {
-            v = 1 - targetcell.state;
-            targetcell.value = v;
-        }
+        cells = this.getNeighborCells(tile, true);
+        cells.push(this.grid.get(tile.x, tile.y, false));
 
         // change neighbor values
-        cells = this.getNeighborCells(tile, true);
         for (c = 0; c < cells.length; c += 1) {
-            if (cells[c] !== undefined) {
-                cells[c].state = v;
-            }
+            if(cells[c] !== undefined) {cells[c].state = 1;}
         }
     }
 };
@@ -213,8 +230,8 @@ CA2D.prototype.toPix = function (tile, cellsize) {
 CA2D.prototype.toGrid = function (position, cellsize) {
     "use strict";
     var grid = new Vector2();
-    grid.x = Math.round(position.x / cellsize.x);
-    grid.y = Math.round(position.y / cellsize.y);
+    grid.x = Math.round(position.x / cellsize.x) - 1;
+    grid.y = Math.round(position.y / cellsize.y) - 1;
     return grid;
 };
 
