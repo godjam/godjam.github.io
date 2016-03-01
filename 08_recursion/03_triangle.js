@@ -8,8 +8,6 @@ var SierpinskiTriangleScene = function () {
     this.radius = Math.min(this.size.x, this.size.y) / 2 * 0.8;
     this.triangle = new SpkTriangle(this, 0, 0, this.radius, 5);
     this.shadowcolor = Color.createLightColor(0.2);
-
-
 };
 System.extends(SierpinskiTriangleScene, Scene);
 
@@ -17,7 +15,7 @@ SierpinskiTriangleScene.prototype.loop = function () {
     "use strict";
 
     var s = 1 + Math.sin(this.theta) * 0.3;
-    this.theta += this.frameloop.delta / 1000;
+    this.theta += this.frameloop.delta;
     if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }
 
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);

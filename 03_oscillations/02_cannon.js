@@ -51,7 +51,7 @@ CannonScene.prototype.loop = function () {
 
     // clean old bullets
     for (i = this.bullets.length - 1; i >= 0; i -= 1) {
-        if (this.ages[i] > 5000) {
+        if (this.ages[i] > 5) {
             this.bullets.splice(i, 1);
             this.ages.splice(i, 1);
         }

@@ -1,23 +1,17 @@
-/*global requestAnimationFrame, MouseEvtListener, Loop, RecursiveTree*/
+/*global Scene, RecursiveTree*/
 //*************************************************
-document.addEventListener("DOMContentLoaded", function (event) {
-	"use strict";
-    var ctx = document.getElementById("canvas").getContext("2d"),
-        width = ctx.canvas.width = window.innerWidth,
-        height = ctx.canvas.height = window.innerHeight,
-        loop = new Loop(),
-        tree = new RecursiveTree();
+var RecursiveTreeScene = function() {
+    "use strict";
+    Scene.call(this);
+    this.intro("Recursive Tree");
+    this.tree = new RecursiveTree();
+};
+System.extends(RecursiveTreeScene, Scene);
 
-    
-    function animate() {
-        //requestAnimationFrame(animate);
+RecursiveTreeScene.prototype.loop = function() {
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
+    this.frameloop.display(this.ctx);
+    this.tree.display(this.ctx);
 
-        ctx.clearRect(0, 0, width, height);
-        tree.display(ctx);
-        
-        var delta = loop.update();
-        loop.display(ctx);
-    }
-    
-	window.requestAnimationFrame(animate);
-});
+    Scene.prototype.loop.call(this);
+};

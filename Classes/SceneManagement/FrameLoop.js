@@ -8,7 +8,7 @@ FrameLoop.prototype.update = function () {
     "use strict";
     var thisLoop = new Date();
 
-    this.delta = thisLoop - this.lastLoop;
+    this.delta = (thisLoop - this.lastLoop) / 1000;
     this.lastLoop = thisLoop;
     return this.delta;
 };

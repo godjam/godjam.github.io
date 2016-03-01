@@ -3,7 +3,7 @@ var PerlinNoiseScene = function () {
     "use strict";
     Scene.call(this);
     this.intro("Perlin Noise", "2D plot of Perlin noise. Evolve with time.");
-    
+
     this.t = 0;
     this.color = Color.createLightColor();
     this.perlin = toxi.math.noise.simplexNoise;
@@ -23,7 +23,7 @@ PerlinNoiseScene.prototype.loop = function () {
         i = 0,
         j = 0,
         index = 0;
-    
+
     for (i = 0; i < this.size.x; i += 1) {
         for (j = 0; j < this.size.y; j += 1) {
             x = (i / this.size.x);
@@ -39,6 +39,6 @@ PerlinNoiseScene.prototype.loop = function () {
     }
     this.ctx.putImageData(this.image, 0, 0);
     this.t += this.frameloop.delta;
-    
+
     Scene.prototype.loop.call(this);
 };

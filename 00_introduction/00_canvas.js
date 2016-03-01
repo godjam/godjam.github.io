@@ -3,7 +3,7 @@ var CanvasTestScene = function () {
 	"use strict";
     Scene.call(this);
     this.intro("Simple canvas experiment", "Reacts to pointer events with easing.");
-    
+
     this.radius = 50;
     this.pos = new Vector2(this.size.x / 2, this.size.y / 2);
     this.color = Color.createLightColor();
@@ -26,13 +26,13 @@ CanvasTestScene.prototype.loop = function () {
         this.motionH.update(this.frameloop.delta);
         this.color.hslToRgb();
     }
-    
+
     // render
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.ctx.beginPath();
     this.ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2, true);
     this.ctx.closePath();
-    
+
     this.ctx.shadowOffsetY = 6;
     this.ctx.shadowBlur = 6;
     this.ctx.strokeStyle = this.color.ToHex();
@@ -40,15 +40,15 @@ CanvasTestScene.prototype.loop = function () {
     this.ctx.shadowColor = this.color.modify(0, -0.2, -0.2).ToHex();
     this.ctx.stroke();
     this.ctx.fill();
-        
+
     Scene.prototype.loop.call(this);
 };
 
 
 CanvasTestScene.prototype.mouseEvent = function (position) {
     "use strict";
-    this.motionX = new Tools.Motion(this.pos, "x", this.pos.x, position.x, 2000, Tools.elasticEaseOut);
-    this.motionY = new Tools.Motion(this.pos, "y", this.pos.y, position.y, 2000, Tools.elasticEaseOut);
+    this.motionX = new Tools.Motion(this.pos, "x", this.pos.x, position.x, 2, Tools.elasticEaseOut);
+    this.motionY = new Tools.Motion(this.pos, "y", this.pos.y, position.y, 2, Tools.elasticEaseOut);
     // link x position to hue
-    this.motionH = new Tools.Motion(this.color, "h", (this.pos.x / this.size.x), (position.x / this.size.x), 2000, Tools.elasticEaseOut);
+    this.motionH = new Tools.Motion(this.color, "h", (this.pos.x / this.size.x), (position.x / this.size.x), 2, Tools.elasticEaseOut);
 };

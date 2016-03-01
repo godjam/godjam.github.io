@@ -24,7 +24,7 @@ KochSnowflakeScene.prototype.loop = function () {
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.frameloop.display(this.ctx);
     var s = 1 + Math.sin(this.theta * 2) * 0.1;
-    this.theta += this.frameloop.delta / 5000;
+    this.theta += this.frameloop.delta / 5;
     if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }
 
     this.ctx.save();

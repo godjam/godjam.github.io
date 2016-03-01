@@ -24,7 +24,7 @@ RecursiveCircleScene.prototype.loop = function () {
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.frameloop.display(this.ctx);
     var s = 0.5 + Math.sin(this.theta) * 0.3;
-    this.theta += this.frameloop.delta / 2000;
+    this.theta += this.frameloop.delta / 2;
     if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }
 
     this.ctx.save();

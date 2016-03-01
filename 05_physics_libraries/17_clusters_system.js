@@ -102,7 +102,7 @@ ClustersSystemScene.prototype.mouseStartEvt = function(position) {
         this.particle.x = p1.x;
         this.particle.y = p1.y;
     }
-    else if (this.time > 300) {
+    else if (this.time > 0.3) { // in s
         this.addParticle(p1);
         this.time = 0;
     }

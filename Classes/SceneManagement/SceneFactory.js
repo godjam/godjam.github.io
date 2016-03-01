@@ -11,7 +11,8 @@ ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
 BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
 ClustersSystemScene, VehiclesSystemScene, WolframCAScene, GameOfLifeScene,
 HexaGameOfLifeScene, ProbaGameOfLifeScene, ContinuousGameOfLifeScene,
-RecursiveCircleScene, KochSnowflakeScene, SierpinskiTriangleScene*/
+RecursiveCircleScene, KochSnowflakeScene, SierpinskiTriangleScene,
+RecursiveTreeScene*/
 var SceneFactory = function () {
     "use strict";
     this.scene = undefined;
@@ -57,7 +58,7 @@ SceneFactory.toggleFullscreen = function () {
 
 SceneFactory.parseURL = function () {
     "use strict";
-    var defaultKey = "08_05",
+    var defaultKey = "08_08",
         key = "";
 
     if (window !== null) {
@@ -265,6 +266,7 @@ SceneFactory.init = function () {
     this.cache["08_01"] = RecursiveCircleScene;
     this.cache["08_03"] = KochSnowflakeScene;
     this.cache["08_05"] = SierpinskiTriangleScene;
+    this.cache["08_08"] = RecursiveTreeScene;
 
 };
 
