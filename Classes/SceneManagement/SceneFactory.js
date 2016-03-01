@@ -1,33 +1,32 @@
-/*global console,
-Scene, CanvasTestScene, ColorTestScene, WalkerScene,
+/*global console, Scene, TestScene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
 MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
 FrictionForceScene, DragForceScene, GravitationalAttractionScene,
-CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02,
-RotationScene, CannonScene, SpiralScene, SinusoidalOcillationScene,
-OscillatorScene, OscillationScene, SpringsScene, EcosystemScene_03,
-ParticlesScene, ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,
-ShatteringScene, ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
+CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02, RotationScene,
+CannonScene, SpiralScene, SinusoidalOcillationScene, OscillatorScene,
+OscillationScene, SpringsScene, EcosystemScene_03, ParticlesScene,
+ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,ShatteringScene,
+ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
 BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
 ClustersSystemScene, VehiclesSystemScene, WolframCAScene, GameOfLifeScene,
-HexaGameOfLifeScene, ProbaGameOfLifeScene, ContinuousGameOfLifeScene, RecursiveCircleScene,
-KochSnowflakeScene*/
-var Factory = function () {
+HexaGameOfLifeScene, ProbaGameOfLifeScene, ContinuousGameOfLifeScene,
+RecursiveCircleScene, KochSnowflakeScene, SierpinskiTriangleScene*/
+var SceneFactory = function () {
     "use strict";
     this.scene = undefined;
     this.cache = undefined;
-    this.objOp = undefined;
+    this.option = undefined;
 };
 
 // start function 'default' scene
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
-    Factory.init();
-    Factory.parseURL();
+    SceneFactory.init();
+    SceneFactory.parseURL();
 });
 
-Factory.toggleFullscreen = function () {
+SceneFactory.toggleFullscreen = function () {
     "use strict";
     if (!document.fullscreenElement && // alternative standard method
             !document.mozFullScreenElement &&
@@ -56,9 +55,9 @@ Factory.toggleFullscreen = function () {
     }
 };
 
-Factory.parseURL = function () {
+SceneFactory.parseURL = function () {
     "use strict";
-    var defaultKey = "08_02",
+    var defaultKey = "08_05",
         key = "";
 
     if (window !== null) {
@@ -70,42 +69,43 @@ Factory.parseURL = function () {
         key = defaultKey;
     }
 
-    Factory.createScene(key);
+    SceneFactory.createScene(key);
 };
 
-Factory.init = function () {
+SceneFactory.init = function () {
     "use strict";
     console.log("%c Nature %c Code ", "color: #fff; background: #ff00bb;", "color: #fff; background: #00ffbb;");
     console.log("Made with cosmic dust");
 
     // Hides mobile browser's address bar when page is done loading.
     // http://www.html5rocks.com/en/mobile/mobifying/
-    window.scrollTo(0, 0);
+    setTimeout( function(){ window.scrollTo(0, 1); }, 50 );
 
     // based on : http://eloquentjavascript.net/10_modules.html
     this.cache = Object.create(null);
-    this.objOp = Object.create(null);
+    this.option = Object.create(null);
 
     // tests
     this.cache["00"] = CanvasTestScene;
     this.cache["01"] = ColorTestScene;
+    this.cache["02"] = TestScene;
     // chap 0 : introduction
     this.cache["00_01"] = WalkerScene;
-    this.objOp["00_01"] = {walkertype: 0};
+    this.option["00_01"] = {walkertype: 0};
 
     this.cache["00_03"] = WalkerScene;
-    this.objOp["00_03"] = {walkertype: 1};
+    this.option["00_03"] = {walkertype: 1};
 
     this.cache["00_04"] = NormalDistribScene;
 
     this.cache["00_05"] = WalkerScene;
-    this.objOp["00_05"] = {walkertype: 2};
+    this.option["00_05"] = {walkertype: 2};
 
     this.cache["00_06"] = WalkerScene;
-    this.objOp["00_06"] = {walkertype: 3};
+    this.option["00_06"] = {walkertype: 3};
 
     this.cache["00_07"] = WalkerScene;
-    this.objOp["00_07"] = {walkertype: 4};
+    this.option["00_07"] = {walkertype: 4};
 
     this.cache["00_09"] = PerlinNoiseScene;
     this.cache["00_10"] = NoiseScapeScene;
@@ -133,19 +133,19 @@ Factory.init = function () {
     this.cache["03_06"] = SinusoidalOcillationScene;
 
     this.cache["03_07"] = OscillatorScene;
-    this.objOp["03_07"] = {oscillatortype: 1};
+    this.option["03_07"] = {oscillatortype: 1};
 
     this.cache["03_08"] = OscillatorScene;
-    this.objOp["03_08"] = {oscillatortype: 2};
+    this.option["03_08"] = {oscillatortype: 2};
 
     this.cache["03_09"] = OscillatorScene;
-    this.objOp["03_09"] = {oscillatortype: 3};
+    this.option["03_09"] = {oscillatortype: 3};
 
     this.cache["03_10"] = OscillatorScene;
-    this.objOp["03_10"] = {oscillatortype: 4};
+    this.option["03_10"] = {oscillatortype: 4};
 
     this.cache["03_11"] = OscillatorScene;
-    this.objOp["03_11"] = {oscillatortype: 5};
+    this.option["03_11"] = {oscillatortype: 5};
 
     this.cache["03_12"] = OscillationScene;
     this.cache["03_16"] = SpringsScene;
@@ -164,90 +164,90 @@ Factory.init = function () {
 
     // chap 5 : Physics Libraries
     this.cache["05_02"] = BoxesScene;
-    this.objOp["05_02"] = {boxes_type: 0};
+    this.option["05_02"] = {boxes_type: 0};
 
     this.cache["05_03"] = BoxesScene;
-    this.objOp["05_03"] = {boxes_type: 1};
+    this.option["05_03"] = {boxes_type: 1};
 
     this.cache["05_04"] = BoxesScene;
-    this.objOp["05_04"] = {boxes_type: 2};
+    this.option["05_04"] = {boxes_type: 2};
 
     this.cache["05_05"] = BoxesScene;
-    this.objOp["05_05"] = {boxes_type: 3};
+    this.option["05_05"] = {boxes_type: 3};
 
     this.cache["05_06"] = BoxesScene;
-    this.objOp["05_06"] = {boxes_type: 5};
+    this.option["05_06"] = {boxes_type: 5};
 
     this.cache["05_07"] = BoxesScene;
-    this.objOp["05_07"] = {boxes_type: 6};
+    this.option["05_07"] = {boxes_type: 6};
 
     this.cache["05_08"] = BoxesScene;
-    this.objOp["05_08"] = {boxes_type: 7};
+    this.option["05_08"] = {boxes_type: 7};
 
     this.cache["05_09"] = BoxesScene;
-    this.objOp["05_09"] = {boxes_type: 8};
+    this.option["05_09"] = {boxes_type: 8};
 
     this.cache["05_10"] = BoxesScene;
-    this.objOp["05_10"] = {boxes_type: 9};
+    this.option["05_10"] = {boxes_type: 9};
 
     this.cache["05_11"] = CollisionListenerScene;
 
     this.cache["05_13"] = ToxiSimulationScene;
-    this.objOp["05_13"] = {sim_type: 0};
+    this.option["05_13"] = {sim_type: 0};
 
     this.cache["05_14"] = ToxiSimulationScene;
-    this.objOp["05_14"] = {sim_type: 1};
+    this.option["05_14"] = {sim_type: 1};
 
     this.cache["05_15"] = ClustersSystemScene;
 
     this.cache["05_16"] = ToxiSimulationScene;
-    this.objOp["05_16"] = {sim_type: 2};
+    this.option["05_16"] = {sim_type: 2};
 
     // chap 5 : Steering Behaviors
     this.cache["06_01"] = VehiclesSystemScene;
-    this.objOp["06_01"] = {behavior_type: 0};
+    this.option["06_01"] = {behavior_type: 0};
 
     this.cache["06_02"] = VehiclesSystemScene;
-    this.objOp["06_02"] = {behavior_type: 1};
+    this.option["06_02"] = {behavior_type: 1};
 
     this.cache["06_03"] = VehiclesSystemScene;
-    this.objOp["06_03"] = {behavior_type: 2};
+    this.option["06_03"] = {behavior_type: 2};
 
     this.cache["06_04"] = VehiclesSystemScene;
-    this.objOp["06_04"] = {behavior_type: 3};
+    this.option["06_04"] = {behavior_type: 3};
 
     this.cache["06_05"] = VehiclesSystemScene;
-    this.objOp["06_05"] = {behavior_type: 4};
+    this.option["06_05"] = {behavior_type: 4};
 
     this.cache["06_07"] = VehiclesSystemScene;
-    this.objOp["06_07"] = {behavior_type: 5};
+    this.option["06_07"] = {behavior_type: 5};
 
     this.cache["06_10"] = VehiclesSystemScene;
-    this.objOp["06_10"] = {behavior_type: 6};
+    this.option["06_10"] = {behavior_type: 6};
 
     this.cache["06_11"] = VehiclesSystemScene;
-    this.objOp["06_11"] = {behavior_type: 7};
+    this.option["06_11"] = {behavior_type: 7};
 
     this.cache["06_12"] = VehiclesSystemScene;
-    this.objOp["06_12"] = {behavior_type: 8};
+    this.option["06_12"] = {behavior_type: 8};
 
     this.cache["06_13"] = VehiclesSystemScene;
-    this.objOp["06_13"] = {behavior_type: 9};
+    this.option["06_13"] = {behavior_type: 9};
 
     this.cache["06_14"] = VehiclesSystemScene;
-    this.objOp["06_14"] = {behavior_type: 10};
+    this.option["06_14"] = {behavior_type: 10};
 
     this.cache["06_15"] = VehiclesSystemScene;
-    this.objOp["06_15"] = {behavior_type: 11};
+    this.option["06_15"] = {behavior_type: 11};
 
     this.cache["06_16"] = VehiclesSystemScene;
-    this.objOp["06_16"] = {behavior_type: 12};
+    this.option["06_16"] = {behavior_type: 12};
 
     this.cache["06_17"] = VehiclesSystemScene;
-    this.objOp["06_17"] = {behavior_type: 13};
+    this.option["06_17"] = {behavior_type: 13};
 
     this.cache["06_19"] = VehiclesSystemScene;
-    this.objOp["06_19"] = {behavior_type: 14};
+    this.option["06_19"] = {behavior_type: 14};
 
     // TODO: Box2DVehicle
     // TODO: The Ecosystem project (p 343)
@@ -263,33 +263,34 @@ Factory.init = function () {
     // TODO: The Ecosystem project
 
     this.cache["08_01"] = RecursiveCircleScene;
-    this.cache["08_02"] = KochSnowflakeScene
+    this.cache["08_03"] = KochSnowflakeScene;
+    this.cache["08_05"] = SierpinskiTriangleScene;
 
 };
 
-Factory.autoclose = function () {
+SceneFactory.autoclose = function () {
     "use strict";
     document.getElementById("togglebox").checked = false;
 };
 
-Factory.createScene = function (key) {
+SceneFactory.createScene = function (key) {
     "use strict";
     // check string
     if (typeof key !== "string") {
-        throw "Factory.createScene : key is not a string";
+        throw "SceneFactory.createScene : key is not a string";
     }
 
     if (this.cache[key] === undefined) {
-        throw "Factory.createScene : specified key doesn't exists";
+        throw "SceneFactory.createScene : specified key doesn't exists";
     }
 
-    Factory.start(new this.cache[key](this.objOp[key]));
+    SceneFactory.start(new this.cache[key](this.option[key]));
 };
 
-Factory.start = function (scene) {
+SceneFactory.start = function (scene) {
     "use strict";
     if (scene instanceof Scene === false) {
-        throw "Factory.start : scene is not a Scene";
+        throw "SceneFactory.start : scene is not a Scene";
     }
 
     this.stop();
@@ -298,7 +299,7 @@ Factory.start = function (scene) {
     this.autoclose();
 };
 
-Factory.stop = function () {
+SceneFactory.stop = function () {
     "use strict";
     if (this.scene !== undefined) {
         this.scene.stop();

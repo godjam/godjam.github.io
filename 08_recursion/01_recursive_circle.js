@@ -9,14 +9,12 @@ var RecursiveCircleScene = function () {
         p1 = Vector2.fromPolar(r, 2 * Math.PI / 3).addInPlace(center),
         p2 = Vector2.fromPolar(r, 4 * Math.PI / 3).addInPlace(center),
         p3 = Vector2.fromPolar(r, 0).addInPlace(center),
-        c1 = Color.createLightColor(),
+        c1 = Color.createLightColor(0.3),
         c2 = Color.createBrightColor();
     this.theta = Math.PI * 8 / 3;
     this.maxdepth = 5;//~~(Math.log(this.size.x));
-    this.colormap = new ColorMap(c1, c2, this.maxdepth);
-    this.flake1 = new Kochcurve(p2, p1);
-    this.flake2 = new Kochcurve(p3, p2);
-    this.flake3 = new Kochcurve(p1, p3);
+    this.colormap = ColorMap.create(this.maxdepth);
+
 };
 RecursiveCircleScene.prototype = Object.create(Scene.prototype);
 RecursiveCircleScene.prototype.constructor = RecursiveCircleScene;
@@ -25,8 +23,8 @@ RecursiveCircleScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.frameloop.display(this.ctx);
-    var s = Math.sin(this.theta) * 0.6;
-    this.theta += this.frameloop.delta / 500;
+    var s = 0.5 + Math.sin(this.theta) * 0.3;
+    this.theta += this.frameloop.delta / 2000;
     if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }
 
     this.ctx.save();

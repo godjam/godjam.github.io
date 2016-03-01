@@ -10,11 +10,16 @@ var Scene = function(options) {
     this.renderer = null;
     this.camera = null;
     this.scene = null;
+
+
     this.eventListeners = [];
     this.timeoutList = [];
+    // TODO rename in systems
+    this.processes = [];
+    this.entities = [];
 
-    // window
-    window.addEventListener('resize', this.resize.bind(this));
+    // resize
+    addEventListener('resize', this.resize.bind(this));
 
     // frames
     this.frameloop = new FrameLoop();
@@ -33,14 +38,43 @@ var Scene = function(options) {
     this.resize();
 };
 
-Scene.prototype.start = function() {
-    "use strict";
+Scene.prototype.addProcess = function(process, priority) {
+    priority = priority || 0;
+    this.processes.splice(priority, 0, process);
 };
 
+Scene.prototype.removeProcess = function (process) {
+    process.stop();
+    this.processes.remove(process);
+};
+
+Scene.prototype.addEntity = function(entity) {
+    var i = 0;
+    this.entities.push(entity);
+    for (i = 0; i < this.processes.length; i += 1) {
+        this.processes[i].addEntityComponents(entity);
+    }
+};
+
+Scene.prototype.removeEntity = function (entity) {
+    // destroy nodes containing this entity's components
+    var i = 0;
+    for (i = 0; i < this.processes.length; i += 1) {
+        this.processes[i].removeEntityComponents(entity);
+    }
+    this.entities.remove(entity);
+};
+
+// TODO : rename to : Scene.prototype.update
 Scene.prototype.loop = function() {
     "use strict";
     var i = 0;
-    this.frameloop.update();
+    var time = this.frameloop.update();
+
+    for(i = 0; i < this.processes.length; i += 1) {
+        this.processes[i].update(time);
+    }
+
     for (i = 0; i < this.eventListeners.length; i += 1) {
         if (this.eventListeners[i].update) {
             this.eventListeners[i].update();
@@ -65,6 +99,10 @@ Scene.prototype.stop = function() {
         window.removeEventListener('resize', this.resize);
     }
 
+    for(i = 0; i < this.processes.length; i += 1) {
+        this.removeProcess(this.processes[i]);
+    }
+
     for (i = 0; i < this.eventListeners.length; i += 1) {
         if (this.eventListeners[i] !== null) {
             this.eventListeners[i].stop();
@@ -81,7 +119,7 @@ Scene.prototype.stop = function() {
 
 Scene.prototype.resize = function() {
     "use strict";
-    window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     this.size = new Vector2(window.innerWidth, window.innerHeight);
     // 2D canvas scene
     if (this.canvas !== null) {
@@ -182,8 +220,12 @@ Scene.prototype.intro = function(title, desc) {
         clone = null,
         text = '';
     if (intro) {
-        if (title) { text = '<h3>' + title + '</h3>'; }
-        if (desc) { text += '<br>' + desc; }
+        if (title) {
+            text = '<h3>' + title + '</h3>';
+        }
+        if (desc) {
+            text += '<br>' + desc;
+        }
         intro.innerHTML = text;
         clone = intro.cloneNode(true);
         intro.parentNode.replaceChild(clone, intro);

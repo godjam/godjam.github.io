@@ -1,6 +1,7 @@
 /*global console*/
 var Tools = {};
 
+
 Tools.normalRnd = function () {
     "use strict";
     return ((Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3) / 3;
