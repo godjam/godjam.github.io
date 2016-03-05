@@ -273,7 +273,7 @@ CA2D.prototype.displayCell = function (ctx, cell, cellsize) {
 
 
     // Rect
-    ctx.fillStyle = color.ToHex();
+    ctx.fillStyle = color.rgba();
     ctx.fillRect(position.x + this.celldraw.x,
                  position.y + this.celldraw.y,
                  this.celldraw.x,

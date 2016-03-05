@@ -47,7 +47,7 @@ SpkTriangle.prototype.display = function (ctx) {
     var i = 0;
     for(i = 0; i < this.list.length; i += 1) {
         ctx.beginPath();
-        ctx.fillStyle = this.colormap.getByVal(i, this.list.length).ToHex();
+        ctx.fillStyle = this.colormap.getByVal(i, this.list.length).rgba();
         ctx.moveTo(this.list[i][0].x, this.list[i][0].y);
         ctx.lineTo(this.list[i][1].x, this.list[i][1].y);
         ctx.lineTo(this.list[i][2].x, this.list[i][2].y);

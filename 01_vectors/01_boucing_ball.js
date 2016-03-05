@@ -38,8 +38,8 @@ BouncingBallScene.prototype.loop = function () {
             this.velocities[i].y *= -1;
         }
 
-        this.ctx.fillStyle = this.colors[i].ToHex();
-        this.ctx.shadowColor = this.colors[i].copy().darken().ToHex();
+        this.ctx.fillStyle = this.colors[i].rgba();
+        this.ctx.shadowColor = this.colors[i].copy().darken().rgba();
         this.ctx.beginPath();
         this.ctx.arc(this.locations[i].x, this.locations[i].y, this.r, 0, Math.PI * 2, true);
         this.ctx.closePath();

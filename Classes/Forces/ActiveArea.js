@@ -7,7 +7,7 @@ function ActiveArea(x, y, w, h) {
     this.w = w;
     this.h = h;
     this.effect = null;
-    this.color = Color.createLightColor().ToHex();
+    this.color = Color.createLightColor().rgba();
 }
 
 ActiveArea.prototype.display = function (ctx) {
@@ -29,12 +29,12 @@ ActiveArea.prototype.applyOn = function (mover) {
     if (this.effect === null) {
         return;
     }
-    
+
     if (mover instanceof Mover === false) {
         throw "ActiveArea.applyOn : param is not a Mover";
     }
-    
-    
+
+
     if (mover.location.x > this.x &&
             mover.location.x < this.x + this.w &&
             mover.location.y > this.y &&
@@ -50,7 +50,7 @@ ActiveArea.prototype.setEffect = function (effect) {
     if (typeof effect.applyOn !== "function") {
         throw "ActiveArea.setEffect : effect.applyOn is not a function";
     }
-    
+
     this.effect = effect;
 };
 

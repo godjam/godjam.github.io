@@ -69,7 +69,7 @@ Mover.prototype.displayAsCircle = function (ctx) {
     "use strict";
     ctx.beginPath();
     ctx.arc(this.location.x, this.location.y, this.mass, 0, Math.PI * 2);
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.rgba();
     ctx.fill();
     ctx.closePath();
 };
@@ -106,7 +106,7 @@ Mover.prototype.displayAsPoly = function (ctx, p) {
     ctx.translate(this.location.x, this.location.y);
     ctx.rotate(this.angle);
     Tools.drawPoly(ctx, 0, 0, p, this.mass);
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.rgba();
     ctx.fill();
 
     ctx.restore();
@@ -133,7 +133,7 @@ Mover.prototype.display = function (ctx) {
     l3.addInPlace(this.location);
     l4.addInPlace(this.location);
 
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.rgba();
     ctx.beginPath();
     ctx.moveTo(l1.x, l1.y);
     ctx.lineTo(l2.x, l2.y);

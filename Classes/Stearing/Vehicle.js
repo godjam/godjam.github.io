@@ -11,7 +11,7 @@ var Vehicle = function(scene, x, y) {
     this.viewRadius = 100 + this.agressivity * 30;
     this.avoidanceRadius = 30 + this.agressivity * 10;
     this.color = Color.createHsl(this.agressivity, 1, 0.65);
-    this.fillStyle = this.color.ToHex();
+    this.fillStyle = this.color.rgba();
 
     this.listInRange = [];
     this.listInFov = [];

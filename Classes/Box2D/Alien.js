@@ -37,7 +37,7 @@ Alien.prototype.display = function (ctx) {
     ctx.save();
     
     // antenas
-    ctx.fillStyle = this.sColor.ToHex();
+    ctx.fillStyle = this.sColor.rgba();
     ctx.fillRect(-3, -this.halfBoxWidth, l.y, -this.halfBoxHeight);
     ctx.fillRect(8, -this.halfBoxWidth, l.y, -this.halfBoxHeight);
     
@@ -47,7 +47,7 @@ Alien.prototype.display = function (ctx) {
     ctx.fillRect(-this.halfBoxWidth, -l.y * 4, this.halfBoxWidth * 4, l.y);
     
     // body
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.rgba();
     ctx.fillRect(0, 0, this.halfBoxWidth * 2, this.halfBoxHeight * 2);
     ctx.restore();
     

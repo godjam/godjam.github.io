@@ -137,7 +137,7 @@ CA2DHex.prototype.displayCell = function (ctx, cell) {
     }
 
     // hexagon
-    ctx.fillStyle = color.ToHex();
+    ctx.fillStyle = color.rgba();
     ctx.beginPath();
     ctx.moveTo(position.x + this.celldraw.x - this.cellsidedraw, position.y);
     ctx.lineTo(position.x + this.cellsidedraw, position.y);

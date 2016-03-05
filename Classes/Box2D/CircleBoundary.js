@@ -4,7 +4,7 @@ var CircleBoundary = function (scene, world, scale) {
     var x = scene.size.x / 2,
         y = scene.size.y / 2,
         b = null;
-    
+
     Box2dEntity.call(this, x, y, scene, world, scale);
     b = new Circle(x, y, scene, world, scale, scene.size.y / 8, B2KinematicBody);
     b.body.SetAngularVelocity(Math.random() * Math.PI);
@@ -29,8 +29,8 @@ CircleBoundary.prototype.update = function () {
         force = null,
         e = null,
         b = this.getEntityByName("b");
-        
-    
+
+
     for (i = 0; i < this.scene.boxes.length; i += 1) {
         e = this.scene.boxes[i];
         force = this.attract(b, e, 10);

@@ -53,7 +53,7 @@ GridCluster.prototype.display = function (ctx) {
             n3 = this.array2D.get(i + 1, j + 1);
             n4 = this.array2D.get(i, j + 1);
 
-            ctx.fillStyle = this.colormap.getByVal(i, this.array2D.getWidth()).ToHex();
+            ctx.fillStyle = this.colormap.getByVal(i, this.array2D.getWidth()).rgba();
             ctx.beginPath();
             ctx.moveTo(n1.p.x, n1.p.y);
             ctx.lineTo(n2.p.x, n2.p.y);

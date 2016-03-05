@@ -10,7 +10,7 @@ function Walker(x, y, scene, options) {
     this.color = Color.createLightColor();
     this.mousePosition = null;
     this.options = options;
-    
+
     if (this.options === undefined) {
         this.options = {walkertype: 0};
     }
@@ -20,7 +20,7 @@ Walker.prototype.display = function (ctx) {
 	"use strict";
     var c = this.color.modify(this.stepsize / this.scene.size.x, 0, 0);
     this.color = c;
-    ctx.fillStyle = c.ToHex();
+    ctx.fillStyle = c.rgba();
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.closePath();
@@ -29,18 +29,18 @@ Walker.prototype.display = function (ctx) {
 
 Walker.prototype.step = function () {
 	"use strict";
-    
+
     // right walker
     if (this.options.walkertype === 0) {
         this.stepRight();
     // mouse weighted walker
     } else if (this.options.walkertype === 1) {
         this.stepMouse();
-        
+
     // mormal distrib walker
     } else if (this.options.walkertype === 2) {
         this.stepNormalDistrib();
-            
+
     // monte carlo walker
     } else if (this.options.walkertype === 3) {
         this.stepMonteCarlo();
@@ -49,10 +49,10 @@ Walker.prototype.step = function () {
     } else if (this.options.walkertype === 4) {
         this.stepPerlin();
     }
-    
+
     if (this.x <= 0) { this.x += this.scene.size.x; }
     if (this.y <= 0) { this.y += this.scene.size.y; }
-    
+
     if (this.x > this.scene.size.x) { this.x -= this.scene.size.x; }
     if (this.y > this.scene.size.y) { this.y -= this.scene.size.y; }
 };
@@ -66,10 +66,10 @@ Walker.prototype.stepRight = function () {
     this.stepsize = stepsize;
 	this.x += stepx;
 	this.y += stepy;
-    
+
     if (this.x <= 0) { this.x += this.scene.size.x; }
     if (this.y <= 0) { this.y += this.scene.size.y; }
-    
+
     if (this.x > this.scene.size.x) { this.x -= this.scene.size.x; }
     if (this.y > this.scene.size.y) { this.y -= this.scene.size.y; }
 };
@@ -80,7 +80,7 @@ Walker.prototype.stepMouse = function () {
     var stepsize = 3,
         stepx = Math.random() * stepsize - (stepsize / 2),
         stepy = Math.random() * stepsize - (stepsize / 2);
-        
+
     // 5% chance to seek the mouse
     if (this.mousePosition !== null && Math.random() < 0.05) {
         if (this.mousePosition.x > this.x) { stepx = stepsize; }
@@ -88,7 +88,7 @@ Walker.prototype.stepMouse = function () {
         if (this.mousePosition.y > this.y) { stepy = stepsize; }
         if (this.mousePosition.y < this.y) { stepy = -stepsize; }
     }
-    
+
     // color
     this.stepsize = stepx;
 	this.x += stepx;
@@ -130,7 +130,7 @@ Walker.prototype.stepMonteCarlo = function () {
     var stepsize = this.montecarlo() * 10,
         stepx = Math.random() * stepsize - (stepsize / 2),
         stepy = Math.random() * stepsize - (stepsize / 2);
-    
+
     this.stepsize = stepsize / 8;
 	this.x += stepx;
 	this.y += stepy;

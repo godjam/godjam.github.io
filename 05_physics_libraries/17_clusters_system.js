@@ -57,7 +57,7 @@ ClustersSystemScene.prototype.loop = function() {
     this.physics.update();
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
-    this.ctx.strokeStyle = this.colorLine.ToHex();
+    this.ctx.strokeStyle = this.colorLine.rgba();
     for (i = 0; i < this.physics.springs.length; i += 1) {
         s = this.physics.springs[i];
         this.ctx.beginPath();
@@ -67,7 +67,7 @@ ClustersSystemScene.prototype.loop = function() {
         this.ctx.closePath();
     }
 
-    this.ctx.fillStyle = this.colorDot.ToHex()
+    this.ctx.fillStyle = this.colorDot.rgba()
     for (i = 0; i < this.physics.particles.length; i += 1) {
         p = this.physics.particles[i];
         this.ctx.fillRect(p.x - 5, p.y - 5, 10, 10);

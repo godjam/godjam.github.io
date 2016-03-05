@@ -108,7 +108,7 @@ CA.prototype.display = function(ctx) {
         w = ~~(s / 2);
 
     for (j = 0; j < this.gencopy.getHeight(); j += 1) {
-        ctx.fillStyle = this.colormap.getByVal(j, this.lines).ToHex();
+        ctx.fillStyle = this.colormap.getByVal(j, this.lines).rgba();
         y = ~~(s * j + w);
         for (i = 0; i < this.gencopy.getWidth(); i += 1) {
             x = ~~(s * i + w);

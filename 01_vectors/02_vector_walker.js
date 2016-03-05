@@ -22,7 +22,7 @@ VectorWalkerScene.prototype.loop = function (ctx) {
     var c = this.color.modify(this.stepsize / this.size.x, 0, 0);
     this.color = c;
 
-    this.ctx.fillStyle = c.ToHex();
+    this.ctx.fillStyle = c.rgba();
     this.ctx.beginPath();
     this.ctx.arc(this.position.x, this.position.y, this.w, 0, Math.PI * 2);
     this.ctx.closePath();

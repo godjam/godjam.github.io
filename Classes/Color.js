@@ -76,11 +76,18 @@ Color.prototype.copy = function () {
     return c;
 };
 
-Color.prototype.ToHex = function () {
+Color.prototype.rgba = function () {
     "use strict";
     var s = "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
     return s;
 };
+
+
+Color.prototype.toHex = function () {
+    "use strict";
+    return "#" + (this.ToInt()).toString(16).slice(1);
+};
+
 
 Color.prototype.ToInt = function () {
     "use strict";
@@ -286,7 +293,7 @@ ColorMap.create = function(n) {
 
 ColorMap.prototype.get = function (index) {
     "use strict";
-    index = Tools.clamp(index, 0, this.steps);
+    index = Tools.clamp(index, 0, this.steps-1);
     return this.map[index];
 };
 

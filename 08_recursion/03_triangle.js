@@ -28,7 +28,7 @@ SierpinskiTriangleScene.prototype.loop = function () {
     this.ctx.beginPath();
     this.ctx.arc(0, this.radius, this.radius * 0.6, 0, Math.PI * 2);
     this.ctx.closePath();
-    this.ctx.fillStyle = this.shadowcolor.ToHex();
+    this.ctx.fillStyle = this.shadowcolor.rgba();
     this.ctx.fill();
 
     this.ctx.rotate(this.theta);

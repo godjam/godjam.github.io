@@ -65,7 +65,7 @@ Spring.prototype.display = function (ctx) {
     ctx.beginPath();
     ctx.moveTo(this.anchor.x, this.anchor.y);
     ctx.lineTo(this.location.x, this.location.y);
-    ctx.strokeStyle = c.ToHex();
+    ctx.strokeStyle = c.rgba();
     ctx.lineWidth = 6;
     ctx.lineCap = "round";
     ctx.stroke();

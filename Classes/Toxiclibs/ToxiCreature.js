@@ -16,7 +16,7 @@ var ToxiCreature = function(position, physics) {
         strength = 0.003,
         point = new Vec2D(0, 0),
         angle = 0;
-    
+
     this.color = Color.createBrightColor().mutate();
     this.physics = physics;
     // paticles of the border
@@ -44,7 +44,7 @@ var ToxiCreature = function(position, physics) {
             }
         }
     }
-    
+
     // tentacles
     for (i = 0; i < 5; i += 1) {
         var tail = [];
@@ -54,7 +54,7 @@ var ToxiCreature = function(position, physics) {
             particle = new ToxiParticle(point, physics);
             // add particle to particles list
             tail.push(particle);
-            
+
             if (j === 0) {
                 spring = new VerletSpring2D(this.body[2 + i * 2].p, tail[j].p, 30, strength * 10);
             } else {
@@ -75,7 +75,7 @@ ToxiCreature.prototype.display = function(ctx) {
         l = 0;
 
     // "bubbles"
-    ctx.fillStyle = this.color.ToHex();//"#FF0";
+    ctx.fillStyle = this.color.rgba();//"#FF0";
     for (i = 0; i < this.physics.springs.length; i += 1) {
         s = this.physics.springs[i];
         m = (s.a.x + s.b.x) / 2;
@@ -123,7 +123,7 @@ ToxiCreature.prototype.display = function(ctx) {
     ctx.fill();
     ctx.closePath();
     ctx.restore();
-    
+
     // *************************************************
     /*
     // border points

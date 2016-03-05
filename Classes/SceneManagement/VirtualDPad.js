@@ -210,7 +210,7 @@ VirtualDPad.prototype.display = function(ctx) {
 
 
     if (this.leftTouchID > -1) {
-        ctx.strokeStyle = this.color.ToHex();
+        ctx.strokeStyle = this.color.rgba();
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(this.leftTouchStartPos.x, this.leftTouchStartPos.y, this.r, 0, PI2);
@@ -231,7 +231,7 @@ VirtualDPad.prototype.display = function(ctx) {
     }
 
     if (this.rightTouchID > -1) {
-        ctx.strokeStyle = this.color.ToHex();
+        ctx.strokeStyle = this.color.rgba();
         ctx.fillStyle = "#222";
         ctx.beginPath();
         ctx.arc(this.rightTouchPos.x, this.rightTouchPos.y, this.r * 0.9, 0, PI2);

@@ -53,39 +53,39 @@ var Box2dEntity = function (x, y, scene, world, scale) {
 
 Box2dEntity.prototype.addEntity = function (name, /* Box2dEntity */ entity) {
     "use strict";
-    
+
     if (typeof name !== "string") {
         throw "Box2dEntity.addEntity : name is not a string";
     }
-    
+
     if (entity instanceof Box2dEntity === false) {
         throw "Box2dEntity.addEntity : entity is not a Box2dEntity";
     }
-    
+
     this.nameArray.push(name); // array of entities names
     this.entitiesArray.push(entity); // array of entities objects
 };
 
 Box2dEntity.prototype.getEntityByName = function (name) {
     "use strict";
-    
+
     if (typeof name !== "string") {
         throw "Box2dEntity.getEntityByName : name is not a string";
     }
-    
+
     var idx = this.nameArray.indexOf(name);
     if (idx >= 0) {
         return this.entitiesArray[idx];
     } else {
         return null;
     }
-  
+
 };
 
 Box2dEntity.prototype.update = function () {
     "use strict";
     var i = 0;
-    
+
     for (i = 0; i < this.entitiesArray.length; i += 1) {
         this.entitiesArray[i].update();
     }
@@ -95,7 +95,7 @@ Box2dEntity.prototype.display = function (ctx) {
     "use strict";
     var i = 0,
         center = {x: 0, y: 0};
-    
+
     if (this.body !== null) {
         center = this.body.GetWorldCenter();
         this.x = center.x * this.scale;
@@ -106,7 +106,7 @@ Box2dEntity.prototype.display = function (ctx) {
         ctx.fillRect(-0.5, -0.5, 1, 1);
         ctx.restore();
     }
-    
+
     for (i = 0; i < this.entitiesArray.length; i += 1) {
         this.entitiesArray[i].display(ctx);
     }
@@ -117,26 +117,26 @@ Box2dEntity.prototype.isOut = function () {
     var i = 0,
         delta = 20,
         isOut = true;
-        
+
     if (this.entitiesArray.length > 0) {
         for (i = 0; i < this.entitiesArray.length; i += 1) {
             if (this.entitiesArray[i].isOut() === false) {
                 isOut = false;
             }
         }
-        
+
     // if it should be deleted
     } else if (this.deletion === true) {
         isOut = true;
-    
-    // if completely out of the screen    
+
+    // if completely out of the screen
     } else if (this.x > -delta &&
                 this.x < this.scene.size.x + delta &&
                 this.y > -delta &&
                 this.y < this.scene.size.y + delta) {
         isOut = false;
     }
-    
+
     return isOut;
 };
 
@@ -144,11 +144,11 @@ Box2dEntity.prototype.killBody = function () {
     "use strict";
     var i = 0,
         body = null;
-    
+
     if (this.body !== null) {
         this.body.GetWorld().DestroyBody(this.body);
     }
-    
+
     for (i = 0; i < this.entitiesArray.length; i += 1) {
         body = this.entitiesArray[i].body || null;
         if (body !== null) {
@@ -162,11 +162,11 @@ Box2dEntity.prototype.applyForce = function (force) {
     var i = 0,
         center = null,
         body = null;
-    
+
     if (force instanceof B2Vec2 === false) {
         throw "Box2dEntity.applyForce : force is not a B2Vec2";
     }
-    
+
     if (this.body !== null) {
         center = this.body.GetWorldCenter();
         this.body.ApplyForce(force, center);
@@ -178,7 +178,7 @@ Box2dEntity.prototype.applyForce = function (force) {
             }
         }
     }
-    
+
 };
 
 Box2dEntity.prototype.attract = function (b, e, G) {
@@ -186,15 +186,15 @@ Box2dEntity.prototype.attract = function (b, e, G) {
     if (b instanceof Box2dEntity === false) {
         throw "Box2dEntity.attract : b is not another Box2dEntity";
     }
-    
+
     if (e instanceof Box2dEntity === false) {
         throw "Box2dEntity.attract : e is not another Box2dEntity";
     }
-    
+
     if (G === undefined) {
         G = 3;
     }
-    
+
     var bPos = b.body.GetWorldCenter(),
         ePos = e.body.GetWorldCenter(),
         mass = 5,
@@ -228,7 +228,7 @@ Box2dEntity.prototype.startContact = function (e) {
     if (e instanceof Box2dEntity === false) {
         throw "Box2dEntity.startContact : e is not another Box2dEntity";
     }
-    
+
     if (this.collisionCallbackOwner !== null && this.startCollisionCallback !== null) {
         var c = this.startCollisionCallback.bind(this.collisionCallbackOwner);
         c(this, e);
@@ -240,7 +240,7 @@ Box2dEntity.prototype.endContact = function (e) {
     if (e instanceof Box2dEntity === false) {
         throw "Box2dEntity.endContact : e is not another Box2dEntity";
     }
-    
+
     if (this.collisionCallbackOwner !== null && this.endCollisionCallback !== null) {
         var c = this.endCollisionCallback.bind(this.collisionCallbackOwner);
         c(this, e);
@@ -303,7 +303,7 @@ Box2dEntity.prototype.createPolyShape = function (points) {
 };
 
 /**
- * Create an edge between two points 
+ * Create an edge between two points
  * Used for convex boundary (CurvyBoundary)
  */
 Box2dEntity.prototype.createEdgeShape = function (x1, y1, x2, y2) {
@@ -322,7 +322,7 @@ Box2dEntity.prototype.addFixture = function (shape, body) {
     var fixDef = new B2FixtureDef();
     fixDef.shape = shape;
     fixDef.density = 1;
-    
+
     if (body.GetType() === B2DynamicBody) {
         fixDef.friction = 0.3;
         fixDef.restitution = 0.5;
@@ -431,13 +431,13 @@ Box2dEntity.getBodyAt = function (p, world) {
 Box2dEntity.prototype.drawRect = function (ctx, center, angle, width, height) {
     "use strict";
     ctx.save();
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.rgba();
 
     ctx.translate(center.x * this.scale, center.y * this.scale);
     ctx.rotate(angle);
     ctx.translate(-width / 2, -height / 2);
     ctx.fillRect(0, 0, width, height);
-    
+
     if (this.strokeStyle !== null) {
         ctx.lineWidth = this.lineWidth;
         ctx.strokeStyle = this.strokeStyle;
@@ -450,16 +450,16 @@ Box2dEntity.prototype.drawCircle = function (ctx, center, angle, radius) {
     "use strict";
     ctx.save();
     ctx.lineWidth = this.lineWidth;
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.rgba();
     ctx.strokeStyle = this.strokeStyle;
     ctx.beginPath();
-    
+
     ctx.translate(center.x * this.scale, center.y * this.scale);
     ctx.rotate(angle);
     ctx.arc(0, 0, radius, 0, Math.PI * 2);
     ctx.fill();
     ctx.closePath();
-    
+
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(0, radius);
@@ -472,7 +472,7 @@ Box2dEntity.prototype.drawClosedPolygon = function (ctx, center, angle, vertices
     "use strict";
     var i = 0;
     ctx.save();
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.rgba();
     ctx.beginPath();
 
     ctx.translate(center.x * this.scale, center.y * this.scale);

@@ -41,7 +41,7 @@ RecursiveCircleScene.prototype.drawCircle = function (ctx, x, y, radius, d) {
     "use strict";
     //console.log(d);
     ctx.beginPath();
-    ctx.fillStyle = this.colormap.getByVal(d, this.maxdepth).ToHex();
+    ctx.fillStyle = this.colormap.getByVal(d, this.maxdepth).rgba();
     x = ~~x;
     y = ~~y;
     radius = ~~ radius;

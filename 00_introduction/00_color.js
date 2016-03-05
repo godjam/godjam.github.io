@@ -39,7 +39,7 @@ ColorTestScene.prototype.loop = function () {
         for (j = 0; j < this.colors.getHeight(); j += 1) {
             c = this.colors.get(i, j);
             this.ctx.beginPath();
-            this.ctx.fillStyle = c.ToHex();
+            this.ctx.fillStyle = c.rgba();
             this.ctx.arc(dx + (i + 0.5) * step, dy + (j + 0.5) * step, step / 2.1, 0, Math.PI * 2);
             this.ctx.fill();
             this.ctx.closePath();

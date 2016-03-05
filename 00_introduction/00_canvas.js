@@ -35,9 +35,9 @@ CanvasTestScene.prototype.loop = function () {
 
     this.ctx.shadowOffsetY = 6;
     this.ctx.shadowBlur = 6;
-    this.ctx.strokeStyle = this.color.ToHex();
-    this.ctx.fillStyle = this.color.darken().ToHex();
-    this.ctx.shadowColor = this.color.modify(0, -0.2, -0.2).ToHex();
+    this.ctx.strokeStyle = this.color.rgba();
+    this.ctx.fillStyle = this.color.darken().rgba();
+    this.ctx.shadowColor = this.color.modify(0, -0.2, -0.2).rgba();
     this.ctx.stroke();
     this.ctx.fill();
 

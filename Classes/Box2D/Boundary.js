@@ -2,7 +2,7 @@
 var Boundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
-   
+
     var x0 = scene.size.x / 2,
         x1 = scene.size.x / 4,
         x2 = scene.size.x / 4 * 3,
@@ -22,7 +22,7 @@ Boundary.prototype.constructor = Boundary;
 
 Boundary.prototype.display = function (ctx) {
     "use strict";
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.rgba();
     ctx.fillRect(this.x - this.boxW / 2,
                  this.y - this.boxH / 2,
                  this.boxW, this.boxH);

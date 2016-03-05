@@ -59,7 +59,7 @@ CA2DContinuous.prototype.displayCell = function (ctx, cell) {
     color = this.colormap.getByVal(cell.state, 1);
     if (color === null) { return; }
 
-    ctx.fillStyle = color.ToHex();
+    ctx.fillStyle = color.rgba();
     ctx.fillRect(position.x + this.celldraw.x,
                  position.y + this.celldraw.y,
                  this.celldraw.x,

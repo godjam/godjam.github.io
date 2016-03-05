@@ -13,7 +13,7 @@ var Kochline = function (start, end) {
 Kochline.prototype.display = function (ctx, color) {
     "use strict";
     ctx.beginPath();
-    ctx.strokeStyle = color.ToHex();
+    ctx.strokeStyle = color.rgba();
     ctx.moveTo(this.start.x, this.start.y);
     ctx.lineTo(this.end.x, this.end.y);
     ctx.stroke();
