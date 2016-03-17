@@ -12,7 +12,7 @@ BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
 ClustersSystemScene, VehiclesSystemScene, WolframCAScene, GameOfLifeScene,
 HexaGameOfLifeScene, ProbaGameOfLifeScene, ContinuousGameOfLifeScene,
 RecursiveCircleScene, KochSnowflakeScene, SierpinskiTriangleScene,
-RecursiveTreeScene*/
+RecursiveTreeScene, LSystemScene*/
 var SceneFactory = function () {
     "use strict";
     this.scene = undefined;
@@ -58,7 +58,7 @@ SceneFactory.toggleFullscreen = function () {
 
 SceneFactory.parseURL = function () {
     "use strict";
-    var defaultKey = "08_08",
+    var defaultKey = "08_12",
         key = "";
 
     if (window !== null) {
@@ -266,8 +266,9 @@ SceneFactory.init = function () {
     this.cache["08_01"] = RecursiveCircleScene;
     this.cache["08_03"] = KochSnowflakeScene;
     this.cache["08_05"] = SierpinskiTriangleScene;
-    this.cache["08_08"] = RecursiveTreeScene;
-
+    this.cache["08_10"] = RecursiveTreeScene;
+    // TODO: 08_11 RecursiveTree + Toxiclib
+    this.cache["08_12"] = LSystemScene;
 };
 
 SceneFactory.autoclose = function () {
