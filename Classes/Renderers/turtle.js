@@ -35,12 +35,18 @@ ECSModule.TurtleRenderer = (function() {
         this.min.y = Tools.clamp(this.min.y, 0, this.scene.size.y);
         this.max.x = Tools.clamp(this.max.x, 0, this.scene.size.x);
         this.max.y = Tools.clamp(this.max.y, 0, this.scene.size.y);
+
         var w = this.max.x - this.min.x,
             h = this.max.y - this.min.y,
             dw = this.scene.size.x / w,
             dh = this.scene.size.y / h;
 
         this.stepsize = ~~Math.min(dw, dh);
+
+        var dx1 = this.position.x - this.scene.size.x / 2, // diff entre origine et centre de l'ecran
+            dy1 = this.position.y - this.scene.size.y / 2,
+            dx2 = w / 2 - this.scene.size.x / 2, // diff entre centre de la zone de dessin et le centre de l'ecran
+            dy2 = h / 2 - this.scene.size.y / 2;
     }
     TurtleRenderer.prototype = Object.create(ECSModule.System.prototype);
 
