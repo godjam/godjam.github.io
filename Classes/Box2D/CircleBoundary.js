@@ -16,7 +16,7 @@ CircleBoundary.prototype.constructor = CircleBoundary;
 
 CircleBoundary.prototype.display = function (ctx) {
     "use strict";
-    ctx.fillStyle = this.color.ToHex();
+    ctx.fillStyle = this.color.toHex();
     ctx.fillRect(this.x - this.boxW / 2,
                  this.y - this.boxH / 2,
                  this.boxW, this.boxH);
@@ -37,4 +37,3 @@ CircleBoundary.prototype.update = function () {
         e.applyForce(force);
     }
 };
-
