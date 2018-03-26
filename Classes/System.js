@@ -116,7 +116,7 @@ ECSModule.System = (function() {
         this.componentsname = componentname;
         this.timeRez = timeRez || 0;
         this.nodes = [];
-        console.log("Parent");
+        // console.log("Parent");
     };
 
 

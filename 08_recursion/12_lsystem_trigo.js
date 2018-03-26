@@ -4,8 +4,16 @@ var LSystemScene = function() {
     "use strict";
     Scene.call(this);
     this.intro("LSystem");
-    var w = this.size.x,
+    this.initNewLSystem();
+    this.addUpdatCallback(this, this.initNewLSystem, 500);
+};
+System.extends(LSystemScene, Scene);
+
+LSystemScene.prototype.initNewLSystem = function() {
+    "use strict";
+    let w = this.size.x,
         h = this.size.y;
+
 
     // Koch snowflake
     // this.lsystem = new LSystem('F++F++F', {F: 'F-F++F-F'}, 2, Math.PI / 3, w / 2, h / 2);
@@ -33,12 +41,12 @@ var LSystemScene = function() {
         .addRule('F', 'FF-[-F+F+F+F]+[+F-F-F-F]', 0.3)
         .addRule('F', 'FFF-[-F+F]+[+F-F]', 0.4)
         .generate(4);
-
+    
     this.turtle = new ECSModule.TurtleRenderer(this, this.lsystem);
-};
-System.extends(LSystemScene, Scene);
+}
 
 LSystemScene.prototype.loop = function() {
+    "use strict";
     Scene.prototype.loop.call(this);
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.turtle.render(this.ctx);
