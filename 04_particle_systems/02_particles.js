@@ -1,6 +1,6 @@
 /*global Scene, Emitter, Mover, MouseEvtListener, Gravity, Vector2*/
 //*************************************************
-var ParticlesScene = function (options) {
+let ParticlesScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Particles", "Touch to move the emitter.");

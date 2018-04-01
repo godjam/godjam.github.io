@@ -1,12 +1,12 @@
 /*global toxi, ToxiParticle, Vec2D, VerletSpring2D, Color, Tools*/
-var ToxiCreature = function(position, physics) {
+let ToxiCreature = function(position, physics) {
     "use strict";
 
     if (position instanceof toxi.geom.Vec2D === false) {
         throw "Cluster.constructor : position is not a Vec2D";
     }
 
-    var i = 0,
+    let i = 0,
         j = 0,
         particle = null,
         spring = null,
@@ -36,9 +36,9 @@ var ToxiCreature = function(position, physics) {
         // add springs between all particles
         if (i > 0) {
             for (j = i - 1; j >= 0; j -= 1) {
-                var dX = this.body[i].p.x - this.body[j].p.x;
-                var dY = this.body[i].p.y - this.body[j].p.y;
-                var d = Math.sqrt(dX * dX + dY * dY);
+                let dX = this.body[i].p.x - this.body[j].p.x;
+                let dY = this.body[i].p.y - this.body[j].p.y;
+                let d = Math.sqrt(dX * dX + dY * dY);
                 spring = new VerletSpring2D(this.body[i].p, this.body[j].p, d, strength);
                 physics.addSpring(spring);
             }
@@ -47,7 +47,7 @@ var ToxiCreature = function(position, physics) {
 
     // tentacles
     for (i = 0; i < 5; i += 1) {
-        var tail = [];
+        let tail = [];
         for (j = 0; j < tailLength; j += 1) {
             point.x = position.x;
             point.y = position.y + 10;
@@ -67,7 +67,7 @@ var ToxiCreature = function(position, physics) {
 
 ToxiCreature.prototype.display = function(ctx) {
     "use strict";
-    var c = new Vec2D(0, 0),
+    let c = new Vec2D(0, 0),
         s = null,
         i = 0,
         m = 0,
@@ -80,8 +80,8 @@ ToxiCreature.prototype.display = function(ctx) {
         s = this.physics.springs[i];
         m = (s.a.x + s.b.x) / 2;
         n = (s.a.y + s.b.y) / 2;
-        var dx = s.a.x - s.b.x;
-        var dy = s.a.y - s.b.y;
+        let dx = s.a.x - s.b.x;
+        let dy = s.a.y - s.b.y;
         l = Math.sqrt(dx * dx + dy * dy);
         ctx.beginPath();
         ctx.arc(m, n, l / 4, 0, Math.PI * 2);

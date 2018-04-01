@@ -1,6 +1,6 @@
 /*global Scene, MouseEvtListener, Vehicle, Vector2, Flowfield, Path, Tools*/
 //*************************************************
-var VehiclesSystemScene = function (options) {
+let VehiclesSystemScene = function (options) {
     "use strict";
     Scene.call(this, options);
     if (options === undefined) {
@@ -18,9 +18,9 @@ var VehiclesSystemScene = function (options) {
     this.path = null;
 
     this.initScene();
-    var i = 0;
+    let i = 0;
     for (i = 0; i < 150; i += 1) {
-        var v = new Vehicle(this, Math.random() * this.size.x, Math.random() * this.size.y);;
+        let v = new Vehicle(this, Math.random() * this.size.x, Math.random() * this.size.y);;
         this.vehicles.push(v);
     }
     this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt));
@@ -31,7 +31,7 @@ VehiclesSystemScene.prototype.constructor = VehiclesSystemScene;
 
 VehiclesSystemScene.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
 
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
@@ -113,7 +113,7 @@ VehiclesSystemScene.prototype.mouseStartEvt = function (position) {
 };
 
 VehiclesSystemScene.prototype.initScene = function () {
-    var a = 0;
+    let a = 0;
 
     if (this.options.behavior_type === 0) {
         this.intro("Behavior: Flee", "Vehicles will flee from touch point.");
@@ -216,7 +216,7 @@ VehiclesSystemScene.prototype.updatePathFollowing = function (i) {
 };
 
 VehiclesSystemScene.prototype.updateCohesion = function (i) {
-    var vehicles = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+    let vehicles = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
     this.vehicles[i].cohesion(vehicles);
 };
 
@@ -224,17 +224,17 @@ VehiclesSystemScene.prototype.updatePathSeparation = function (i) {
     if (this.path) {
         this.vehicles[i].pathFollowing(this.path);
     }
-    var vehicles = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].avoidanceRadius);
+    let vehicles = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].avoidanceRadius);
     this.vehicles[i].separate(vehicles);
 };
 
 VehiclesSystemScene.prototype.updateSeekSeparate = function (i) {
-    var v = this.field.get(this.vehicles[i].mover.location.x, this.vehicles[i].mover.location.y);
+    let v = this.field.get(this.vehicles[i].mover.location.x, this.vehicles[i].mover.location.y);
     if (v) {
         v.x = Tools.clamp(v.x + 1, 1, 5);
         v.y = Tools.clamp(v.y + 1, 0, 5);
 
-        var vehicles = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].avoidanceRadius);
+        let vehicles = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].avoidanceRadius);
         this.vehicles[i].separate(vehicles, v.x);
         if (this.target) {
             this.vehicles[i].pursuit(this.target, this.targetSpeed, v.y);
@@ -245,8 +245,8 @@ VehiclesSystemScene.prototype.updateSeekSeparate = function (i) {
 };
 
 VehiclesSystemScene.prototype.updateFlock = function (i) {
-    var vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
-    var vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
+    let vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+    let vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
     this.vehicles[i].separate(vehiclesRange, 1.5);
     this.vehicles[i].align(vehiclesView, 1);
     this.vehicles[i].cohesion(vehiclesView, 1);
@@ -254,8 +254,8 @@ VehiclesSystemScene.prototype.updateFlock = function (i) {
 };
 
 VehiclesSystemScene.prototype.updateFlockPath = function (i) {
-    var vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
-    var vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
+    let vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+    let vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
     this.vehicles[i].separate(vehiclesRange, 1.5);
     this.vehicles[i].align(vehiclesView);
     this.vehicles[i].cohesion(vehiclesView, 0.5);
@@ -263,8 +263,8 @@ VehiclesSystemScene.prototype.updateFlockPath = function (i) {
 };
 
 VehiclesSystemScene.prototype.updateFlockView = function (i) {
-    var vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
-    var vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
+    let vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+    let vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
     this.vehicles[i].separate(vehiclesRange, 1.5);
     this.vehicles[i].align(vehiclesView, 1);
     this.vehicles[i].cohesion(vehiclesView, 0.5);
@@ -273,13 +273,13 @@ VehiclesSystemScene.prototype.updateFlockView = function (i) {
 
 
 VehiclesSystemScene.prototype.updateFlockView2 = function (i) {
-    var v = this.field.get(this.vehicles[i].mover.location.x, this.vehicles[i].mover.location.y);
+    let v = this.field.get(this.vehicles[i].mover.location.x, this.vehicles[i].mover.location.y);
     if (v) {
         v.x = Tools.clamp(v.x + 1, 1, 5);
         v.y = Tools.clamp(v.y + 1, 0, 5);
 
-        var vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
-        var vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
+        let vehiclesRange = this.vehicles[i].getVehiclesInRange(this.vehicles, this.vehicles[i].viewRadius);
+        let vehiclesView = this.vehicles[i].getVehiclesInFOV(vehiclesRange, this.vehicles[i].viewRadius);
         this.vehicles[i].separate(vehiclesRange, 1.5);
         this.vehicles[i].align(vehiclesView, v.x);
         this.vehicles[i].cohesion(vehiclesView, v.y);

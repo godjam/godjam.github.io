@@ -1,5 +1,5 @@
 /*global Scene, Mover, VirtualDPad, Vector2 */
-var MoverAccelerationScene = function (options) {
+let MoverAccelerationScene = function (options) {
     "use strict";
     Scene.call(this, options);
     this.intro("Mover: Acceleration", "Use the virtual pad or the arrow keys to accelerate the mover.");

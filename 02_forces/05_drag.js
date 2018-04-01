@@ -1,11 +1,11 @@
 /*global Scene, Mover, Gravity, Liquid, ActiveArea*/
 //*************************************************
-var DragForceScene = function (options) {
+let DragForceScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Drag force", "TODO : touch to add new movers");
 
-    var i = 0,
+    let i = 0,
         w = this.size.x,
         h = this.size.y,
         m = Math.max(10, w / 50),
@@ -26,7 +26,7 @@ DragForceScene.prototype.constructor =  DragForceScene;
 DragForceScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    var i = 0;
+    let i = 0;
     for (i = 0; i < this.movers.length; i += 1) {
         this.liquid.applyOn(this.movers[i]);
         this.gravity.applyOn(this.movers[i]);

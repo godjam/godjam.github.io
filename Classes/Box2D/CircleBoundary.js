@@ -1,7 +1,7 @@
 /*global Box2dEntity, Circle, B2KinematicBody */
-var CircleBoundary = function (scene, world, scale) {
+let CircleBoundary = function (scene, world, scale) {
     "use strict";
-    var x = scene.size.x / 2,
+    let x = scene.size.x / 2,
         y = scene.size.y / 2,
         b = null;
 
@@ -25,7 +25,7 @@ CircleBoundary.prototype.display = function (ctx) {
 
 CircleBoundary.prototype.update = function () {
     "use strict";
-    var i = 0,
+    let i = 0,
         force = null,
         e = null,
         b = this.getEntityByName("b");

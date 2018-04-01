@@ -1,5 +1,5 @@
 /*global Mover, Vector2, Flowfield, Path, Color*/
-var Vehicle = function(scene, x, y) {
+let Vehicle = function(scene, x, y) {
     "use strict";
     this.r = Math.max(scene.size.x / 100, 5);
     this.mover = new Mover(x, y, scene, 1);
@@ -44,7 +44,7 @@ Vehicle.prototype.setDesiredTarget = function(radius) {
         radius = 0;
     }
 
-    var desiredMag = this.desired.magSq(),
+    let desiredMag = this.desired.magSq(),
         speed = this.maxSpeed;
     this.desired.normalizeInPlace();
 
@@ -64,7 +64,7 @@ Vehicle.prototype.setDesiredTarget = function(radius) {
 
 Vehicle.prototype.applyDesiredTarget = function(radius, weight) {
     "use strict";
-    var steer = this.setDesiredTarget(radius);
+    let steer = this.setDesiredTarget(radius);
     if (steer) {
         if (weight && weight !== 1) {
             steer.multInPlace(weight);
@@ -108,7 +108,7 @@ Vehicle.prototype.pursuit = function(target, targetSpeed, weight) {
 
 Vehicle.prototype.wandering = function(weight) {
     "use strict";
-    var steps = 5,
+    let steps = 5,
         radius = 30;
     // desired location (position relative) is actual position + 10 times the velocity
     this.desired.x = this.mover.velocity.x;
@@ -123,7 +123,7 @@ Vehicle.prototype.wandering = function(weight) {
 
 Vehicle.prototype.avoidWalls = function(weight) {
     "use strict";
-    var threshold = this.viewRadius,
+    let threshold = this.viewRadius,
         f = this.maxSpeed * 10,
         d = threshold;
 
@@ -152,7 +152,7 @@ Vehicle.prototype.avoidWalls = function(weight) {
 
 Vehicle.prototype.goCenter = function(weight) {
     "use strict";
-    var size = this.mover.scene.size;
+    let size = this.mover.scene.size;
     this.desired.x = size.x / 2 - this.mover.location.x;
     this.desired.y = size.y / 2 - this.mover.location.y;
     return this.applyDesiredTarget(0, weight)
@@ -164,7 +164,7 @@ Vehicle.prototype.flowFieldFollowing = function(flowfield, weight) {
         throw "Vehicle.flowFieldFollowing : flowField is not a FlowField";
     }
     // get right field coords
-    var t = flowfield.get(this.mover.location.x, this.mover.location.y);
+    let t = flowfield.get(this.mover.location.x, this.mover.location.y);
     if (t) {
        this.desired.x = t.x;
        this.desired.y = t.y;
@@ -180,7 +180,7 @@ Vehicle.prototype.pathFollowing = function(path, weight) {
     }
 
     // predict position
-    var i = 0, rx = 0, ry = 0,
+    let i = 0, rx = 0, ry = 0,
         a = null, b = null,
         target = null,
         normalPoint = null,
@@ -238,7 +238,7 @@ Vehicle.prototype.getNormalPoint = function(p, a, b) {
     if (b instanceof Vector2 === false) {
         throw "Vehicle.getNormalPoint : b is not a Vector2";
     }
-    var ap = p.sub(a),
+    let ap = p.sub(a),
         ab = b.sub(a),
         normalPoint = a.add(Vector2.getScalarProjection(ap, ab));
     return normalPoint;
@@ -246,7 +246,7 @@ Vehicle.prototype.getNormalPoint = function(p, a, b) {
 
 Vehicle.prototype.separate = function(vehicles, weight) {
     "use strict";
-    var i = 0,
+    let i = 0,
         c = 0,
         loc = this.mover.location;
 
@@ -271,7 +271,7 @@ Vehicle.prototype.separate = function(vehicles, weight) {
 
 Vehicle.prototype.align = function(vehicles, weight) {
     "use strict";
-    var i = 0,
+    let i = 0,
         c = 0;
 
     this.desired.set(0, 0);
@@ -288,7 +288,7 @@ Vehicle.prototype.align = function(vehicles, weight) {
 
 Vehicle.prototype.cohesion = function(vehicles, weight) {
     "use strict";
-    var i = 0,
+    let i = 0,
         c = 0;
 
     this.tmp.set(0, 0);
@@ -305,7 +305,7 @@ Vehicle.prototype.cohesion = function(vehicles, weight) {
 
 Vehicle.prototype.view = function(vehicles, weight) {
     "use strict";
-    var i = 0,
+    let i = 0,
         a = 0,
         max = Number.MAX_VALUE,
         l = max,
@@ -340,7 +340,7 @@ Vehicle.prototype.view = function(vehicles, weight) {
 
 Vehicle.prototype.getVehiclesInRange = function(vehicles, range) {
     "use strict";
-    var i = 0;
+    let i = 0;
 
     this.listInRange = [];
     for (i = 0; i < vehicles.length; i += 1) {
@@ -362,7 +362,7 @@ Vehicle.prototype.getVehiclesInRange = function(vehicles, range) {
 
 Vehicle.prototype.getVehiclesInFOV = function(vehicles, range, ctx) {
     "use strict";
-    var i = 0,
+    let i = 0,
         loc = this.mover.location,
         heading = this.mover.velocity.heading(),
         a = 0, aMin = 0, aMax = 0;
@@ -399,7 +399,7 @@ Vehicle.prototype.display = function(ctx) {
     ctx.fillStyle = this.fillStyle;
     ctx.strokeStyle = this.fillStyle;
 
-    var theta = this.mover.velocity.heading() + Math.PI / 2;
+    let theta = this.mover.velocity.heading() + Math.PI / 2;
     ctx.save();
     ctx.translate(this.mover.location.x, this.mover.location.y);
     ctx.rotate(theta);
@@ -435,7 +435,7 @@ Vehicle.prototype.display = function(ctx) {
 
 Vehicle.prototype.displayAsNetwork = function(ctx) {
     "use strict";
-    var i = 0,
+    let i = 0,
         list = this.listInFov;
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = this.fillStyle;

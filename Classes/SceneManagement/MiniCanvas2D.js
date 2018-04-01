@@ -3,7 +3,9 @@ let MiniCanvas2D = function (canvasID, sceneKey, options) {
     'use strict';
     // init
     CanvasManager.call(this, canvasID, sceneKey, options);
-    this.listenToevents = false;
+    this.listenToEvents = false;
+    this.fps = 30;
+    this.nextInterval = 0.05;
 
     // size
     this.size = this.size = this.getCanvasSize();

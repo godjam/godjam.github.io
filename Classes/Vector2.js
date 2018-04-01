@@ -19,7 +19,7 @@ function Vector2(x, y) {
 
 Vector2.create2D = function () {
 	"use strict";
-    var x = Math.random() * 2 - 1,
+    let x = Math.random() * 2 - 1,
         y = Math.random() * 2 - 1,
         v = new Vector2(x, y);
     return v.normalizeInPlace();
@@ -151,7 +151,7 @@ Vector2.distance = function (v1, v2) {
     if (v1 instanceof Vector2 === false || v2 instanceof Vector2 === false) {
         throw "Vector2.dist : v1 or v2 is not a Vector2";
     }
-    var sub = v2.sub(v1);
+    let sub = v2.sub(v1);
     return Math.sqrt(sub.x * sub.x + sub.y * sub.y);
 };
 
@@ -160,13 +160,13 @@ Vector2.distanceSq = function (v1, v2) {
     if (v1 instanceof Vector2 === false || v2 instanceof Vector2 === false) {
         throw "Vector2.dist : v1 or v2 is not a Vector2";
     }
-    var sub = v2.sub(v1);
+    let sub = v2.sub(v1);
     return sub.x * sub.x + sub.y * sub.y;
 };
 
 Vector2.prototype.normalize = function () {
 	"use strict";
-    var l = this.mag();
+    let l = this.mag();
     if (l !== 0) {
         return new Vector2(this.x / l, this.y / l);
     } else {
@@ -176,7 +176,7 @@ Vector2.prototype.normalize = function () {
 
 Vector2.prototype.normalizeInPlace = function () {
 	"use strict";
-    var l = this.mag();
+    let l = this.mag();
     if (l !== 0) {
         this.divInPlace(l);
         return this;
@@ -205,7 +205,7 @@ Vector2.prototype.constrainLength = function (min, max) {
     if (typeof max !== 'number') {
         throw "Vector2.constrainLength : param 2 is not a scalar";
     }
-    var d = this.mag();
+    let d = this.mag();
     if (d < min) {
         this.normalizeInPlace();
         this.multInPlace(min);
@@ -245,7 +245,7 @@ Vector2.prototype.rotateInPlace = function (radian, center) {
     if (center instanceof Vector2 === false) {
         throw "Vector2.rotate : param 2 is not a Vector2";
     }
-    var copy = this.rotate(radian, center);
+    let copy = this.rotate(radian, center);
     this.x = copy.x;
     this.y = copy.y;
     return this;
@@ -262,7 +262,7 @@ Vector2.prototype.rotate = function (radian, center) {
     if (center instanceof Vector2 === false) {
         throw "Vector2.rotate : param 2 is not a Vector2";
     }
-    var copy = this.sub(center),
+    let copy = this.sub(center),
         cs = Math.cos(radian),
         sn = Math.sin(radian),
         px = copy.x * cs - copy.y * sn,
@@ -274,7 +274,7 @@ Vector2.prototype.rotate = function (radian, center) {
 
 Vector2.prototype.rotateInPlace90 = function (dir) {
 	"use strict";
-	var x = this.x;
+	let x = this.x;
     if (dir > 0) {
         this.x = -this.y;
         this.y = x;
@@ -292,7 +292,7 @@ Vector2.prototype.heading = function () {
 
 Vector2.fromPolar = function (r, theta) {
     "use strict";
-    var v = new Vector2();
+    let v = new Vector2();
     v.fromPolar(r, theta);
     return v;
 };
@@ -328,7 +328,7 @@ Vector2.getAngleBetween = function (v1, v2) {
     if (v2 instanceof Vector2 === false) {
         throw "Vector2.dot : v2 is not a Vector2";
     }
-    var dot = v1.dot(v2);
+    let dot = v1.dot(v2);
     return Math.acos(dot / (v1.mag() * v2.mag()));
 };
 
@@ -340,7 +340,7 @@ Vector2.getScalarProjection = function (v1, v2) {
     if (v2 instanceof Vector2 === false) {
         throw "Vector2.getScalarProjection : v2 is not a Vector2";
     }
-    var projection = null;
+    let projection = null;
     // b is now a vector of length 1
     v2.normalizeInPlace();
     // b has now a length of the projection point

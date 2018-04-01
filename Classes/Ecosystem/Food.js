@@ -1,5 +1,5 @@
 /*global Mover, Color, Vector2*/
-var Food = function (scene) {
+let Food = function (scene) {
     "use strict";
     Mover.call(this, 0, 0, scene, 10);
     this.initRandomly();

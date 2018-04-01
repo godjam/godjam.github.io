@@ -1,5 +1,5 @@
 /*global FrameLoop, THREE, Vector2*/
-var MainCanvas2D = function (isDark) {
+let MainCanvas2D = function (isDark) {
     'use strict';
     let container = document.getElementById('main-container');
     this.canvas = document.createElement('canvas');

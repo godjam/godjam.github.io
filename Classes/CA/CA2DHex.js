@@ -2,7 +2,7 @@
 
 // http://blog.ruslans.com/2011/02/hexagonal-grid-math.html
 // http://www.redblobgames.com/grids/hexagons/ (nice!)
-var CA2DHex = function (columns, lines, scene) {
+let CA2DHex = function (columns, lines, scene) {
     "use strict";
     this.directions = [
         new Vector2(1, 1), // "se"
@@ -27,7 +27,7 @@ CA2DHex.prototype.constructor = CA2DHex;
 
 CA2DHex.prototype.toPix = function (hex, cellsize) {
     "use strict";
-    var pix = new Vector2();
+    let pix = new Vector2();
     pix.y = hex.x % 2 === 0 ? (hex.y * cellsize.y) : (hex.y * cellsize.y) + (cellsize.y / 2);
     pix.x = (hex.x * this.cellside);
     return pix;
@@ -36,7 +36,7 @@ CA2DHex.prototype.toPix = function (hex, cellsize) {
 CA2DHex.prototype.toGrid = function (position) {
     "use strict";
 
-    var hex = new Vector2();
+    let hex = new Vector2();
     hex.x = (position.x) / this.cellside;
     hex.y = hex.x % 2 === 0
             ? (position.y) / this.cellsize.y
@@ -53,7 +53,7 @@ CA2DHex.prototype.getNeighborCells = function (p) {
         throw "CA2D.getNeighborCells : p is not a Vector2";
     }
 
-    var i = 0, cell = null, cells = [], x = 0, y = 0;
+    let i = 0, cell = null, cells = [], x = 0, y = 0;
     for (i = 0; i < this.directions.length; i += 1) {
         // x calc
         x = p.x + this.directions[i].x;
@@ -96,7 +96,7 @@ CA2DHex.prototype.applyRule = function (currentState, neighborhood) {
 
 CA2DHex.prototype.display = function (ctx) {
     "use strict";
-    var i = 0;
+    let i = 0;
     // heaxagon parameters (TODO : only on resize)
     this.cellsize.x = (this.scene.size.x / this.columns) * 4 / 3;
     this.cellradius = this.cellsize.x / 2;
@@ -122,7 +122,7 @@ CA2DHex.prototype.displayCell = function (ctx, cell) {
     }
 
     // alive
-    var color = this.colormap.get(0),
+    let color = this.colormap.get(0),
         position = this.toPix(cell.pos, this.cellsize);
 
     // dead

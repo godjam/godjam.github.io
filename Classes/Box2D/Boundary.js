@@ -1,9 +1,9 @@
 /*global Box2dEntity, Box, B2StaticBody */
-var Boundary = function (scene, world, scale) {
+let Boundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
 
-    var x0 = scene.size.x / 2,
+    let x0 = scene.size.x / 2,
         x1 = scene.size.x / 4,
         x2 = scene.size.x / 4 * 3,
         y0 = scene.size.y / 3 * 2,

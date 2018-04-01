@@ -1,12 +1,12 @@
 /*global Box2dEntity, Circle, Box, console*/
-var Car = function (x, y, scene, world, scale) {
+let Car = function (x, y, scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, x, y, scene, world, scale);
     this.motorSpeed = 15;
     this.motorTorque = 600;
     this.t = 0;
     
-    var carW = 50,
+    let carW = 50,
         carH = 25,
         wheelR = 16,
         chassis = new Box(x, y, scene, world, scale, carW, carH),

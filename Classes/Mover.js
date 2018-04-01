@@ -84,7 +84,7 @@ Mover.prototype.displayAsSmoke = function (ctx) {
     // x1: The x axis of the nate of the end circle.
     // y1: The y axis of the coordinate of the end circle.
     // r1: The radius of the end circle.
-    var x = this.location.x,
+    let x = this.location.x,
         y = this.location.y,
         m = this.mass * 3,
         c = this.color,
@@ -117,7 +117,7 @@ Mover.prototype.display = function (ctx) {
 	this.location.x = ~~ this.location.x;
 	this.location.y = ~~ this.location.y;
 
-    var o = new Vector2(),
+    let o = new Vector2(),
         scale = this.mass,
         l1 = this.p1.rotate(this.angle, o),
         l2 = this.p2.rotate(this.angle, o),
@@ -190,7 +190,7 @@ Mover.prototype.applyTorque = function (angularAcceleration) {
         throw "Vector2.applyTorque : param 1 is not a scalar";
     }
     this.useAngularAcceleration = true;
-    var appliedForce = angularAcceleration / this.mass;
+    let appliedForce = angularAcceleration / this.mass;
     this.angularAcceleration += appliedForce;
 };
 
@@ -239,7 +239,7 @@ Mover.prototype.attract = function (mover, G) {
         G = 1;
     }
 
-    var force = this.location.sub(mover.location), // diff
+    let force = this.location.sub(mover.location), // diff
         dist = force.mag(),
         strength = 0;
 

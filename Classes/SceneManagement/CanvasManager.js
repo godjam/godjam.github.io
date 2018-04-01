@@ -3,7 +3,9 @@ let CanvasManager = function (canvasID, sceneKey, options) {
     'use strict';
     // visibility
     this.isVisible = false;
-    this.listenToevents = true;
+    this.listenToEvents = true;
+    this.fps = 60;
+    this.nextInterval = 0;
 
     // canvas
     this.canvas = document.getElementById(canvasID);
@@ -64,5 +66,7 @@ CanvasManager.prototype.resize = function () {
 
 CanvasManager.prototype.stop = function () {
     'use strict';
+    this.canvas.clearRect(0, 0, this.size.x, this.size.y);
+    this.stopScene();
     this.observer.unobserve();
 };

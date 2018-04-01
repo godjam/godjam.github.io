@@ -1,5 +1,5 @@
 /*global Array2D, Vehicle*/
-var BinLatSpatialSubdiv = function (cols, rows, worldW, worldH) {
+let BinLatSpatialSubdiv = function (cols, rows, worldW, worldH) {
     "use strict";
     this.cols = cols;
     this.rows = rows;
@@ -11,7 +11,7 @@ var BinLatSpatialSubdiv = function (cols, rows, worldW, worldH) {
 
 BinLatSpatialSubdiv.prototype.clear = function () {
     "use strict";
-    var i = 0,
+    let i = 0,
         j = 0,
         v = null;
 
@@ -29,7 +29,7 @@ BinLatSpatialSubdiv.prototype.add = function (vehicle) {
         throw "BinLatSpatialSubdiv.add : vehicle is not a Vehicle";
     }
 
-    var resolutionX = this.worldW / this.cols,
+    let resolutionX = this.worldW / this.cols,
         resolutionY = this.worldH / this.rows,
         i = ~~(vehicle.mover.location.x / resolutionX),
         j = ~~(vehicle.mover.location.y / resolutionY),
@@ -45,7 +45,7 @@ BinLatSpatialSubdiv.prototype.getNeighbors = function (vehicle) {
         throw "BinLatSpatialSubdiv.add : vehicle is not a Vehicle";
     }
 
-    var resolutionX = this.worldW / this.cols,
+    let resolutionX = this.worldW / this.cols,
         resolutionY = this.worldH / this.rows,
         i = ~~(vehicle.mover.location.x / resolutionX),
         j = ~~(vehicle.mover.location.y / resolutionY);
@@ -57,7 +57,7 @@ BinLatSpatialSubdiv.prototype.getNeighbors = function (vehicle) {
 BinLatSpatialSubdiv.prototype.display = function (ctx) {
     "use strict";
 
-    var i = 0, j = 0, v = null, x = 0, y = 0,
+    let i = 0, j = 0, v = null, x = 0, y = 0,
         scaleX = this.worldW / this.cols,
         scaleY = this.worldH / this.rows;
 

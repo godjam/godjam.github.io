@@ -1,5 +1,5 @@
 /*global Scene, Tools, Mover*/
-var SinusoidalOcillationScene = function (options) {
+let SinusoidalOcillationScene = function (options) {
     "use strict";
     Scene.call(this, options);
     this.intro("Spring emulation");
@@ -15,7 +15,7 @@ SinusoidalOcillationScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.t += 0.01;
-    var w = this.size.x / 2;
+    let w = this.size.x / 2;
     this.mover.location.x = w + w * Math.cos(Math.PI * 2 * this.t);
     this.mover.location.y = Math.abs(w * Math.sin(Math.PI * 2 * this.t));
     

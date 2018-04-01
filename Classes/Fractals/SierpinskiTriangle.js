@@ -1,6 +1,6 @@
 /*global Vector2, ColorMap, Color*/
 //******************************************************************************
-var SpkTriangle = function (scene, x, y, r, d) {
+let SpkTriangle = function (scene, x, y, r, d) {
     "use strict";
 
     this.scene = scene;
@@ -12,7 +12,7 @@ var SpkTriangle = function (scene, x, y, r, d) {
     this.list = [];
     this.maxdepth = d;
     this.colormap = new ColorMap(Color.createBrightColor(), Color.createBrightColor(), 20);
-    var center = new Vector2(x, y),
+    let center = new Vector2(x, y),
         p1 = Vector2.fromPolar(r, 2 * Math.PI / 3).addInPlace(center),
         p2 = Vector2.fromPolar(r, 4 * Math.PI / 3).addInPlace(center),
         p3 = Vector2.fromPolar(r, 0).addInPlace(center);
@@ -22,7 +22,7 @@ var SpkTriangle = function (scene, x, y, r, d) {
 
 SpkTriangle.prototype.generate = function (p1, p2, p3, d) {
     "use strict";
-    var next = [], a, b, c;
+    let next = [], a, b, c;
 
     // add triplets
     next.push(p1);
@@ -44,7 +44,7 @@ SpkTriangle.prototype.generate = function (p1, p2, p3, d) {
 
 SpkTriangle.prototype.display = function (ctx) {
     "use strict";
-    var i = 0;
+    let i = 0;
     for(i = 0; i < this.list.length; i += 1) {
         ctx.beginPath();
         ctx.fillStyle = this.colormap.getByVal(i, this.list.length).rgba();
@@ -58,7 +58,7 @@ SpkTriangle.prototype.display = function (ctx) {
 
 SpkTriangle.prototype.getMiddlePoint = function (p1, p2) {
     "use strict";
-    var b = p2.sub(p1);
+    let b = p2.sub(p1);
     b.divInPlace(2);
     b.addInPlace(p1);
     return b;

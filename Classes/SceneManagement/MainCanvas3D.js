@@ -1,5 +1,5 @@
 /*global THREE, Vector2*/
-var MainCanvas3D = function (isDark) {
+let MainCanvas3D = function (isDark) {
     "use strict";
 
     // Threejs
@@ -10,7 +10,7 @@ var MainCanvas3D = function (isDark) {
     this.resize();
 
     // camera attributes
-    var VIEW_ANGLE = 30,
+    let VIEW_ANGLE = 30,
         ASPECT = this.size.x / this.size.y,
         NEAR = 0.1,
         FAR = 10000;

@@ -1,6 +1,6 @@
 /*global Scene, Emitter, Vector2, Attractor, MouseAttractor, Smoke*/
 //*************************************************
-var BlendParticlesScene = function (options) {
+let BlendParticlesScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.setDarkScene();

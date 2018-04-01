@@ -1,8 +1,8 @@
 /*global Vector2, Mover, Attractor, Tools*/
 //*************************************************
-var StrangeAttractor = function (width, heigth) {
+let StrangeAttractor = function (width, heigth) {
     "use strict";
-    var mass = 0.8 * Math.min(width, heigth) / 2,
+    let mass = 0.8 * Math.min(width, heigth) / 2,
         x = width / 2,
         y = heigth / 2;
     Attractor.call(this, x, y, mass, 10);
@@ -16,7 +16,7 @@ StrangeAttractor.prototype.applyOn = function (mover) {
         throw "Attractor.attract : param is not a Mover";
     }
 
-    var force = this.location.sub(mover.location), // diff
+    let force = this.location.sub(mover.location), // diff
         dist = force.mag(),
         strength = 0;
     force.normalizeInPlace();
@@ -27,7 +27,7 @@ StrangeAttractor.prototype.applyOn = function (mover) {
 
 StrangeAttractor.prototype.display = function (ctx) {
 	"use strict";
-    var size = 40;
+    let size = 40;
     // heptagon
     Tools.drawPoly(ctx, this.location.x, this.location.y, 7, size);
     ctx.lineWidth = 3;

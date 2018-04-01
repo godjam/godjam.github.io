@@ -1,5 +1,5 @@
 /*global Array2D, Cell, Vector2, ColorMap, Color*/
-var CA2D = function (columns, lines, scene) {
+let CA2D = function (columns, lines, scene) {
     "use strict";
     this.columns = columns;
     this.lines = lines;
@@ -17,7 +17,7 @@ var CA2D = function (columns, lines, scene) {
 
 CA2D.prototype.init = function () {
     "use strict";
-    var x = 0, y = 0;
+    let x = 0, y = 0;
     this.grid = new Array2D(this.columns, this.lines);
 
     for (x = 0; x < this.columns; x += 1) {
@@ -30,7 +30,7 @@ CA2D.prototype.init = function () {
 
 CA2D.prototype.firstAdd = function () {
     "use strict";
-     var i = 0, j = 0;
+     let i = 0, j = 0;
     i = Math.floor(this.columns / 2);
     j = Math.floor(this.lines / 2);
     this.addPattern("lighweight spaceship", i, j);
@@ -38,7 +38,7 @@ CA2D.prototype.firstAdd = function () {
 
 CA2D.prototype.randomize = function () {
     "use strict";
-    var c = 0, cells = this.grid.getValues();
+    let c = 0, cells = this.grid.getValues();
     for (c = 0; c < cells.length; c += 1) {
         cells[c].state = Math.round(Math.random());
     }
@@ -46,7 +46,7 @@ CA2D.prototype.randomize = function () {
 
 CA2D.prototype.uniformize = function (value) {
     "use strict";
-    var c = 0, cells = this.grid.getValues();
+    let c = 0, cells = this.grid.getValues();
     for (c = 0; c < cells.length; c += 1) {
         //cells[c].state = value;
         cells[c].state = (c / cells.length);
@@ -55,7 +55,7 @@ CA2D.prototype.uniformize = function (value) {
 
 CA2D.prototype.addDot = function (x, y) {
     "use strict";
-    var c = 0, cells = this.getNeighborCells(new Vector2(x, y), false);
+    let c = 0, cells = this.getNeighborCells(new Vector2(x, y), false);
     for (c = 0; c < cells.length; c += 1) {
         cells[c].state = 1;
     }
@@ -63,7 +63,7 @@ CA2D.prototype.addDot = function (x, y) {
 
 CA2D.prototype.addPattern = function (name, x, y) {
     "use strict";
-    var i = 0, j = 0, pw = 0, ph = 0, pattern = [[]];
+    let i = 0, j = 0, pw = 0, ph = 0, pattern = [[]];
 
     if (name === "block") {
         pattern = [[1, 1],
@@ -129,7 +129,7 @@ CA2D.prototype.addPattern = function (name, x, y) {
 
 CA2D.prototype.update = function () {
     "use strict";
-    var c = 0, k = 0, neighborhood = 0, neighbors = 0,
+    let c = 0, k = 0, neighborhood = 0, neighbors = 0,
     v = 0, cells = null, cell = null, neightbor = null;
 
     cells = this.grid.getValues();
@@ -174,7 +174,7 @@ CA2D.prototype.applyRule = function (currentState, neighborhood) {
 
 CA2D.prototype.addCells = function (position, pointers) {
     "use strict";
-    var i = 0, c = 0, tile = new Vector2(),
+    let i = 0, c = 0, tile = new Vector2(),
         cells = [];
 
     for (i = 0; i < pointers.length; i += 1) {
@@ -201,7 +201,7 @@ CA2D.prototype.getNeighborCells = function (p, isToric) {
         throw "CA2D.getNeighborCells : isToric is not a boolean";
     }
 
-    var i = 0, j = 0, cell = null, cells = [], x = 0, y = 0;
+    let i = 0, j = 0, cell = null, cells = [], x = 0, y = 0;
     for (i = -1; i <= 1; i += 1) {
         for (j = -1; j <= 1; j += 1) {
             if (i !== 0 || j !== 0) {
@@ -221,7 +221,7 @@ CA2D.prototype.getNeighborCells = function (p, isToric) {
 
 CA2D.prototype.toPix = function (tile, cellsize) {
     "use strict";
-    var pix = new Vector2();
+    let pix = new Vector2();
     pix.x = cellsize.x * tile.x;
     pix.y = cellsize.y * tile.y;
     return pix;
@@ -229,7 +229,7 @@ CA2D.prototype.toPix = function (tile, cellsize) {
 
 CA2D.prototype.toGrid = function (position, cellsize) {
     "use strict";
-    var grid = new Vector2();
+    let grid = new Vector2();
     grid.x = Math.round(position.x / cellsize.x) - 1;
     grid.y = Math.round(position.y / cellsize.y) - 1;
     return grid;
@@ -237,7 +237,7 @@ CA2D.prototype.toGrid = function (position, cellsize) {
 
 CA2D.prototype.display = function (ctx) {
     "use strict";
-    var i = 0;
+    let i = 0;
     // this.width is a cell's width/height
     this.cellsize.x = ~~(this.scene.size.x / this.columns);
     this.cellsize.y = ~~(this.scene.size.y / this.lines);
@@ -257,7 +257,7 @@ CA2D.prototype.displayCell = function (ctx, cell, cellsize) {
     }
 
     // alive
-    var color = this.colormap.get(0),
+    let color = this.colormap.get(0),
         position = this.toPix(cell.pos, cellsize);
 
     // dead

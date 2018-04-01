@@ -5,7 +5,7 @@
  * m : mass of the attractor
  * G : gravity constant (3 is a good value. If negative, the attractor is now a Repeller
  */
-var Attractor = function (x, y, m, G) {
+let Attractor = function (x, y, m, G) {
     "use strict";
     this.location = new Vector2(x, y);
     this.mass = m;
@@ -28,7 +28,7 @@ Attractor.prototype.applyOn = function (mover) {
         throw "Attractor.attract : param is not a Mover";
     }
 
-    var force = this.location.sub(mover.location), // diff
+    let force = this.location.sub(mover.location), // diff
         dist = force.mag(),
         strength = 0;
     force.normalizeInPlace();

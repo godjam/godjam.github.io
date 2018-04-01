@@ -1,9 +1,11 @@
 /*global THREE, Vector2*/
-var MiniCanvas3D = function (canvasID, sceneKey, options) {
+let MiniCanvas3D = function (canvasID, sceneKey, options) {
     "use strict";
     // init
     CanvasManager.call(this, canvasID, sceneKey, options);
-    this.listenToevents = false;
+    this.listenToEvents = false;
+    this.fps = 20;
+    this.nextInterval = 0.1;
 
     // size 
     this.size = this.getCanvasSize();
@@ -14,7 +16,7 @@ var MiniCanvas3D = function (canvasID, sceneKey, options) {
     this.scene = null;
 
     // camera attributes
-    var VIEW_ANGLE = 30,
+    let VIEW_ANGLE = 30,
         ASPECT = this.size.x / this.size.y,
         NEAR = 0.1,
         FAR = 10000;

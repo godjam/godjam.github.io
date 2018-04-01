@@ -1,5 +1,5 @@
 /*global Scene, Vector2, MouseEvtListener, Color, Tools*/
-var CanvasTestScene = function (options) {
+let CanvasTestScene = function (options) {
     "use strict";
     Scene.call(this, options);
     this.intro("Simple canvas experiment", "Reacts to pointer events with easing.");

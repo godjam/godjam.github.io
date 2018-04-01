@@ -101,6 +101,7 @@ SceneFactory.initMiniMenus = function () {
     SceneFactory.createMiniScene("03_12", "c_03_12");
     SceneFactory.createMiniScene("03_16", "c_03_16");
     SceneFactory.createMiniScene("ES_03", "c_ES_03");
+    
 }
 
 SceneFactory.parseURL = function () {

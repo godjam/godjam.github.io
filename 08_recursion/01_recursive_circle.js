@@ -1,10 +1,10 @@
 /*global Scene, Kochcurve, Vector2, ColorMap, Color*/
 //*************************************************
-var RecursiveCircleScene = function (options) {
+let RecursiveCircleScene = function (options) {
     "use strict";
     Scene.call(this, options);
     this.intro("Recursive Circles");
-    var center = new Vector2(this.size.x / 2, this.size.y / 2),
+    let center = new Vector2(this.size.x / 2, this.size.y / 2),
         r = Math.min(this.size.x, this.size.y) / 2 - 20,
         p1 = Vector2.fromPolar(r, 2 * Math.PI / 3).addInPlace(center),
         p2 = Vector2.fromPolar(r, 4 * Math.PI / 3).addInPlace(center),
@@ -23,7 +23,7 @@ RecursiveCircleScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.frameloop.display(this.ctx);
-    var s = 0.5 + Math.sin(this.theta) * 0.3;
+    let s = 0.5 + Math.sin(this.theta) * 0.3;
     this.theta += this.frameloop.delta / 2;
     if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }
 
@@ -61,7 +61,7 @@ RecursiveCircleScene.prototype.drawCircle = function (ctx, x, y, radius, d) {
 
 RecursiveCircleScene.prototype.cantor = function (ctx, x, y, len) {
     "use strict";
-    var height = 40;
+    let height = 40;
     ctx.beginPath();
     ctx.fillRect(x, y, len, height);
     //ctx.stroke();

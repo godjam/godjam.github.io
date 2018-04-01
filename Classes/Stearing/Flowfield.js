@@ -1,5 +1,5 @@
 /*global Array2D, toxi, Vector2, Tools*/
-var Flowfield = function (cols, rows, scene) {
+let Flowfield = function (cols, rows, scene) {
     "use strict";
     this.cols = cols;
     this.rows = rows;
@@ -13,7 +13,7 @@ var Flowfield = function (cols, rows, scene) {
 
 Flowfield.prototype.init = function () {
     "use strict";
-    var i = 0,
+    let i = 0,
         j = 0,
         v = null;
 
@@ -27,7 +27,7 @@ Flowfield.prototype.init = function () {
 
 Flowfield.prototype.updatePerlin = function () {
     "use strict";
-    var a = 0,
+    let a = 0,
         i = 0,
         j = 0,
         v = null;
@@ -49,7 +49,7 @@ Flowfield.prototype.updatePerlin = function () {
 
 Flowfield.prototype.get = function (xPix, yPix) {
     "use strict";
-    var scaleX = this.scene.size.x / this.cols,
+    let scaleX = this.scene.size.x / this.cols,
         scaleY = this.scene.size.y / this.rows,
         i = Tools.clamp(~~(xPix / scaleX), 0, this.cols - 1),
         j = Tools.clamp(~~(yPix / scaleY), 0, this.rows - 1);
@@ -62,7 +62,7 @@ Flowfield.prototype.display = function (ctx) {
 
     //ctx.fillStyle = "#eef";
     ctx.strokeStyle = "#def";
-    var i = 0, j = 0, v = null, x = 0, y = 0,
+    let i = 0, j = 0, v = null, x = 0, y = 0,
         scaleX = this.scene.size.x / this.cols,
         scaleY = this.scene.size.y / this.rows;
 

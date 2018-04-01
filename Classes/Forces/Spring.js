@@ -15,7 +15,7 @@ Spring.prototype.applyOn = function (mover) {
 
     this.location = mover.location;
 
-    var k = 0.1,
+    let k = 0.1,
         force = this.location.sub(this.anchor),
         currentLength = force.mag();
 
@@ -33,7 +33,7 @@ Spring.prototype.constrainLength = function (mover, minLength, maxLength) {
         throw "Spring.constrainLength : param is not a Mover";
     }
     //Vector pointing from Bob to Anchor
-    var dir = mover.location.sub(this.anchor),
+    let dir = mover.location.sub(this.anchor),
         d = dir.mag();
 
     // Is it too short?
@@ -59,7 +59,7 @@ Spring.prototype.constrainLength = function (mover, minLength, maxLength) {
 Spring.prototype.display = function (ctx) {
     "use strict";
     // color = 0.5
-    var h = (this.length / this.restLength) / 2 + 0.5,
+    let h = (this.length / this.restLength) / 2 + 0.5,
         c = Color.createHsl(h, 1, 0.8);
 
     ctx.beginPath();

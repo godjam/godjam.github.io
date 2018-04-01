@@ -7,11 +7,11 @@
  * 3) "followers" (= follow mouse)
  */
 //*************************************************
-var EcosystemScene_01 = function (options) {
+let EcosystemScene_01 = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("The Ecosystem Project 01", "Here are 4 groups of movers with distinct behaviors.");
-    var i = 0,
+    let i = 0,
         attractor = new Attractor(0, 0, 30, 3);
 
     this.movers = [];
@@ -49,7 +49,7 @@ EcosystemScene_01.prototype.constructor =  EcosystemScene_01;
 
 EcosystemScene_01.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
     // gravity on 0, 1, 3

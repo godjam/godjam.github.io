@@ -1,11 +1,11 @@
 /*global Scene, Mover, MouseAttractor, Attractor*/
 //*************************************************
-var RepulsiveMoversScene = function (options) {
+let RepulsiveMoversScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Repulsion", "Movers repel each others but are attracted by the attractor.");
 
-    var i = 0,
+    let i = 0,
         s = 0,
         attractor = new Attractor(0, 0, 30, 20);
     this.movers = [];
@@ -23,7 +23,7 @@ RepulsiveMoversScene.prototype.constructor = RepulsiveMoversScene;
 RepulsiveMoversScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    var i = 0, j = 0;
+    let i = 0, j = 0;
     for (i = 0; i < this.movers.length; i += 1) {
         for (j = 0; j < this.movers.length; j += 1) {
             if (i !== j) {

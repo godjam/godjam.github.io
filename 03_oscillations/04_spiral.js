@@ -1,6 +1,6 @@
 /*global Vector2, Scene, Color*/
 //*************************************************
-var SpiralScene = function (options) {
+let SpiralScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Spiral");
@@ -22,7 +22,7 @@ SpiralScene.prototype.resize = function () {
 SpiralScene.prototype.loop = function () {
     "use strict";
     if (this.r * 2 + 10 < this.size.x) {
-        var v1 = new Vector2(),
+        let v1 = new Vector2(),
             i = 0;
 
         for (i = 0; i < 50; i += 1) {

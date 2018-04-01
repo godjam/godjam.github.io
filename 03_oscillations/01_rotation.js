@@ -1,11 +1,11 @@
 /*global Vector2, Color, Scene*/
 //*************************************************
-var RotationScene = function (options) {
+let RotationScene = function (options) {
     "use strict";
     Scene.call(this, options);
     this.intro("Rotation");
 
-    var w = this.size.x,
+    let w = this.size.x,
         h = this.size.y;
     this.r = Math.min(w, h) / 2 * 0.8;
     this.c1 = Color.createBrightColor();

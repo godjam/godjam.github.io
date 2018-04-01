@@ -1,6 +1,6 @@
 /*global HTMLCanvasElement, Scene*/
 // Adapted from http://www.html5rocks.com/en/tutorials/device/orientation/
-var OrientationEvtListener = function(canvas, callbackOwner, callback) {
+let OrientationEvtListener = function(canvas, callbackOwner, callback) {
     "use strict";
 
     if (canvas instanceof HTMLCanvasElement === false) {
@@ -33,7 +33,7 @@ OrientationEvtListener.prototype.move = function(event) {
     "use strict";
     // A voir
     event.preventDefault();
-    var bindedCall = null,
+    let bindedCall = null,
         dir = event.alpha, // compass direction (in deg)
         tiltFB = event.beta, // front-back (in deg)
         tiltLR = event.gamma; // left-right (in deg)

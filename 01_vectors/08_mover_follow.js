@@ -1,5 +1,5 @@
 /*global Scene, Mover, MouseEvtListener*/
-var MoverFollowScene = function (options) {
+let MoverFollowScene = function (options) {
     "use strict";
     Scene.call(this, options);
     this.intro("Mover: Pointer Tracking", "The walker will follow the touch events.");
@@ -22,7 +22,7 @@ MoverFollowScene.prototype.loop = function () {
 
 MoverFollowScene.prototype.mouseEvent = function (position) {
     "use strict";
-    var delta = position.sub(this.mover.location),
+    let delta = position.sub(this.mover.location),
         mag = delta.mag();
     delta.normalizeInPlace();
     delta.multInPlace(mag / 2 + 1 / mag);

@@ -1,5 +1,5 @@
 /*global Mover, Color, Predator, Food*/
-var Creature = function (scene) {
+let Creature = function (scene) {
     "use strict";
     Mover.call(this, 0, 0, scene, 20);
     this.initRandomly();
@@ -11,7 +11,7 @@ Creature.prototype.constructor = Creature;
 
 Creature.prototype.update = function (creatures) {
     "use strict";
-    var i = 0, r = 0;
+    let i = 0, r = 0;
     for (i = 0; i < creatures.length; i += 1) {
         // avoid other creature
         if (creatures[i] instanceof Creature) {

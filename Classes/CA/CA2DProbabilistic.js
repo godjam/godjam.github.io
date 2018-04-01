@@ -1,5 +1,5 @@
 /*global CA2D, Tools*/
-var CA2DProbabilistic = function (columns, lines, scene) {
+let CA2DProbabilistic = function (columns, lines, scene) {
     "use strict";
     CA2D.call(this, columns, lines, scene);
 };

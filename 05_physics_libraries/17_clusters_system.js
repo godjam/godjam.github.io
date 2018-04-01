@@ -1,5 +1,7 @@
 /*global toxi, Scene, OrientationEvtListener, MouseEvtListener, Tools, Color*/
-var Rect = toxi.geom.Rect,
+//*************************************************
+let ClustersSystemScene = function() {
+    let Rect = toxi.geom.Rect,
     Vec2D = toxi.geom.Vec2D,
     GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
     VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
@@ -7,8 +9,7 @@ var Rect = toxi.geom.Rect,
     VerletSpring2D = toxi.physics2d.VerletSpring2D,
     VerletMDSpring2D = toxi.physics2d.VerletMinDistanceSpring2D;
 
-//*************************************************
-var ClustersSystemScene = function() {
+
     "use strict";
     Scene.call(this, options);
     this.intro("Force Directed Graph", "Touch to add new elements in clusters.<br>Reacts to orientation events.<br>Screen lock is recomended.");
@@ -50,7 +51,7 @@ ClustersSystemScene.prototype.resize = function() {
 
 ClustersSystemScene.prototype.loop = function() {
     "use strict";
-    var i = 0,
+    let i = 0,
         s = null,
         p = null;
     this.time += this.frameloop.delta;
@@ -78,7 +79,7 @@ ClustersSystemScene.prototype.loop = function() {
 
 ClustersSystemScene.prototype.mouseStartEvt = function(position) {
     "use strict";
-    var i = 0,
+    let i = 0,
         particle = null,
         isIn = false,
         p1 = new Vec2D(position.x, position.y),
@@ -133,7 +134,7 @@ ClustersSystemScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
 
 ClustersSystemScene.prototype.addParticle = function(position) {
     "use strict";
-    var i = 0,
+    let i = 0,
         d = 0,
         n = null,
         p = null,
@@ -162,7 +163,7 @@ ClustersSystemScene.prototype.addParticle = function(position) {
 
 ClustersSystemScene.prototype.addFirstParticles = function() {
     "use strict";
-    var i = 0,
+    let i = 0,
         x = 0,
         y = 0;
     for (i = 0; i < 3; i += 1) {

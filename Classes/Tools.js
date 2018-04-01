@@ -1,5 +1,5 @@
 /*global console*/
-var Tools = {};
+let Tools = {};
 
 
 Tools.normalRnd = function () {
@@ -29,7 +29,7 @@ Tools.getRndValue = function (threshold, value0, value1) {
  */
 Tools.map = function (value, start1, stop1, start2, stop2) {
     "use strict";
-    var v = (value - start1) / (stop1 - start1);
+    let v = (value - start1) / (stop1 - start1);
     return v * (stop2 - start2) + start2;
 };
 
@@ -43,7 +43,7 @@ Tools.map = function (value, start1, stop1, start2, stop2) {
  */
 Tools.drawPoly = function (ctx, x, y, p, size) {
     "use strict";
-    var i = 0;
+    let i = 0;
     ctx.beginPath();
     //ctx.moveTo(x +  size * Math.cos(0), y + size * Math.sin(0));
     ctx.moveTo(x + size, y);
@@ -111,7 +111,7 @@ Tools.backOut = function (t) {
 
 Tools.elasticEaseOut = function (t) {
     "use strict";
-    var p = 0.3;
+    let p = 0.3;
     return Math.pow(2, -10 * t) * Math.sin((t - p / 4) * (2 * Math.PI) / p) + 1;
 };
 
@@ -136,7 +136,7 @@ Tools.Motion.prototype.update = function (dt) {
     if (this.isPlaying) {
         // pingpong mode
         if (this.t >= this.duration && this.isPingPong) {
-            var total = this.begin + this.change;
+            let total = this.begin + this.change;
             this.begin = total;
             this.change = -this.change;
             this.t = 0;

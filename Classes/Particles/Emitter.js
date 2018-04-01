@@ -10,7 +10,7 @@ function Emitter(scene, position) {
     if (position instanceof Vector2 === false) {
         throw "Emitter ctor : param 2 is not a Vector2";
     }
-    var i = 0;
+    let i = 0;
     this.owner = null;
     this.scene = scene;
     this.particles = [];
@@ -19,7 +19,7 @@ function Emitter(scene, position) {
     this.decrease = 0.02;
     this.speed = 1;
     this.theta = Math.random() * Math.PI * 2;
-    this.variability = Math.PI / 2;
+    this.letiability = Math.PI / 2;
     this.particleAngle = 0;
     // alternative particle
     this.alternativeCtor = null;
@@ -105,16 +105,16 @@ Emitter.prototype.setAlternativeParticle = function (particleCtor, probability) 
 };
 
 
-Emitter.prototype.setAngle = function (theta, variability) {
+Emitter.prototype.setAngle = function (theta, letiability) {
     "use strict";
     if (typeof theta !== 'number') {
         throw "Emitter setAngle : param 1 is not a scalar";
     }
-    if (typeof variability !== 'number') {
+    if (typeof letiability !== 'number') {
         throw "Emitter setAngle : param 2 is not a scalar";
     }
     this.theta = theta;
-    this.variability = variability;
+    this.letiability = letiability;
 };
 
 Emitter.prototype.setInnerAttractiveForce = function (innerAttractiveForce) {
@@ -128,7 +128,7 @@ Emitter.prototype.setInnerAttractiveForce = function (innerAttractiveForce) {
 Emitter.prototype.step = function (ctx) {
     "use strict";
     this.updateLoc();
-    var i = 0, j = 0;
+    let i = 0, j = 0;
     for (i = this.particles.length - 1; i >= 0; i -= 1) {
         // attract/repel particles each other
         if (this.innerAttractiveForce !== 0) {
@@ -168,14 +168,14 @@ Emitter.prototype.step = function (ctx) {
 
 Emitter.prototype.addParticle = function () {
     "use strict";
-    var particle = null,
+    let particle = null,
         r = Math.random();
     // create alternative particle
     if (r < this.alternativeProba && this.alternativeCtor) {
-        particle = new this.alternativeCtor(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.variability, this.speed);
+        particle = new this.alternativeCtor(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.letiability, this.speed);
     // create std particle
     } else {
-        particle = new Particle(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.variability, this.speed);
+        particle = new Particle(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.letiability, this.speed);
         if (this.particleAngle !== 0) {
             particle.applyTorque(this.particleAngle);
         }
@@ -189,7 +189,7 @@ Emitter.prototype.addParticle = function () {
 
 Emitter.prototype.apply = function (force) {
     "use strict";
-    var i = this.particles.length - 1;
+    let i = this.particles.length - 1;
     for (i; i >= 0; i -= 1) {
         this.particles[i].apply(force);
     }

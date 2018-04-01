@@ -1,8 +1,8 @@
 /*global Mover, Attractor, console*/
 //*************************************************
-var HyperAttractor = function (width, heigth) {
+let HyperAttractor = function (width, heigth) {
     "use strict";
-    var mass = Math.min(width, heigth),
+    let mass = Math.min(width, heigth),
         x = width / 2,
         y = heigth / 2;
     Attractor.call(this, x, y, mass, 10);
@@ -16,7 +16,7 @@ HyperAttractor.prototype.applyOn = function (mover) {
         throw "Attractor.attract : param is not a Mover";
     }
 
-    var force = this.location.sub(mover.location), // diff
+    let force = this.location.sub(mover.location), // diff
         dist = force.mag(),
         strength = 0;
     force.normalizeInPlace();

@@ -1,6 +1,6 @@
 /*globals Vector2, Mover*/
 //*************************************************
-var Liquid  = function (c) {
+let Liquid  = function (c) {
     "use strict";
     this.c = c;
 };
@@ -11,7 +11,7 @@ Liquid.prototype.applyOn = function (mover) {
         throw "Liquid.applyOn : param is not a Mover";
     }
     
-    var speed = mover.velocity.mag(),
+    let speed = mover.velocity.mag(),
         dragMag = this.c * speed * speed,
         drag = mover.velocity.mult(-1);
     drag.normalizeInPlace();

@@ -1,6 +1,6 @@
 /*global Scene, Emitter, Mover, Attractor, MouseAttractor, Gravity, Vector2*/
 //*************************************************
-var ParticlesRepellerScene = function (options) {
+let ParticlesRepellerScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Particles repeller", "The movers react to the attractor.<br>The movers repel particles.");

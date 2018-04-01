@@ -1,9 +1,9 @@
 /*global Box2dEntity, B2BodyDef, B2FixtureDef, B2StaticBody, B2Vec2, B2PolygonShape*/
 //*************************************************
-var PolyBoundary = function (scene, world, scale) {
+let PolyBoundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
-    var points = [
+    let points = [
             { x: 0,     y: 13 },
             { x: 100,   y: 105 },
             { x: 200,   y: 140 },
@@ -19,7 +19,7 @@ PolyBoundary.prototype.constructor = PolyBoundary;
 //************************************************
 PolyBoundary.prototype.display = function (ctx) {
     "use strict";
-    var node = null,
+    let node = null,
         shape = null,
         center = this.body.GetWorldCenter();
     for (node = this.body.GetFixtureList(); node; node = node.GetNext()) {

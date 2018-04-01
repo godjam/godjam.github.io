@@ -1,11 +1,11 @@
 /*global Scene, Mover, MouseAttractor, StrangeAttractor*/
 //*************************************************
-var CustomAttractionScene = function (options) {
+let CustomAttractionScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Custom Attraction", "Far movers are attracted by the attractor. Close movers are repel.");
 
-    var i = 0,
+    let i = 0,
         s = 0,
         attractor = new StrangeAttractor(this.size.x, this.size.y);
     this.movers = [];
@@ -23,7 +23,7 @@ CustomAttractionScene.prototype.constructor = CustomAttractionScene;
 CustomAttractionScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    var i = 0, j = 0;
+    let i = 0, j = 0;
     for (i = 0; i < this.movers.length; i += 1) {
 
         for (j = 0; j < this.movers.length; j += 1) {

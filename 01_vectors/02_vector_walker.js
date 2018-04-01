@@ -1,5 +1,5 @@
 /*global Scene, Color, toxi, Vector2, MouseEvtListener*/
-var VectorWalkerScene = function (options) {
+let VectorWalkerScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Vector Walker", "Perlin based movement, influenced by touch.");
@@ -20,7 +20,7 @@ VectorWalkerScene.prototype.constructor = VectorWalkerScene;
 VectorWalkerScene.prototype.loop = function (ctx) {
 	"use strict";
     this.step();
-    var c = this.color.modify(this.stepsize / this.size.x, 0, 0);
+    let c = this.color.modify(this.stepsize / this.size.x, 0, 0);
     this.color = c;
 
     this.ctx.fillStyle = c.rgba();
@@ -36,7 +36,7 @@ VectorWalkerScene.prototype.step = function () {
 	"use strict";
 
     // perlin noise based move
-    var stepsize = 3, dx = 0, dy = 0,
+    let stepsize = 3, dx = 0, dy = 0,
         // map x and y to [-1, 1]
         x = (this.position.x - this.size.x / 2) / this.size.x,
         y = (this.position.y - this.size.y / 2) / this.size.y,

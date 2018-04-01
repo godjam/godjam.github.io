@@ -1,5 +1,5 @@
 /*global toxi, Color*/
-var ToxiEntity = function (position, physics) {
+let ToxiEntity = function (position, physics) {
     "use strict";
     if (position instanceof toxi.geom.Vec2D === false) {
         throw "ToxiParticle.constructor : position is not a Vec2D";

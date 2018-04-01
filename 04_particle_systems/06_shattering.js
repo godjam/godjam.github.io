@@ -1,5 +1,5 @@
 /*global Scene, Mover, MouseEvtListener, Emitter, Gravity, Vector2*/
-var ShatteringScene = function (options) {
+let ShatteringScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Shattering", "Touch a mover to explode it.");
@@ -12,7 +12,7 @@ var ShatteringScene = function (options) {
     this.addListener(new MouseEvtListener(this.canvas, this, this.shatter));
     this.gravity = new Gravity(0, 0.08);
 
-    var i = 0;
+    let i = 0;
     for (i; i < this.maxMovers; i += 1) {
         this.createMover();
     }
@@ -23,7 +23,7 @@ ShatteringScene.prototype.constructor = ShatteringScene;
 ShatteringScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    var i = 0;
+    let i = 0;
 
     //if (this.movers.length < this.maxMovers && Math.random() < 0.02) {
     //    this.createMover();
@@ -53,7 +53,7 @@ ShatteringScene.prototype.loop = function () {
 
 ShatteringScene.prototype.shatter = function (position, touches) {
     "use strict";
-    var i = 0, t = 0, d = 0, m = null;
+    let i = 0, t = 0, d = 0, m = null;
     for (t = 0; t < touches.length; t +=1) {
         for (i = this.movers.length - 1; i >= 0; i -= 1) {
             if (touches[t].x - this.movers[i].location.x < this.s) {
@@ -74,7 +74,7 @@ ShatteringScene.prototype.shatter = function (position, touches) {
 
 ShatteringScene.prototype.createEmitter = function (position, mass, hue) {
     "use strict";
-    var emitter = new Emitter(this, position),
+    let emitter = new Emitter(this, position),
         angle = Math.PI * 4 * (Math.random() - 0.5);
     emitter.setAngle(0, Math.PI * 2);
     // 8: particles emitted / frame
@@ -92,7 +92,7 @@ ShatteringScene.prototype.createEmitter = function (position, mass, hue) {
 
 ShatteringScene.prototype.createMover = function () {
     "use strict";
-    var mover = new Mover(0, 0, this, this.s);
+    let mover = new Mover(0, 0, this, this.s);
     mover.initRandomly();
     this.movers.push(mover);
 };

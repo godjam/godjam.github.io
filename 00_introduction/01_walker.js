@@ -1,6 +1,6 @@
 /*global Walker, Scene, Color, MouseEvtListener*/
 //*************************************************
-var WalkerScene = function (options) {
+let WalkerScene = function (options) {
     "use strict";
     Scene.call(this, options);
 

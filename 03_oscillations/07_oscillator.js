@@ -1,5 +1,5 @@
 /*global Scene, Oscillator*/
-var OscillatorScene = function(options) {
+let OscillatorScene = function(options) {
     "use strict";
     Scene.call(this, options);
     if (options.oscillatortype === 1) {

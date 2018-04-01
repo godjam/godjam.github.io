@@ -1,8 +1,8 @@
 /*global Box2dEntity, Circle, Box, B2DynamicBody, B2StaticBody*/
-var ChainBoundary = function (scene, world, scale) {
+let ChainBoundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
-    var i = 0,
+    let i = 0,
         s = 25,
         max = Math.round(scene.size.x / s),
         y = 0.6 * scene.size.y,
@@ -31,7 +31,7 @@ ChainBoundary.prototype.constructor = ChainBoundary;
 
 ChainBoundary.prototype.display = function (ctx) {
     "use strict";
-    var i = 0,
+    let i = 0,
         vertices = null,
         b1 = 0,
         b2 = 0;

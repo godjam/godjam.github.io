@@ -1,6 +1,6 @@
 /*global Vector2, toxi, Tools*/
 
-var Path = function (count, scene) {
+let Path = function (count, scene) {
     "use strict";
 
     if (count < 2 || count === undefined) { count = 2; }
@@ -13,7 +13,7 @@ var Path = function (count, scene) {
     this.p = new Vector2();
     this.v = new Vector2();
 
-    var i = 0, theta = 0,
+    let i = 0, theta = 0,
         center = new Vector2(this.scene.size.x / 2, this.scene.size.y / 2),
         r = Math.min(this.scene.size.x, this.scene.size.y) / 2 - 20;
 
@@ -24,7 +24,7 @@ var Path = function (count, scene) {
     }
 
     for (i = 0; i < count; i += 1) {
-        var v = Vector2.fromPolar(r, i * theta);
+        let v = Vector2.fromPolar(r, i * theta);
         v.addInPlace(center);
         this.points.push(v);
     }
@@ -32,7 +32,7 @@ var Path = function (count, scene) {
 
 Path.prototype.updatePerlin = function () {
     "use strict";
-    var a = 0,
+    let a = 0,
         i = 0;
 
     this.z += 0.01;
@@ -53,7 +53,7 @@ Path.prototype.updatePerlin = function () {
 
 Path.prototype.display = function (ctx) {
     "use strict";
-    var i = 0;
+    let i = 0;
     for (i = 0; i < this.points.length - 1; i += 1) {
         ctx.beginPath();
         ctx.lineWidth = 2 * this.radius;

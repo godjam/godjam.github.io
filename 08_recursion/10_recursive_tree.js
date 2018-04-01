@@ -1,10 +1,10 @@
 /*global Scene, RecursiveTree*/
 //*************************************************
-var RecursiveTreeScene = function() {
+let RecursiveTreeScene = function() {
     "use strict";
     Scene.call(this, options);
     this.intro("Recursive Tree");
-    var s = Math.min(this.size.x, this.size.y) / 6;
+    let s = Math.min(this.size.x, this.size.y) / 6;
     this.tree = new RecursiveTree(this, this.size.x / 2, this.size.y * 0.8, -s, 9);
 };
 

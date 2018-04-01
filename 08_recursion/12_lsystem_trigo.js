@@ -1,6 +1,6 @@
 /*global Scene, LSystem, ECSModule*/
 //*************************************************
-var LSystemScene = function(options) {
+let LSystemScene = function(options) {
     "use strict";
     Scene.call(this, options);
     this.intro("LSystem");

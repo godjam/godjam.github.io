@@ -1,5 +1,5 @@
 /*globals Vector2, ColorMap, Tools*/
-var TurtleRenderer = function () {
+let TurtleRenderer = function () {
     function TurtleRenderer(scene, lsystem) {
         "use strict";
 
@@ -35,14 +35,14 @@ var TurtleRenderer = function () {
         this.max.x = Tools.clamp(this.max.x, 0, this.scene.size.x);
         this.max.y = Tools.clamp(this.max.y, 0, this.scene.size.y);
 
-        var w = this.max.x - this.min.x,
+        let w = this.max.x - this.min.x,
             h = this.max.y - this.min.y,
             dw = this.scene.size.x / w,
             dh = this.scene.size.y / h;
 
         this.stepsize = ~~Math.min(dw, dh);
 
-        var dx1 = this.position.x - this.scene.size.x / 2, // diff entre origine et centre de l'ecran
+        let dx1 = this.position.x - this.scene.size.x / 2, // diff entre origine et centre de l'ecran
             dy1 = this.position.y - this.scene.size.y / 2,
             dx2 = w / 2 - this.scene.size.x / 2, // diff entre centre de la zone de dessin et le centre de l'ecran
             dy2 = h / 2 - this.scene.size.y / 2;
@@ -67,7 +67,7 @@ var TurtleRenderer = function () {
 
     TurtleRenderer.prototype.moveForward = function () {
         "use strict";
-        var x = Math.cos(this.heading) * this.stepsize,
+        let x = Math.cos(this.heading) * this.stepsize,
             y = Math.sin(this.heading) * this.stepsize;
         this.position.x += x;
         this.position.y += y;
@@ -98,7 +98,7 @@ var TurtleRenderer = function () {
 
     TurtleRenderer.prototype.drawForwardLine = function (ctx) {
         "use strict";
-        var x = this.position.x,
+        let x = this.position.x,
             y = this.position.y;
         this.moveForward();
         if (ctx !== null) {
@@ -141,7 +141,7 @@ var TurtleRenderer = function () {
 
     TurtleRenderer.prototype.interpret = function (imin, imax, ctx) {
         "use strict";
-        var i = 0,
+        let i = 0,
             c = "";
         for (i = imin; i < imax; i += 1) {
             c = this.instructions[i];

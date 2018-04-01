@@ -1,10 +1,10 @@
 /*global Scene, MouseEvtListener, Spring, Mover, Gravity, Friction*/
-var SpringsScene = function (options) {
+let SpringsScene = function (options) {
     "use strict";
     this.intro("Springs", "Simulates a spring attached to a spring.");
 
     Scene.call(this, options);
-    var w = this.size.x,
+    let w = this.size.x,
         h = this.size.y,
         s = Math.min(w, h),
         r0 = Math.random() * s / 4 + s / 4;

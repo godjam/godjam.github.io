@@ -1,11 +1,11 @@
 /*global Scene, Mover, MouseAttractor, Attractor*/
 //*************************************************
-var GravitationalAttractionScene = function (options) {
+let GravitationalAttractionScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Attraction", "Movers are attracted by the attractor. Plus, they attract each others.<br>Touch to move the attractor.");
 
-    var i = 0,
+    let i = 0,
         w = this.size.x,
         h = this.size.y,
         s = 0,
@@ -25,7 +25,7 @@ GravitationalAttractionScene.prototype.constructor = GravitationalAttractionScen
 GravitationalAttractionScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    var i = 0, j = 0;
+    let i = 0, j = 0;
     for (i = 0; i < this.movers.length; i += 1) {
         for (j = 0; j < this.movers.length; j += 1) {
             if (i !== j) {

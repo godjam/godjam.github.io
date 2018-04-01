@@ -1,6 +1,6 @@
 /*global Scene, Emitter, Mover, MouseAttractor, Gravity, Attractor, Confetti*/
 //*************************************************
-var ConfettiScene = function (options) {
+let ConfettiScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Confetti", "The mover and the particles react to the attractor.<br>The emitter emits multiple particle types.");

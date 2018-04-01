@@ -1,6 +1,6 @@
 /*jslint bitwise: true */
 /*global Tools*/
-var Color = function (r, g, b, a) {
+let Color = function (r, g, b, a) {
     "use strict";
     if (r === undefined) {r = 1; }
     if (g === undefined) {g = 1; }
@@ -21,7 +21,7 @@ var Color = function (r, g, b, a) {
 
 Color.createHsl = function (h, s, l, a) {
     "use strict";
-    var c = new Color();
+    let c = new Color();
     c.hslToRgb(h, s, l);
     c.a = a || c.a;
     return c;
@@ -66,19 +66,19 @@ Color.createNormalDistribColor = function (baseHue) {
     }
 
     // normalRnd * sd + mean
-    var rnd = Tools.normalRnd() * 0.25 + baseHue;
+    let rnd = Tools.normalRnd() * 0.25 + baseHue;
     return Color.createHsl(rnd, 1, 0.65);
 };
 
 Color.prototype.copy = function () {
     "use strict";
-    var c = new Color(this.r, this.g, this.b, this.a);
+    let c = new Color(this.r, this.g, this.b, this.a);
     return c;
 };
 
 Color.prototype.rgba = function () {
     "use strict";
-    var s = "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+    let s = "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
     return s;
 };
 
@@ -91,13 +91,13 @@ Color.prototype.toHex = function () {
 
 Color.prototype.ToInt = function () {
     "use strict";
-    var c = (1 << 24) + (this.r << 16) + (this.g << 8) + this.b;
+    let c = (1 << 24) + (this.r << 16) + (this.g << 8) + this.b;
     return c;
 };
 
 Color.prototype.fromHex = function (hex) {
     "use strict";
-    var i = parseInt(hex, 16);
+    let i = parseInt(hex, 16);
     this.r = (i >> 16) & 255;
     this.g = (i >> 8) & 255;
     this.b = i & 255;
@@ -118,7 +118,7 @@ Color.prototype.darken = function (l) {
 
 Color.prototype.mutate = function () {
     "use strict";
-    var h = 0.02 * Math.random() - 0.01,
+    let h = 0.02 * Math.random() - 0.01,
         l = 0.002 * Math.random() - 0.001;
     return this.modify(h, 0, l);
 };
@@ -147,7 +147,7 @@ Color.prototype.bluify = function (h) {
 
 Color.prototype.modify = function (h, s, l) {
     "use strict";
-    var c = this.copy();
+    let c = this.copy();
     c.hslToRgb(c.h + h, c.s + s, c.l + l);
     return c;
 };
@@ -169,7 +169,7 @@ Color.prototype.modify = function (h, s, l) {
  */
 Color.prototype.hslToRgb = function (h, s, l) {
     "use strict";
-    var q = 0, p = 0;
+    let q = 0, p = 0;
 
     // copy + clamp h, s, l
     if (h !== undefined) {this.h = Tools.clamp(h, 0, 1); }
@@ -222,7 +222,7 @@ Color.prototype.hue2rgb = function (p, q, t) {
  */
 Color.prototype.rgbToHsl = function () {
     "use strict";
-    var r = this.r / 255,
+    let r = this.r / 255,
         g = this.g / 255,
         b = this.b / 255,
         max = Math.max(r, g, b),
@@ -252,11 +252,11 @@ Color.prototype.rgbToHsl = function () {
 };
 
 
-var ColorMap = function(start, stop, steps) {
+let ColorMap = function(start, stop, steps) {
     "use strict";
     // TODO checks
 
-    var i = 0, t = null,
+    let i = 0, t = null,
         delta = new Color;
 
     this.steps = steps;
@@ -284,7 +284,7 @@ var ColorMap = function(start, stop, steps) {
 ColorMap.create = function(n) {
     "use strict";
     n = n || 50;
-    var c1 = Color.createLightColor(),
+    let c1 = Color.createLightColor(),
         c2 = Color.createBrightColor();
     return new ColorMap(c1, c2, n);
 };

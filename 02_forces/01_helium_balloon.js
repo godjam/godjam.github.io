@@ -1,10 +1,10 @@
 /*global Scene, Mover, Gravity, RandomForce*/
-var HeliumBalloonScene = function (options) {
+let HeliumBalloonScene = function (options) {
     "use strict";
     this.intro("Helium Balloons");
 
     Scene.call(this, options);
-    var i = 0,
+    let i = 0,
         max = Math.max(8, this.size.x / 10);
     this.ballons = [];
     for (i = 0; i < max; i += 1) {
@@ -20,7 +20,7 @@ HeliumBalloonScene.prototype.constructor =  HeliumBalloonScene;
 
 HeliumBalloonScene.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
     // update

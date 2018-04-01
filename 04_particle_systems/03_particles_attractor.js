@@ -1,6 +1,6 @@
 /*global Scene, Emitter, Mover, MouseAttractor, Gravity, Attractor*/
 //*************************************************
-var ParticlesAttractorScene = function (options) {
+let ParticlesAttractorScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Emitters Attractor", "The emitters react to the attractor.");

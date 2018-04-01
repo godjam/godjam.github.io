@@ -1,5 +1,5 @@
 /*global Mover, Color, Creature*/
-var Predator = function (scene) {
+let Predator = function (scene) {
     "use strict";
     Mover.call(this, 0, 0, scene, 20);
     this.initRandomly();
@@ -11,7 +11,7 @@ Predator.prototype.constructor = Predator;
 
 Predator.prototype.update = function (creatures) {
     "use strict";
-    var i = 0, r = 0;
+    let i = 0, r = 0;
     for (i = 0; i < creatures.length; i += 1) {
         if (creatures[i] instanceof Creature) {
             creatures[i].attract(this, 2);

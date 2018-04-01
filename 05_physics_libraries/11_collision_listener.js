@@ -1,7 +1,7 @@
 /*global console, Scene, B2Vec2, B2World, MouseEvtListener, Box2dEntity,
 Vector2, Box, Boundary, ContactListener, Color, Tools*/
 //*************************************************
-var CollisionListenerScene = function (options) {
+let CollisionListenerScene = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("Collision Detection", "Massive collisions will destroy blocks");
@@ -26,7 +26,7 @@ CollisionListenerScene.prototype.constructor = CollisionListenerScene;
 
 CollisionListenerScene.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.world.Step(
         1 / 30,   //frame-rate
@@ -65,7 +65,7 @@ CollisionListenerScene.prototype.loop = function () {
 
 CollisionListenerScene.prototype.createBox = function (position, nextInfos) {
     "use strict";
-    var boxW = Math.random() * 16 + 16,
+    let boxW = Math.random() * 16 + 16,
         boxH = Math.random() * 16 + 16,
         color = null,
         force = null,
@@ -106,7 +106,7 @@ CollisionListenerScene.prototype.createBox = function (position, nextInfos) {
 
 CollisionListenerScene.prototype.createNextBoxes = function () {
     "use strict";
-    var pos = null,
+    let pos = null,
         nextInfos = null,
         i = 0,
         r = 0;
@@ -124,15 +124,15 @@ CollisionListenerScene.prototype.createNextBoxes = function () {
 
 CollisionListenerScene.prototype.createboundaries = function (position) {
     "use strict";
-    var boundary = new Boundary(this, this.world, this.scale);
-    //var boundary = new CircleBoundary(this, this.world, this.scale);
+    let boundary = new Boundary(this, this.world, this.scale);
+    //let boundary = new CircleBoundary(this, this.world, this.scale);
     //boundary.getEntityByName("b").body.SetAngularVelocity(Math.PI / 2);
     this.boundaries.push(boundary);
 };
 
 CollisionListenerScene.prototype.mouseStartEvt = function (position) {
     "use strict";
-    var body = null,
+    let body = null,
         p = new B2Vec2(position.x / this.scale, position.y / this.scale);
     body = Box2dEntity.getBodyAt(p, this.world);
 
@@ -159,7 +159,7 @@ CollisionListenerScene.prototype.collide = function (e1, e2) {
     if (e2.boxW === undefined) {e2.boxW = 3; }
     if (e2.boxH === undefined) {e2.boxH = 3; }
 
-    var v1 = e1.body.GetLinearVelocity(),
+    let v1 = e1.body.GetLinearVelocity(),
         v2 = e2.body.GetLinearVelocity(),
         m1 = Tools.clamp(e1.boxW * e1.boxH / 100, 1, 10),
         m2 = Tools.clamp(e2.boxW * e2.boxH / 100, 1, 10),

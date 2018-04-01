@@ -1,7 +1,7 @@
 /*global Vector2, Particle, Tools*/
-function Smoke(location, baseColor, scene, decrease, theta, variability, speed) {
+function Smoke(location, baseColor, scene, decrease, theta, letiability, speed) {
     "use strict";
-    Particle.call(this, location, baseColor, scene, decrease, theta, variability, speed);
+    Particle.call(this, location, baseColor, scene, decrease, theta, letiability, speed);
 }
 Smoke.prototype = Object.create(Particle.prototype);
 Smoke.prototype.constructor = Smoke;

@@ -1,6 +1,6 @@
 /*global Scene, toxi, THREE*/
 //  https://github.com/lukas2/threejs_landscape/blob/master/js/app.js
-var NoiseScapeScene = function (options) {
+let NoiseScapeScene = function (options) {
     "use strict";
     Scene.call(this, options);
     this.intro("Noise Scape", "3D plot of Perlin noise.<br>Evolve with time.");
@@ -31,16 +31,14 @@ var NoiseScapeScene = function (options) {
     this.scene.add(this.plane);
 
     // controls
-    this.controls = (this.canvas) ? 
-        new THREE.OrbitControls(this.camera, this.canvas):
-     null
+    this.controls = new THREE.OrbitControls(this.camera, this.canvas);
 };
 NoiseScapeScene.prototype = Object.create(Scene.prototype);
 NoiseScapeScene.prototype.constructor = NoiseScapeScene;
 
 NoiseScapeScene.prototype.updateGeometry = function () {
     "use strict";
-    var i = 0, l = 0, h = 0,
+    let i = 0, l = 0, h = 0,
         heights = this.getHeightMap();
 
     // keep in mind, that the plane has more vertices than segments. If there's one segment, there's two vertices, if
@@ -66,7 +64,7 @@ NoiseScapeScene.prototype.updateGeometry = function () {
 
 NoiseScapeScene.prototype.getHeightMap = function () {
     "use strict";
-    var i = 0, j = 0, heights = [], count = this.res + 1,
+    let i = 0, j = 0, heights = [], count = this.res + 1,
         perlin = toxi.math.noise.simplexNoise;
 
     for (i = 0; i < count; i += 1) {
@@ -83,7 +81,7 @@ NoiseScapeScene.prototype.loop = function () {
     this.updateGeometry();
     this.renderer.render(this.scene, this.camera);
     
-    if(this.controls)
+    if(this.controls && this.listenToEvents)
         this.controls.update();
     
     this.t += 0.001;
@@ -94,7 +92,7 @@ NoiseScapeScene.prototype.loop = function () {
 NoiseScapeScene.prototype.mouseEvent = function (position) {
     "use strict";
 
-    var x = (position.x - this.size.x / 2) / (this.size.x / 2),
+    let x = (position.x - this.size.x / 2) / (this.size.x / 2),
         y = (position.y - this.size.y / 2) / (this.size.y / 2);
 
     this.dx = y / 100;

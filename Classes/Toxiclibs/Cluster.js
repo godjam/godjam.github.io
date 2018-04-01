@@ -1,12 +1,12 @@
 /*global toxi, ToxiParticle, Vec2D, VerletSpring2D*/
-var Cluster = function (position, physics) {
+let Cluster = function (position, physics) {
     "use strict";
     
     if (position instanceof toxi.geom.Vec2D === false) {
         throw "Cluster.constructor : position is not a Vec2D";
     }
     
-    var i = 0,
+    let i = 0,
         j = 0,
         particle = null,
         spring = null,
@@ -40,7 +40,7 @@ var Cluster = function (position, physics) {
 
 Cluster.prototype.display = function (ctx) {
     "use strict";
-    var i = 0,
+    let i = 0,
         j = 0,
         l = this.particles.length;
     

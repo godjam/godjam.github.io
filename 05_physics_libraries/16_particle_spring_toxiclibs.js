@@ -1,11 +1,11 @@
 /*global toxi, GridCluster, Scene, MouseEvtListener, ToxiCreature, ToxiSystem, OrientationEvtListener, Tools*/
-var Rect = toxi.geom.Rect,
+let Rect = toxi.geom.Rect,
     Vec2D = toxi.geom.Vec2D,
     GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
     VerletPhysics2D = toxi.physics2d.VerletPhysics2D;
 
 //*************************************************
-var ToxiSimulationScene = function(options) {
+let ToxiSimulationScene = function(options) {
     "use strict";
     Scene.call(this, options);
 
@@ -68,7 +68,7 @@ ToxiSimulationScene.prototype.loop = function() {
 
 ToxiSimulationScene.prototype.mouseStartEvt = function(position) {
     "use strict";
-    var i = 0,
+    let i = 0,
         particle = null,
         isIn = false,
         p1 = new Vec2D(position.x, position.y),
@@ -125,7 +125,7 @@ ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
 
 ToxiSimulationScene.prototype.changeClusterOrientation = function() {
 
-    var aX = Math.abs(this.gravity.x),
+    let aX = Math.abs(this.gravity.x),
         aY = Math.abs(this.gravity.y);
     // x axis
     if (aX > aY) {

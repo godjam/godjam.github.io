@@ -1,11 +1,11 @@
 /*global Scene, Food, Creature, Predator*/
 //*************************************************
-var EcosystemScene_02 = function (options) {
+let EcosystemScene_02 = function (options) {
 	"use strict";
     Scene.call(this, options);
     this.intro("The Ecosystem Project 02", "Food grows. Creatures seek food. Predators hunt creatures.");
 
-    var i = 0;
+    let i = 0;
     this.movers = [];
 
     for (i = 0; i < 15; i += 1) {
@@ -23,7 +23,7 @@ EcosystemScene_02.prototype.constructor =  EcosystemScene_02;
 
 EcosystemScene_02.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     for (i = 0; i < this.movers.length; i += 1) {
         this.movers[i].update(this.movers);
@@ -43,7 +43,7 @@ EcosystemScene_02.prototype.loop = function () {
 
 EcosystemScene_02.prototype.createNewCreature = function () {
     "use strict";
-    var i = 0, f = 0, c = 0, p = 0;
+    let i = 0, f = 0, c = 0, p = 0;
     for (i = 0; i < this.movers.length; i += 1) {
         if (this.movers[i] instanceof Food) {f += 1; }
         if (this.movers[i] instanceof Creature) {c += 1; }
