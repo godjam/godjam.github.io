@@ -126,11 +126,37 @@ SceneFactory.initMiniMenus = function () {
     SceneFactory.createMiniScene('05_14', 'c_05_14');
     SceneFactory.createMiniScene('05_15', 'c_05_15');
     SceneFactory.createMiniScene('05_16', 'c_05_16');
+
+    SceneFactory.createMiniScene('06_01', 'c_06_01');
+    SceneFactory.createMiniScene('06_02', 'c_06_02');
+    SceneFactory.createMiniScene('06_03', 'c_06_03');
+    SceneFactory.createMiniScene('06_04', 'c_06_04');
+    SceneFactory.createMiniScene('06_05', 'c_06_05');
+    SceneFactory.createMiniScene('06_07', 'c_06_07');
+    SceneFactory.createMiniScene('06_10', 'c_06_10');
+    SceneFactory.createMiniScene('06_11', 'c_06_11');
+    SceneFactory.createMiniScene('06_13', 'c_06_13');
+    SceneFactory.createMiniScene('06_14', 'c_06_14');
+    SceneFactory.createMiniScene('06_15', 'c_06_15');
+    SceneFactory.createMiniScene('06_16', 'c_06_16');
+    SceneFactory.createMiniScene('06_19', 'c_06_19');
+
+    SceneFactory.createMiniScene('07_01', 'c_07_01');
+    SceneFactory.createMiniScene('07_06', 'c_07_06');
+    SceneFactory.createMiniScene('07_09', 'c_07_09');
+    SceneFactory.createMiniScene('07_10', 'c_07_10');
+    SceneFactory.createMiniScene('07_11', 'c_07_11');
+
+    SceneFactory.createMiniScene('08_01', 'c_08_01');
+    SceneFactory.createMiniScene('08_03', 'c_08_03');
+    SceneFactory.createMiniScene('08_05', 'c_08_05');
+    SceneFactory.createMiniScene('08_10', 'c_08_10');
+    SceneFactory.createMiniScene('08_12', 'c_08_12');
 }
 
 SceneFactory.parseURL = function () {
     'use strict';
-    let defaultKey = '02_10';//'08_12',
+    let defaultKey = '08_12';
     let key = '';
 
     if (window !== null) {

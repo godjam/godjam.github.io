@@ -1,4 +1,4 @@
-/*global Scene, LSystem, ECSModule*/
+/*global Scene, LSystem*/
 //*************************************************
 let LSystemScene = function(options) {
     "use strict";
@@ -43,7 +43,7 @@ LSystemScene.prototype.initNewLSystem = function() {
         .addRule('F', 'FFF-[-F+F]+[+F-F]', 0.4)
         .generate(4);
     
-    this.turtle = new ECSModule.TurtleRenderer(this, this.lsystem);
+    this.turtle = new TurtleRenderer(this, this.lsystem);
 }
 
 LSystemScene.prototype.loop = function() {

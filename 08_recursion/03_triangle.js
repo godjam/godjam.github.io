@@ -24,7 +24,7 @@ SierpinskiTriangleScene.prototype.loop = function () {
 
     this.ctx.save();
     this.ctx.translate(this.size.x / 2, this.size.y / 2);
-    this.ctx.scale(s, s / 5);
+    this.ctx.scale(s, s / 1.2);
 
     this.ctx.beginPath();
     this.ctx.arc(0, this.radius, this.radius * 0.6, 0, Math.PI * 2);
