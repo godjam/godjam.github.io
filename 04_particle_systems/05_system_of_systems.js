@@ -1,13 +1,13 @@
 /*global Scene, Emitter, MouseEvtListener, Vector2, console*/
 //*************************************************
-var SystemOfSystemsScene = function () {
+var SystemOfSystemsScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("System Of Systems", "Touch to create a new particles emitter.");
 
     this.lastTime = 0.5; // in s
     this.emitters = [];
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.createEmitter));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.createEmitter));
     this.createEmitter(new Vector2(this.size.x / 2, this.size.y / 2));
 };
 SystemOfSystemsScene.prototype = Object.create(Scene.prototype);

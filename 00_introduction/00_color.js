@@ -1,8 +1,8 @@
 /*global Scene, Array2D, Color*/
 //*************************************************
-var ColorTestScene = function () {
+var ColorTestScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Simple color experiment", "Each dot color evolve with time.");
 
     var i = 0,

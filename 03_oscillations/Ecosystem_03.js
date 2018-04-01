@@ -1,8 +1,8 @@
 /*global Scene, Mover, Oscillation, MouseAttractor, Attractor */
 //*************************************************
-var EcosystemScene_03 = function () {
+var EcosystemScene_03 = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("The Ecosystem Project 03", "Creatures seek the attractor using oscillations.");
 
     var i = 0,

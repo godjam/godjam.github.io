@@ -1,8 +1,8 @@
 /*global Scene, CA2DContinuous, MouseEvtListener*/
 //*************************************************
-var ContinuousGameOfLifeScene = function () {
+var ContinuousGameOfLifeScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Continuous Game Of Life", "Touch to add new cells.");
     this.init();
 };
@@ -15,7 +15,7 @@ ContinuousGameOfLifeScene.prototype.init = function () {
         columns = Math.round(this.size.x / cellsize),
         lines = Math.round(this.size.y / this.size.x * columns);
     this.ca = new CA2DContinuous(columns, lines, this);
-    this.eventListeners.push(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
+    this.addListener(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
 };
 
 ContinuousGameOfLifeScene.prototype.loop = function () {

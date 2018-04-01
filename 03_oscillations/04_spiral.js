@@ -1,8 +1,8 @@
 /*global Vector2, Scene, Color*/
 //*************************************************
-var SpiralScene = function () {
+var SpiralScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Spiral");
 
     this.r = 0;

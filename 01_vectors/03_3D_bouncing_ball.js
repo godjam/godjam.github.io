@@ -1,9 +1,12 @@
 /*global Scene, THREE, Color*/
-var BouncingBall3DScene = function () {
+var BouncingBall3DScene = function (options) {
     "use strict";
-    Scene.call(this, {threejs: true});
+    Scene.call(this, options);
     this.intro("3D Bouncing Balls", "Touch to move camera.");
-    
+    this.renderer = this.canvasManager.renderer;
+    this.camera = this.canvasManager.camera;
+    this.scene = this.canvasManager.scene;
+
     //light
     var color = Color.createSoftColor().ToInt(),
         light = new THREE.AmbientLight(0xffffff); // soft white light

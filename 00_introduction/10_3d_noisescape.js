@@ -1,24 +1,27 @@
 /*global Scene, toxi, THREE*/
 //  https://github.com/lukas2/threejs_landscape/blob/master/js/app.js
-var NoiseScapeScene = function () {
+var NoiseScapeScene = function (options) {
     "use strict";
-    Scene.call(this, {threejs : true});
+    Scene.call(this, options);
     this.intro("Noise Scape", "3D plot of Perlin noise.<br>Evolve with time.");
+    
+    this.renderer = this.canvasManager.renderer;
+    this.camera = this.canvasManager.camera;
+    this.scene = this.canvasManager.scene;
 
     this.t = 0;
     this.dx = -0.001;
     this.dy = 0;
     this.res = 20;
 
-    var size = Math.min(this.size.x, this.size.y) / 4,
+    let size = Math.min(this.size.x, this.size.y) / 4,
         geometry = new THREE.PlaneGeometry(size, size, this.res, this.res),
         material = new THREE.MeshNormalMaterial({
             side: THREE.DoubleSide
-        }),
-        pointLight = null;
+        });
 
-    // create a point light
-    pointLight = new THREE.PointLight(0xFFFFFF);
+    // create a point light 
+    let pointLight = new THREE.PointLight(0xFFFFFF);
     pointLight.position.set(10, 50, 130);
     this.scene.add(pointLight);
 
@@ -28,7 +31,9 @@ var NoiseScapeScene = function () {
     this.scene.add(this.plane);
 
     // controls
-    this.controls = new THREE.OrbitControls(this.camera, this.canvas);
+    this.controls = (this.canvas) ? 
+        new THREE.OrbitControls(this.camera, this.canvas):
+     null
 };
 NoiseScapeScene.prototype = Object.create(Scene.prototype);
 NoiseScapeScene.prototype.constructor = NoiseScapeScene;
@@ -76,10 +81,12 @@ NoiseScapeScene.prototype.getHeightMap = function () {
 NoiseScapeScene.prototype.loop = function () {
     "use strict";
     this.updateGeometry();
-    this.controls.update();
     this.renderer.render(this.scene, this.camera);
+    
+    if(this.controls)
+        this.controls.update();
+    
     this.t += 0.001;
-
     Scene.prototype.loop.call(this);
 };
 

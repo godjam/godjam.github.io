@@ -1,7 +1,7 @@
 /*global Scene, Vector2, Color*/
-var BouncingBallScene = function () {
+var BouncingBallScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Bouncing Ball", "It all starts with small things.");
 
     this.r = Math.min(this.size.x, this.size.y) / 50;

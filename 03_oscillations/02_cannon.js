@@ -1,8 +1,8 @@
 /*global Scene, Mover, Gravity, MouseEvtListener, Vector2 */
 //*************************************************
-var CannonScene = function () {
+var CannonScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Cannon", "Touch to shoot.");
 
     var w = this.size.x,
@@ -18,7 +18,7 @@ var CannonScene = function () {
         force = new Vector2(0, -this.r / 4);
     }
 
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.createNewBullet));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.createNewBullet));
 
     this.gravity = new Gravity(0, 0.2);
     this.cannon = new Mover(this.r, h / 2, this, this.r * 2);

@@ -1,8 +1,8 @@
 /*global Scene, Mover, Gravity, Liquid, ActiveArea*/
 //*************************************************
-var DragForceScene = function () {
+var DragForceScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Drag force", "TODO : touch to add new movers");
 
     var i = 0,

@@ -1,8 +1,8 @@
 /*global Scene, CA*/
 //*************************************************
-var WolframCAScene = function () {
+var WolframCAScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Wolfram CA", "Generates new rules continuously.");
     this.init();
 };

@@ -1,8 +1,8 @@
 /*global Scene, Mover, MouseAttractor, Attractor*/
 //*************************************************
-var RepulsiveMoversScene = function () {
+var RepulsiveMoversScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Repulsion", "Movers repel each others but are attracted by the attractor.");
 
     var i = 0,

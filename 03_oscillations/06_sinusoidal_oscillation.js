@@ -1,7 +1,7 @@
 /*global Scene, Tools, Mover*/
-var SinusoidalOcillationScene = function () {
+var SinusoidalOcillationScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Spring emulation");
     
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);

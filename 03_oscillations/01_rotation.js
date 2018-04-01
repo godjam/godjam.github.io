@@ -1,8 +1,8 @@
 /*global Vector2, Color, Scene*/
 //*************************************************
-var RotationScene = function () {
+var RotationScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Rotation");
 
     var w = this.size.x,

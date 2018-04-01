@@ -1,9 +1,9 @@
 /*global Scene, MouseEvtListener, Spring, Mover, Gravity, Friction*/
-var SpringsScene = function () {
+var SpringsScene = function (options) {
     "use strict";
     this.intro("Springs", "Simulates a spring attached to a spring.");
 
-    Scene.call(this);
+    Scene.call(this, options);
     var w = this.size.x,
         h = this.size.y,
         s = Math.min(w, h),
@@ -17,7 +17,7 @@ var SpringsScene = function () {
     this.gravity = new Gravity(0, 0.02);
     this.friction = new Friction(0.2);
 
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.attract));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.attract));
 };
 SpringsScene.prototype = Object.create(Scene.prototype);
 SpringsScene.prototype.constructor = SpringsScene;

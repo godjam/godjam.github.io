@@ -4,7 +4,7 @@ Boundary, PolyBoundary, ChainBoundary, KinematicObstacle, CircleBoundary*/
 //*************************************************
 var BoxesScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     if (options === undefined) {
         options.boxes_type = 0;
     }
@@ -32,7 +32,7 @@ var BoxesScene = function (options) {
 
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
 };
 BoxesScene.prototype = Object.create(Scene.prototype);
 BoxesScene.prototype.constructor = BoxesScene;

@@ -7,9 +7,9 @@
  * 3) "followers" (= follow mouse)
  */
 //*************************************************
-var EcosystemScene_01 = function () {
+var EcosystemScene_01 = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("The Ecosystem Project 01", "Here are 4 groups of movers with distinct behaviors.");
     var i = 0,
         attractor = new Attractor(0, 0, 30, 3);
@@ -18,6 +18,7 @@ var EcosystemScene_01 = function () {
     this.gravity = new Gravity(0, 0.2);
     this.rndFly = new RandomForce(true);
     this.attractor = new MouseAttractor(this, attractor);
+    
     this.colors = [];
 
     // init palette

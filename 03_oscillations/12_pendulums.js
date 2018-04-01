@@ -1,9 +1,9 @@
 /*global Scene, MouseEvtListener, Pendulum, Mover, console*/
-var OscillationScene = function () {
+var OscillationScene = function (options) {
     "use strict";
     this.intro("Pendulum", "Simulates a pendulum attached to a pendulum.");
 
-    Scene.call(this);
+    Scene.call(this, options);
     var w = this.size.x,
         h = this.size.y,
         s = Math.max(w, h),
@@ -13,7 +13,7 @@ var OscillationScene = function () {
     this.pendulum1 = new Pendulum(w / 2, 0, r1, Math.PI / 2);
     this.mover0 = new Mover(0, 0, this, s / 20);
     this.mover1 = new Mover(0, 0, this, s / 25);
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.attract));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.attract));
 };
 OscillationScene.prototype = Object.create(Scene.prototype);
 OscillationScene.prototype.constructor = OscillationScene;

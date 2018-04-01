@@ -1,8 +1,8 @@
 /*global Scene, Mover, MouseAttractor, StrangeAttractor*/
 //*************************************************
-var CustomAttractionScene = function () {
+var CustomAttractionScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Custom Attraction", "Far movers are attracted by the attractor. Close movers are repel.");
 
     var i = 0,

@@ -1,7 +1,7 @@
 /*global Scene, Color, toxi, Vector2, MouseEvtListener*/
-var VectorWalkerScene = function () {
+var VectorWalkerScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Vector Walker", "Perlin based movement, influenced by touch.");
 
     this.position = new Vector2(this.size.x / 2, this.size.y / 2);
@@ -11,7 +11,8 @@ var VectorWalkerScene = function () {
     this.stepsize = 1;
     this.color = Color.createNormalDistribColor();
     this.mousePosition = null;
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseEvent));
+    
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseEvent));
 };
 VectorWalkerScene.prototype = Object.create(Scene.prototype);
 VectorWalkerScene.prototype.constructor = VectorWalkerScene;

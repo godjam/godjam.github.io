@@ -7,7 +7,7 @@ var Rect = toxi.geom.Rect,
 //*************************************************
 var ToxiSimulationScene = function(options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
 
     if (options === undefined) {
         options = {
@@ -38,8 +38,8 @@ var ToxiSimulationScene = function(options) {
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
     // Orientation : change gravity
     this.physics.addBehavior(this.behavior);
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
-    this.eventListeners.push(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
+    this.addListener(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
 };
 ToxiSimulationScene.prototype = Object.create(Scene.prototype);
 ToxiSimulationScene.prototype.constructor = ToxiSimulationScene;

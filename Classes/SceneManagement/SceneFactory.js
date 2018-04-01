@@ -1,4 +1,4 @@
-/*global console, Scene, TestScene, CanvasTestScene, ColorTestScene, WalkerScene,
+/*global console, Scene, CanvasTestScene, ColorTestScene, WalkerScene,
 NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
 VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
 MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
@@ -13,18 +13,20 @@ ClustersSystemScene, VehiclesSystemScene, WolframCAScene, GameOfLifeScene,
 HexaGameOfLifeScene, ProbaGameOfLifeScene, ContinuousGameOfLifeScene,
 RecursiveCircleScene, KochSnowflakeScene, SierpinskiTriangleScene,
 RecursiveTreeScene, LSystemScene*/
-var SceneFactory = function () {
+let SceneFactory = function () {
     "use strict";
     this.scene = undefined;
     this.cache = undefined;
-    this.option = undefined;
+    this.options = undefined;
+    this.canvasManager = undefined;
 };
 
 // start function 'default' scene
 window.addEventListener("DOMContentLoaded", function () {
     "use strict";
     SceneFactory.init();
-    SceneFactory.parseURL();
+    //SceneFactory.parseURL();
+    SceneFactory.initMiniMenus();
 });
 
 SceneFactory.toggleFullscreen = function () {
@@ -56,9 +58,54 @@ SceneFactory.toggleFullscreen = function () {
     }
 };
 
+SceneFactory.initMiniMenus = function () {
+    "use strict";
+    SceneFactory.createMiniScene("00", "c_00");
+    SceneFactory.createMiniScene("01", "c_01");
+
+    SceneFactory.createMiniScene("00_01", "c_00_01");
+    SceneFactory.createMiniScene("00_03", "c_00_03");
+    SceneFactory.createMiniScene("00_04", "c_00_04");
+    SceneFactory.createMiniScene("00_05", "c_00_05");
+    SceneFactory.createMiniScene("00_06", "c_00_06");
+    SceneFactory.createMiniScene("00_07", "c_00_07");
+    SceneFactory.createMiniScene("00_09", "c_00_09");
+    SceneFactory.createMiniScene("00_10", "c_00_10");
+    
+    SceneFactory.createMiniScene("01_01", "c_01_01");
+    SceneFactory.createMiniScene("01_02", "c_01_02");
+    SceneFactory.createMiniScene("01_03", "c_01_03");
+    SceneFactory.createMiniScene("01_05", "c_01_05");
+    SceneFactory.createMiniScene("01_06", "c_01_06");
+    SceneFactory.createMiniScene("01_08", "c_01_08");
+    SceneFactory.createMiniScene("ES_01", "c_ES_01");
+
+    SceneFactory.createMiniScene("02_01", "c_02_01");
+    SceneFactory.createMiniScene("02_03", "c_02_03");
+    SceneFactory.createMiniScene("02_04", "c_02_04");
+    SceneFactory.createMiniScene("02_05", "c_02_05");
+    SceneFactory.createMiniScene("02_08", "c_02_08");
+    SceneFactory.createMiniScene("02_09", "c_02_09");
+    SceneFactory.createMiniScene("02_10", "c_02_10");
+    SceneFactory.createMiniScene("ES_02", "c_ES_02");
+
+    SceneFactory.createMiniScene("03_01", "c_03_01");
+    SceneFactory.createMiniScene("03_02", "c_03_02");
+    SceneFactory.createMiniScene("03_04", "c_03_04");
+    SceneFactory.createMiniScene("03_06", "c_03_06");
+    SceneFactory.createMiniScene("03_07", "c_03_07");
+    SceneFactory.createMiniScene("03_08", "c_03_08");
+    SceneFactory.createMiniScene("03_09", "c_03_09");
+    SceneFactory.createMiniScene("03_10", "c_03_10");
+    SceneFactory.createMiniScene("03_11", "c_03_11");
+    SceneFactory.createMiniScene("03_12", "c_03_12");
+    SceneFactory.createMiniScene("03_16", "c_03_16");
+    SceneFactory.createMiniScene("ES_03", "c_ES_03");
+}
+
 SceneFactory.parseURL = function () {
     "use strict";
-    var defaultKey = "08_12",
+    let defaultKey = "08_12",
         key = "";
 
     if (window !== null) {
@@ -84,36 +131,37 @@ SceneFactory.init = function () {
 
     // based on : http://eloquentjavascript.net/10_modules.html
     this.cache = Object.create(null);
-    this.option = Object.create(null);
+    this.options = Object.create(null);
 
     // tests
     this.cache["00"] = CanvasTestScene;
     this.cache["01"] = ColorTestScene;
-    this.cache["02"] = TestScene;
     // chap 0 : introduction
     this.cache["00_01"] = WalkerScene;
-    this.option["00_01"] = {walkertype: 0};
+    this.options["00_01"] = {walkertype: 0};
 
     this.cache["00_03"] = WalkerScene;
-    this.option["00_03"] = {walkertype: 1};
+    this.options["00_03"] = {walkertype: 1};
 
     this.cache["00_04"] = NormalDistribScene;
 
     this.cache["00_05"] = WalkerScene;
-    this.option["00_05"] = {walkertype: 2};
+    this.options["00_05"] = {walkertype: 2};
 
     this.cache["00_06"] = WalkerScene;
-    this.option["00_06"] = {walkertype: 3};
+    this.options["00_06"] = {walkertype: 3};
 
     this.cache["00_07"] = WalkerScene;
-    this.option["00_07"] = {walkertype: 4};
+    this.options["00_07"] = {walkertype: 4};
 
     this.cache["00_09"] = PerlinNoiseScene;
     this.cache["00_10"] = NoiseScapeScene;
+    this.options["00_10"] = {threejs: true};
     // chap 1 : Vector
     this.cache["01_01"] = BouncingBallScene;
     this.cache["01_02"] = VectorWalkerScene;
     this.cache["01_03"] = BouncingBall3DScene;
+    this.options["01_03"] = {threejs: true};    
     this.cache["01_05"] = MoverAccelerationScene;
     this.cache["01_06"] = MoverPerlinScene;
     this.cache["01_08"] = MoverFollowScene;
@@ -134,19 +182,19 @@ SceneFactory.init = function () {
     this.cache["03_06"] = SinusoidalOcillationScene;
 
     this.cache["03_07"] = OscillatorScene;
-    this.option["03_07"] = {oscillatortype: 1};
+    this.options["03_07"] = {oscillatortype: 1};
 
     this.cache["03_08"] = OscillatorScene;
-    this.option["03_08"] = {oscillatortype: 2};
+    this.options["03_08"] = {oscillatortype: 2};
 
     this.cache["03_09"] = OscillatorScene;
-    this.option["03_09"] = {oscillatortype: 3};
+    this.options["03_09"] = {oscillatortype: 3};
 
     this.cache["03_10"] = OscillatorScene;
-    this.option["03_10"] = {oscillatortype: 4};
+    this.options["03_10"] = {oscillatortype: 4};
 
     this.cache["03_11"] = OscillatorScene;
-    this.option["03_11"] = {oscillatortype: 5};
+    this.options["03_11"] = {oscillatortype: 5};
 
     this.cache["03_12"] = OscillationScene;
     this.cache["03_16"] = SpringsScene;
@@ -165,90 +213,90 @@ SceneFactory.init = function () {
 
     // chap 5 : Physics Libraries
     this.cache["05_02"] = BoxesScene;
-    this.option["05_02"] = {boxes_type: 0};
+    this.options["05_02"] = {boxes_type: 0};
 
     this.cache["05_03"] = BoxesScene;
-    this.option["05_03"] = {boxes_type: 1};
+    this.options["05_03"] = {boxes_type: 1};
 
     this.cache["05_04"] = BoxesScene;
-    this.option["05_04"] = {boxes_type: 2};
+    this.options["05_04"] = {boxes_type: 2};
 
     this.cache["05_05"] = BoxesScene;
-    this.option["05_05"] = {boxes_type: 3};
+    this.options["05_05"] = {boxes_type: 3};
 
     this.cache["05_06"] = BoxesScene;
-    this.option["05_06"] = {boxes_type: 5};
+    this.options["05_06"] = {boxes_type: 5};
 
     this.cache["05_07"] = BoxesScene;
-    this.option["05_07"] = {boxes_type: 6};
+    this.options["05_07"] = {boxes_type: 6};
 
     this.cache["05_08"] = BoxesScene;
-    this.option["05_08"] = {boxes_type: 7};
+    this.options["05_08"] = {boxes_type: 7};
 
     this.cache["05_09"] = BoxesScene;
-    this.option["05_09"] = {boxes_type: 8};
+    this.options["05_09"] = {boxes_type: 8};
 
     this.cache["05_10"] = BoxesScene;
-    this.option["05_10"] = {boxes_type: 9};
+    this.options["05_10"] = {boxes_type: 9};
 
     this.cache["05_11"] = CollisionListenerScene;
 
     this.cache["05_13"] = ToxiSimulationScene;
-    this.option["05_13"] = {sim_type: 0};
+    this.options["05_13"] = {sim_type: 0};
 
     this.cache["05_14"] = ToxiSimulationScene;
-    this.option["05_14"] = {sim_type: 1};
+    this.options["05_14"] = {sim_type: 1};
 
     this.cache["05_15"] = ClustersSystemScene;
 
     this.cache["05_16"] = ToxiSimulationScene;
-    this.option["05_16"] = {sim_type: 2};
+    this.options["05_16"] = {sim_type: 2};
 
     // chap 5 : Steering Behaviors
     this.cache["06_01"] = VehiclesSystemScene;
-    this.option["06_01"] = {behavior_type: 0};
+    this.options["06_01"] = {behavior_type: 0};
 
     this.cache["06_02"] = VehiclesSystemScene;
-    this.option["06_02"] = {behavior_type: 1};
+    this.options["06_02"] = {behavior_type: 1};
 
     this.cache["06_03"] = VehiclesSystemScene;
-    this.option["06_03"] = {behavior_type: 2};
+    this.options["06_03"] = {behavior_type: 2};
 
     this.cache["06_04"] = VehiclesSystemScene;
-    this.option["06_04"] = {behavior_type: 3};
+    this.options["06_04"] = {behavior_type: 3};
 
     this.cache["06_05"] = VehiclesSystemScene;
-    this.option["06_05"] = {behavior_type: 4};
+    this.options["06_05"] = {behavior_type: 4};
 
     this.cache["06_07"] = VehiclesSystemScene;
-    this.option["06_07"] = {behavior_type: 5};
+    this.options["06_07"] = {behavior_type: 5};
 
     this.cache["06_10"] = VehiclesSystemScene;
-    this.option["06_10"] = {behavior_type: 6};
+    this.options["06_10"] = {behavior_type: 6};
 
     this.cache["06_11"] = VehiclesSystemScene;
-    this.option["06_11"] = {behavior_type: 7};
+    this.options["06_11"] = {behavior_type: 7};
 
     this.cache["06_12"] = VehiclesSystemScene;
-    this.option["06_12"] = {behavior_type: 8};
+    this.options["06_12"] = {behavior_type: 8};
 
     this.cache["06_13"] = VehiclesSystemScene;
-    this.option["06_13"] = {behavior_type: 9};
+    this.options["06_13"] = {behavior_type: 9};
 
     this.cache["06_14"] = VehiclesSystemScene;
-    this.option["06_14"] = {behavior_type: 10};
+    this.options["06_14"] = {behavior_type: 10};
 
     this.cache["06_15"] = VehiclesSystemScene;
-    this.option["06_15"] = {behavior_type: 11};
+    this.options["06_15"] = {behavior_type: 11};
 
     this.cache["06_16"] = VehiclesSystemScene;
-    this.option["06_16"] = {behavior_type: 12};
+    this.options["06_16"] = {behavior_type: 12};
 
     this.cache["06_17"] = VehiclesSystemScene;
-    this.option["06_17"] = {behavior_type: 13};
+    this.options["06_17"] = {behavior_type: 13};
 
     this.cache["06_19"] = VehiclesSystemScene;
-    this.option["06_19"] = {behavior_type: 14};
+    this.options["06_19"] = {behavior_type: 14};
 
     // TODO: Box2DVehicle
     // TODO: The Ecosystem project (p 343)
@@ -276,6 +324,37 @@ SceneFactory.autoclose = function () {
     document.getElementById("togglebox").checked = false;
 };
 
+SceneFactory.createMiniScene = function (key, canvasID) {
+    'use strict';
+    // check string
+    if (typeof key !== 'string') {
+        throw 'SceneFactory.createMiniScene : key is not a string';
+    }
+
+    if (this.cache[key] === undefined) {
+        throw `SceneFactory.createMiniScene : specified key (${key}) doesn't exists`;
+    }
+
+    let params = Object.assign({}, this.options[key]);
+
+    let sceneKey = this.cache[key];
+    if (sceneKey == null) {
+        throw 'SceneFactory.createMiniScene : sceneKey is not a Scene';
+    }
+    
+    let canvasManager = (params.threejs) ?
+        new MiniCanvas3D(canvasID, sceneKey, params):
+        new MiniCanvas2D(canvasID, sceneKey, params);
+     
+
+    params.key = key;
+    params.canvasManager = canvasManager;
+
+    console.log('createMiniScene ' +  params.key);
+    SceneFactory.start();
+};
+
+
 SceneFactory.createScene = function (key) {
     "use strict";
     // check string
@@ -287,19 +366,15 @@ SceneFactory.createScene = function (key) {
         throw "SceneFactory.createScene : specified key doesn't exists";
     }
 
-    SceneFactory.start(new this.cache[key](this.option[key]));
+    this.params = Object.assign({}, this.options[key]);
+    this.params.key = key;
+    console.log("createScene " +  this.params.key);
+
+    SceneFactory.start(new this.cache[key](this.params));
 };
 
 SceneFactory.start = function (scene) {
-    "use strict";
-    if (scene instanceof Scene === false) {
-        throw "SceneFactory.start : scene is not a Scene";
-    }
-
-    this.stop();
-    this.scene = scene;
-    this.requestAnimValue = window.requestAnimationFrame(scene.loop.bind(scene));
-    this.autoclose();
+    
 };
 
 SceneFactory.stop = function () {

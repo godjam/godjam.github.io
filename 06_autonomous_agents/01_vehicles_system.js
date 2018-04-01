@@ -2,7 +2,7 @@
 //*************************************************
 var VehiclesSystemScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     if (options === undefined) {
         behavior_type: 0;
     }
@@ -23,7 +23,7 @@ var VehiclesSystemScene = function (options) {
         var v = new Vehicle(this, Math.random() * this.size.x, Math.random() * this.size.y);;
         this.vehicles.push(v);
     }
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt));
 };
 VehiclesSystemScene.prototype = Object.create(Scene.prototype);
 VehiclesSystemScene.prototype.constructor = VehiclesSystemScene;

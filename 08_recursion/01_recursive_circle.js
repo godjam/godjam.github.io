@@ -1,8 +1,8 @@
 /*global Scene, Kochcurve, Vector2, ColorMap, Color*/
 //*************************************************
-var RecursiveCircleScene = function () {
+var RecursiveCircleScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Recursive Circles");
     var center = new Vector2(this.size.x / 2, this.size.y / 2),
         r = Math.min(this.size.x, this.size.y) / 2 - 20,

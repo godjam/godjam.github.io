@@ -1,8 +1,8 @@
 /*global Scene, Mover, MouseAttractor, Attractor, Emitter*/
 //*************************************************
-var AttractiveParticlesScene = function () {
+var AttractiveParticlesScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Attractive particles", "The movers react to the attractor.<br>The particles attract each other.");
 
     this.attractor = new Attractor(0, 0, 30, 3);

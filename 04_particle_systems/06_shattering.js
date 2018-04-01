@@ -1,7 +1,7 @@
 /*global Scene, Mover, MouseEvtListener, Emitter, Gravity, Vector2*/
-var ShatteringScene = function () {
+var ShatteringScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Shattering", "Touch a mover to explode it.");
 
     this.maxMovers = 30;
@@ -9,7 +9,7 @@ var ShatteringScene = function () {
 
     this.movers = [];
     this.emitters = [];
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.shatter));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.shatter));
     this.gravity = new Gravity(0, 0.08);
 
     var i = 0;

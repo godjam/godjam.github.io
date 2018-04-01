@@ -1,7 +1,7 @@
 /*global Scene, Tools, Color*/
-var NormalDistribScene = function () {
+var NormalDistribScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Splatter", "Position and color follow a normal distribution.");
 
     this.sd = Math.min(this.size.x, this.size.y) / 2;

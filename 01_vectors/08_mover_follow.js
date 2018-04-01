@@ -1,14 +1,14 @@
 /*global Scene, Mover, MouseEvtListener*/
-var MoverFollowScene = function () {
+var MoverFollowScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Mover: Pointer Tracking", "The walker will follow the touch events.");
 
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseEvent));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseEvent));
 };
 MoverFollowScene.prototype = Object.create(Scene.prototype);
-MoverFollowScene.prototype.constructor =  MoverFollowScene;
+MoverFollowScene.prototype.constructor = MoverFollowScene;
 
 MoverFollowScene.prototype.loop = function () {
     "use strict";

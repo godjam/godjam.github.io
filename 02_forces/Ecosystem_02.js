@@ -1,8 +1,8 @@
 /*global Scene, Food, Creature, Predator*/
 //*************************************************
-var EcosystemScene_02 = function () {
+var EcosystemScene_02 = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("The Ecosystem Project 02", "Food grows. Creatures seek food. Predators hunt creatures.");
 
     var i = 0;

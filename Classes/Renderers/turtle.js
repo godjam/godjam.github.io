@@ -1,8 +1,7 @@
-/*globals ECSModule, Vector2, ColorMap, Tools*/
-ECSModule.TurtleRenderer = (function() {
-    function TurtleRenderer (scene, lsystem) {
+/*globals Vector2, ColorMap, Tools*/
+var TurtleRenderer = function () {
+    function TurtleRenderer(scene, lsystem) {
         "use strict";
-        ECSModule.System.apply(this, scene, "display");
 
         this.scene = scene;
         this.lsystem = lsystem;
@@ -48,9 +47,8 @@ ECSModule.TurtleRenderer = (function() {
             dx2 = w / 2 - this.scene.size.x / 2, // diff entre centre de la zone de dessin et le centre de l'ecran
             dy2 = h / 2 - this.scene.size.y / 2;
     }
-    TurtleRenderer.prototype = Object.create(ECSModule.System.prototype);
 
-    TurtleRenderer.prototype.init = function() {
+    TurtleRenderer.prototype.init = function () {
         "use strict";
         this.position = new Vector2(this.lsystem.ox, this.lsystem.oy);
         this.heading = this.lsystem.oa - Math.PI / 2;
@@ -62,35 +60,43 @@ ECSModule.TurtleRenderer = (function() {
     };
 
 
-    TurtleRenderer.prototype.setInstructions = function(instructions) {
+    TurtleRenderer.prototype.setInstructions = function (instructions) {
         "use strict";
         this.instructions = instructions || "";
     };
 
-    TurtleRenderer.prototype.moveForward = function() {
+    TurtleRenderer.prototype.moveForward = function () {
         "use strict";
         var x = Math.cos(this.heading) * this.stepsize,
             y = Math.sin(this.heading) * this.stepsize;
         this.position.x += x;
         this.position.y += y;
 
-        if (this.position.x < this.min.x) {this.min.x = this.position.x; }
-        if (this.position.x > this.max.x) {this.max.x = this.position.x; }
-        if (this.position.y < this.min.y) {this.min.y = this.position.y; }
-        if (this.position.y > this.max.y) {this.max.y = this.position.y; }
+        if (this.position.x < this.min.x) {
+            this.min.x = this.position.x;
+        }
+        if (this.position.x > this.max.x) {
+            this.max.x = this.position.x;
+        }
+        if (this.position.y < this.min.y) {
+            this.min.y = this.position.y;
+        }
+        if (this.position.y > this.max.y) {
+            this.max.y = this.position.y;
+        }
     };
 
-    TurtleRenderer.prototype.turnLeft = function() {
+    TurtleRenderer.prototype.turnLeft = function () {
         "use strict";
         this.heading += this.angle;
     };
 
-    TurtleRenderer.prototype.turnRight = function() {
+    TurtleRenderer.prototype.turnRight = function () {
         "use strict";
         this.heading -= this.angle;
     };
 
-    TurtleRenderer.prototype.drawForwardLine = function(ctx) {
+    TurtleRenderer.prototype.drawForwardLine = function (ctx) {
         "use strict";
         var x = this.position.x,
             y = this.position.y;
@@ -105,16 +111,18 @@ ECSModule.TurtleRenderer = (function() {
         }
     };
 
-    TurtleRenderer.prototype.push = function() {
+    TurtleRenderer.prototype.push = function () {
         "use strict";
         this.xstack.push(this.position.x);
         this.ystack.push(this.position.y);
         this.hstack.push(this.heading);
         this.actualdeep += 1;
-        if (this.actualdeep > this.deepness) { this.deepness = this.actualdeep; }
+        if (this.actualdeep > this.deepness) {
+            this.deepness = this.actualdeep;
+        }
     };
 
-    TurtleRenderer.prototype.pop = function() {
+    TurtleRenderer.prototype.pop = function () {
         "use strict";
         this.position.x = this.xstack.pop();
         this.position.y = this.ystack.pop();
@@ -124,43 +132,32 @@ ECSModule.TurtleRenderer = (function() {
 
 
 
-    TurtleRenderer.prototype.render = function(ctx) {
+    TurtleRenderer.prototype.render = function (ctx) {
         "use strict";
-        //ECSModule.System.prototype.update.call(this, time);
-        // render with animation
-        /*
-        var imin = this.imax;
-
-        if (this.saved_rect) {
-            ctx.putImageData(this.saved_rect, this.min.x, this.min.y);
-        }
-        if (this.imax < this.instructions.length) {
-            this.imax += 10;
-            Tools.clamp(this.imax, 0, this.instructions.length);
-            this.interpret(imin, this.imax, ctx)
-            this.saved_rect = ctx.getImageData(this.min.x, this.min.y, this.max.x, this.max.y);
-        }
-        /*/
-
         // simple render
         this.interpret(0, this.instructions.length, ctx);
         this.init();
-        //*/
     };
 
-    TurtleRenderer.prototype.interpret = function(imin, imax, ctx) {
+    TurtleRenderer.prototype.interpret = function (imin, imax, ctx) {
         "use strict";
-        var i = 0, c = "";
+        var i = 0,
+            c = "";
         for (i = imin; i < imax; i += 1) {
-                c = this.instructions[i];
-                if (c === 'F') { this.drawForwardLine(ctx); }
-                else if (c === 'G') { this.moveForward(); }
-                else if (c === '+') { this.turnLeft(); }
-                else if (c === '-') { this.turnRight(); }
-                else if (c === '[') { this.push(); }
-                else if (c === ']') { this.pop(); }
+            c = this.instructions[i];
+            if (c === 'F') {
+                this.drawForwardLine(ctx);
+            } else if (c === 'G') {
+                this.moveForward();
+            } else if (c === '+') {
+                this.turnLeft();
+            } else if (c === '-') {
+                this.turnRight();
+            } else if (c === '[') {
+                this.push();
+            } else if (c === ']') {
+                this.pop();
             }
+        }
     }
-
-    return TurtleRenderer;
-}());
+};

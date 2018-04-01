@@ -1,13 +1,14 @@
 /*global Scene, LSystem, ECSModule*/
 //*************************************************
-var LSystemScene = function() {
+var LSystemScene = function(options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("LSystem");
     this.initNewLSystem();
     this.addUpdatCallback(this, this.initNewLSystem, 500);
 };
-System.extends(LSystemScene, Scene);
+LSystemScene.prototype = Object.create(Scene.prototype);
+LSystemScene.prototype.constructor = LSystemScene;
 
 LSystemScene.prototype.initNewLSystem = function() {
     "use strict";

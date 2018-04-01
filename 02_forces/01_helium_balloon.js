@@ -1,9 +1,9 @@
 /*global Scene, Mover, Gravity, RandomForce*/
-var HeliumBalloonScene = function () {
+var HeliumBalloonScene = function (options) {
     "use strict";
     this.intro("Helium Balloons");
 
-    Scene.call(this);
+    Scene.call(this, options);
     var i = 0,
         max = Math.max(8, this.size.x / 10);
     this.ballons = [];

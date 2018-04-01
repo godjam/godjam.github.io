@@ -1,8 +1,8 @@
 /*global Scene, Kochcurve, Vector2, ColorMap, Color*/
 //*************************************************
-var KochSnowflakeScene = function () {
+var KochSnowflakeScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Snowflake");
     var r = Math.min(this.size.x, this.size.y) / 2 - 20,
         p1 = Vector2.fromPolar(r, 2 * Math.PI / 3),

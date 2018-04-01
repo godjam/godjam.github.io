@@ -1,8 +1,8 @@
 /*global Scene, Mover, MouseAttractor, Attractor*/
 //*************************************************
-var GravitationalAttractionScene = function () {
+var GravitationalAttractionScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Attraction", "Movers are attracted by the attractor. Plus, they attract each others.<br>Touch to move the attractor.");
 
     var i = 0,

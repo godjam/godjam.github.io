@@ -10,7 +10,7 @@ var Rect = toxi.geom.Rect,
 //*************************************************
 var ClustersSystemScene = function() {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Force Directed Graph", "Touch to add new elements in clusters.<br>Reacts to orientation events.<br>Screen lock is recomended.");
 
     this.threshold = Math.max(this.size.x, this.size.y) / 5;
@@ -28,8 +28,8 @@ var ClustersSystemScene = function() {
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
     // Orientation : change gravity
     this.physics.addBehavior(this.gravityBehavior);
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
-    this.eventListeners.push(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
+    this.addListener(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
     this.addFirstParticles();
 };
 ClustersSystemScene.prototype = Object.create(Scene.prototype);

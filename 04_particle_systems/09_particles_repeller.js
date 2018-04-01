@@ -1,8 +1,8 @@
 /*global Scene, Emitter, Mover, Attractor, MouseAttractor, Gravity, Vector2*/
 //*************************************************
-var ParticlesRepellerScene = function () {
+var ParticlesRepellerScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Particles repeller", "The movers react to the attractor.<br>The movers repel particles.");
 
     this.emitter = new Emitter(this, new Vector2(this.size.x / 2, this.size.y / 2));

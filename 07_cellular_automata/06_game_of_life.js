@@ -1,8 +1,8 @@
 /*global Scene, CA2D, MouseEvtListener*/
 //*************************************************
-var GameOfLifeScene = function () {
+var GameOfLifeScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Game Of Life", "Touch to add new cells.");
     this.init();
 };
@@ -15,7 +15,7 @@ GameOfLifeScene.prototype.init = function () {
     columns = Math.round(this.size.x / cellsize),
     lines = Math.round(this.size.y / cellsize);
     this.ca = new CA2D(columns, lines, this);
-    this.eventListeners.push(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
+    this.addListener(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
 };
 
 GameOfLifeScene.prototype.loop = function () {

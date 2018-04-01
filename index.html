@@ -33,7 +33,6 @@
     <script src="Libs/Box2dWeb-2.1.a.3.js"></script>
     <script src="Libs/toxiclibs.min.js"></script>
 
-    <script src="Classes/System.js"></script>
     <script src="Classes/Tools.js"></script>
     <script src="Classes/Color.js"></script>
     <script src="Classes/Vector2.js"></script>
@@ -112,8 +111,12 @@
     <script src="Classes/SceneManagement/OrientationEvtListener.js"></script>
     <script src="Classes/SceneManagement/VirtualDPad.js"></script>
     <script src="Classes/SceneManagement/FrameLoop.js"></script>
+    <script src="Classes/SceneManagement/CanvasManager.js"></script>
+    <script src="Classes/SceneManagement/MiniCanvas2D.js"></script>
+    <script src="Classes/SceneManagement/MiniCanvas3D.js"></script>
+    <script src="Classes/SceneManagement/MainCanvas2D.js"></script>
+    <script src="Classes/SceneManagement/MainCanvas3D.js"></script>
     <script src="Classes/SceneManagement/Scene.js"></script>
-    <script src="Classes/SceneManagement/TestScene.js"></script>
     <!-- scenes -->
     <script src="00_introduction/00_canvas.js"></script>
     <script src="00_introduction/00_color.js"></script>
@@ -183,51 +186,51 @@
                 <h1>The <b>Nature</b> of Code</h1> <!--TODO : linkto natureofcode.com -->
                 <button onClick="SceneFactory.toggleFullscreen()">Toggle Fullscreen</button>
                 <h2>Simple experiments</h2>
-                <button onClick="SceneFactory.createScene('00')">Canvas</button>
-                <button onClick="SceneFactory.createScene('01')">Color</button>
+                <button onClick="SceneFactory.createScene('00')"><canvas class="mini" id="c_00"></canvas><p>Canvas</p></button>
+                <button onClick="SceneFactory.createScene('01')"><canvas class="mini" id="c_01"></canvas><p>Color</p></button>
 
                 <h2>Introduction</h2>
-                <button onClick="SceneFactory.createScene('00_01')">01 - Right Walker</button>
-                <button onClick="SceneFactory.createScene('00_03')">03 - Weighted Random Walker</button>
-                <button onClick="SceneFactory.createScene('00_04')">04 - Splatter</button>
-                <button onClick="SceneFactory.createScene('00_05')">05 - Normal distrib Walker</button>
-                <button onClick="SceneFactory.createScene('00_06')">06 - Monte Carlo Walker</button>
-                <button onClick="SceneFactory.createScene('00_07')">07 - Perlin Walker</button>
-                <button onClick="SceneFactory.createScene('00_09')">09 - Perlin noise 2D (slow!)</button>
-                <button onClick="SceneFactory.createScene('00_10')">10 - Noise Scape</button>
+                <button onClick="SceneFactory.createScene('00_01')"><canvas class="mini" id="c_00_01"></canvas><p>01 - Right Walker</p></button>
+                <button onClick="SceneFactory.createScene('00_03')"><canvas class="mini" id="c_00_03"></canvas><p>03 - Weighted Random Walker</p></button>
+                <button onClick="SceneFactory.createScene('00_04')"><canvas class="mini" id="c_00_04"></canvas><p>04 - Splatter</p></button>
+                <button onClick="SceneFactory.createScene('00_05')"><canvas class="mini" id="c_00_05"></canvas><p>05 - Normal distrib Walker</p></button>
+                <button onClick="SceneFactory.createScene('00_06')"><canvas class="mini" id="c_00_06"></canvas><p>06 - Monte Carlo Walker</p></button>
+                <button onClick="SceneFactory.createScene('00_07')"><canvas class="mini" id="c_00_07"></canvas><p>07 - Perlin Walker</p></button>
+                <button onClick="SceneFactory.createScene('00_09')"><canvas class="mini" id="c_00_09"></canvas><p>09 - Perlin noise 2D (slow!)</p></button>
+                <button onClick="SceneFactory.createScene('00_10')"><canvas class="mini" id="c_00_10"></canvas><p>10 - Noise Scape</p></button>
 
                 <h2>Chap 01 - Vectors</h2>
-                <button onClick="SceneFactory.createScene('01_01')">01 - Bouncing Ball</button>
-                <button onClick="SceneFactory.createScene('01_02')">02 - Vector Walker</button>
-                <button onClick="SceneFactory.createScene('01_03')">03 - 3D Bouncing Balls</button>
-                <button onClick="SceneFactory.createScene('01_05')">05 - Mover: Acceleration</button>
-                <button onClick="SceneFactory.createScene('01_06')">06 - Mover: Perlin Accel.</button>
-                <button onClick="SceneFactory.createScene('01_08')">08 - Mover: Pointer Tracking</button>
-                <button onClick="SceneFactory.createScene('ES_01')">The Ecosystem Project</button>
+                <button onClick="SceneFactory.createScene('01_01')"><canvas class="mini" id="c_01_01"></canvas><p>01 - Bouncing Ball</p></button>
+                <button onClick="SceneFactory.createScene('01_02')"><canvas class="mini" id="c_01_02"></canvas><p>02 - Vector Walker</p></button>
+                <button onClick="SceneFactory.createScene('01_03')"><canvas class="mini" id="c_01_03"></canvas><p>03 - 3D Bouncing Balls</p></button>
+                <button onClick="SceneFactory.createScene('01_05')"><canvas class="mini" id="c_01_05"></canvas><p>05 - Mover: Acceleration</p></button>
+                <button onClick="SceneFactory.createScene('01_06')"><canvas class="mini" id="c_01_06"></canvas><p>06 - Mover: Perlin Accel.</p></button>
+                <button onClick="SceneFactory.createScene('01_08')"><canvas class="mini" id="c_01_08"></canvas><p>08 - Mover: Pointer Tracking</p></button>
+                <button onClick="SceneFactory.createScene('ES_01')"><canvas class="mini" id="c_ES_01"></canvas><p>The Ecosystem Project</p></button>
 
                 <h2>Chap 02 - Forces</h2>
-                <button onClick="SceneFactory.createScene('02_01')">01 - Helium Balloons</button>
-                <button onClick="SceneFactory.createScene('02_03')">03 - Center force</button>
-                <button onClick="SceneFactory.createScene('02_04')">04 - Friction force</button>
-                <button onClick="SceneFactory.createScene('02_05')">05 - Drag force</button>
-                <button onClick="SceneFactory.createScene('02_08')">08 - Attraction</button>
-                <button onClick="SceneFactory.createScene('02_09')">09 - Custom Attraction</button>
-                <button onClick="SceneFactory.createScene('02_10')">10 - Repulsion</button>
-                <button onClick="SceneFactory.createScene('ES_02')">The Ecosystem Project</button>
+                <button onClick="SceneFactory.createScene('02_01')"><canvas class="mini" id="c_02_01"></canvas><p>01 - Helium Balloons</p></button>
+                <button onClick="SceneFactory.createScene('02_03')"><canvas class="mini" id="c_02_03"></canvas><p>03 - Center force</p></button>
+                <button onClick="SceneFactory.createScene('02_04')"><canvas class="mini" id="c_02_04"></canvas><p>04 - Friction force</p></button>
+                <button onClick="SceneFactory.createScene('02_05')"><canvas class="mini" id="c_02_05"></canvas><p>05 - Drag force</p></button>
+                <button onClick="SceneFactory.createScene('02_08')"><canvas class="mini" id="c_02_08"></canvas><p>08 - Attraction</p></button>
+                <button onClick="SceneFactory.createScene('02_09')"><canvas class="mini" id="c_02_09"></canvas><p>09 - Custom Attraction</p></button>
+                <button onClick="SceneFactory.createScene('02_10')"><canvas class="mini" id="c_02_10"></canvas><p>10 - Repulsion</p></button>
+                <button onClick="SceneFactory.createScene('ES_02')"><canvas class="mini" id="c_ES_02"></canvas><p>The Ecosystem Project</p></button>
 
                 <h2>Chap 03 - Oscillation</h2>
-                <button onClick="SceneFactory.createScene('03_01')">01 - Rotation</button>
-                <button onClick="SceneFactory.createScene('03_02')">02 - Cannon</button>
-                <button onClick="SceneFactory.createScene('03_04')">04 - Spiral</button>
-                <button onClick="SceneFactory.createScene('03_06')">06 - Spring emulation</button>
-                <button onClick="SceneFactory.createScene('03_07')">07 - Wave: insect-like</button>
-                <button onClick="SceneFactory.createScene('03_08')">08 - Wave: Angular accel.</button>
-                <button onClick="SceneFactory.createScene('03_09')">09 - Wave: Perlin</button>
-                <button onClick="SceneFactory.createScene('03_10')">10 - Waves</button>
-                <button onClick="SceneFactory.createScene('03_11')">11 - Additive Waves</button>
-                <button onClick="SceneFactory.createScene('03_12')">12 - Pendulum</button>
-                <button onClick="SceneFactory.createScene('03_16')">16 - Springs</button>
-                <button onClick="SceneFactory.createScene('ES_03')">The Ecosystem Project</button>
+                <button onClick="SceneFactory.createScene('03_01')"><canvas class="mini" id="c_03_01"></canvas><p>01 - Rotation</p></button>
+                <button onClick="SceneFactory.createScene('03_02')"><canvas class="mini" id="c_03_02"></canvas><p>02 - Cannon</p></button>
+                <button onClick="SceneFactory.createScene('03_04')"><canvas class="mini" id="c_03_04"></canvas><p>04 - Spiral</p></button>
+                <button onClick="SceneFactory.createScene('03_06')"><canvas class="mini" id="c_03_06"></canvas><p>06 - Spring emulation</p></button>
+                <button onClick="SceneFactory.createScene('03_07')"><canvas class="mini" id="c_03_07"></canvas><p>07 - Wave: insect-like</p></button>
+                <button onClick="SceneFactory.createScene('03_08')"><canvas class="mini" id="c_03_08"></canvas><p>08 - Wave: Angular accel.</p></button>
+                <button onClick="SceneFactory.createScene('03_09')"><canvas class="mini" id="c_03_09"></canvas><p>09 - Wave: Perlin</p></button>
+                <button onClick="SceneFactory.createScene('03_10')"><canvas class="mini" id="c_03_10"></canvas><p>10 - Waves</p></button>
+                <button onClick="SceneFactory.createScene('03_11')"><canvas class="mini" id="c_03_11"></canvas><p>11 - Additive Waves</p></button>
+                <button onClick="SceneFactory.createScene('03_12')"><canvas class="mini" id="c_03_12"></canvas><p>12 - Pendulum</p></button>
+                <button onClick="SceneFactory.createScene('03_16')"><canvas class="mini" id="c_03_16"></canvas><p>16 - Springs</p></button>
+                <button onClick="SceneFactory.createScene('ES_03')"><canvas class="mini" id="c_ES_03"></canvas><p>The Ecosystem Project</p></button>
 
                 <h2>Chap 04 - Particles systems</h2>
                 <button onClick="SceneFactory.createScene('04_02')">02 - Particles</button>
@@ -294,7 +297,7 @@
 		<div id="main-container">
 			<label for="togglebox" id="navtoggler">Menu</label>
 			<div id="intro" class="intro_fade">Hello. Welcome here!</div>
-            <canvas></canvas>
+            <canvas id="canvas"></canvas>
 		</div>
 	</div>
 </body>

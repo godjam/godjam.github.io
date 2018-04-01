@@ -1,9 +1,9 @@
 /*global console, Scene, B2Vec2, B2World, MouseEvtListener, Box2dEntity,
 Vector2, Box, Boundary, ContactListener, Color, Tools*/
 //*************************************************
-var CollisionListenerScene = function () {
+var CollisionListenerScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Collision Detection", "Massive collisions will destroy blocks");
 
     this.maxBoxes = 50;
@@ -18,7 +18,7 @@ var CollisionListenerScene = function () {
 
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, 0));
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
 };
 CollisionListenerScene.prototype = Object.create(Scene.prototype);
 CollisionListenerScene.prototype.constructor = CollisionListenerScene;

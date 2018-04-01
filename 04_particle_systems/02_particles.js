@@ -1,8 +1,8 @@
 /*global Scene, Emitter, Mover, MouseEvtListener, Gravity, Vector2*/
 //*************************************************
-var ParticlesScene = function () {
+var ParticlesScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Particles", "Touch to move the emitter.");
 
     this.mover = new Mover(this.size.x / 2, 15, this, 15);
@@ -12,7 +12,7 @@ var ParticlesScene = function () {
     this.emitter.setAngle(-Math.PI, Math.PI);
     this.emitter.setParticlesSpeed(4);
     this.gravity = new Gravity(0, 0.2);
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.attract));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.attract));
 };
 ParticlesScene.prototype = Object.create(Scene.prototype);
 ParticlesScene.prototype.constructor =  ParticlesScene;

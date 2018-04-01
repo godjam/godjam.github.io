@@ -1,7 +1,7 @@
 /*global Scene, Oscillator*/
 var OscillatorScene = function(options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     if (options.oscillatortype === 1) {
         this.intro("Wave: Insect-Like");
     }

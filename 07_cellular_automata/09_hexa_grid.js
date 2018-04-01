@@ -1,8 +1,8 @@
 /*global Scene, CA2DHex, MouseEvtListener*/
 //*************************************************
-var HexaGameOfLifeScene = function () {
+var HexaGameOfLifeScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Hexagonal Petri Box", "Touch to add new cells.");
     this.init();
 };
@@ -15,7 +15,7 @@ HexaGameOfLifeScene.prototype.init = function () {
         columns = Math.round(this.size.x / cellsize),
         lines = Math.round(this.size.y / this.size.x * columns);
     this.ca = new CA2DHex(columns, lines, this);
-    this.eventListeners.push(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
+    this.addListener(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
 };
 
 HexaGameOfLifeScene.prototype.loop = function () {

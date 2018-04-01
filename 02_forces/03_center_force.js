@@ -1,9 +1,9 @@
 /*global Scene, Mover, HyperAttractor*/
-var CenterForceScene = function () {
+var CenterForceScene = function (options) {
 	"use strict";
 	this.intro("Center Force", "Attracts everything to the center.");
 	
-    Scene.call(this);
+    Scene.call(this, options);
     this.attractor = new HyperAttractor(this.size.x, this.size.y);
     this.movers = [];
     
