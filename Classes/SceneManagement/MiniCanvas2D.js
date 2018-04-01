@@ -24,3 +24,10 @@ let MiniCanvas2D = function (canvasID, sceneKey, options) {
 
 MiniCanvas2D.prototype = Object.create(CanvasManager.prototype);
 MiniCanvas2D.prototype.constructor = MiniCanvas2D;
+
+MiniCanvas2D.prototype.stopScene = function() {
+    'use strict';
+    this.ctx.clearRect(0, 0, this.size.x, this.size.y);
+
+    CanvasManager.prototype.stopScene.call(this);
+}

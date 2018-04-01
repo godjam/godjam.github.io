@@ -13,11 +13,15 @@ let BouncingBall3DScene = function (options) {
     this.scene.add(light);
     light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
     this.scene.add(light);
+
     // fog
     this.renderer.setClearColor(color, 1);
     this.scene.fog = new THREE.FogExp2(color, 0.0005);
+
     // controls
     this.controls = new THREE.OrbitControls(this.camera, this.canvas);
+    this.controls.enabled = this.listenToEvents;
+
     this.spheres = [];
     this.velocities = [];
 

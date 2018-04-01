@@ -60,18 +60,19 @@ SceneFactory.toggleFullscreen = function () {
 
 SceneFactory.initMiniMenus = function () {
     "use strict";
+    
     SceneFactory.createMiniScene("00", "c_00");
     SceneFactory.createMiniScene("01", "c_01");
-
     SceneFactory.createMiniScene("00_01", "c_00_01");
     SceneFactory.createMiniScene("00_03", "c_00_03");
+    
     SceneFactory.createMiniScene("00_04", "c_00_04");
     SceneFactory.createMiniScene("00_05", "c_00_05");
     SceneFactory.createMiniScene("00_06", "c_00_06");
     SceneFactory.createMiniScene("00_07", "c_00_07");
     SceneFactory.createMiniScene("00_09", "c_00_09");
     SceneFactory.createMiniScene("00_10", "c_00_10");
-    
+
     SceneFactory.createMiniScene("01_01", "c_01_01");
     SceneFactory.createMiniScene("01_02", "c_01_02");
     SceneFactory.createMiniScene("01_03", "c_01_03");
@@ -101,7 +102,6 @@ SceneFactory.initMiniMenus = function () {
     SceneFactory.createMiniScene("03_12", "c_03_12");
     SceneFactory.createMiniScene("03_16", "c_03_16");
     SceneFactory.createMiniScene("ES_03", "c_ES_03");
-    
 }
 
 SceneFactory.parseURL = function () {

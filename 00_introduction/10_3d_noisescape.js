@@ -32,6 +32,7 @@ let NoiseScapeScene = function (options) {
 
     // controls
     this.controls = new THREE.OrbitControls(this.camera, this.canvas);
+    this.controls.enabled = this.listenToEvents;
 };
 NoiseScapeScene.prototype = Object.create(Scene.prototype);
 NoiseScapeScene.prototype.constructor = NoiseScapeScene;

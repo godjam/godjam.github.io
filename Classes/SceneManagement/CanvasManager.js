@@ -66,7 +66,6 @@ CanvasManager.prototype.resize = function () {
 
 CanvasManager.prototype.stop = function () {
     'use strict';
-    this.canvas.clearRect(0, 0, this.size.x, this.size.y);
     this.stopScene();
     this.observer.unobserve();
 };

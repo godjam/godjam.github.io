@@ -4,12 +4,19 @@ let MiniCanvas3D = function (canvasID, sceneKey, options) {
     // init
     CanvasManager.call(this, canvasID, sceneKey, options);
     this.listenToEvents = false;
-    this.fps = 20;
-    this.nextInterval = 0.1;
+    this.fps = 30;
+    this.nextInterval = 0.05;
 
     // size 
     this.size = this.getCanvasSize();
+};
 
+MiniCanvas3D.prototype = Object.create(CanvasManager.prototype);
+MiniCanvas3D.prototype.constructor = MiniCanvas3D;
+
+MiniCanvas3D.prototype.startScene = function() {
+    'use strict';
+    
     // Threejs objects
     this.renderer = null;
     this.camera = null;
@@ -48,7 +55,14 @@ let MiniCanvas3D = function (canvasID, sceneKey, options) {
         this.camera.aspect = this.size.x / this.size.y;
         this.camera.updateProjectionMatrix();
     }
-};
 
-MiniCanvas3D.prototype = Object.create(CanvasManager.prototype);
-MiniCanvas3D.prototype.constructor = MiniCanvas3D;
+    CanvasManager.prototype.startScene.call(this);
+}
+
+MiniCanvas3D.prototype.stopScene = function() {
+    'use strict';
+    CanvasManager.prototype.stopScene.call(this);
+    this.renderer = null;
+    this.camera = null;
+    this.scene = null;
+}
