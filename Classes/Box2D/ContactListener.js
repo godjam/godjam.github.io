@@ -1,7 +1,7 @@
 /*global Box2D*/
-var B2ContactListener = Box2D.Dynamics.b2ContactListener;
+let B2ContactListener = Box2D.Dynamics.b2ContactListener;
 
-var ContactListener = function () {
+let ContactListener = function () {
     "use strict";
     B2ContactListener.call(this);
 };
@@ -12,7 +12,7 @@ ContactListener.prototype.constructor = ContactListener;
 ContactListener.prototype.BeginContact = function (contact) {
     "use strict";
     
-    var fixtureA = null, fixtureB = null, bodyA = null, bodyB = null, entityA = null, entityB = null;
+    let fixtureA = null, fixtureB = null, bodyA = null, bodyB = null, entityA = null, entityB = null;
     
     fixtureA = contact.GetFixtureA();
     fixtureB = contact.GetFixtureB();
@@ -33,7 +33,7 @@ ContactListener.prototype.BeginContact = function (contact) {
 ContactListener.prototype.EndContact = function (contact) {
     "use strict";
     
-    var fixtureA = null, fixtureB = null, bodyA = null, bodyB = null, entityA = null, entityB = null;
+    let fixtureA = null, fixtureB = null, bodyA = null, bodyB = null, entityA = null, entityB = null;
     
     fixtureA = contact.GetFixtureA();
     fixtureB = contact.GetFixtureB();

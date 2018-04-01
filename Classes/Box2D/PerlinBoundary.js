@@ -1,9 +1,9 @@
 /*global Box2dEntity, B2BodyDef, B2FixtureDef, B2StaticBody, B2Vec2, B2PolygonShape, toxi*/
 //*************************************************
-var PerlinBoundary = function (scene, world, scale) {
+let PerlinBoundary = function (scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, 0, 0, scene, world, scale);
-    var shape = null,
+    let shape = null,
         points = [],
         i = 0,
         x = 0,
@@ -32,7 +32,7 @@ PerlinBoundary.prototype.constructor = PerlinBoundary;
 //************************************************
 PerlinBoundary.prototype.display = function (ctx) {
     "use strict";
-    var node = null,
+    let node = null,
         shape = null,
         center = this.body.GetWorldCenter();
     for (node = this.body.GetFixtureList(); node; node = node.GetNext()) {

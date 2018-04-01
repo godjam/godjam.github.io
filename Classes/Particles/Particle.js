@@ -38,7 +38,7 @@ function Particle(location, baseColor, scene, decrease, theta, variability, spee
 Particle.prototype.update = function () {
     "use strict";
     this.lifespan -= this.decrease;
-    var l = 1 - (this.lifespan / 3);
+    let l = 1 - (this.lifespan / 3);
     this.mover.update(false);
     this.mover.color.hslToRgb(this.mover.color.h, this.mover.color.s, l);
 };

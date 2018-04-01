@@ -1,7 +1,7 @@
 /*global ToxiEntity, Vec2D, ToxiAttractor*/
-var ToxiSystem = function (size, physics) {
+let ToxiSystem = function (size, physics) {
     "use strict";
-    var i = 0,
+    let i = 0,
         particle = null,
         count = 200;
     
@@ -16,7 +16,7 @@ var ToxiSystem = function (size, physics) {
 
 ToxiSystem.prototype.display = function (ctx) {
     "use strict";
-    var i = 0;
+    let i = 0;
     for (i = 0; i < this.particles.length; i += 1) {
         this.particles[i].display(ctx);
     }

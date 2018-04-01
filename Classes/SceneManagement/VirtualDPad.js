@@ -1,6 +1,6 @@
 /*global Vector2, HTMLCanvasElement, Color*/
 // adapted from https://github.com/sebleedelisle/JSTouchController/blob/master/TouchControl.html
-var VirtualDPad = function(canvas, callbackOwner, callback) {
+let VirtualDPad = function(canvas, callbackOwner, callback) {
     "use strict";
 
     if (canvas instanceof HTMLCanvasElement === false) {
@@ -26,8 +26,8 @@ var VirtualDPad = function(canvas, callbackOwner, callback) {
     this.color = Color.createBrightColor();
 
     this.showOnStart = true;
-    var v0 = new Vector2(this.r * 2, canvas.height - this.r * 2);
-    var v1 = new Vector2(canvas.width - this.r * 2, canvas.height - this.r * 2);
+    let v0 = new Vector2(this.r * 2, canvas.height - this.r * 2);
+    let v1 = new Vector2(canvas.width - this.r * 2, canvas.height - this.r * 2);
 
     this.supportTouch = ('ontouchstart' in window);
     this.leftTouchID = 0; // -1
@@ -70,14 +70,14 @@ VirtualDPad.prototype.update = function() {
     "use strict";
 
     if (this.callback !== null) {
-        var f = this.callback.bind(this.callbackOwner);
+        let f = this.callback.bind(this.callbackOwner);
         f(this.padState);
     }
 };
 
 VirtualDPad.prototype.touchStart = function(event) {
     "use strict";
-    var i = 0,
+    let i = 0,
         t = null;
     event.preventDefault();
 
@@ -110,7 +110,7 @@ VirtualDPad.prototype.touchStart = function(event) {
 
 VirtualDPad.prototype.touchMove = function(event) {
     "use strict";
-    var i = 0,
+    let i = 0,
         t = null;
     event.preventDefault();
 
@@ -137,7 +137,7 @@ VirtualDPad.prototype.touchMove = function(event) {
 VirtualDPad.prototype.touchEnd = function(event) {
     "use strict";
     event.preventDefault();
-    var i = 0,
+    let i = 0,
         t = null;
 
     for (i = 0; i < event.changedTouches.length; i += 1) {
@@ -206,7 +206,7 @@ VirtualDPad.prototype.display = function(ctx) {
     if (this.supportTouch === false) {
         return
     };
-    var PI2 = 2 * Math.PI;
+    let PI2 = 2 * Math.PI;
 
 
     if (this.leftTouchID > -1) {

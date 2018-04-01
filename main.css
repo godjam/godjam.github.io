@@ -34,8 +34,16 @@ h1 {
     letter-spacing: 0.2em;
     font-weight: 100;
     font-family: Lucida Sans Unicode;
-	text-decoration: none;
+    text-decoration: none;
+    animation: bg-color 10s infinite;
 }
+
+@keyframes bg-color {
+    0% { background-color: rgb(241, 81, 140); /**/}
+    50% { background-color: #e77b3c; }
+    100% { background-color: rgb(241, 81, 140); }
+  }
+
 
 h2 {
     font-size: 1em;
@@ -55,7 +63,13 @@ button {
 	text-transform: uppercase;
 	cursor: pointer;
 	border: none;
-	border-bottom: 2px solid rgba(0,0,0,0.1);
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+}
+
+p {
+    align-self: center;
 }
 
 button:hover, button:active button:focus {
@@ -65,6 +79,8 @@ button:hover, button:active button:focus {
 canvas {
     background: #fff;
     display: block;
+    width: 100%;
+    height: 100%;
 }
 
 /* The 3D container*/
@@ -73,11 +89,14 @@ canvas {
 	perspective: 1500px;
 	perspective-origin: 50% 50%;
     background: #282933;
+    width: 100vw;
+    height: 100vh;
 }
 
 /* 1. The main-container and the menu */
 #main-container{
     position: relative;
+    height: 100%;
     width: 100%;
     transform: translate3d(0,0,0); /* no shifting of DIV to start */
     transition: transform 250ms cubic-bezier(.57,0,.23,1.37); /* transition the transform property over 0.5s*/
@@ -85,20 +104,21 @@ canvas {
 
 #offcanvas-menu{ /* Full screen nav menu */
     width: 250px;
-    height: 100%;
+    height: 110%;
     top: 0;
     left: 0;
     z-index: 100;
     visibility: hidden; /* this is for browsers that don't support CSS3 translate3d */
     position: fixed; /* fixed menu position */
-    transform: translate3d(-250px,0,0); /* shift menu -width to hide it initially */
+    transform-origin: 0% 50%;
+    transform: translate3d(-250px,0,0) rotateY(90deg); /* shift menu -width to hide it initially */
     box-sizing: border-box; /* include padding/ border as part of declared menu width */
     background: #fff;
     display: block;
     text-align: center;
 	overflow : auto;
 	/* the transform property should transition over 0.5 seconds, while for the visibility property, it should complete immediately with no transitioning, but only after a delay of 0.5 seconds (the second numeric value specifies the delay) */
-    transition: transform 300ms cubic-bezier(.57,0,.23,1.37), visibility 0s 0.3s; 
+    transition: transform 300ms cubic-bezier(.57,0,.23,1.37), visibility 0s 0.3s;
 }
 
 /* hide scrollbar on offcanvas-menu (webkit only)*/
@@ -185,7 +205,7 @@ canvas {
 }
 
 #togglebox:checked ~ #offcanvas-menu{ /* nav state when corresponding checkbox is checked */
-    transform: translate3d(0,0,0); /* shift main-container 250px to the right */
+    transform: translate3d(0,-2%,0) rotateY(15deg); /* shift main-container 250px to the right */
     visibility: visible; /* this is for browsers that don't support CSS3 translate3d in showing the menu */
     transition-delay: 0s; /* No delay for applying "visibility:visible" property when menu is going from "closed" to "open" */
 }
@@ -213,4 +233,9 @@ canvas {
 
 .intro_fade {
     animation: vanish 3s linear 15s 1 normal forwards;
+}
+
+.mini {
+    width: 5rem;
+    height: 5rem;
 }

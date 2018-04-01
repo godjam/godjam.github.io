@@ -1,5 +1,5 @@
 /*globals*/
-var Rule = function(i, o, p) {
+let Rule = function(i, o, p) {
     "use strict";
     this.i = i || "";
     this.o = o || "";
@@ -8,7 +8,7 @@ var Rule = function(i, o, p) {
     this.t = 1;
 };
 
-var Ruleset = function() {
+let Ruleset = function() {
     "use strict";
     this.rules = [];
 };
@@ -29,7 +29,7 @@ Ruleset.prototype.addRule = function(i, o, p) {
  **/
 Ruleset.prototype.getRules = function(i) {
     "use strict";
-    var rules = [],
+    let rules = [],
         k = 0;
 
     for (k = 0; k < this.rules.length; k += 1) {
@@ -42,7 +42,7 @@ Ruleset.prototype.getRules = function(i) {
 };
 
 
-var LSystem = function (axiom, angle, ox, oy, oa) {
+let LSystem = function (axiom, angle, ox, oy, oa) {
     "use strict";
 
     axiom = axiom || 'F';
@@ -74,7 +74,7 @@ LSystem.prototype.addRule = function(i, o, p) {
 LSystem.prototype.generate = function(iterations) {
     "use strict";
 
-    var l = 0;
+    let l = 0;
 
     for (l = 0; l < iterations; l += 1) {
         this.generation = this.createGeneration();
@@ -85,7 +85,7 @@ LSystem.prototype.generate = function(iterations) {
 
 LSystem.prototype.createGeneration = function () {
     "use strict";
-    var i = 0, v = "", n = "",
+    let i = 0, v = "", n = "",
         g = this.getLastGeneration(), rules = null;
 
     for (i = 0; i < g.length; i += 1) {
@@ -111,7 +111,7 @@ LSystem.prototype.createGeneration = function () {
 
 LSystem.prototype.randomPick = function(rules) {
     "use strict";
-    var i = 0,
+    let i = 0,
         // probabilities total
         total = 0,
         // sum probability (used in normalization)

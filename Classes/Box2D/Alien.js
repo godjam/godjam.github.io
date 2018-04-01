@@ -1,5 +1,5 @@
 /*global Box2dEntity, B2CircleShape, B2PolygonShape, B2Vec2, Color, B2DynamicBody*/
-var Alien = function (x, y, scene, world, scale) {
+let Alien = function (x, y, scene, world, scale) {
     "use strict";
     Box2dEntity.call(this, x, y, scene, world, scale);
     
@@ -9,7 +9,7 @@ var Alien = function (x, y, scene, world, scale) {
     this.sColor = Color.createLightColor();
     
     this.offset = new B2Vec2(0, -10);
-    var torsoShape = this.createBoxShape(this.halfBoxWidth, this.halfBoxHeight),
+    let torsoShape = this.createBoxShape(this.halfBoxWidth, this.halfBoxHeight),
         headShape = this.createCircleShape(this.headRadius),
         scaledOffset = this.offset.Copy();
     scaledOffset.Multiply(1 / this.scale);
@@ -24,7 +24,7 @@ Alien.prototype.constructor = Alien;
 
 Alien.prototype.display = function (ctx) {
     "use strict";
-    var p = Math.PI,
+    let p = Math.PI,
         m = p / 8,
         center = this.body.GetWorldCenter(),
         angle = this.body.GetAngle(),

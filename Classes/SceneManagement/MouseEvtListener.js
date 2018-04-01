@@ -1,5 +1,5 @@
 /*global Vector2, HTMLCanvasElement, TouchList*/
-var MouseEvtListener = function (canvas, callbackOwner, callbackMove, callbackRelease) {
+let MouseEvtListener = function (canvas, callbackOwner, callbackMove, callbackRelease) {
     "use strict";
 
     if (canvas instanceof HTMLCanvasElement === false) {
@@ -50,7 +50,7 @@ MouseEvtListener.prototype.stop = function () {
 MouseEvtListener.prototype.move = function (event) {
     "use strict";
     event.preventDefault();
-    var i = 0, pointers = [];
+    let i = 0, pointers = [];
 
     // pointer lists
     if (event.touches) {
@@ -80,7 +80,7 @@ MouseEvtListener.prototype.update = function () {
     "use strict";
     if (this.mouseClick) {
         if (this.callbackMove !== null) {
-            var bindedCall = this.callbackMove.bind(this.callbackOwner);
+            let bindedCall = this.callbackMove.bind(this.callbackOwner);
             bindedCall(this.position, this.pointers, this.changes);
         }
     }
@@ -90,7 +90,7 @@ MouseEvtListener.prototype.update = function () {
 MouseEvtListener.prototype.release = function () {
     "use strict";
     if (this.mouseClick === false && this.callbackRelease !== null) {
-        var bindedCall = this.callbackRelease.bind(this.callbackOwner);
+        let bindedCall = this.callbackRelease.bind(this.callbackOwner);
         bindedCall();
     }
 };

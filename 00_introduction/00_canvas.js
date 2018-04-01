@@ -1,13 +1,15 @@
 /*global Scene, Vector2, MouseEvtListener, Color, Tools*/
-var CanvasTestScene = function () {
-	"use strict";
-    Scene.call(this);
+let CanvasTestScene = function (options) {
+    "use strict";
+    Scene.call(this, options);
     this.intro("Simple canvas experiment", "Reacts to pointer events with easing.");
 
-    this.radius = 50;
+    this.radius = Math.min(50, this.size.x / 10);
     this.pos = new Vector2(this.size.x / 2, this.size.y / 2);
     this.color = Color.createLightColor();
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseEvent));
+
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseEvent));
+
     this.motionX = null;
     this.motionY = null;
     this.motionH = null;
@@ -19,8 +21,12 @@ CanvasTestScene.prototype.constructor = CanvasTestScene;
 CanvasTestScene.prototype.loop = function () {
     "use strict";
     // update
-    if (this.motionX !== null) { this.motionX.update(this.frameloop.delta); }
-    if (this.motionY !== null) { this.motionY.update(this.frameloop.delta); }
+    if (this.motionX !== null) {
+        this.motionX.update(this.frameloop.delta);
+    }
+    if (this.motionY !== null) {
+        this.motionY.update(this.frameloop.delta);
+    }
     // update color
     if (this.motionH !== null) {
         this.motionH.update(this.frameloop.delta);

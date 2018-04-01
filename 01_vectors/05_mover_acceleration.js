@@ -1,12 +1,13 @@
 /*global Scene, Mover, VirtualDPad, Vector2 */
-var MoverAccelerationScene = function () {
+let MoverAccelerationScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Mover: Acceleration", "Use the virtual pad or the arrow keys to accelerate the mover.");
 
     this.delta = new Vector2();
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
-    this.eventListeners.push(new VirtualDPad(this.canvas, this, this.dPadEvent));
+
+    this.addListener(new VirtualDPad(this.canvas, this, this.dPadEvent));
 };
 MoverAccelerationScene.prototype = Object.create(Scene.prototype);
 MoverAccelerationScene.prototype.constructor =  MoverAccelerationScene;

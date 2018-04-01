@@ -1,5 +1,5 @@
 /*global Vector2, ColorMap, toxi*/
-var RecursiveTree = function (scene, x, y, l, d) {
+let RecursiveTree = function (scene, x, y, l, d) {
     "use strict";
 
     this.scene = scene;
@@ -18,7 +18,7 @@ var RecursiveTree = function (scene, x, y, l, d) {
     this.step = 0;
 
     this.branches = [];
-    var p0 = new Vector2();
+    let p0 = new Vector2();
     p0.x = ~~ this.x;
     p0.y = ~~ this.y;
 
@@ -30,7 +30,7 @@ RecursiveTree.prototype.generate = function(p0, l, a, d, parent) {
     "use strict";
     if (d >= this.maxdepth || d < 0) { return;}
 
-    var p = Vector2.fromPolar(l, a).addInPlace(p0),
+    let p = Vector2.fromPolar(l, a).addInPlace(p0),
         id = this.branches.length;
     p.x = ~~p.x;
     p.y = ~~p.y;
@@ -42,7 +42,7 @@ RecursiveTree.prototype.generate = function(p0, l, a, d, parent) {
 
 RecursiveTree.prototype.update = function(t) {
     "use strict";
-    var i = 0, p1 = null, p2 = null, d = 0, l = 0, a = 0, v = 0, m = 0;
+    let i = 0, p1 = null, p2 = null, d = 0, l = 0, a = 0, v = 0, m = 0;
 
     this.delta += t;
     //this.delta = this.delta % (Math.PI * 2);
@@ -78,7 +78,7 @@ RecursiveTree.prototype.update = function(t) {
 RecursiveTree.prototype.display = function (ctx) {
     "use strict";
 
-    var i = 0, parent = 0, p1 = null, p2 = null, d = 0, color = null, s = 1;
+    let i = 0, parent = 0, p1 = null, p2 = null, d = 0, color = null, s = 1;
     for (i = 0; i < this.branches.length; i += 1) {
         d = this.branches[i].d;             // deepness
         parent = this.branches[i].parent;   // parent id

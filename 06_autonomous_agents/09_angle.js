@@ -2,7 +2,7 @@
 //*************************************************
 document.addEventListener("DOMContentLoaded", function (event) {
 	"use strict";
-    var ctx = document.getElementById("canvas").getContext("2d"),
+    let ctx = document.getElementById("canvas").getContext("2d"),
         width = ctx.canvas.width = window.innerWidth,
         height = ctx.canvas.height = window.innerHeight,
         mouseClick = false,
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function animate() {
         requestAnimationFrame(animate);
         loop.update();
-        var dot = v1.dot(v2),
+        let dot = v1.dot(v2),
             theta = Vector2.getAngleBetween(v1, v2);
 
         ctx.clearRect(0, 0, width, height);
@@ -36,10 +36,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
     function move(event) {
         event.preventDefault();
         if (mouseClick === false) { return; }
-        var zero = new Vector2();
+        let zero = new Vector2();
         v1.rotateInPlace(Math.PI / 100, zero);
 
-        //var x = event.clientX - ctx.canvas.clientLeft,
+        //let x = event.clientX - ctx.canvas.clientLeft,
         //    y = event.clientY - ctx.canvas.clientTop - 16;
     }
 

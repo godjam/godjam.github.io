@@ -1,10 +1,10 @@
 /*global toxi, Vec2D, ToxiParticle, VerletSpring2D*/
-var ToxiPair = function (position, physics) {
+let ToxiPair = function (position, physics) {
     "use strict";
     if (position instanceof toxi.geom.Vec2D === false) {
         throw "ToxiPair.constructor : position is not a Vec2D";
     }
-    var len = 80,
+    let len = 80,
         strength = 0.1,
         spring = null;
     

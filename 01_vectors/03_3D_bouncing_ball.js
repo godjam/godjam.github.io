@@ -1,20 +1,27 @@
 /*global Scene, THREE, Color*/
-var BouncingBall3DScene = function () {
+let BouncingBall3DScene = function (options) {
     "use strict";
-    Scene.call(this, {threejs: true});
+    Scene.call(this, options);
     this.intro("3D Bouncing Balls", "Touch to move camera.");
-    
+    this.renderer = this.canvasManager.renderer;
+    this.camera = this.canvasManager.camera;
+    this.scene = this.canvasManager.scene;
+
     //light
-    var color = Color.createSoftColor().ToInt(),
+    let color = Color.createSoftColor().ToInt(),
         light = new THREE.AmbientLight(0xffffff); // soft white light
     this.scene.add(light);
     light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
     this.scene.add(light);
+
     // fog
     this.renderer.setClearColor(color, 1);
     this.scene.fog = new THREE.FogExp2(color, 0.0005);
+
     // controls
-    this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new THREE.OrbitControls(this.camera, this.canvas);
+    this.controls.enabled = this.listenToEvents;
+
     this.spheres = [];
     this.velocities = [];
 
@@ -25,7 +32,7 @@ BouncingBall3DScene.prototype.constructor = BouncingBall3DScene;
 
 BouncingBall3DScene.prototype.loop = function () {
     "use strict";
-    var i = 0, sphere = null, velocity = null,
+    let i = 0, sphere = null, velocity = null,
         size = Math.min(this.size.x, this.size.y) / 100;
     
     for (i = 0; i < this.spheres.length; i += 1) {
@@ -46,7 +53,8 @@ BouncingBall3DScene.prototype.loop = function () {
         }
     }
     
-    this.controls.update();
+    if(this.controls && this.listenToEvents)
+        this.controls.update();
     
     this.renderer.render(this.scene, this.camera);
     Scene.prototype.loop.call(this);
@@ -54,7 +62,7 @@ BouncingBall3DScene.prototype.loop = function () {
 
 BouncingBall3DScene.prototype.addSpheres = function (position) {
     "use strict";
-    var i = 0, velocity = null,
+    let i = 0, velocity = null,
         size = Math.min(this.size.x, this.size.y) / 100,
         geometry = new THREE.SphereGeometry(size, 16, 16),
         material = new THREE.MeshLambertMaterial({

@@ -1,7 +1,7 @@
 /*global Scene, toxi, Color */
-var PerlinNoiseScene = function () {
+let PerlinNoiseScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Perlin Noise", "2D plot of Perlin noise. Evolve with time.");
 
     this.t = 0;
@@ -16,7 +16,7 @@ PerlinNoiseScene.prototype.constructor = PerlinNoiseScene;
 
 PerlinNoiseScene.prototype.loop = function () {
     "use strict";
-    var x = 0,
+    let x = 0,
         y = 0,
         n = 0,
         c = 0,

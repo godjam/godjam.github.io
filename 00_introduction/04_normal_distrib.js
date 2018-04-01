@@ -1,7 +1,7 @@
 /*global Scene, Tools, Color*/
-var NormalDistribScene = function () {
+let NormalDistribScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Splatter", "Position and color follow a normal distribution.");
 
     this.sd = Math.min(this.size.x, this.size.y) / 2;
@@ -18,7 +18,7 @@ NormalDistribScene.prototype.resize = function () {
 
 NormalDistribScene.prototype.loop = function () {
     "use strict";
-    var xMean = this.size.x / 2,
+    let xMean = this.size.x / 2,
         yMean = this.size.y / 2,
         x = Tools.normalRnd() * this.sd + xMean,
         y = Tools.normalRnd() * this.sd + yMean;

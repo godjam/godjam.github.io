@@ -1,11 +1,11 @@
 /*global Scene, Array2D, Color*/
 //*************************************************
-var ColorTestScene = function () {
+let ColorTestScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Simple color experiment", "Each dot color evolve with time.");
 
-    var i = 0,
+    let i = 0,
         j = 0,
         c = null;
 
@@ -27,7 +27,7 @@ ColorTestScene.prototype.constructor = ColorTestScene;
 
 ColorTestScene.prototype.loop = function () {
     "use strict";
-    var i = 0, j = 0, c = null,
+    let i = 0, j = 0, c = null,
         min = Math.min(this.size.x, this.size.y),
         step =  min / this.count,
         dx = (this.size.x - min) / 2,

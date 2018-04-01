@@ -1,7 +1,7 @@
 /*global Scene, Vector2, Color*/
-var BouncingBallScene = function () {
+let BouncingBallScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Bouncing Ball", "It all starts with small things.");
 
     this.r = Math.min(this.size.x, this.size.y) / 50;
@@ -10,7 +10,7 @@ var BouncingBallScene = function () {
     this.velocities = [];
     this.colors = [];
 
-    var i = 0;
+    let i = 0;
     for (i = 0; i < 50; i += 1) {
         this.locations.push(new Vector2(Math.random() * (this.size.x - this.r * 2) + this.r,
                                         Math.random() * (this.size.y - this.r * 2) + this.r));
@@ -23,7 +23,7 @@ BouncingBallScene.prototype.constructor = BouncingBallScene;
 
 BouncingBallScene.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
 
     this.ctx.shadowBlur = 6;
     this.ctx.shadowOffsetY = 6;

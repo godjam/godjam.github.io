@@ -1,9 +1,8 @@
 /*global Scene, Emitter, Vector2, Attractor, MouseAttractor, Smoke*/
 //*************************************************
-var BlendParticlesScene = function () {
+let BlendParticlesScene = function (options) {
 	"use strict";
-    Scene.call(this);
-    this.setDarkScene();
+    Scene.call(this, options);
     this.intro("Blend particles", "The particles react to the attractor.<br>This scene use additive blending.");
 
     this.emitter0 = new Emitter(this);

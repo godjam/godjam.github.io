@@ -1,5 +1,5 @@
 /*global Vector2*/
-var Kochline = function (start, end) {
+let Kochline = function (start, end) {
     "use strict";
 
     if (start instanceof Vector2 === false ||
@@ -27,7 +27,7 @@ Kochline.prototype.getKochA = function () {
 
 Kochline.prototype.getKochB = function () {
     "use strict";
-    var b = this.end.sub(this.start);
+    let b = this.end.sub(this.start);
     b.divInPlace(3);
     b.addInPlace(this.start);
     return b;
@@ -35,7 +35,7 @@ Kochline.prototype.getKochB = function () {
 
 Kochline.prototype.getKochC = function () {
     "use strict";
-    var c = null,
+    let c = null,
         b = this.end.sub(this.start);
     b.divInPlace(3);
 
@@ -49,7 +49,7 @@ Kochline.prototype.getKochC = function () {
 
 Kochline.prototype.getKochD = function () {
     "use strict";
-    var d = this.end.sub(this.start);
+    let d = this.end.sub(this.start);
     d.multInPlace(2 / 3);
     d.addInPlace(this.start);
     return d;
@@ -61,13 +61,13 @@ Kochline.prototype.getKochE = function () {
 };
 
 //***************************************************
-var Kochcurve = function (start, end, colormap) {
+let Kochcurve = function (start, end, colormap) {
     "use strict";
     this.list = [];
     this.colormap = colormap;
     this.max = 0;
     this.min = 0;
-    var i = 0;
+    let i = 0;
 
     // add first line
     this.list.push(new Kochline(start, end));
@@ -79,10 +79,10 @@ var Kochcurve = function (start, end, colormap) {
 
 Kochcurve.prototype.generate = function () {
     "use strict";
-    var next = [];
+    let next = [];
 
     this.list.forEach(function (line) {
-        var a = line.getKochA(),
+        let a = line.getKochA(),
             b = line.getKochB(),
             c = line.getKochC(),
             d = line.getKochD(),
@@ -98,7 +98,7 @@ Kochcurve.prototype.generate = function () {
 
 Kochcurve.prototype.display = function (ctx) {
     "use strict";
-    var i = 0, color = null;
+    let i = 0, color = null;
 
     if (this.max < this.list.length) {
         this.max += 1;

@@ -1,5 +1,5 @@
 /*global CA2D, Cell, ColorMap, Color, Tools*/
-var CA2DContinuous = function (columns, lines, scene) {
+let CA2DContinuous = function (columns, lines, scene) {
     "use strict";
     CA2D.call(this, columns, lines, scene);
     /*
@@ -49,7 +49,7 @@ CA2DContinuous.prototype.displayCell = function (ctx, cell) {
         throw "CA2D.displayCell() : cell is not a Cell";
     }
 
-    var color = null,
+    let color = null,
         position = this.toPix(cell.pos, this.cellsize);
 
     // dead

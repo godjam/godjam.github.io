@@ -1,7 +1,7 @@
 /*global Box2dEntity, B2KinematicBody, Box, B2Vec2*/
-var KinematicObstacle = function (scene, world, scale) {
+let KinematicObstacle = function (scene, world, scale) {
     "use strict";
-    var i = 0,
+    let i = 0,
         j = 0,
         w = scene.size.x,
         h = scene.size.y,
@@ -27,7 +27,7 @@ KinematicObstacle.prototype.constructor = KinematicObstacle;
 
 KinematicObstacle.prototype.update = function () {
     "use strict";
-    var i = 0,
+    let i = 0,
         s = 0,
         x = 0;
     for (i = 0; i < this.entitiesArray.length; i += 1) {

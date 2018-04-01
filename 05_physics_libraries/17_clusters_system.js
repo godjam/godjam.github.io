@@ -1,16 +1,8 @@
 /*global toxi, Scene, OrientationEvtListener, MouseEvtListener, Tools, Color*/
-var Rect = toxi.geom.Rect,
-    Vec2D = toxi.geom.Vec2D,
-    GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
-    VerletPhysics2D = toxi.physics2d.VerletPhysics2D,
-    VerletParticle2D = toxi.physics2d.VerletParticle2D,
-    VerletSpring2D = toxi.physics2d.VerletSpring2D,
-    VerletMDSpring2D = toxi.physics2d.VerletMinDistanceSpring2D;
-
 //*************************************************
-var ClustersSystemScene = function() {
+let ClustersSystemScene = function(options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Force Directed Graph", "Touch to add new elements in clusters.<br>Reacts to orientation events.<br>Screen lock is recomended.");
 
     this.threshold = Math.max(this.size.x, this.size.y) / 5;
@@ -28,8 +20,8 @@ var ClustersSystemScene = function() {
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
     // Orientation : change gravity
     this.physics.addBehavior(this.gravityBehavior);
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
-    this.eventListeners.push(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
+    this.addListener(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
     this.addFirstParticles();
 };
 ClustersSystemScene.prototype = Object.create(Scene.prototype);
@@ -50,7 +42,7 @@ ClustersSystemScene.prototype.resize = function() {
 
 ClustersSystemScene.prototype.loop = function() {
     "use strict";
-    var i = 0,
+    let i = 0,
         s = null,
         p = null;
     this.time += this.frameloop.delta;
@@ -78,7 +70,7 @@ ClustersSystemScene.prototype.loop = function() {
 
 ClustersSystemScene.prototype.mouseStartEvt = function(position) {
     "use strict";
-    var i = 0,
+    let i = 0,
         particle = null,
         isIn = false,
         p1 = new Vec2D(position.x, position.y),
@@ -133,7 +125,7 @@ ClustersSystemScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
 
 ClustersSystemScene.prototype.addParticle = function(position) {
     "use strict";
-    var i = 0,
+    let i = 0,
         d = 0,
         n = null,
         p = null,
@@ -162,7 +154,7 @@ ClustersSystemScene.prototype.addParticle = function(position) {
 
 ClustersSystemScene.prototype.addFirstParticles = function() {
     "use strict";
-    var i = 0,
+    let i = 0,
         x = 0,
         y = 0;
     for (i = 0; i < 3; i += 1) {

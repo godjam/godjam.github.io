@@ -1,11 +1,11 @@
 /*global Scene, Mover, Gravity, MouseEvtListener, Vector2 */
 //*************************************************
-var CannonScene = function () {
+let CannonScene = function (options) {
     "use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Cannon", "Touch to shoot.");
 
-    var w = this.size.x,
+    let w = this.size.x,
         h = this.size.y,
         force = new Vector2();
 
@@ -18,7 +18,7 @@ var CannonScene = function () {
         force = new Vector2(0, -this.r / 4);
     }
 
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.createNewBullet));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.createNewBullet));
 
     this.gravity = new Gravity(0, 0.2);
     this.cannon = new Mover(this.r, h / 2, this, this.r * 2);
@@ -36,7 +36,7 @@ CannonScene.prototype.constructor =  CannonScene;
 
 CannonScene.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
     // update bullets
@@ -70,7 +70,7 @@ CannonScene.prototype.createNewBullet = function () {
     "use strict";
     // power = this.r * 1000
     // angle = 45°
-    var force = new Vector2.fromPolar(this.r * 1000, Math.PI * 0.75),
+    let force = new Vector2.fromPolar(this.r * 1000, Math.PI * 0.75),
     // position is (o, h)
         m = new Mover(this.cannon.location.x, this.cannon.location.y, this, this.r);
 

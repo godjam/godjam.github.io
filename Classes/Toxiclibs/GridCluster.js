@@ -1,7 +1,7 @@
 /*global ToxiParticle, Vec2D, VerletSpring2D, Array2D, Color, ColorMap*/
-var GridCluster = function (size, physics) {
+let GridCluster = function (size, physics) {
     "use strict";
-    var i = 0,
+    let i = 0,
         j = 0,
         particle = null,
         spring = null,
@@ -43,7 +43,7 @@ var GridCluster = function (size, physics) {
 
 GridCluster.prototype.display = function (ctx) {
     "use strict";
-    var i = 0, j = 0, k = null,
+    let i = 0, j = 0, k = null,
         n1 = null, n2 = null, n3 = null, n4 = null;
 
     for (i = 0; i < this.array2D.getWidth() - 1; i += 1) {

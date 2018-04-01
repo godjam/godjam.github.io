@@ -18,7 +18,7 @@ function Walker(x, y, scene, options) {
 
 Walker.prototype.display = function (ctx) {
 	"use strict";
-    var c = this.color.modify(this.stepsize / this.scene.size.x, 0, 0);
+    let c = this.color.modify(this.stepsize / this.scene.size.x, 0, 0);
     this.color = c;
     ctx.fillStyle = c.rgba();
     ctx.beginPath();
@@ -59,7 +59,7 @@ Walker.prototype.step = function () {
 
 Walker.prototype.stepRight = function () {
 	"use strict";
-    var stepsize = 3,
+    let stepsize = 3,
         stepx = Math.random() * stepsize,
         stepy = Math.random() * stepsize * 2 - stepsize;
 
@@ -77,7 +77,7 @@ Walker.prototype.stepRight = function () {
 
 Walker.prototype.stepMouse = function () {
 	"use strict";
-    var stepsize = 3,
+    let stepsize = 3,
         stepx = Math.random() * stepsize - (stepsize / 2),
         stepy = Math.random() * stepsize - (stepsize / 2);
 
@@ -97,7 +97,7 @@ Walker.prototype.stepMouse = function () {
 
 Walker.prototype.stepNormalDistrib = function () {
 	"use strict";
-    var sd = 3, stepsize = 5,
+    let sd = 3, stepsize = 5,
         // normalRnd * sd + mean
         stepx = Tools.normalRnd() * sd * stepsize,
         stepy = Tools.normalRnd() * sd * stepsize;
@@ -110,7 +110,7 @@ Walker.prototype.stepNormalDistrib = function () {
 
 Walker.prototype.stepPerlin = function () {
 	"use strict";
-    var stepsize = 3,
+    let stepsize = 3,
         // map x and y to [-1, 1]
         x = (this.x - this.scene.size.x / 2) / this.scene.size.x,
         y = (this.y - this.scene.size.y / 2) / this.scene.size.y,
@@ -127,7 +127,7 @@ Walker.prototype.stepPerlin = function () {
 
 Walker.prototype.stepMonteCarlo = function () {
 	"use strict";
-    var stepsize = this.montecarlo() * 10,
+    let stepsize = this.montecarlo() * 10,
         stepx = Math.random() * stepsize - (stepsize / 2),
         stepy = Math.random() * stepsize - (stepsize / 2);
 
@@ -139,7 +139,7 @@ Walker.prototype.stepMonteCarlo = function () {
 Walker.prototype.montecarlo = function () {
     "use strict";
     while (true) {
-        var r1 = Math.random(),
+        let r1 = Math.random(),
             p = r1,
             r2 = Math.random();
         if (r2 < p) { return r1; }

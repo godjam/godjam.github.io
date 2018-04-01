@@ -1,10 +1,10 @@
 /*global toxi*/
-var ToxiAttractor = function (size, position, physics) {
+let ToxiAttractor = function (size, position, physics) {
     "use strict";
     if (position instanceof toxi.geom.Vec2D === false) {
         throw "ToxiParticle.constructor : position is not a Vec2D";
     }
-    var s = Math.max(size.x, size.y);
+    let s = Math.max(size.x, size.y);
     this.r = s / 4;
     this.p = new toxi.physics2d.VerletParticle2D(position);
     this.p.lock();

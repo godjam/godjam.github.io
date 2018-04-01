@@ -1,5 +1,5 @@
 /*global console, Array2D, ColorMap*/
-var CA = function(columns, lines, scene) {
+let CA = function(columns, lines, scene) {
     "use strict";
 
     if (typeof columns !== 'number') {
@@ -24,7 +24,7 @@ var CA = function(columns, lines, scene) {
 
 CA.prototype.init = function() {
     "use strict";
-    var i = 0,
+    let i = 0,
         m = 0;
     this.currentline = 0;
     this.colormap = ColorMap.create();
@@ -46,7 +46,7 @@ CA.prototype.init = function() {
 
 CA.prototype.step = function() {
     "use strict";
-    var i = 0,
+    let i = 0,
         a = 0,
         b = 0,
         c = 0,
@@ -72,7 +72,7 @@ CA.prototype.step = function() {
 
 CA.prototype.regenerate = function() {
     "use strict";
-    var i = 0,
+    let i = 0,
         s = "",
         pad = "00000000",
         a = "",
@@ -96,14 +96,14 @@ CA.prototype.rules = function(a, b, c) {
     if (typeof a !== 'number' || typeof b !== 'number' || typeof c !== 'number') {
         throw "CA.rules: a or b or c is not a scalar";
     }
-    var s = (a).toString() + (b).toString() + (c).toString(),
+    let s = (a).toString() + (b).toString() + (c).toString(),
         idx = parseInt(s, 2);
     return this.ruleset[idx];
 };
 
 CA.prototype.display = function(ctx) {
     "use strict";
-    var i = 0, j = 0, x = 0, y = 0,
+    let i = 0, j = 0, x = 0, y = 0,
         s = this.scene.size.x / this.columns,
         w = ~~(s / 2);
 

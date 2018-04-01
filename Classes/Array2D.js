@@ -1,5 +1,5 @@
 //*************************************************
-var Array2D = function (width, heigth) {
+let Array2D = function (width, heigth) {
     "use strict";
 
     if (typeof width !== "number" || typeof heigth !== "number") {
@@ -13,14 +13,14 @@ var Array2D = function (width, heigth) {
 
 Array2D.prototype.copy = function () {
     "use strict";
-    var t = new Array2D(this.width, this.heigth);
+    let t = new Array2D(this.width, this.heigth);
     t.array = this.getValues();
     return t;
 };
 
 Array2D.prototype.getValues = function () {
     "use strict";
-    var i = 0, values = [], value = null;
+    let i = 0, values = [], value = null;
     for (i = 0; i < this.array.length; i += 1) {
         value = this.array[i];
         if (value !== undefined) {
@@ -49,7 +49,7 @@ Array2D.prototype.set = function (x, y, entity) {
         throw "Array2D.add : x or y is not a number";
     }
 
-    var key = this.getKey(x, y);
+    let key = this.getKey(x, y);
     this.array[key] = entity;
 };
 
@@ -79,7 +79,7 @@ Array2D.prototype.get = function (x, y, isToric) {
         return undefined;
     }
 
-    var key = this.getKey(x, y);
+    let key = this.getKey(x, y);
     /*
     if (key === undefined || key === null) {
         console.log("key is undefined");

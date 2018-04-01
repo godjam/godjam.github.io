@@ -12,7 +12,7 @@ RandomForce.prototype.applyOn = function (mover) {
         throw "RandomForce.applyOn : param is not a Mover";
     }
 
-    var force = new Vector2();
+    let force = new Vector2();
     this.t += 1;
     if (this.t > 300) {this.t = 0; }
 
@@ -36,7 +36,7 @@ RandomForce.prototype.generateSimpleRnd = function () {
 
 RandomForce.prototype.generatePerlinRnd = function (mover) {
     "use strict";
-    var x = (mover.location.x - mover.worldW / 2) / mover.worldW,
+    let x = (mover.location.x - mover.worldW / 2) / mover.worldW,
         y = (mover.location.y - mover.worldH / 2) / mover.worldH,
         n = this.perlin.noise(x, y, this.t) - 0.5;
     return new Vector2(

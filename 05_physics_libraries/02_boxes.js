@@ -2,9 +2,9 @@
 Box, Circle, Poly, Alien, Car, JointPair, PerlinBoundary, CurvyBoundary,
 Boundary, PolyBoundary, ChainBoundary, KinematicObstacle, CircleBoundary*/
 //*************************************************
-var BoxesScene = function (options) {
+let BoxesScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     if (options === undefined) {
         options.boxes_type = 0;
     }
@@ -32,7 +32,7 @@ var BoxesScene = function (options) {
 
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStopEvt));
 };
 BoxesScene.prototype = Object.create(Scene.prototype);
 BoxesScene.prototype.constructor = BoxesScene;
@@ -40,7 +40,7 @@ BoxesScene.prototype.constructor = BoxesScene;
 
 BoxesScene.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.world.Step(
         1 / 30,   //frame-rate
@@ -220,7 +220,7 @@ BoxesScene.prototype.createboundaries = function (position) {
 
 BoxesScene.prototype.mouseStartEvt = function (position) {
     "use strict";
-    var body = null,
+    let body = null,
         p = new B2Vec2(position.x / this.scale, position.y / this.scale);
 
      // if no mouse joint

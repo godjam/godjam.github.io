@@ -10,7 +10,7 @@ Friction.prototype.applyOn = function (mover) {
         throw "Friction.applyOn : param is not a Mover";
     }
 
-    var friction = mover.velocity.mult(-1);
+    let friction = mover.velocity.mult(-1);
     friction.normalizeInPlace();
     friction.multInPlace(this.coeff);
     mover.applyForce(friction);

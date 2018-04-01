@@ -1,11 +1,11 @@
 /*global Scene, Mover, Wind, Gravity, Friction, ActiveArea*/
 //*************************************************
-var FrictionForceScene = function () {
+let FrictionForceScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
 	this.intro("Friction force", "Friction is high in the left area: movers slow down.<br><br>Friction is negative in the rigth one: movers accelerate.");
 
-    var i = 0,
+    let i = 0,
         w = this.size.x,
         h = this.size.y;
     this.movers = [];
@@ -18,9 +18,10 @@ var FrictionForceScene = function () {
     this.acceleration = new ActiveArea(w / 8 + w / 2, h / 2,
                                        w / 4, h / 2);
     this.acceleration.setEffect(new Friction(-0.08));
+    let size = Math.min(this.size.x / 10, 16);
 
     for (i = 0; i < 100; i += 1) {
-        this.movers[i] = new Mover(0, 0, this, 10);
+        this.movers[i] = new Mover(0, 0, this, size);
         this.movers[i].initRandomly();
     }
 };
@@ -30,7 +31,7 @@ FrictionForceScene.prototype.constructor =  FrictionForceScene;
 FrictionForceScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    var i = 0;
+    let i = 0;
     for (i = 0; i < this.movers.length; i += 1) {
         this.gravity.applyOn(this.movers[i]);
         this.wind.applyOn(this.movers[i]);

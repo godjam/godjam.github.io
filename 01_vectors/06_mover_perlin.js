@@ -1,9 +1,10 @@
 /*global Scene, Mover, toxi, Vector2*/
-var MoverPerlinScene = function () {
+let MoverPerlinScene = function (options) {
     "use strict";
+    Scene.call(this, options);
     this.intro("Mover: Perlin Acceleration", "Mover's acceleration follows a Perlin noise.");
-    Scene.call(this);
-    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 40);
+    let size = Math.min(this.size.x / 10, 40);
+    this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, size);
     this.p = new toxi.math.noise.PerlinNoise();
     this.lastAccel = new Vector2();
 };
@@ -14,7 +15,7 @@ MoverPerlinScene.prototype.loop = function () {
     "use strict";
     // normalized acceleration
 
-    var norm = this.mover.location,
+    let norm = this.mover.location,
         acceleration = new Vector2(),
         ax =  this.p.noise(norm.y, norm.x) - 0.5,
         ay =  this.p.noise(norm.x, norm.y) - 0.5;

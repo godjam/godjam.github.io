@@ -1,11 +1,11 @@
 /*global Scene, Mover, Oscillation, MouseAttractor, Attractor */
 //*************************************************
-var EcosystemScene_03 = function () {
+let EcosystemScene_03 = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("The Ecosystem Project 03", "Creatures seek the attractor using oscillations.");
 
-    var i = 0,
+    let i = 0,
         r = 0,
         c = Math.round(this.size.x / 10),
         baseMass = 10,
@@ -27,7 +27,7 @@ EcosystemScene_03.prototype.constructor =  EcosystemScene_03;
 
 EcosystemScene_03.prototype.loop = function () {
     "use strict";
-    var i = 0;
+    let i = 0;
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
 
     for (i = 0; i < this.movers.length; i += 1) {

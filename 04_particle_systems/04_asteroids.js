@@ -1,8 +1,8 @@
 /*global Scene, Emitter, Mover, Vector2, Friction, VirtualDPad, console*/
 //*************************************************
-var AsteroidsScene = function () {
+let AsteroidsScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("Asteroids", "Use the virtual pad or the arrow keys to move the ship.");
 
     this.friction = new Friction(0.2);
@@ -12,7 +12,7 @@ var AsteroidsScene = function () {
     this.emitter.setAngle(Math.PI * 3 / 2, Math.PI / 8);
     this.emitter.addParticle();
     // VirtualDPad
-    this.eventListeners.push(new VirtualDPad(this.canvas, this, this.updateReactors));
+    this.addListener(new VirtualDPad(this.canvas, this, this.updateReactors));
 };
 AsteroidsScene.prototype = Object.create(Scene.prototype);
 AsteroidsScene.prototype.constructor = AsteroidsScene;
@@ -41,7 +41,7 @@ AsteroidsScene.prototype.updateReactors = function (padState) {
         this.emitter.setActive(true);
     }
     else if (padState.action === true) {
-        var c = Math.cos(this.mover.angle) * 5,
+        let c = Math.cos(this.mover.angle) * 5,
             s = Math.sin(this.mover.angle) * 5;
         this.mover.applyForce(new Vector2(c, s));
         this.emitter.setActive(true);

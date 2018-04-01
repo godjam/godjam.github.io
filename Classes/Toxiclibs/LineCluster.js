@@ -1,7 +1,7 @@
 /*global ToxiParticle, Vec2D, VerletSpring2D*/
-var LineCluster = function (width, height, physics) {
+let LineCluster = function (width, height, physics) {
     "use strict";
-    var i = 0,
+    let i = 0,
         particle = null,
         spring = null,
         count = 20,
@@ -32,7 +32,7 @@ var LineCluster = function (width, height, physics) {
 
 LineCluster.prototype.display = function (ctx) {
     "use strict";
-    var i = 0;
+    let i = 0;
     for (i = 0; i < this.particles.length; i += 1) {
         this.particles[i].display(ctx);
     }

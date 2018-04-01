@@ -1,13 +1,13 @@
 /*global Scene, Emitter, MouseEvtListener, Vector2, console*/
 //*************************************************
-var SystemOfSystemsScene = function () {
+let SystemOfSystemsScene = function (options) {
 	"use strict";
-    Scene.call(this);
+    Scene.call(this, options);
     this.intro("System Of Systems", "Touch to create a new particles emitter.");
 
     this.lastTime = 0.5; // in s
     this.emitters = [];
-    this.eventListeners.push(new MouseEvtListener(this.canvas, this, this.createEmitter));
+    this.addListener(new MouseEvtListener(this.canvas, this, this.createEmitter));
     this.createEmitter(new Vector2(this.size.x / 2, this.size.y / 2));
 };
 SystemOfSystemsScene.prototype = Object.create(Scene.prototype);
@@ -18,7 +18,7 @@ SystemOfSystemsScene.prototype.loop = function () {
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.lastTime += this.frameloop.delta;
 
-    var i = 0;
+    let i = 0;
     for (i; i < this.emitters.length; i += 1) {
         this.emitters[i].step(this.ctx);
     }
@@ -35,7 +35,7 @@ SystemOfSystemsScene.prototype.createEmitter = function (position) {
     "use strict";
     if (this.lastTime >= 0.3) { // in s
         this.lastTime = 0;
-        var emitter = new Emitter(this, position),
+        let emitter = new Emitter(this, position),
             angle = Math.PI * 4 * (Math.random() - 0.5);
         emitter.setAngle(0, Math.PI * 2);
         // 4: particles emitted / frame

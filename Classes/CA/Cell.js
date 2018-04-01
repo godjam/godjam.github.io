@@ -1,5 +1,5 @@
 /*global CA2D, Vector2*/
-var Cell = function (x, y, w, state) {
+let Cell = function (x, y, w, state) {
     "use strict";
     this.pos = new Vector2(x, y);
     this.w = w;

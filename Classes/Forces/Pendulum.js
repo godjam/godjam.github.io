@@ -19,7 +19,7 @@ Pendulum.prototype.applyOn = function (mover) {
         throw "Spring.connect : param is not a Mover";
     }
 
-    var gravity = 4;
+    let gravity = 4;
     this.angularAcceleration = (-gravity * Math.sin(this.angle)) / this.r;
     this.angularVelocity += this.angularAcceleration;
     this.angle += this.angularVelocity;

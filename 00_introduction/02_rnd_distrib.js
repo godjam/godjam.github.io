@@ -1,7 +1,7 @@
 // unused
 document.addEventListener("DOMContentLoaded", function (event) {
     "use strict";
-    var randomCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    let randomCount = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ctx = document.getElementById('canvas').getContext('2d'),
         width = ctx.canvas.width = window.innerWidth,
         height = ctx.canvas.height = window.innerHeight;
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 	function animate() {
 		requestAnimationFrame(animate);
 
-        var idx = Math.floor(Math.random() * randomCount.length),
+        let idx = Math.floor(Math.random() * randomCount.length),
             x = 0,
             y = 0,
             h = 0,
