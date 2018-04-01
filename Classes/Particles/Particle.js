@@ -1,5 +1,5 @@
 /*global Vector2, Mover, Color, Scene*/
-function Particle(location, baseColor, scene, decrease, theta, letiability, speed) {
+function Particle(location, baseColor, scene, decrease, theta, variability, speed) {
     "use strict";
     if (location instanceof Vector2 === false) {
         throw "Particle ctor : param is not a Vector2";
@@ -16,7 +16,7 @@ function Particle(location, baseColor, scene, decrease, theta, letiability, spee
     if (typeof theta !== 'number') {
         throw "Particle ctor : param 5 is not a scalar";
     }
-    if (typeof letiability !== 'number') {
+    if (typeof variability !== 'number') {
         throw "Particle ctor : param 6 is not a scalar";
     }
     if (typeof speed !== 'number') {
@@ -29,9 +29,9 @@ function Particle(location, baseColor, scene, decrease, theta, letiability, spee
     this.decrease = decrease;
     
     this.mover.velocity = Vector2.fromPolar(speed, theta);
-    if (letiability !== 0) {
-        letiability = Math.random() * letiability - letiability / 2;
-        this.mover.velocity.rotateInPlace(letiability);
+    if (variability !== 0) {
+        variability = Math.random() * variability - variability / 2;
+        this.mover.velocity.rotateInPlace(variability);
     }
 }
 

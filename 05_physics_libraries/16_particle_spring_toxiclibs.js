@@ -1,9 +1,4 @@
 /*global toxi, GridCluster, Scene, MouseEvtListener, ToxiCreature, ToxiSystem, OrientationEvtListener, Tools*/
-let Rect = toxi.geom.Rect,
-    Vec2D = toxi.geom.Vec2D,
-    GravityBehavior = toxi.physics2d.behaviors.GravityBehavior,
-    VerletPhysics2D = toxi.physics2d.VerletPhysics2D;
-
 //*************************************************
 let ToxiSimulationScene = function(options) {
     "use strict";

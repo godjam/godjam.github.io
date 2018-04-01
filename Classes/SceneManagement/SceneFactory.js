@@ -111,6 +111,21 @@ SceneFactory.initMiniMenus = function () {
     SceneFactory.createMiniScene('04_09', 'c_04_09');
     SceneFactory.createMiniScene('04_10', 'c_04_10');
     SceneFactory.createMiniScene('04_11', 'c_04_11');
+
+    SceneFactory.createMiniScene('05_02', 'c_05_02');
+    SceneFactory.createMiniScene('05_03', 'c_05_03');
+    SceneFactory.createMiniScene('05_04', 'c_05_04');
+    SceneFactory.createMiniScene('05_05', 'c_05_05');
+    SceneFactory.createMiniScene('05_06', 'c_05_06');
+    SceneFactory.createMiniScene('05_07', 'c_05_07');
+    SceneFactory.createMiniScene('05_08', 'c_05_08');
+    SceneFactory.createMiniScene('05_09', 'c_05_09');
+    SceneFactory.createMiniScene('05_10', 'c_05_10');
+    SceneFactory.createMiniScene('05_11', 'c_05_11');
+    SceneFactory.createMiniScene('05_13', 'c_05_13');
+    SceneFactory.createMiniScene('05_14', 'c_05_14');
+    SceneFactory.createMiniScene('05_15', 'c_05_15');
+    SceneFactory.createMiniScene('05_16', 'c_05_16');
 }
 
 SceneFactory.parseURL = function () {
