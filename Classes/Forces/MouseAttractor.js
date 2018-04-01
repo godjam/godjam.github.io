@@ -18,9 +18,9 @@ function MouseAttractor(scene, attractor) {
     this.attractor.location = new Vector2(scene.canvas.width / 2,
                                     scene.canvas.height / 2);
     
-    
     // init listener
-    scene.eventListeners.push(new MouseEvtListener(scene.canvas, this, this.update));
+    let listener = new MouseEvtListener(scene.canvas, this, this.update);
+    scene.addListener(listener);
 }
 
 MouseAttractor.prototype.update = function (position) {

@@ -13,7 +13,7 @@ let Scene = function (options) {
     this.timeoutList = [];
 
     // resize
-    if (this.listenToEvents != false)
+    if (this.listenToEvents)
         addEventListener('resize', this.resize.bind(this));
 
     // frames
@@ -104,7 +104,7 @@ Scene.prototype.resize = function () {
 
 Scene.prototype.vibrate = function (t) {
     'use strict';
-    if ('vibrate' in navigator) {
+    if (this.listenToEvents && 'vibrate' in navigator) {
         navigator.vibrate(t);
     }
 };

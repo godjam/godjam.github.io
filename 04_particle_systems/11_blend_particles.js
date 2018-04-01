@@ -3,7 +3,6 @@
 let BlendParticlesScene = function (options) {
 	"use strict";
     Scene.call(this, options);
-    this.setDarkScene();
     this.intro("Blend particles", "The particles react to the attractor.<br>This scene use additive blending.");
 
     this.emitter0 = new Emitter(this);

@@ -7,12 +7,13 @@ let RepulsiveMoversScene = function (options) {
 
     let i = 0,
         s = 0,
-        attractor = new Attractor(0, 0, 30, 20);
+        baseSize = Math.min(20, this.size.x / 10),
+        attractor = new Attractor(0, 0, baseSize, 20);
     this.movers = [];
     this.gravity = new MouseAttractor(this, attractor);
 
-    for (i = 0; i < 70; i += 1) {
-        s = Math.random() * 20 + 10;
+    for (i = 0; i < baseSize; i += 1) {
+        s = Math.random() * baseSize + baseSize / 2;
         this.movers[i] = new Mover(0, 0, this, s);
         this.movers[i].initRandomly();
     }

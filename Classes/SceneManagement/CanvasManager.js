@@ -4,8 +4,8 @@ let CanvasManager = function (canvasID, sceneKey, options) {
     // visibility
     this.isVisible = false;
     this.listenToEvents = true;
-    this.fps = 60;
-    this.nextInterval = 0;
+    this.fps = 100;
+    this.nextInterval = 0.01;
 
     // canvas
     this.canvas = document.getElementById(canvasID);
@@ -58,6 +58,13 @@ CanvasManager.prototype.getCanvasSize = function () {
     'use strict';
     return new Vector2(this.canvas.clientWidth, this.canvas.clientHeight);
 };
+
+
+CanvasManager.prototype.getViewportSize = function () {
+    'use strict';
+    return new Vector2(window.innerWidth, window.innerHeight);
+};
+
 
 CanvasManager.prototype.resize = function () {
     'use strict';

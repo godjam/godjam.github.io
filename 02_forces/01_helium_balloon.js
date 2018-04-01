@@ -1,14 +1,14 @@
 /*global Scene, Mover, Gravity, RandomForce*/
 let HeliumBalloonScene = function (options) {
     "use strict";
-    this.intro("Helium Balloons");
-
     Scene.call(this, options);
-    let i = 0,
-        max = Math.max(8, this.size.x / 10);
+    this.intro("Helium Balloons", "Balloons.<br>Everywhere.");
+    
+    let i = 0;
+    let max = Math.min(Math.max(8, this.size.x / 10), 50);
     this.ballons = [];
     for (i = 0; i < max; i += 1) {
-        this.ballons[i] = new Mover(0, 0, this, 20);
+        this.ballons[i] = new Mover(0, 0, this, max);
         this.ballons[i].initRandomly();
     }
     this.gravity = new Gravity(0, -0.005);

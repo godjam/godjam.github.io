@@ -8,8 +8,9 @@ let CenterForceScene = function (options) {
     this.movers = [];
     
     let i = 0;
+    let size = Math.min(this.size.x / 10, 16);
     for (i = 0; i < 50; i += 1) {
-        this.movers[i] = new Mover(0, 0, this, 16);
+        this.movers[i] = new Mover(0, 0, this, size);
         this.movers[i].initRandomly();
     }
 };

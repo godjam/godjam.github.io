@@ -34,8 +34,16 @@ h1 {
     letter-spacing: 0.2em;
     font-weight: 100;
     font-family: Lucida Sans Unicode;
-	text-decoration: none;
+    text-decoration: none;
+    animation: bg-color 10s infinite;
 }
+
+@keyframes bg-color {
+    0% { background-color: rgb(241, 81, 140); /**/}
+    50% { background-color: #e74c3c; }
+    100% { background-color: rgb(241, 81, 140); }
+  }
+
 
 h2 {
     font-size: 1em;
