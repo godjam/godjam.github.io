@@ -82,7 +82,7 @@ Walker.prototype.stepMouse = function () {
         stepy = Math.random() * stepsize - (stepsize / 2);
 
     // 5% chance to seek the mouse
-    if (this.mousePosition !== null && Math.random() < 0.05) {
+    if (this.mousePosition && Math.random() < 0.05) {
         if (this.mousePosition.x > this.x) { stepx = stepsize; }
         if (this.mousePosition.x < this.x) { stepx = -stepsize; }
         if (this.mousePosition.y > this.y) { stepy = stepsize; }

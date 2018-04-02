@@ -100,7 +100,7 @@ TurtleRenderer.prototype.drawForwardLine = function (ctx) {
     let x = this.position.x,
         y = this.position.y;
     this.moveForward();
-    if (ctx !== null) {
+    if (ctx ) {
         ctx.beginPath();
         ctx.strokeStyle = this.colormap.getByVal(this.actualdeep, this.deepness).rgba();
         ctx.moveTo(x, y);

@@ -45,7 +45,7 @@ VectorWalkerScene.prototype.step = function () {
     this.velocity.y = Math.sin(a * Math.PI) * stepsize;
 
     // 5% chance to seek the mouse
-    if (this.mousePosition !== null && Math.random() < 0.5) {
+    if (this.mousePosition && Math.random() < 0.5) {
         dx = (this.position.x - this.mousePosition.x) / this.size.x;
         dy = (this.position.y - this.mousePosition.y) / this.size.y;
         this.velocity.x += dx;

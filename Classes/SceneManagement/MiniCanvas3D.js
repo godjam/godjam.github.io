@@ -1,6 +1,6 @@
 /*global THREE, Vector2*/
 let MiniCanvas3D = function (canvasID, sceneKey, options) {
-    "use strict";
+    'use strict';
     // init
     CanvasManager.call(this, canvasID, sceneKey, options);
     this.listenToEvents = false;
@@ -50,7 +50,7 @@ MiniCanvas3D.prototype.startScene = function() {
     this.camera.position.y = -50;
 
     // Threejs resize
-    if (this.renderer !== null) {
+    if (this.renderer) {
         this.renderer.setSize(this.size.x, this.size.y);
         this.camera.aspect = this.size.x / this.size.y;
         this.camera.updateProjectionMatrix();

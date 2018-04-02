@@ -31,7 +31,7 @@ MainCanvas2D.prototype.resize = function () {
     this.size = this.getViewportSize();
    
     // force canvas size
-    if (this.canvas !== null) {
+    if (this.canvas ) {
         this.canvas.width = this.size.x;
         this.canvas.height = this.size.y;
     }

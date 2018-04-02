@@ -69,7 +69,7 @@ VirtualDPad.prototype.stop = function() {
 VirtualDPad.prototype.update = function() {
     "use strict";
 
-    if (this.callback !== null) {
+    if (this.callback) {
         let f = this.callback.bind(this.callbackOwner);
         f(this.padState);
     }

@@ -20,7 +20,7 @@ let ChainBoundary = function (scene, world, scale) {
         
         b = new Box(i * s, y, scene, world, scale, 10, 10, bodyType);
         this.addEntity("b" + i, b);
-        if (a !== null) {
+        if (a) {
             this.addDistanceJoint(a.body, b.body, world, s - 1);
         }
     }

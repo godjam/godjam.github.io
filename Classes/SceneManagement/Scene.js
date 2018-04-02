@@ -71,28 +71,30 @@ Scene.prototype.stop = function () {
     console.log('scene stop');
     let i = 0;
 
-    if (this.requestId !== null) {
+    if (this.requestId) {
         window.cancelAnimationFrame(this.requestId);
         this.requestId = null;
     }
 
-    if (this.resize !== null) {
+    if (this.resize) {
         window.removeEventListener('resize', this.resize);
     }
 
     for (i = 0; i < this.eventListeners.length; i += 1) {
-        if (this.eventListeners[i] !== null) {
+        if (this.eventListeners[i]) {
             this.eventListeners[i].stop();
             this.eventListeners[i] = null;
         }
     }
 
     for (i = 0; i < this.timeoutList.length; i += 1) {
-        if (this.timeoutList[i] !== null) {
+        if (this.timeoutList[i]) {
             window.clearTimeout(this.timeoutList[i]);
             this.timeoutList[i] = null;
         }
     }
+    this.canvas = null;
+    this.ctx = null;
     // !! ne jamais faire this.canvasManager.stop() ici !
 };
 

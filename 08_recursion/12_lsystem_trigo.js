@@ -5,7 +5,7 @@ let LSystemScene = function(options) {
     Scene.call(this, options);
     this.intro("LSystem");
     this.initNewLSystem();
-    this.addUpdatCallback(this, this.initNewLSystem, 500);
+    this.addUpdatCallback(this, this.initNewLSystem, 2000);
 };
 LSystemScene.prototype = Object.create(Scene.prototype);
 LSystemScene.prototype.constructor = LSystemScene;
