@@ -79,7 +79,7 @@ MouseEvtListener.prototype.move = function (event) {
 MouseEvtListener.prototype.update = function () {
     "use strict";
     if (this.mouseClick) {
-        if (this.callbackMove !== null) {
+        if (this.callbackMove) {
             let bindedCall = this.callbackMove.bind(this.callbackOwner);
             bindedCall(this.position, this.pointers, this.changes);
         }
@@ -89,7 +89,7 @@ MouseEvtListener.prototype.update = function () {
 
 MouseEvtListener.prototype.release = function () {
     "use strict";
-    if (this.mouseClick === false && this.callbackRelease !== null) {
+    if (this.mouseClick === false && this.callbackRelease) {
         let bindedCall = this.callbackRelease.bind(this.callbackOwner);
         bindedCall();
     }

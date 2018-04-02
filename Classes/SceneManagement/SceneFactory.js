@@ -159,7 +159,7 @@ SceneFactory.parseURL = function () {
     let defaultKey = '08_12';
     let key = '';
 
-    if (window !== null) {
+    if (window) {
         key = window.location.search;
         key = key.replace('?s=', '');
     }

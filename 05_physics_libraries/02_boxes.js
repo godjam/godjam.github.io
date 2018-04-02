@@ -243,7 +243,7 @@ BoxesScene.prototype.mouseStartEvt = function (position) {
 
 BoxesScene.prototype.mouseStopEvt = function () {
     "use strict";
-    if (this.mouseJoint !== null) {
+    if (this.mouseJoint) {
         this.world.DestroyJoint(this.mouseJoint);
         this.mouseJoint = null;
     }

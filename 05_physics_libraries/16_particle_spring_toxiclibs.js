@@ -83,7 +83,7 @@ ToxiSimulationScene.prototype.mouseStartEvt = function(position) {
         }
     }
 
-    if (this.particle !== null) {
+    if (this.particle) {
         this.particle.x = p1.x;
         this.particle.y = p1.y;
     }

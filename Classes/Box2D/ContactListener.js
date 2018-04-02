@@ -17,13 +17,13 @@ ContactListener.prototype.BeginContact = function (contact) {
     fixtureA = contact.GetFixtureA();
     fixtureB = contact.GetFixtureB();
     
-    if (fixtureA !== null) { bodyA = fixtureA.GetBody(); }
-    if (fixtureB !== null) { bodyB = fixtureB.GetBody(); }
+    if (fixtureA) { bodyA = fixtureA.GetBody(); }
+    if (fixtureB) { bodyB = fixtureB.GetBody(); }
     
     entityA = bodyA.GetUserData();
     entityB = bodyB.GetUserData();
     
-    if (entityA !== null && entityB !== null) {
+    if (entityA && entityB) {
         entityA.startContact(entityB);
         entityB.startContact(entityA);
     }
@@ -38,13 +38,13 @@ ContactListener.prototype.EndContact = function (contact) {
     fixtureA = contact.GetFixtureA();
     fixtureB = contact.GetFixtureB();
     
-    if (fixtureA !== null) { bodyA = fixtureA.GetBody(); }
-    if (fixtureB !== null) { bodyB = fixtureB.GetBody(); }
+    if (fixtureA) { bodyA = fixtureA.GetBody(); }
+    if (fixtureB) { bodyB = fixtureB.GetBody(); }
     
     entityA = bodyA.GetUserData();
     entityB = bodyB.GetUserData();
     
-    if (entityA !== null && entityB !== null) {
+    if (entityA && entityB) {
         entityA.endContact(entityB);
         entityB.endContact(entityA);
     }

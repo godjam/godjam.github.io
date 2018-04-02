@@ -221,7 +221,7 @@ Vehicle.prototype.pathFollowing = function(path, weight) {
         }
     }
 
-    if (target !== null && minDistance > path.radius) {
+    if (target && minDistance > path.radius) {
         target.addInPlace(this.predict);
         return this.seek(target, weight);
     }
@@ -420,7 +420,7 @@ Vehicle.prototype.display = function(ctx) {
 
     // desired speed
     /*
-    if (this.desired !== null) {
+    if (this.desired) {
         ctx.beginPath();
         ctx.moveTo(this.mover.location.x, this.mover.location.y);
         //ctx.lineTo(this.mover.location.x + this.mover.velocity.x * 10, this.mover.location.y + this.mover.velocity.y * 10);

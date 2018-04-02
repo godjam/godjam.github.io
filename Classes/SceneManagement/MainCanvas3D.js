@@ -1,13 +1,38 @@
 /*global THREE, Vector2*/
-let MainCanvas3D = function (isDark) {
-    "use strict";
+let MainCanvas3D = function (canvasID, sceneKey, options) {
+    'use strict';
+    this.reCreateMainCanvas();
+    // init
+    CanvasManager.call(this, canvasID, sceneKey, options);
 
-    // Threejs
+    this.startScene();
+};
+MainCanvas3D.prototype = Object.create(CanvasManager.prototype);
+MainCanvas3D.prototype.constructor = MainCanvas3D;
+
+MainCanvas3D.prototype.resize = function () {
+    'use strict';
+    this.size = this.getViewportSize();
+
+    // Threejs resize
+    if (this.renderer) {
+        this.renderer.setSize(this.size.x, this.size.y);
+        this.camera.aspect = this.size.x / this.size.y;
+        this.camera.updateProjectionMatrix();
+    }
+
+    return this.size;
+};
+
+
+MainCanvas3D.prototype.startScene = function () {
+    'use strict';
+    this.size = this.getViewportSize();
+
+    // Threejs objects
     this.renderer = null;
     this.camera = null;
     this.scene = null;
-
-    this.resize();
 
     // camera attributes
     let VIEW_ANGLE = 30,
@@ -17,7 +42,9 @@ let MainCanvas3D = function (isDark) {
 
     // create a WebGL renderer, camera
     // and a scene
-    this.renderer = new THREE.WebGLRenderer(); //({ alpha: true })
+    this.renderer = new THREE.WebGLRenderer({
+        canvas: this.canvas
+    });
     this.renderer.setClearColor(0xffffff, 1);
     this.camera =
         new THREE.PerspectiveCamera(
@@ -36,40 +63,33 @@ let MainCanvas3D = function (isDark) {
     // the camera start position
     this.camera.position.y = -300;
 
-    // start the renderer
-    this.renderer.setSize(this.size.x, this.size.y);
-
-    // save the canvas ref
-    this.canvas = this.renderer.domElement;
-
-    // add canvas
-    let container = document.getElementById('main-container');
-    container.appendChild(this.canvas);
-};
-
-
-MainCanvas3D.prototype.stop = function () {
-    'use strict';
-    // clear canvas context
-    this.canvas.remove();
-};
-
-MainCanvas3D.prototype.resize = function () {
-    "use strict";
-    this.size = new Vector2(window.innerWidth, window.innerHeight);
-
     // Threejs resize
-    if (this.renderer !== null) {
-        this.renderer.setSize(this.size.x, this.size.y);
-        this.camera.aspect = this.size.x / this.size.y;
-        this.camera.updateProjectionMatrix();
-    }
+    this.resize();
 
-    return this.size;
-};
+    CanvasManager.prototype.startScene.call(this);
+}
 
-
-MainCanvas3D.prototype.ctx = function () {
+MainCanvas3D.prototype.stopScene = function () {
     'use strict';
-    return thix.ctx;
+    this.renderer = null;
+    this.camera = null;
+    this.scene = null;
+    this.reCreateMainCanvas();
+    CanvasManager.prototype.stopScene.call(this);
+}
+
+MainCanvas3D.prototype.reCreateMainCanvas = function () {
+    'use strict';
+    let canvasID = 'canvas';
+    let canvas = document.getElementById(canvasID);
+    let parent = canvas.parentNode;
+
+    // remove canvas
+    canvas.remove();
+
+    // create new
+    let newCanvas = document.createElement('canvas');
+    newCanvas.id = canvasID;
+
+    parent.appendChild(newCanvas);
 }

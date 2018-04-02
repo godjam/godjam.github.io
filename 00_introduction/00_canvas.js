@@ -21,14 +21,14 @@ CanvasTestScene.prototype.constructor = CanvasTestScene;
 CanvasTestScene.prototype.loop = function () {
     "use strict";
     // update
-    if (this.motionX !== null) {
+    if (this.motionX) {
         this.motionX.update(this.frameloop.delta);
     }
-    if (this.motionY !== null) {
+    if (this.motionY) {
         this.motionY.update(this.frameloop.delta);
     }
     // update color
-    if (this.motionH !== null) {
+    if (this.motionH) {
         this.motionH.update(this.frameloop.delta);
         this.color.hslToRgb();
     }
