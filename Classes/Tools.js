@@ -7,6 +7,16 @@ Tools.normalRnd = function () {
     return ((Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3) / 3;
 };
 
+// return a float between min and max
+Tools.rndf = function(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+// return an integer between min and max
+Tools.rnd = function(min, max) {
+    return ~~Tools.rndf(min, max + 1);
+}
+
 Tools.clamp = function (v, min, max) {
     "use strict";
     if (v > max) {v = max; }
