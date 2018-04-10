@@ -20,7 +20,6 @@ SierpinskiTriangleScene.prototype.loop = function () {
     if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }
 
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    this.frameloop.display(this.ctx);
 
     this.ctx.save();
     this.ctx.translate(this.size.x / 2, this.size.y / 2);

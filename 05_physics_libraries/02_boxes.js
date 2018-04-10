@@ -69,7 +69,6 @@ BoxesScene.prototype.loop = function () {
         }
     }
 
-    this.frameloop.display(this.ctx);
 	Scene.prototype.loop.call(this);
 };
 

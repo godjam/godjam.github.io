@@ -22,7 +22,6 @@ KochSnowflakeScene.prototype.constructor = KochSnowflakeScene;
 KochSnowflakeScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    this.frameloop.display(this.ctx);
     let s = 1 + Math.sin(this.theta * 2) * 0.1;
     this.theta += this.frameloop.delta / 5;
     if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }
