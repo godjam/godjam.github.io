@@ -13,7 +13,6 @@ RecursiveTreeScene.prototype.constructor = RecursiveTreeScene;
 
 RecursiveTreeScene.prototype.loop = function() {
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    this.frameloop.display(this.ctx);
     this.tree.update(this.frameloop.delta);
     this.tree.display(this.ctx);
 

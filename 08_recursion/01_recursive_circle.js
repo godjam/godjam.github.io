@@ -22,7 +22,6 @@ RecursiveCircleScene.prototype.constructor = RecursiveCircleScene;
 RecursiveCircleScene.prototype.loop = function () {
     "use strict";
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-    this.frameloop.display(this.ctx);
     let s = 0.5 + Math.sin(this.theta) * 0.3;
     this.theta += this.frameloop.delta / 2;
     if(this.theta > Math.PI * 2) {this.theta -= Math.PI * 2; }

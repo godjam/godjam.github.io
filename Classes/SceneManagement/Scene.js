@@ -9,16 +9,18 @@ let Scene = function (options) {
     this.ctx = this.canvasManager.ctx;
     this.listenToEvents = this.canvasManager.listenToEvents;
 
+    // frames
+    this.frameloop = new FrameLoop(this, this.canvasManager.nextInterval, this.canvasManager.fps);
+    this.requestId = null;
+
+    // listeners
     this.eventListeners = [];
     this.timeoutList = [];
+
 
     // resize
     if (this.listenToEvents)
         addEventListener('resize', this.resize.bind(this));
-
-    // frames
-    this.frameloop = new FrameLoop(this.canvasManager.nextInterval, this.canvasManager.fps);
-    this.requestId = null;
 
     this.resize();
 };
@@ -32,20 +34,21 @@ Scene.prototype.addListener = function (listener) {
 Scene.prototype.update = function () {
     'use strict';
     if (this.canvasManager.isVisible) {
-        if(this.frameloop.shouldNextFrame()) {
+        if (this.frameloop.shouldNextFrame()) {
             this.updateListeners();
             this.loop();
         }
     }
 
-
+    if (this.ctx)
+        this.frameloop.display(this.ctx);
     this.requestId = window.requestAnimationFrame(this.update.bind(this));
 };
 
 Scene.prototype.updateListeners = function () {
     'use strict';
     let i = 0;
-    
+
     for (i = 0; i < this.eventListeners.length; i += 1) {
         if (this.listenToEvents != false && this.eventListeners[i].update) {
             this.eventListeners[i].update();

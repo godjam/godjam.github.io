@@ -61,7 +61,6 @@ CannonScene.prototype.loop = function () {
     this.cannon.update(1);
     this.cannon.displayAsCircle(this.ctx);
 
-    this.frameloop.display(this.ctx);
     Scene.prototype.loop.call(this);
 };
 

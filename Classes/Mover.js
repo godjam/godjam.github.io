@@ -74,7 +74,6 @@ Mover.prototype.displayAsCircle = function (ctx) {
     ctx.closePath();
 };
 
-
 Mover.prototype.displayAsSmoke = function (ctx) {
     "use strict";
     // (x0, y0, r0, x1, y1, r1);
@@ -163,7 +162,6 @@ Mover.prototype.bouncyEdge = function () {
     }
 };
 
-
 Mover.prototype.warpEdge = function () {
 	"use strict";
     if (this.location.x - 10 > this.scene.size.x) {
@@ -179,7 +177,6 @@ Mover.prototype.warpEdge = function () {
         this.location.y = this.scene.size.y - this.mass / 2;
     }
 };
-
 
 /*
  * ApplyRotation
