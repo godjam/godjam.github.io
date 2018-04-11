@@ -1,6 +1,6 @@
 function DNA2D(size, maxForce) {
     'use strict';
-    this.maxForce = maxForce || 0.5;
+    this.maxForce = maxForce || 0.4;//0.5;
     DNA.call(this, size);
 }
 DNA2D.prototype = Object.create(DNA.prototype);

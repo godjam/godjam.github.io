@@ -1,4 +1,4 @@
-function RocketLauncher(scene) {
+function RocketSim(scene) {
     'use strict';
     this.scene = scene;
     this.rocketsCount = 100;
@@ -6,6 +6,7 @@ function RocketLauncher(scene) {
     this.elapsedFrames = 0;
     this.frameStep = 4;
     this.mutationRate = 0.00;
+    this.obstaclesCount = ~~this.scene.size.x / 150;
 
     let x = this.scene.size.x / 2;
     let y = this.scene.size.y;
@@ -13,19 +14,30 @@ function RocketLauncher(scene) {
     this.target = new Vector2(x, y * 0.2);
 
     this.targetRect = new Mover(this.target.x, this.target.y, this.scene)
+    this.obstacles = [];
     this.rockets = [];
     this.pop = new Pop(this.rocketsCount, this.framesCount, DNA2D);
 }
 
-RocketLauncher.prototype.init = function () {
+RocketSim.prototype.init = function () {
     'use strict';
     for (let i = 0; i < this.pop.gen.length; ++i) {
         let dna = this.pop.gen[i];
         this.rockets.push(new Rocket(this.start.x, this.start.y, this.scene, dna));
     }
+
+    for (let i = 0; i < this.obstaclesCount; ++i) {
+        let w = this.scene.size.x * 0.3;
+        let x = this.scene.size.x * 0.3 + Math.random() * w;
+        let h = this.scene.size.y * 0.3;
+        let y = this.scene.size.y * 0.5 + Math.random() * h;
+        let m = this.scene.size.y / 30;
+        let mass = Math.random() * m + m;
+        this.obstacles.push(new Mover(x, y, this.scene, mass))
+    }
 }
 
-RocketLauncher.prototype.update = function () {
+RocketSim.prototype.update = function () {
     'use strict';
     // sim
     if (this.elapsedFrames < this.framesCount) {
@@ -35,24 +47,39 @@ RocketLauncher.prototype.update = function () {
     else {
         this.nextGeneration();
     }
+
+    this.display();
 }
 
-RocketLauncher.prototype.updateSim = function () {
+RocketSim.prototype.display = function() {
+    for (let i = 0; i < this.obstacles.length; ++i) {
+        let obstacle = this.obstacles[i];
+        obstacle.angle += 0.03 - i / 100;
+        obstacle.displayAsPoly(this.scene.ctx, 6 + i);
+    }
+    
+    for (let i = 0; i < this.rockets.length; ++i) {
+        let rocket = this.rockets[i];
+        rocket.display(this.scene.ctx);
+    }
+    
+    this.targetRect.display(this.scene.ctx);            
+}
+
+RocketSim.prototype.updateSim = function () {
     'use strict';
     for (let f = 0; f < this.frameStep; f++) {
         if (this.elapsedFrames < this.framesCount) {
             for (let i = 0; i < this.rockets.length; ++i) {
                 let rocket = this.rockets[i];
-                rocket.update(this.elapsedFrames);
-                rocket.mover.displayAsPoly(this.scene.ctx, 3);
+                rocket.update(this.elapsedFrames, this.obstacles);
             }
-            this.targetRect.display(this.scene.ctx);
             this.elapsedFrames++;
         }
     }
 }
 
-RocketLauncher.prototype.nextGeneration = function () {
+RocketSim.prototype.nextGeneration = function () {
     'use strict';
     for (let i = 0; i < this.rockets.length; ++i) {
         let rocket = this.rockets[i];

@@ -1,18 +1,3 @@
-/*global console, Scene, CanvasTestScene, ColorTestScene, WalkerScene,
-NormalDistribScene, PerlinNoiseScene, NoiseScapeScene, BouncingBallScene,
-VectorWalkerScene, BouncingBall3DScene, MoverAccelerationScene, MoverPerlinScene,
-MoverFollowScene, EcosystemScene_01, HeliumBalloonScene, CenterForceScene,
-FrictionForceScene, DragForceScene, GravitationalAttractionScene,
-CustomAttractionScene, RepulsiveMoversScene, EcosystemScene_02, RotationScene,
-CannonScene, SpiralScene, SinusoidalOcillationScene, OscillatorScene,
-OscillationScene, SpringsScene, EcosystemScene_03, ParticlesScene,
-ParticlesAttractorScene, AsteroidsScene, SystemOfSystemsScene,ShatteringScene,
-ConfettiScene, ParticlesRepellerScene, AttractiveParticlesScene,
-BlendParticlesScene, BoxesScene, CollisionListenerScene, ToxiSimulationScene,
-ClustersSystemScene, VehiclesSystemScene, WolframCAScene, GameOfLifeScene,
-HexaGameOfLifeScene, ProbaGameOfLifeScene, ContinuousGameOfLifeScene,
-RecursiveCircleScene, KochSnowflakeScene, SierpinskiTriangleScene,
-RecursiveTreeScene, LSystemScene*/
 let SceneFactory = function () {
     'use strict';
     this.cache = undefined;
@@ -152,11 +137,13 @@ SceneFactory.initMiniMenus = function () {
     SceneFactory.createMiniScene('08_05', 'c_08_05');
     SceneFactory.createMiniScene('08_10', 'c_08_10');
     SceneFactory.createMiniScene('08_12', 'c_08_12');
+
+    SceneFactory.createMiniScene('09_01', 'c_09_01');
 }
 
 SceneFactory.parseURL = function () {
     'use strict';
-    let defaultKey = '08_12';
+    let defaultKey = '09_01';
     let key = '';
 
     if (window) {
@@ -369,6 +356,8 @@ SceneFactory.init = function () {
     this.cache['08_10'] = RecursiveTreeScene;
     // TODO: 08_11 RecursiveTree + Toxiclib
     this.cache['08_12'] = LSystemScene;
+
+    this.cache['09_01'] = RocketsScene;
 };
 
 SceneFactory.autoclose = function () {
