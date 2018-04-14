@@ -3,7 +3,7 @@
 let RocketsScene = function (options) {
     'use strict';
     Scene.call(this, options);
-    this.intro("Genetic algorithm", "These smart rockets evolve in order to find target.");
+    this.intro("Genetic algorithm", "These smart rockets evolve to find the best path to the target.");
 
     this.rocketSim = new RocketSim(this);
     this.init();

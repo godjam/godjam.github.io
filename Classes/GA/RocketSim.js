@@ -5,7 +5,7 @@ function RocketSim(scene) {
     this.framesCount = this.scene.size.y * 0.8;
     this.elapsedFrames = 0;
     this.frameStep = 4;
-    this.mutationRate = 0.00;
+    this.mutationRate = 0.02;
     this.obstaclesCount = ~~this.scene.size.x / 150;
 
     let x = this.scene.size.x / 2;
@@ -63,7 +63,11 @@ RocketSim.prototype.display = function() {
         rocket.display(this.scene.ctx);
     }
     
-    this.targetRect.display(this.scene.ctx);            
+    this.targetRect.display(this.scene.ctx);
+    
+    if(this.scene.listenToEvents) {
+        this.pop.display(this.scene.ctx);
+    }            
 }
 
 RocketSim.prototype.updateSim = function () {
@@ -72,7 +76,10 @@ RocketSim.prototype.updateSim = function () {
         if (this.elapsedFrames < this.framesCount) {
             for (let i = 0; i < this.rockets.length; ++i) {
                 let rocket = this.rockets[i];
+                let dna = rocket.dna;
+     
                 rocket.update(this.elapsedFrames, this.obstacles);
+                dna.updateScore(rocket, this.target, this.elapsedFrames);
             }
             this.elapsedFrames++;
         }
@@ -81,13 +88,6 @@ RocketSim.prototype.updateSim = function () {
 
 RocketSim.prototype.nextGeneration = function () {
     'use strict';
-    for (let i = 0; i < this.rockets.length; ++i) {
-        let rocket = this.rockets[i];
-        let mover = rocket.mover;
-        let dna = rocket.dna;
-
-        dna.updateScore(mover.location, mover.velocity);
-    }
     this.pop.evolveStep(this.target, this.mutationRate);
     this.elapsedFrames = 0;
 

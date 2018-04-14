@@ -1,4 +1,4 @@
-function DNA(size) {
+function DNA(size, options) {
     'use strict';
     //TODO size
     this.size = size;
@@ -71,4 +71,8 @@ DNA.prototype.computeFitness = function (target) {
     }
     let fit = score / target.length;
     this.fitness = fit * fit;
+}
+
+DNA.prototype.displayStats = function () {
+    return 'best score: ' + this.fitness.toFixed(3);
 }
