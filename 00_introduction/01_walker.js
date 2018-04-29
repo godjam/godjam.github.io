@@ -25,11 +25,10 @@ let WalkerScene = function (options) {
     }
 
     this.walker = new Walker(this.size.x / 2, this.size.y / 2, this, options);
-    this.addListener(new MouseEvtListener(this.canvas, this.walker, this.walker.mouseEvent));
+    this.addListener(new MouseEvtListener(this, (p) => this.walker.mouseEvent(e)));
 };
 WalkerScene.prototype = Object.create(Scene.prototype);
 WalkerScene.prototype.constructor = WalkerScene;
-
 
 WalkerScene.prototype.loop = function () {
     "use strict";

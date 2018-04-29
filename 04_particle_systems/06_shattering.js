@@ -9,7 +9,7 @@ let ShatteringScene = function (options) {
 
     this.movers = [];
     this.emitters = [];
-    this.addListener(new MouseEvtListener(this.canvas, this, this.shatter));
+    this.addListener(new MouseEvtListener(this, (p) => this.shatter(p)));
     this.gravity = new Gravity(0, 0.08);
 
     let i = 0;

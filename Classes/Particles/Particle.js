@@ -1,29 +1,32 @@
 /*global Vector2, Mover, Color, Scene*/
-function Particle(location, baseColor, scene, decrease, theta, variability, speed) {
+function Particle(location, size, baseColor, scene, decrease, theta, variability, speed) {
     "use strict";
     if (location instanceof Vector2 === false) {
         throw "Particle ctor : param is not a Vector2";
     }
-    if (typeof baseColor !== 'number') {
+    if (typeof size !== 'number') {
         throw "Particle ctor : param 2 is not a scalar";
     }
+    if (typeof baseColor !== 'number') {
+        throw "Particle ctor : param 3 is not a scalar";
+    }
     if (scene instanceof Scene === false) {
-        throw "Particle ctor : param 3 is not a Scene";
+        throw "Particle ctor : param 4 is not a Scene";
     }
     if (typeof decrease !== 'number') {
-        throw "Particle ctor : param 4 is not a scalar";
-    }
-    if (typeof theta !== 'number') {
         throw "Particle ctor : param 5 is not a scalar";
     }
-    if (typeof variability !== 'number') {
+    if (typeof theta !== 'number') {
         throw "Particle ctor : param 6 is not a scalar";
     }
-    if (typeof speed !== 'number') {
+    if (typeof variability !== 'number') {
         throw "Particle ctor : param 7 is not a scalar";
     }
+    if (typeof speed !== 'number') {
+        throw "Particle ctor : param 8 is not a scalar";
+    }
     
-    this.mover = new Mover(location.x, location.y, scene, 10);
+    this.mover = new Mover(location.x, location.y, scene, size);
     this.mover.color = Color.createNormalDistribColor(baseColor);
     this.lifespan = 1;
     this.decrease = decrease;

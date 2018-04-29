@@ -15,7 +15,7 @@ GameOfLifeScene.prototype.init = function () {
     columns = Math.round(this.size.x / cellsize),
     lines = Math.round(this.size.y / cellsize);
     this.ca = new CA2D(columns, lines, this);
-    this.addListener(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
+    this.addListener(new MouseEvtListener(this, (p) => this.ca.addCells(p)));
 };
 
 GameOfLifeScene.prototype.loop = function () {

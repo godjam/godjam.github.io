@@ -1,18 +1,20 @@
 /*global Scene, Emitter, Mover, Vector2, Friction, VirtualDPad, console*/
 //*************************************************
 let AsteroidsScene = function (options) {
-	"use strict";
+    "use strict";
     Scene.call(this, options);
     this.intro("Asteroids", "Use the virtual pad or the arrow keys to move the ship.");
 
     this.friction = new Friction(0.2);
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
+    
     this.emitter = new Emitter(this);
     this.emitter.setOwner(this.mover, new Vector2(-1, 0));
     this.emitter.setAngle(Math.PI * 3 / 2, Math.PI / 8);
     this.emitter.addParticle();
     // VirtualDPad
-    this.addListener(new VirtualDPad(this.canvas, this, this.updateReactors));
+    this.addListener(new VirtualDPad(this,
+        (padState) => this.updateReactors(padState)));
 };
 AsteroidsScene.prototype = Object.create(Scene.prototype);
 AsteroidsScene.prototype.constructor = AsteroidsScene;
@@ -24,9 +26,10 @@ AsteroidsScene.prototype.loop = function () {
     this.friction.applyOn(this.mover);
     this.mover.update(1);
     this.mover.displayAsPoly(this.ctx, 3);
+    
     this.emitter.step(this.ctx);
-
-	Scene.prototype.loop.call(this);
+    
+    Scene.prototype.loop.call(this);
 };
 
 AsteroidsScene.prototype.updateReactors = function (padState) {
@@ -34,19 +37,17 @@ AsteroidsScene.prototype.updateReactors = function (padState) {
     // padState
     if (padState.d.x > 0) {
         this.mover.applyTorque(-0.1);
-        this.emitter.setActive(true);
-    }
-    else if (padState.d.x < 0) {
+        
+    } else if (padState.d.x < 0) {
         this.mover.applyTorque(0.1);
-        this.emitter.setActive(true);
-    }
-    else if (padState.action === true) {
+        
+    } else if (padState.action === true) {
         let c = Math.cos(this.mover.angle) * 5,
             s = Math.sin(this.mover.angle) * 5;
         this.mover.applyForce(new Vector2(c, s));
         this.emitter.setActive(true);
-    }
-    else {
+
+    } else {
         this.emitter.setActive(false);
     }
 

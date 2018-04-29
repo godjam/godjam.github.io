@@ -1,18 +1,19 @@
 /*global HTMLCanvasElement, Scene*/
 // Adapted from http://www.html5rocks.com/en/tutorials/device/orientation/
-let OrientationEvtListener = function(canvas, callbackOwner, callback) {
-    "use strict";
+let OrientationEvtListener = function(scene, callback) {
+    'use strict';
 
-    if (canvas instanceof HTMLCanvasElement === false) {
-        throw "OrientationEvtListener.ctor : canvas is not a HTMLCanvasElement";
+    this.scene = scene;
+    this.canvas = this.scene.canvas;
+
+    if (this.canvas instanceof HTMLCanvasElement === false) {
+        throw 'OrientationEvtListener.ctor : canvas is not a HTMLCanvasElement';
     }
 
     if (!window.DeviceOrientationEvent) {
-        console.log("DeviceOrientation is not supported");
+        console.log('DeviceOrientation is not supported');
     }
 
-    this.canvas = canvas;
-    this.callbackOwner = callbackOwner;
     this.callback = null;
     this.callbackRelease = null;
 
@@ -21,29 +22,28 @@ let OrientationEvtListener = function(canvas, callbackOwner, callback) {
     }
 
     // attach event listener to the doc (with capturing)
-    window.addEventListener("deviceorientation", this.move.bind(this));
+    if(this.scene.listenToEvents)
+        window.addEventListener('deviceorientation', (e) => this.move(e));
 };
 
 OrientationEvtListener.prototype.stop = function() {
-    "use strict";
-    window.removeEventListener("deviceorientation", this.move);
+    'use strict';
+    window.removeEventListener('deviceorientation', (e) => this.move(e));
 };
 
 OrientationEvtListener.prototype.move = function(event) {
-    "use strict";
+    'use strict';
     // A voir
     event.preventDefault();
-    let bindedCall = null,
-        dir = event.alpha, // compass direction (in deg)
+    let dir = event.alpha, // compass direction (in deg)
         tiltFB = event.beta, // front-back (in deg)
         tiltLR = event.gamma; // left-right (in deg)
 
     if (dir && tiltFB && tiltLR) {
-        bindedCall = this.callback.bind(this.callbackOwner);
-        bindedCall(dir, tiltFB, tiltLR);
+        this.callback(dir, tiltFB, tiltLR);
     }
 };
 
 OrientationEvtListener.prototype.update = function() {
-    "use strict";
+    'use strict';
 };

@@ -1,17 +1,17 @@
 /*global Vector2, Scene, MouseEvtListener, HTMLCanvasElement */
 function MouseAttractor(scene, attractor) {
-    "use strict";
+    'use strict';
     
     if (scene instanceof Scene === false) {
-        throw "MouseAttractor.ctor : scene is not a Scene";
+        throw 'MouseAttractor.ctor : scene is not a Scene';
     }
 
     if (scene.canvas instanceof HTMLCanvasElement === false) {
-        throw "MouseAttractor.ctor : canvas is not a HTMLCanvasElement";
+        throw 'MouseAttractor.ctor : canvas is not a HTMLCanvasElement';
     }
     
     if (attractor === undefined) {
-        throw "MouseAttractor.ctor : attractor is not defined";
+        throw 'MouseAttractor.ctor : attractor is not defined';
     }
     
     this.attractor = attractor;
@@ -19,22 +19,22 @@ function MouseAttractor(scene, attractor) {
                                     scene.canvas.height / 2);
     
     // init listener
-    let listener = new MouseEvtListener(scene.canvas, this, this.update);
+    let listener = new MouseEvtListener(scene, (e) => this.update(e));
     scene.addListener(listener);
 }
 
 MouseAttractor.prototype.update = function (position) {
-    "use strict";
+    'use strict';
     this.attractor.location = position;
 };
 
 MouseAttractor.prototype.applyOn = function (mover) {
-    "use strict";
+    'use strict';
     this.attractor.applyOn(mover);
 };
 
 
 MouseAttractor.prototype.display = function (ctx) {
-    "use strict";
+    'use strict';
     this.attractor.display(ctx);
 };

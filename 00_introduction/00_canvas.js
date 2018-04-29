@@ -8,7 +8,7 @@ let CanvasTestScene = function (options) {
     this.pos = new Vector2(this.size.x / 2, this.size.y / 2);
     this.color = Color.createLightColor();
 
-    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseEvent));
+    this.addListener(new MouseEvtListener(this, (p) => this.mouseEvent(p)));
 
     this.motionX = null;
     this.motionY = null;

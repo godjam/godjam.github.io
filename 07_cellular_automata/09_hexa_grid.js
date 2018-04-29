@@ -15,7 +15,7 @@ HexaGameOfLifeScene.prototype.init = function () {
         columns = Math.round(this.size.x / cellsize),
         lines = Math.round(this.size.y / this.size.x * columns);
     this.ca = new CA2DHex(columns, lines, this);
-    this.addListener(new MouseEvtListener(this.ctx.canvas, this.ca, this.ca.addCells));
+    this.addListener(new MouseEvtListener(this, (p) => this.ca.addCells(p)));
 };
 
 HexaGameOfLifeScene.prototype.loop = function () {

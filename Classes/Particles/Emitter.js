@@ -19,8 +19,9 @@ function Emitter(scene, position) {
     this.decrease = 0.02;
     this.speed = 1;
     this.theta = Math.random() * Math.PI * 2;
-    this.letiability = Math.PI / 2;
-    this.particleAngle = 0;
+    this.variability = Math.PI / 2;
+    this.particleSize = 10;
+    this.particleTorque = 0;
     // alternative particle
     this.alternativeCtor = null;
     this.alternativeProba = 0;
@@ -76,6 +77,14 @@ Emitter.prototype.setEmitterLife = function (rate, maxLife) {
     this.life = Math.max(1, Math.round(maxLife));
 };
 
+Emitter.prototype.setParticlesSize = function (size) {
+    "use strict";
+    if (typeof size !== 'number') {
+        throw "Emitter setParticlesSize : param 1 is not a scalar";
+    }
+    this.particleSize = size;
+};
+
 Emitter.prototype.setParticlesSpeed = function (speed) {
     "use strict";
     if (typeof speed !== 'number') {
@@ -84,12 +93,12 @@ Emitter.prototype.setParticlesSpeed = function (speed) {
     this.speed = speed;
 };
 
-Emitter.prototype.setParticlesTorque = function (particleAngle) {
+Emitter.prototype.setParticlesTorque = function (particleTorque) {
     "use strict";
-    if (typeof particleAngle !== 'number') {
+    if (typeof particleTorque !== 'number') {
         throw "Emitter setParticlesTorque : param 1 is not a scalar";
     }
-    this.particleAngle = particleAngle;
+    this.particleTorque = particleTorque;
 };
 
 Emitter.prototype.setAlternativeParticle = function (particleCtor, probability) {
@@ -105,16 +114,16 @@ Emitter.prototype.setAlternativeParticle = function (particleCtor, probability) 
 };
 
 
-Emitter.prototype.setAngle = function (theta, letiability) {
+Emitter.prototype.setAngle = function (theta, variability) {
     "use strict";
     if (typeof theta !== 'number') {
         throw "Emitter setAngle : param 1 is not a scalar";
     }
-    if (typeof letiability !== 'number') {
+    if (typeof variability !== 'number') {
         throw "Emitter setAngle : param 2 is not a scalar";
     }
     this.theta = theta;
-    this.letiability = letiability;
+    this.variability = variability;
 };
 
 Emitter.prototype.setInnerAttractiveForce = function (innerAttractiveForce) {
@@ -172,12 +181,12 @@ Emitter.prototype.addParticle = function () {
         r = Math.random();
     // create alternative particle
     if (r < this.alternativeProba && this.alternativeCtor) {
-        particle = new this.alternativeCtor(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.letiability, this.speed);
+        particle = new this.alternativeCtor(this.loc, this.particleSize, this.baseColor, this.scene, this.decrease, this.theta, this.variability, this.speed);
     // create std particle
     } else {
-        particle = new Particle(this.loc, this.baseColor, this.scene, this.decrease, this.theta, this.letiability, this.speed);
-        if (this.particleAngle !== 0) {
-            particle.applyTorque(this.particleAngle);
+        particle = new Particle(this.loc, this.particleSize, this.baseColor, this.scene, this.decrease, this.theta, this.variability, this.speed);
+        if (this.particleTorque !== 0) {
+            particle.applyTorque(this.particleTorque);
         }
     }
     this.particles.push(particle);

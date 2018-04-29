@@ -23,7 +23,7 @@ let VehiclesSystemScene = function (options) {
         let v = new Vehicle(this, Math.random() * this.size.x, Math.random() * this.size.y);;
         this.vehicles.push(v);
     }
-    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt));
+    this.addListener(new MouseEvtListener(this, (p) => this.mouseStartEvt(p)));
 };
 VehiclesSystemScene.prototype = Object.create(Scene.prototype);
 VehiclesSystemScene.prototype.constructor = VehiclesSystemScene;
