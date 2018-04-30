@@ -209,8 +209,8 @@ VirtualDPad.prototype.display = function (ctx) {
     };
     let PI2 = 2 * Math.PI;
 
-
     if (this.leftTouchID > -1) {
+
         ctx.strokeStyle = this.color.rgba();
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -223,7 +223,7 @@ VirtualDPad.prototype.display = function (ctx) {
         ctx.stroke();
         ctx.closePath();
 
-        ctx.strokeStyle = '#444';
+        ctx.strokeStyle = '#ddd';
         ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(this.leftTouchPos.x, this.leftTouchPos.y, this.r * 0.9, 0, PI2);
@@ -233,10 +233,10 @@ VirtualDPad.prototype.display = function (ctx) {
 
     if (this.rightTouchID > -1) {
         ctx.strokeStyle = this.color.rgba();
-        ctx.fillStyle = '#222';
+        ctx.fillStyle = '#ddd';
         ctx.beginPath();
         ctx.arc(this.rightTouchPos.x, this.rightTouchPos.y, this.r * 0.9, 0, PI2);
-        ctx.fill();
+        //ctx.fill();
         ctx.stroke();
         ctx.closePath();
     }

@@ -33,8 +33,8 @@ Scene.prototype.update = function () {
     'use strict';
     if (this.canvasManager.isVisible) {
         if (this.frameloop.shouldNextFrame()) {
+            this.loop();            
             this.updateListeners();
-            this.loop();
         }
     }
 

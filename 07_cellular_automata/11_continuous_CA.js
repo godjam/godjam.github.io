@@ -15,7 +15,8 @@ ContinuousGameOfLifeScene.prototype.init = function () {
         columns = Math.round(this.size.x / cellsize),
         lines = Math.round(this.size.y / this.size.x * columns);
     this.ca = new CA2DContinuous(columns, lines, this);
-    this.addListener(new MouseEvtListener(this, (p) => this.ca.addCells(p)));
+    this.addListener(new MouseEvtListener(this, 
+        (pos, pointers) => this.ca.addCells(pos, pointers)));
 };
 
 ContinuousGameOfLifeScene.prototype.loop = function () {
