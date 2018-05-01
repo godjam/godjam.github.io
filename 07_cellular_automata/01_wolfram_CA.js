@@ -15,7 +15,7 @@ WolframCAScene.prototype.init = function () {
     columns = Math.round(this.size.x / cellsize),
     lines = Math.round(this.size.y / cellsize);
     this.ca = new CA(columns, lines, this);
-    this.addUpdatCallback(this.ca, this.ca.step, 100);
+    this.addUpdateCallback(() => this.ca.step(), 100);
 };
 
 WolframCAScene.prototype.loop = function () {

@@ -136,10 +136,9 @@ Scene.prototype.intro = function (title, desc) {
 /**
  * Adapted from https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout
  */
-Scene.prototype.addUpdatCallback = function (owner, callback, timeout) {
+Scene.prototype.addUpdateCallback = function (callback, timeout) {
     'use strict';
-    if (owner !== undefined && callback instanceof Function) {
-        let args = Array.prototype.slice.call(arguments, 3);
-        this.timeoutList.push(window.setInterval(callback.bind(owner), timeout));
+    if (callback instanceof Function) {
+        this.timeoutList.push(window.setInterval(callback, timeout));
     }
 };
