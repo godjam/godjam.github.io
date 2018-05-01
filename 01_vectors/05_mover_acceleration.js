@@ -7,7 +7,8 @@ let MoverAccelerationScene = function (options) {
     this.delta = new Vector2();
     this.mover = new Mover(this.size.x / 2, this.size.y / 2, this, 20);
 
-    this.addListener(new VirtualDPad(this.canvas, this, this.dPadEvent));
+    this.addListener(new VirtualDPad(this, 
+        (padState) => this.dPadEvent(padState)));
 };
 MoverAccelerationScene.prototype = Object.create(Scene.prototype);
 MoverAccelerationScene.prototype.constructor =  MoverAccelerationScene;

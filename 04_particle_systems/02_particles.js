@@ -12,7 +12,7 @@ let ParticlesScene = function (options) {
     this.emitter.setAngle(-Math.PI, Math.PI);
     this.emitter.setParticlesSpeed(4);
     this.gravity = new Gravity(0, 0.2);
-    this.addListener(new MouseEvtListener(this.canvas, this, this.attract));
+    this.addListener(new MouseEvtListener(this, (p) => this.attract(p)));
 };
 ParticlesScene.prototype = Object.create(Scene.prototype);
 ParticlesScene.prototype.constructor =  ParticlesScene;

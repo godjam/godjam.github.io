@@ -7,7 +7,7 @@ let SystemOfSystemsScene = function (options) {
 
     this.lastTime = 0.5; // in s
     this.emitters = [];
-    this.addListener(new MouseEvtListener(this.canvas, this, this.createEmitter));
+    this.addListener(new MouseEvtListener(this, (p) => this.createEmitter(p)));
     this.createEmitter(new Vector2(this.size.x / 2, this.size.y / 2));
 };
 SystemOfSystemsScene.prototype = Object.create(Scene.prototype);

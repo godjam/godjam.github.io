@@ -18,7 +18,7 @@ let CannonScene = function (options) {
         force = new Vector2(0, -this.r / 4);
     }
 
-    this.addListener(new MouseEvtListener(this.canvas, this, this.createNewBullet));
+    this.addListener(new MouseEvtListener(this, (p) => this.createNewBullet(p)));
 
     this.gravity = new Gravity(0, 0.2);
     this.cannon = new Mover(this.r, h / 2, this, this.r * 2);

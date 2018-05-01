@@ -1,6 +1,6 @@
 /*global toxi, GridCluster, Scene, MouseEvtListener, ToxiCreature, ToxiSystem, OrientationEvtListener, Tools*/
 //*************************************************
-let ToxiSimulationScene = function(options) {
+let ToxiSimulationScene = function (options) {
     "use strict";
     Scene.call(this, options);
 
@@ -12,19 +12,17 @@ let ToxiSimulationScene = function(options) {
     this.options = options;
     this.physics = new VerletPhysics2D();
     // use to displace an element
-    this.particle = null;    // gravity
+    this.particle = null; // gravity
     this.gravity = new Vec2D(0, 1);
     this.behavior = new GravityBehavior(this.gravity);
 
     if (options.sim_type === 0) {
         this.intro("Cloth Simulation (Toxiclibs)", "Reacts to touch events and to orientation events.<br>Screen lock is recomended.");
         this.cluster = new GridCluster(this.size, this.physics);
-    }
-    else if (options.sim_type === 1) {
+    } else if (options.sim_type === 1) {
         this.intro("Creature (Toxiclibs)", "Reacts to touch events and to orientation events.<br>Screen lock is recomended.");
         this.cluster = new ToxiCreature(new Vec2D(this.size.x / 2, 50), this.physics);
-    }
-    else if (options.sim_type === 2) {
+    } else if (options.sim_type === 2) {
         this.intro("Toxi Attractor", "Far movers are attracted by the attractor. Close movers are repel.");
         this.behavior.force.y = 0;
         this.cluster = new ToxiSystem(this.size, this.physics);
@@ -33,19 +31,22 @@ let ToxiSimulationScene = function(options) {
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
     // Orientation : change gravity
     this.physics.addBehavior(this.behavior);
-    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
-    this.addListener(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
+    this.addListener(new MouseEvtListener(this,
+        (p) => this.mouseStartEvt(p),
+        () => this.mouseStoptEvt()));
+    this.addListener(new OrientationEvtListener(this, 
+        (dir, tiltFB, tiltLR) => this.changeGravityEvt(dir, tiltFB, tiltLR)));
 };
 ToxiSimulationScene.prototype = Object.create(Scene.prototype);
 ToxiSimulationScene.prototype.constructor = ToxiSimulationScene;
 
 
-ToxiSimulationScene.prototype.stop = function() {
+ToxiSimulationScene.prototype.stop = function () {
     "use strict";
     Scene.prototype.stop.call(this);
 };
 
-ToxiSimulationScene.prototype.resize = function() {
+ToxiSimulationScene.prototype.resize = function () {
     "use strict";
     Scene.prototype.resize.call(this);
     if (this.physics) {
@@ -53,7 +54,7 @@ ToxiSimulationScene.prototype.resize = function() {
     }
 };
 
-ToxiSimulationScene.prototype.loop = function() {
+ToxiSimulationScene.prototype.loop = function () {
     "use strict";
     this.physics.update();
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
@@ -61,7 +62,7 @@ ToxiSimulationScene.prototype.loop = function() {
     Scene.prototype.loop.call(this);
 };
 
-ToxiSimulationScene.prototype.mouseStartEvt = function(position) {
+ToxiSimulationScene.prototype.mouseStartEvt = function (position) {
     "use strict";
     let i = 0,
         particle = null,
@@ -89,13 +90,13 @@ ToxiSimulationScene.prototype.mouseStartEvt = function(position) {
     }
 };
 
-ToxiSimulationScene.prototype.mouseStoptEvt = function() {
+ToxiSimulationScene.prototype.mouseStoptEvt = function () {
     "use strict";
     // release particle
     this.particle = null;
 };
 
-ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
+ToxiSimulationScene.prototype.changeGravityEvt = function (dir, tiltFB, tiltLR) {
     "use strict";
 
     // limits tilts
@@ -118,7 +119,7 @@ ToxiSimulationScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
     this.behavior.setForce(this.gravity);
 };
 
-ToxiSimulationScene.prototype.changeClusterOrientation = function() {
+ToxiSimulationScene.prototype.changeClusterOrientation = function () {
 
     let aX = Math.abs(this.gravity.x),
         aY = Math.abs(this.gravity.y);
@@ -126,8 +127,7 @@ ToxiSimulationScene.prototype.changeClusterOrientation = function() {
     if (aX > aY) {
         if (this.gravity.x < 0) {
             this.cluster.setFaceAngle(Math.PI / 2);
-        }
-        else if (this.gravity.x >= 0) {
+        } else if (this.gravity.x >= 0) {
             this.cluster.setFaceAngle(-Math.PI / 2);
         }
     }
@@ -135,8 +135,7 @@ ToxiSimulationScene.prototype.changeClusterOrientation = function() {
     else {
         if (this.gravity.y < 0) {
             this.cluster.setFaceAngle(Math.PI);
-        }
-        else if (this.gravity.y >= 0) {
+        } else if (this.gravity.y >= 0) {
             this.cluster.setFaceAngle(0);
         }
     }

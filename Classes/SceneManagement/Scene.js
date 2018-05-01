@@ -26,9 +26,7 @@ let Scene = function (options) {
 };
 
 Scene.prototype.addListener = function (listener) {
-    if (this.listenToEvents) {
-        this.eventListeners.push(listener)
-    }
+    this.eventListeners.push(listener)
 }
 
 Scene.prototype.update = function () {

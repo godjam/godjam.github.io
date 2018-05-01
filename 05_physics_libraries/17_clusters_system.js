@@ -1,6 +1,6 @@
 /*global toxi, Scene, OrientationEvtListener, MouseEvtListener, Tools, Color*/
 //*************************************************
-let ClustersSystemScene = function(options) {
+let ClustersSystemScene = function (options) {
     "use strict";
     Scene.call(this, options);
     this.intro("Force Directed Graph", "Touch to add new elements in clusters.<br>Reacts to orientation events.<br>Screen lock is recomended.");
@@ -20,19 +20,23 @@ let ClustersSystemScene = function(options) {
     this.physics.setWorldBounds(new Rect(0, 0, this.size.x, this.size.y));
     // Orientation : change gravity
     this.physics.addBehavior(this.gravityBehavior);
-    this.addListener(new MouseEvtListener(this.canvas, this, this.mouseStartEvt, this.mouseStoptEvt));
-    this.addListener(new OrientationEvtListener(this.canvas, this, this.changeGravityEvt));
+    this.addListener(new MouseEvtListener(this,
+        (p) => this.mouseStartEvt(p),
+        () => this.mouseStoptEvt()));
+
+    this.addListener(new OrientationEvtListener(this, 
+        (dir, tiltFB, tiltLR) => this.changeGravityEvt(dir, tiltFB, tiltLR)));
     this.addFirstParticles();
 };
 ClustersSystemScene.prototype = Object.create(Scene.prototype);
 ClustersSystemScene.prototype.constructor = ClustersSystemScene;
 
-ClustersSystemScene.prototype.stop = function() {
+ClustersSystemScene.prototype.stop = function () {
     "use strict";
     Scene.prototype.stop.call(this);
 };
 
-ClustersSystemScene.prototype.resize = function() {
+ClustersSystemScene.prototype.resize = function () {
     "use strict";
     Scene.prototype.resize.call(this);
     if (this.physics) {
@@ -40,7 +44,7 @@ ClustersSystemScene.prototype.resize = function() {
     }
 };
 
-ClustersSystemScene.prototype.loop = function() {
+ClustersSystemScene.prototype.loop = function () {
     "use strict";
     let i = 0,
         s = null,
@@ -68,7 +72,7 @@ ClustersSystemScene.prototype.loop = function() {
     Scene.prototype.loop.call(this);
 };
 
-ClustersSystemScene.prototype.mouseStartEvt = function(position) {
+ClustersSystemScene.prototype.mouseStartEvt = function (position) {
     "use strict";
     let i = 0,
         particle = null,
@@ -93,20 +97,19 @@ ClustersSystemScene.prototype.mouseStartEvt = function(position) {
     if (this.particle) {
         this.particle.x = p1.x;
         this.particle.y = p1.y;
-    }
-    else if (this.time > 0.3) { // in s
+    } else if (this.time > 0.3) { // in s
         this.addParticle(p1);
         this.time = 0;
     }
 };
 
-ClustersSystemScene.prototype.mouseStoptEvt = function() {
+ClustersSystemScene.prototype.mouseStoptEvt = function () {
     "use strict";
     // release particle
     this.particle = null;
 };
 
-ClustersSystemScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
+ClustersSystemScene.prototype.changeGravityEvt = function (dir, tiltFB, tiltLR) {
     "use strict";
 
     // limits tilts
@@ -123,7 +126,7 @@ ClustersSystemScene.prototype.changeGravityEvt = function(dir, tiltFB, tiltLR) {
     this.gravityBehavior.setForce(this.gravity);
 };
 
-ClustersSystemScene.prototype.addParticle = function(position) {
+ClustersSystemScene.prototype.addParticle = function (position) {
     "use strict";
     let i = 0,
         d = 0,
@@ -141,8 +144,7 @@ ClustersSystemScene.prototype.addParticle = function(position) {
         d = position.distanceTo(p.getPreviousPosition());
         if (d < this.threshold) {
             s = new VerletSpring2D(n, p, d, f);
-        }
-        else {
+        } else {
             s = new VerletMDSpring2D(n, p, d, f);
         }
         this.physics.addSpring(s);
@@ -152,7 +154,7 @@ ClustersSystemScene.prototype.addParticle = function(position) {
 };
 
 
-ClustersSystemScene.prototype.addFirstParticles = function() {
+ClustersSystemScene.prototype.addFirstParticles = function () {
     "use strict";
     let i = 0,
         x = 0,

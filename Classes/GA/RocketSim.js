@@ -28,11 +28,11 @@ RocketSim.prototype.init = function () {
 
     for (let i = 0; i < this.obstaclesCount; ++i) {
         let w = this.scene.size.x * 0.3;
-        let x = this.scene.size.x * 0.3 + Math.random() * w;
+        let x = 15 + this.scene.size.x * 0.2 + 100 * i;// this.scene.size.x * 0.3 + Math.random() * w;
         let h = this.scene.size.y * 0.3;
-        let y = this.scene.size.y * 0.5 + Math.random() * h;
+        let y = this.scene.size.y * 0.5 + 0.5 * h;//0.5 + Math.random() * h;
         let m = this.scene.size.y / 30;
-        let mass = Math.random() * m + m;
+        let mass = 0.4 * m + m; //Math.random() * m + m;
         this.obstacles.push(new Mover(x, y, this.scene, mass))
     }
 }

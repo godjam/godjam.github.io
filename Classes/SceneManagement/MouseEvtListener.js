@@ -1,18 +1,18 @@
 /*global Vector2, HTMLCanvasElement, TouchList*/
-let MouseEvtListener = function (canvas, callbackOwner, callbackMove, callbackRelease) {
-    "use strict";
+let MouseEvtListener = function (scene, callbackMove, callbackRelease) {
+    'use strict';
 
     if (canvas instanceof HTMLCanvasElement === false) {
-        throw "MouseEvtListener.ctor : canvas is not a HTMLCanvasElement";
+        throw 'MouseEvtListener.ctor : canvas is not a HTMLCanvasElement';
     }
 
+    this.scene = scene;
     this.mouseClick = false;
     this.position = new Vector2();
     this.pointers = [];
     this.changes = null;
-    this.origin = new Vector2(canvas.clientLeft, canvas.clientTop);
-    this.canvas = canvas;
-    this.callbackOwner = callbackOwner;
+    this.canvas = this.scene.canvas;
+    this.origin = new Vector2(this.canvas.clientLeft, this.canvas.clientTop);
     this.callbackMove = null;
     this.callbackRelease = null;
     this.tmp = new Vector2();
@@ -26,31 +26,34 @@ let MouseEvtListener = function (canvas, callbackOwner, callbackMove, callbackRe
     }
 
     // attach event listener to the doc (with capturing)
-    this.canvas.addEventListener("mousedown", this.mouseDown.bind(this));
-    this.canvas.addEventListener("mouseup", this.mouseUp.bind(this));
+    if (this.scene.listenToEvents) {
+        this.canvas.addEventListener('mousedown', (e) => this.mouseDown(e), false);
+        this.canvas.addEventListener('mouseup', (e) => this.mouseUp(e), false);
 
-    this.canvas.addEventListener("touchstart", this.mouseDown.bind(this));
-    this.canvas.addEventListener("touchend", this.mouseUp.bind(this));
+        this.canvas.addEventListener('touchstart', (e) => this.mouseDown(e), false);
+        this.canvas.addEventListener('touchend', (e) => this.mouseUp(e), false);
 
-    this.canvas.addEventListener("mousemove", this.move.bind(this));
-    this.canvas.addEventListener("touchmove", this.move.bind(this));
+        this.canvas.addEventListener('mousemove', (e) => this.move(e), false);
+        this.canvas.addEventListener('touchmove', (e) => this.move(e), false);
+    }
 };
 
 MouseEvtListener.prototype.stop = function () {
-    "use strict";
-    this.canvas.removeEventListener("mousedown", this.mouseDown);
-    this.canvas.removeEventListener("mouseup", this.mouseUp);
-    this.canvas.removeEventListener("mousemove", this.move);
+    'use strict';
+    this.canvas.removeEventListener('mousedown', this.mouseDown);
+    this.canvas.removeEventListener('mouseup', this.mouseUp);
+    this.canvas.removeEventListener('mousemove', this.move);
 
-    this.canvas.removeEventListener("touchstart", this.mouseDown);
-    this.canvas.removeEventListener("touchend", this.mouseUp);
-    this.canvas.removeEventListener("touchmove", this.move);
+    this.canvas.removeEventListener('touchstart', this.mouseDown);
+    this.canvas.removeEventListener('touchend', this.mouseUp);
+    this.canvas.removeEventListener('touchmove', this.move);
 };
 
 MouseEvtListener.prototype.move = function (event) {
-    "use strict";
+    'use strict';
     event.preventDefault();
-    let i = 0, pointers = [];
+    let i = 0,
+        pointers = [];
 
     // pointer lists
     if (event.touches) {
@@ -59,8 +62,7 @@ MouseEvtListener.prototype.move = function (event) {
             this.tmp.y = event.touches[i].clientY - this.origin.y;
             pointers.push(this.tmp);
         }
-    }
-    else if (this.mouseClick === true) {
+    } else if (this.mouseClick === true) {
         this.tmp.x = event.clientX - this.origin.x;
         this.tmp.y = event.clientY - this.origin.y;
         pointers.push(this.tmp);
@@ -77,34 +79,32 @@ MouseEvtListener.prototype.move = function (event) {
 };
 
 MouseEvtListener.prototype.update = function () {
-    "use strict";
+    'use strict';
     if (this.mouseClick) {
         if (this.callbackMove) {
-            let bindedCall = this.callbackMove.bind(this.callbackOwner);
-            bindedCall(this.position, this.pointers, this.changes);
+            this.callbackMove(this.position, this.pointers, this.changes);
         }
     }
 };
 
 
 MouseEvtListener.prototype.release = function () {
-    "use strict";
+    'use strict';
     if (this.mouseClick === false && this.callbackRelease) {
-        let bindedCall = this.callbackRelease.bind(this.callbackOwner);
-        bindedCall();
+        this.callbackRelease();
     }
 };
 
 
 MouseEvtListener.prototype.mouseDown = function (event) {
-    "use strict";
+    'use strict';
     event.preventDefault();
     this.mouseClick = true;
     this.move(event);
 };
 
 MouseEvtListener.prototype.mouseUp = function (event) {
-    "use strict";
+    'use strict';
     event.preventDefault();
     this.mouseClick = false;
     this.release(event);

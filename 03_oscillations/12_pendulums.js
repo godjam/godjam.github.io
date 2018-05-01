@@ -13,7 +13,7 @@ let OscillationScene = function (options) {
     this.pendulum1 = new Pendulum(w / 2, 0, r1, Math.PI / 2);
     this.mover0 = new Mover(0, 0, this, s / 20);
     this.mover1 = new Mover(0, 0, this, s / 25);
-    this.addListener(new MouseEvtListener(this.canvas, this, this.attract));
+    this.addListener(new MouseEvtListener(this, (p) => this.attract(p)));
 };
 OscillationScene.prototype = Object.create(Scene.prototype);
 OscillationScene.prototype.constructor = OscillationScene;

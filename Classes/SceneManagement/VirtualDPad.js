@@ -1,10 +1,13 @@
 /*global Vector2, HTMLCanvasElement, Color*/
 // adapted from https://github.com/sebleedelisle/JSTouchController/blob/master/TouchControl.html
-let VirtualDPad = function(canvas, callbackOwner, callback) {
-    "use strict";
+let VirtualDPad = function (scene, callback) {
+    'use strict';
 
-    if (canvas instanceof HTMLCanvasElement === false) {
-        throw "MouseEvtListener.ctor : canvas is not a HTMLCanvasElement";
+    this.scene = scene;
+    this.canvas = this.scene.canvas;
+
+    if (this.canvas instanceof HTMLCanvasElement === false) {
+        throw 'MouseEvtListener.ctor : canvas is not a HTMLCanvasElement';
     }
 
     this.padState = {
@@ -37,46 +40,46 @@ let VirtualDPad = function(canvas, callbackOwner, callback) {
     this.rightTouchPos = v1.copy();
 
     this.canvas = canvas;
-    this.callbackOwner = callbackOwner;
     this.callback = null;
 
     if (callback !== undefined && callback instanceof Function) {
         this.callback = callback;
     }
 
-    // attach event listener to the doc (with capturing)
-    if (this.supportTouch) {
-        this.canvas.addEventListener("touchstart", this.touchStart.bind(this));
-        this.canvas.addEventListener("touchend", this.touchEnd.bind(this));
-        this.canvas.addEventListener("touchmove", this.touchMove.bind(this));
+    if (this.scene.listenToEvents) {
+        // attach event listener to the doc (with capturing)
+        if (this.supportTouch) {
+            this.canvas.addEventListener('touchstart', (e) => this.touchStart(e));
+            this.canvas.addEventListener('touchend', (e) => this.touchEnd(e));
+            this.canvas.addEventListener('touchmove', (e) => this.touchMove(e));
+        }
+        // keyboard
+        window.addEventListener('keydown', (e) => this.keyDownListener(e), true);
+        window.addEventListener('keyup', (e) => this.keyUpListener(e), true);
     }
-    // keyboard
-    window.addEventListener("keydown", this.keyDownListener.bind(this), true);
-    window.addEventListener("keyup", this.keyUpListener.bind(this), true);
 };
 
-VirtualDPad.prototype.stop = function() {
-    "use strict";
+VirtualDPad.prototype.stop = function () {
+    'use strict';
     if (this.supportTouch) {
-        this.canvas.removeEventListener("touchstart", this.touchStart);
-        this.canvas.removeEventListener("touchend", this.touchEnd);
-        this.canvas.removeEventListener("touchmove", this.touchMove);
+        this.canvas.removeEventListener('touchstart', () => this.touchStart());
+        this.canvas.removeEventListener('touchend', () => this.touchEnd());
+        this.canvas.removeEventListener('touchmove', () => this.touchMove());
     }
-    window.removeEventListener("keydown", this.keyDownListener);
-    window.removeEventListener("keyup", this.keyUpListener);
+    window.removeEventListener('keydown', () => this.keyDownListener());
+    window.removeEventListener('keyup', () => this.keyUpListener());
 };
 
-VirtualDPad.prototype.update = function() {
-    "use strict";
+VirtualDPad.prototype.update = function () {
+    'use strict';
 
     if (this.callback) {
-        let f = this.callback.bind(this.callbackOwner);
-        f(this.padState);
+        this.callback(this.padState);
     }
 };
 
-VirtualDPad.prototype.touchStart = function(event) {
-    "use strict";
+VirtualDPad.prototype.touchStart = function (event) {
+    'use strict';
     let i = 0,
         t = null;
     event.preventDefault();
@@ -96,8 +99,7 @@ VirtualDPad.prototype.touchStart = function(event) {
             this.leftTouchStartPos.y = this.leftTouchPos.y = t.clientY;
             this.padState.d.x = this.padState.d.y = 0;
             continue;
-        }
-        else if (this.rightTouchID < 0) {
+        } else if (this.rightTouchID < 0) {
             this.rightTouchID = t.identifier;
             this.rightTouchPos.x = t.clientX;
             this.rightTouchPos.y = t.clientY;
@@ -108,8 +110,8 @@ VirtualDPad.prototype.touchStart = function(event) {
 };
 
 
-VirtualDPad.prototype.touchMove = function(event) {
-    "use strict";
+VirtualDPad.prototype.touchMove = function (event) {
+    'use strict';
     let i = 0,
         t = null;
     event.preventDefault();
@@ -123,8 +125,7 @@ VirtualDPad.prototype.touchMove = function(event) {
             this.leftTouchPos.x = this.leftTouchStartPos.x + this.padState.d.x * this.r;
             this.leftTouchPos.y = this.leftTouchStartPos.y + this.padState.d.y * this.r;
             continue;
-        }
-        else if (this.rightTouchID === t.identifier) {
+        } else if (this.rightTouchID === t.identifier) {
             this.rightTouchPos.x = t.clientX;
             this.rightTouchPos.y = t.clientY;
             this.padState.action = true;
@@ -134,8 +135,8 @@ VirtualDPad.prototype.touchMove = function(event) {
     this.update();
 };
 
-VirtualDPad.prototype.touchEnd = function(event) {
-    "use strict";
+VirtualDPad.prototype.touchEnd = function (event) {
+    'use strict';
     event.preventDefault();
     let i = 0,
         t = null;
@@ -159,8 +160,8 @@ VirtualDPad.prototype.touchEnd = function(event) {
     this.update();
 };
 
-VirtualDPad.prototype.keyDownListener = function(event) {
-    "use strict";
+VirtualDPad.prototype.keyDownListener = function (event) {
+    'use strict';
     if (event.defaultPrevented) {
         return; // Should do nothing if the key event was already consumed.
     }
@@ -183,8 +184,8 @@ VirtualDPad.prototype.keyDownListener = function(event) {
     this.update();
 };
 
-VirtualDPad.prototype.keyUpListener = function(event) {
-    "use strict";
+VirtualDPad.prototype.keyUpListener = function (event) {
+    'use strict';
     if (event.defaultPrevented) {
         return; // Should do nothing if the key event was already consumed.
     }
@@ -201,8 +202,8 @@ VirtualDPad.prototype.keyUpListener = function(event) {
     this.update();
 };
 
-VirtualDPad.prototype.display = function(ctx) {
-    "use strict";
+VirtualDPad.prototype.display = function (ctx) {
+    'use strict';
     if (this.supportTouch === false) {
         return
     };
@@ -222,7 +223,7 @@ VirtualDPad.prototype.display = function(ctx) {
         ctx.stroke();
         ctx.closePath();
 
-        ctx.strokeStyle = "#444";
+        ctx.strokeStyle = '#444';
         ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(this.leftTouchPos.x, this.leftTouchPos.y, this.r * 0.9, 0, PI2);
@@ -232,7 +233,7 @@ VirtualDPad.prototype.display = function(ctx) {
 
     if (this.rightTouchID > -1) {
         ctx.strokeStyle = this.color.rgba();
-        ctx.fillStyle = "#222";
+        ctx.fillStyle = '#222';
         ctx.beginPath();
         ctx.arc(this.rightTouchPos.x, this.rightTouchPos.y, this.r * 0.9, 0, PI2);
         ctx.fill();
