@@ -5,8 +5,8 @@ let RecursiveTreeScene = function(options) {
     Scene.call(this, options);
     this.intro("Recursive Tree");
     const w = Math.min(this.size.x, this.size.y);
-    let baseSize = w / 6;
-    let steps = Tools.clamp(w / 10, 3, 9);
+    const baseSize = w / 6;
+    const steps = Tools.clamp(w / 20, 3, 9);
     this.tree = new RecursiveTree(this, this.size.x / 2, this.size.y * 0.8, -baseSize, steps);
 };
 RecursiveTreeScene.prototype = Object.create(Scene.prototype);

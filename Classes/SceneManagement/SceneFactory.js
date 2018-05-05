@@ -390,7 +390,7 @@ SceneFactory.createMiniScene = function (key, canvasID) {
     params.key = key;
     params.canvasManager = canvasManager;
 
-    console.log('createMiniScene ' +  params.key);
+    //console.log('createMiniScene ' +  params.key);
 };
 
 
@@ -427,6 +427,6 @@ SceneFactory.createScene = function (key) {
     params.key = key;
     params.canvasManager = this.canvasManager;
 
-    console.log('createScene ' + params.key);
+    // console.log('createScene ' + params.key);
     this.autoclose();
 };
