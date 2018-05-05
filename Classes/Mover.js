@@ -97,9 +97,7 @@ Mover.prototype.displayAsSmoke = function (ctx) {
 
 Mover.prototype.displayAsPoly = function (ctx, p) {
     "use strict";
-    if (p === undefined) {
-        p = 3;
-    }
+    p = p || 3;
 
     ctx.save();
     ctx.translate(this.location.x, this.location.y);
@@ -107,7 +105,6 @@ Mover.prototype.displayAsPoly = function (ctx, p) {
     Tools.drawPoly(ctx, 0, 0, p, this.mass);
     ctx.fillStyle = this.color.rgba();
     ctx.fill();
-
     ctx.restore();
 };
 

@@ -5,7 +5,7 @@ let LSystemScene = function(options) {
     Scene.call(this, options);
     this.intro("LSystem");
     this.initNewLSystem();
-    this.addUpdatCallback(this, this.initNewLSystem, 2000);
+    this.addUpdateCallback(() => this.initNewLSystem(), 2000);
 };
 LSystemScene.prototype = Object.create(Scene.prototype);
 LSystemScene.prototype.constructor = LSystemScene;
@@ -44,11 +44,8 @@ LSystemScene.prototype.initNewLSystem = function() {
         .generate(4);
     
     this.turtle = new TurtleRenderer(this, this.lsystem);
-}
-
-LSystemScene.prototype.loop = function() {
-    "use strict";
-    Scene.prototype.loop.call(this);
+    
+    // clean and render
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     this.turtle.render(this.ctx);
-};
+}

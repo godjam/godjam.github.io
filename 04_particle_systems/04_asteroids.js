@@ -26,9 +26,8 @@ AsteroidsScene.prototype.loop = function () {
     this.friction.applyOn(this.mover);
     this.mover.update(1);
     this.mover.displayAsPoly(this.ctx, 3);
-    
     this.emitter.step(this.ctx);
-    
+
     Scene.prototype.loop.call(this);
 };
 

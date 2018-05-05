@@ -129,10 +129,9 @@ canvas {
 /* 2. The toggle box */
 #togglebox {
     /* checkbox used to toggle menu state */
-    position: absolute;
-    left: 0;
-    top: 0;
-    visibility: hidden; /* hide checkbox, instead relying on labels to toggle it */
+    /* position: absolute; */
+    transform: translate3d(0px,0px,0px);
+    display: none; /* hide checkbox, instead relying on labels to toggle it */
 }
  
 #navtoggler{ /* Main label icon to toggle menu state */

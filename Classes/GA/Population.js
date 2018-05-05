@@ -94,7 +94,7 @@ Pop.prototype.evolveStep = function (target, mutationRate) {
     console.log(`generation: ${this.generation}`);
     for(let i=this.gen.length-1; i>=0; --i) {
         let dna = this.gen[i];
-        console.log(`id: ${dna.id} dist: ${dna.dist.toFixed()} ttt: ${dna.timeToTarget} alive: ${dna.alive} fit: ${dna.fitness.toFixed(4)}`);    
+        //console.log(`id: ${dna.id} dist: ${dna.dist.toFixed()} ttt: ${dna.timeToTarget} alive: ${dna.alive} fit: ${dna.fitness.toFixed(4)}`);    
     }
 
     this.cross(mutationRate);

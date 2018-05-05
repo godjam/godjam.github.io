@@ -1,7 +1,7 @@
 /*global FrameLoop, Vector2*/
 let Scene = function (options) {
     'use strict';
-    console.log('scene ctor');
+    // console.log('scene ctor');
 
     // 2D context
     this.canvasManager = options.canvasManager;
@@ -29,12 +29,12 @@ Scene.prototype.addListener = function (listener) {
     this.eventListeners.push(listener)
 }
 
-Scene.prototype.update = function () {
+Scene.prototype.update = function (delta) {
     'use strict';
     if (this.canvasManager.isVisible) {
         if (this.frameloop.shouldNextFrame()) {
-            this.updateListeners();
-            this.loop();
+            this.loop(delta);            
+            this.updateListeners(delta);
         }
     }
 
@@ -59,8 +59,8 @@ Scene.prototype.updateListeners = function () {
 
 Scene.prototype.start = function () {
     'use strict';
-    console.log('scene start');
-    window.requestAnimationFrame(this.update.bind(this));
+    // console.log('scene start');
+    window.requestAnimationFrame((t) => this.update(t));
 }
 
 Scene.prototype.loop = function () {
@@ -69,7 +69,7 @@ Scene.prototype.loop = function () {
 
 Scene.prototype.stop = function () {
     'use strict';
-    console.log('scene stop');
+    // console.log('scene stop');
     let i = 0;
 
     if (this.requestId) {
@@ -136,10 +136,9 @@ Scene.prototype.intro = function (title, desc) {
 /**
  * Adapted from https://developer.mozilla.org/en-US/docs/Web/API/WindowTimers/setTimeout
  */
-Scene.prototype.addUpdatCallback = function (owner, callback, timeout) {
+Scene.prototype.addUpdateCallback = function (callback, timeout) {
     'use strict';
-    if (owner !== undefined && callback instanceof Function) {
-        let args = Array.prototype.slice.call(arguments, 3);
-        this.timeoutList.push(window.setInterval(callback.bind(owner), timeout));
+    if (callback instanceof Function) {
+        this.timeoutList.push(window.setInterval(callback, timeout));
     }
 };

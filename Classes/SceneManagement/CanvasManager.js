@@ -26,7 +26,7 @@ CanvasManager.prototype.visibilityChange = function (entries, obs) {
     entries.forEach(
         e => {
             if (e.isIntersecting != this.isVisible) {
-                console.log(e.isIntersecting)
+                // console.log(e.isIntersecting)
                 this.isVisible = e.isIntersecting;
                 this.handleVisibilityChange();
             }
@@ -43,7 +43,7 @@ CanvasManager.prototype.handleVisibilityChange = function () {
 
 CanvasManager.prototype.startScene = function () {
     'use strict';
-    console.log('starting ' + this.options.key)
+    // console.log('starting ' + this.options.key)
     this.options.canvasManager = this;
     this.sceneInstance = new this.sceneKey(this.options);
     this.sceneInstance.start();
@@ -52,7 +52,7 @@ CanvasManager.prototype.startScene = function () {
 CanvasManager.prototype.stopScene = function () {
     'use strict';
     if (this.sceneInstance) {
-        console.log('stopping ' + this.options.key)
+        // console.log('stopping ' + this.options.key)
         this.sceneInstance.stop();
         delete(this.sceneInstance);
         this.sceneInstance = null;

@@ -19,7 +19,9 @@ let VehiclesSystemScene = function (options) {
 
     this.initScene();
     let i = 0;
-    for (i = 0; i < 150; i += 1) {
+    const w = Math.max(this.size.x, this.size.y);
+    const nb = Tools.clamp(w / 10, 15, 150);
+    for (i = 0; i < nb; i += 1) {
         let v = new Vehicle(this, Math.random() * this.size.x, Math.random() * this.size.y);;
         this.vehicles.push(v);
     }
