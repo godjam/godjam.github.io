@@ -143,7 +143,7 @@ SceneFactory.initMiniMenus = function () {
 
 SceneFactory.parseURL = function () {
     'use strict';
-    let defaultKey = '09_01';
+    let defaultKey = '09_00'; // 09_01'//
     let key = '';
 
     if (window) {
@@ -358,6 +358,7 @@ SceneFactory.init = function () {
     this.cache['08_12'] = LSystemScene;
 
     this.cache['09_01'] = RocketsScene;
+    this.cache['09_00'] = TestScene;
 };
 
 SceneFactory.autoclose = function () {

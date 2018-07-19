@@ -1,22 +1,22 @@
-function DNA2D(size, options) {
+function DNA2D(options) {
     'use strict';
-    options = options || {};
-    this.maxForce = options.maxForce || 0.5;
-    this.dist = 1000;
-    this.distThreshold = 20;
-    this.baseTimeToTarget = 1000;
-    DNA.call(this, size);
+    DNA.call(this, options);
 }
 DNA2D.prototype = Object.create(DNA.prototype);
 DNA2D.prototype.constructor = DNA2D;
 
-DNA2D.prototype.init = function () {
-    'use strict';
-    this.location = 0;
+DNA2D.prototype.resetScore = function () {
+    this.maxForce = this.options.maxForce;
+    this.dist = this.options.maxDist;
+    this.distThreshold = this.options.distThreshold;
+    this.baseTimeToTarget = this.options.baseTimeToTarget;
+    this.impactVelocity = 0;
     this.velocity = 0;
     this.alive = true;
     this.timeToTarget = this.baseTimeToTarget;
-    DNA.prototype.init.call(this);
+    this.location = 0;
+
+    DNA.prototype.resetScore.call(this);
 }
 
 DNA2D.prototype.createGene = function () {
@@ -39,20 +39,27 @@ DNA2D.prototype.updateScore = function (rocket, target, time) {
     if(this.dist <= this.distThreshold && time < this.timeToTarget) {
         this.dist = 1;
         this.timeToTarget = time;
+        this.impactVelocity = this.velocity;
     }
 }
 
 DNA2D.prototype.computeFitness = function (target) {
     'use strict';
-    let wd = 0.5;
-    let wt = 0.5;
+    let wd = 0.33;
+    let wt = 0.33;
+    let wv = 0.33;
+    
     let d = this.dist * wd;
-    let t = (this.timeToTarget - 470) * wt;
+    let t = this.timeToTarget * wt;
+    let v = this.impactVelocity * wv;
+
     let id = Math.min(wd, 1 / d);
     let it = Math.min(wt, 1 / t);
-    let s = (id * id) + (it * it);
+    let iv = Math.min(wv, 1 / v);
 
-    if (!this.alive)
+    let s = (id * id) + (it * it) + (iv * iv);
+
+    if (!this.alive || this.impactVelocity > 1)
         s = s * 0.1;
 
     if (this.timeToTarget >= this.baseTimeToTarget)
@@ -64,8 +71,7 @@ DNA2D.prototype.computeFitness = function (target) {
     this.fitness = s;        
 }
 
-
-DNA.prototype.displayStats = function () {
+DNA2D.prototype.displayStats = function () {
     return `best [dist: ${this.dist.toFixed()}, time: ${this.timeToTarget}]`;    
     /*
     let wd = 0.4;
