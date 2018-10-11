@@ -1,20 +1,21 @@
 function Box2dSim(scene) {
   'use strict';
   this.scene = scene;
-  this.creaturesCount = 10;
+  this.creaturesCount = 3;
   this.elapsedFrames = 0;
   this.framesCount = 200;
 
   this.frameStep = 1;
-  this.mutationRate = 0.02;
+  this.mutationRate = 0.2;
 
   let x = this.scene.size.x * .5;
-  let y = this.scene.size.y * .9;
+  let y = this.scene.size.y * .3;
   this.start = new Vector2(x, y);
   this.target = new Vector2(x, y * 0.2);
 
   this.creatures = [];
-  this.pop = new Pop(this.creaturesCount, DNABox2D);
+  const options = {baseDist: Number.MAX_SAFE_INTEGER};
+  this.pop = new Pop(this.creaturesCount, DNABox2D, options);
 
   this.scale = 30;
   this.gravity = new B2Vec2(0, 9);
@@ -82,16 +83,16 @@ Box2dSim.prototype.init = function () {
     let dna = this.pop.gen[i];
     this.creatures.push(new Box2dCreature(
       this.start.x,
-      Math.random() * this.scene.size.y, // this.start.y,
+      this.start.y,
       this.scene, dna, this.world, this.scale));
   }
 }
 
-Box2dSim.prototype.update = function () {
+Box2dSim.prototype.update = function (delta) {
   'use strict';
   // sim
   if (this.elapsedFrames < this.framesCount) {
-    this.updateSim();
+    this.updateSim(delta);
   }
   // score + crossover + new gen
   else {
@@ -123,13 +124,13 @@ Box2dSim.prototype.display = function () {
   this.b11.display(this.scene.ctx);
 }
 
-Box2dSim.prototype.updateSim = function () {
+Box2dSim.prototype.updateSim = function (delta) {
   'use strict';
 
   this.world.Step(
-    1 / 30, //frame-rate
-    10, //velocity iterations
-    10 //position iterations
+    1 / 20, //frame-rate // TODO use delta
+    1, //velocity iterations
+    1 //position iterations
   );
   //this.world.DrawDebugData();
   this.world.ClearForces();
@@ -146,7 +147,7 @@ Box2dSim.prototype.updateSim = function () {
   this.b10.update();
   this.b11.update();
 
-  for (let f = 0; f < this.frameStep; f++) {
+  //for (let f = 0; f < this.frameStep; f++) {
     if (this.elapsedFrames < this.framesCount) {
       for (let i = 0; i < this.creatures.length; ++i) {
         let creature = this.creatures[i];
@@ -156,7 +157,7 @@ Box2dSim.prototype.updateSim = function () {
       }
       this.elapsedFrames++;
     }
-  }
+  //}
 }
 
 Box2dSim.prototype.nextGeneration = function () {

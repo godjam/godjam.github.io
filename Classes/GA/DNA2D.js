@@ -7,7 +7,7 @@ DNA2D.prototype.constructor = DNA2D;
 
 DNA2D.prototype.resetScore = function () {
     this.maxForce = this.options.maxForce;
-    this.dist = this.options.maxDist;
+    this.dist = this.options.baseDist;
     this.distThreshold = this.options.distThreshold;
     this.baseTimeToTarget = this.options.baseTimeToTarget;
     this.impactVelocity = 0;

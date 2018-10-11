@@ -41,8 +41,8 @@ Box2dCreature.prototype.init = function (x, y) {
   this.nodes = [];
   this.joints = [];
 
-  const root_segment = this.dna.genes[0];
-  this.addRoot(x, y, root_segment[1], root_segment[2]);
+  const root = this.dna.genes[0];
+  this.addRoot(x, y, root.width, root.height, root.color);
 
   // for each creature
   // max_width, max_height, max_angle, max_speed, max_torque, max_amplitude, max_period, segments
@@ -51,37 +51,36 @@ Box2dCreature.prototype.init = function (x, y) {
 
   for (let i = 1; i < this.dna.genes.length; ++i) {
     const segment = this.dna.genes[i];
-    if (!segment || segment.length != 10) {
+    if (!segment) {
       console.error('there is an error');
       continue;
     }
 
     const k = this.nodes.length;
-    const parent_ref = Math.min(segment[0], -k);
-
+    const parent_ref = Math.min(segment.parent_ref, -k);
     const parent_id = k + parent_ref;
     
     // TODO use parent node for all the segments
     const parent = this.nodes[parent_id];
-    const width = segment[1];
-    const height = segment[2];
-    const angle = segment[3];
-    const mirror = segment[4];
-    const speed = segment[5];
-    const torque = segment[6];
-    const amplitude = segment[7];
-    const period = segment[8];
-    const anchor_x = segment[9];
+    const width = segment.width;
+    const height = segment.height;
+    const angle = segment.angle;
+    const mirror = segment.mirror;
+    const speed = segment.speed;
+    const torque = segment.torque;
+    const amplitude = segment.amplitude;
+    const period = segment.period;
+    const anchor_x = segment.anchor_x;
 
-    //console.log(p);
+    //console.log(parent);
     if (parent)
-      this.addNode(parent, new B2Vec2(anchor_x, 0), width, height, angle, mirror, speed, torque, amplitude, period);
+      this.addNode(parent, new B2Vec2(anchor_x, 0), width, height, angle, mirror, speed, torque, amplitude, period, root.color);
     else console.error(`${this.dna.id} seg ${i} (node ${k+1}) parent not found: ${segment[0]}`); 
   }
   // console.log(`${this.dna.id} created with [${this.dna.genes.map(g => g[0])}]`);
 }
 
-Box2dCreature.prototype.addRoot = function (x, y, w, h) {
+Box2dCreature.prototype.addRoot = function (x, y, w, h, color) {
   'use strict';
   if (typeof x !== 'number' || typeof y !== 'number') {
     throw 'Box2dCreature.addRoot : x or y is not a number';
@@ -90,13 +89,13 @@ Box2dCreature.prototype.addRoot = function (x, y, w, h) {
   if (typeof w !== 'number' || typeof h !== 'number') {
     throw 'Box2dCreature.addRoot : width or heigth is not a number';
   }
-
-  const root = new Box(x, y, this.scene, this.world, this.scale, w, h);
+  const root = new Box(x, y, this.scene, this.world, this.scale, w, h, B2DynamicBody, {groupindex: -1});
+  root.color = color;
   this.nodes.push(root);
   return root;
 }
 
-Box2dCreature.prototype.addNode = function (parent, parentAnchor, w, h, angle, mirror, speed, torque, amplitude, period) {
+Box2dCreature.prototype.addNode = function (parent, parentAnchor, w, h, angle, mirror, speed, torque, amplitude, period, color) {
   'use strict';
   // check types
   if (!parent || !parent.body) {
@@ -145,7 +144,8 @@ Box2dCreature.prototype.addNode = function (parent, parentAnchor, w, h, angle, m
     pos.x += parent.boxW * 2;
   }
 
-  const node = new Box(pos.x, pos.y, this.scene, this.world, this.scale, w, h);
+  const node = new Box(pos.x, pos.y, this.scene, this.world, this.scale, w, h, B2DynamicBody, {groupindex: -1});
+  node.color = color.bluify();
   node.body.SetAngle(angle);
   this.nodes.push(node);
 
@@ -166,15 +166,6 @@ Box2dCreature.prototype.addNode = function (parent, parentAnchor, w, h, angle, m
 
 Box2dCreature.prototype.update = function (ctx) {
   'use strict';
-  // TODO
-  /*
-  // update joints
-  for (let i = 0; i < this.joints.length; i++) {
-    const joint = this.joints[i];
-    joint.update();
-  }
-  //*/
-
   // update nodes
   for (let i = 0; i < this.nodes.length; i++) {
     const node = this.nodes[i];
@@ -186,8 +177,8 @@ Box2dCreature.prototype.display = function (ctx) {
   'use strict';
   const root = this.nodes[0];
   const list = this.dna.genes.map(g => g[0]);
-  const score = this.dna.fitness;
-  ctx.fillText(`${this.dna.id}: ${score.toFixed(4)}`, root.x, root.y - 20);
+  const score = this.dna.dist;
+  ctx.fillText(`${this.dna.id}: ${score.toFixed()}`, root.x, root.y - 20);
 
   for (let i = 0; i < this.nodes.length; i++) {
     const node = this.nodes[i];

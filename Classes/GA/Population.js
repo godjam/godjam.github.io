@@ -1,15 +1,20 @@
 let Pop = function (size, dna_class, options) {
     'use strict';
-    options = options || {};
+    this.dna_class = dna_class;
+    this.options = options || {};
     this.generation = 0;
     this.gen = [];
     this.best = null;
     for (let i = 0; i < size; ++i) {
-        // TODO maybe use a factory here
-        const dna = new dna_class(options);
-        dna.createGenes();
-        this.gen.push(dna)
+        this.gen.push(this.createDna(this.dna_class, this.options));
     }
+}
+
+Pop.prototype.createDna = function (dna_class, options) {
+    // TODO maybe use a factory here
+    const dna = new dna_class(options);
+    dna.createGenes();
+    return dna;
 }
 
 Pop.prototype.computeFitness = function (target) {
@@ -33,11 +38,11 @@ Pop.prototype.pool = function () {
         fitness: a.fitness + b.fitness
     }));
     let weight = this.gen.length / (sum.fitness || 1);
-    // console.log(`pop: ${this.gen.length} sum fitness: ${sum.fitness.toFixed(2)} weight: ${weight}`);
+    console.log(`pop: ${this.gen.length} sum fitness: ${sum.fitness.toFixed(2)} weight: ${weight}`);
 
     for (let i = 0; i < this.gen.length; ++i) {
         let p = this.gen[i];
-        let n = p.fitness * weight;
+        let n = Math.round(p.fitness * weight);
 
         if (pool.length < this.gen.length) {
             for (let j = 0; j < n; ++j) {
@@ -48,7 +53,7 @@ Pop.prototype.pool = function () {
     }
 
     for (let i = pool.length; i < this.gen.length; ++i) {
-        pool.push(this.gen[0]);
+        pool.push(this.createDna(this.dna_class, this.options));
         console.log('### Error : Pop.pool : missing DNA')
     }
 

@@ -8,19 +8,18 @@ function DNA(options) {
 }
 DNA.id = 0;
 
-// TODO : have a ctor that do not generate genes + a call to createGenes that actually create genes
-// difference between init and resetScore?
-// resetScore is used whene an individual is taken from a previous generation
-
+// create all genes
 DNA.prototype.createGenes = function () {
     for (let i = 0; i < this.options.size; ++i)
         this.genes.push(this.createGene());
 }
 
+// resetScore is used whene an individual is taken from a previous generation
 DNA.prototype.resetScore = function () {
     this.fitness = 0;
 }
 
+// create an single random gene 
 DNA.prototype.createGene = function () {
     return Tools.rnd(32, 128);
 }
@@ -28,13 +27,14 @@ DNA.prototype.createGene = function () {
 DNA.prototype.mutateGene = function (i, gene) {
     // by default there is no mutation of a gene 
     // => mutation is a creation of a new gene
+    console.log(`${this.id} mutation`)
     return this.createGene();
 }
 
 DNA.prototype.crossOver = function (other) {
     'use strict';
     // TODO random between parent genes length
-    let size = this.genes.length;
+    let size = Math.min(this.genes.length, other.genes.length);
     
     // create new child without genes
     // TODO : there should be a single constructor for all type of DNA
@@ -47,11 +47,6 @@ DNA.prototype.crossOver = function (other) {
             child.genes.push(this.genes[i]);
         else
             child.genes.push(other.genes[i]);
-        
-        if(child.genes[i] == null) {
-            console.log('create a new gene');
-            child.genes.push(this.createGene());
-        }
     }
 
     // removes unmatched genes

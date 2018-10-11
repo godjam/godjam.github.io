@@ -320,15 +320,18 @@ Box2dEntity.prototype.createEdgeShape = function (x1, y1, x2, y2) {
     return shape;
 };
 
-Box2dEntity.prototype.addFixture = function (shape, body) {
+Box2dEntity.prototype.addFixture = function (shape, body, options) {
     'use strict';
+    options = options || {};
+
     let def = new B2FixtureDef();
     def.shape = shape;
-    def.density = 1;
-
+    def.density = options.density || 1;
+    def.filter.groupIndex = options.groupindex || 1;
+    
     if (body.GetType() === B2DynamicBody) {
-        def.friction = 0.3;
-        def.restitution = 0.5;
+        def.friction = options.friction || 0.3;
+        def.restitution = options.restitution || 0.5;
     }
     return body.CreateFixture(def);
 };

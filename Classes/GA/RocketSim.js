@@ -20,7 +20,7 @@ function RocketSim(scene) {
     const options = {
         size: this.framesCount,
         maxForce: 0.5,
-        maxDist: 1000,
+        baseDist: Number.MAX_SAFE_INTEGER,
         distThreshold: 20,
         baseTimeToTarget: this.framesCount
     };

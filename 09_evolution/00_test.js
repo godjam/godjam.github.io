@@ -17,8 +17,8 @@ TestScene.prototype.init = function () {
   this.sim.init();
 };
 
-TestScene.prototype.loop = function () {
+TestScene.prototype.loop = function (delta) {
   'use strict';
   this.ctx.clearRect(0, 0, this.size.x, this.size.y);
-  this.sim.update();
+  this.sim.update(delta);
 }
