@@ -17,21 +17,21 @@ let B2BodyDef = Box2D.Dynamics.b2BodyDef,
 
 //*************************************************
 let Box2dEntity = function (x, y, scene, world, scale) {
-    "use strict";
+    'use strict';
     if (typeof x !== 'number') {
-        throw "Box2dEntity.constructor: x is not a scalar";
+        throw 'Box2dEntity.constructor: x is not a scalar';
     }
     if (typeof y !== 'number') {
-        throw "Box2dEntity.constructor: y is not a scalar";
+        throw 'Box2dEntity.constructor: y is not a scalar';
     }
     if (scene instanceof Scene === false) {
-        throw "Box2dEntity.constructor: scene is not a Scene";
+        throw 'Box2dEntity.constructor: scene is not a Scene';
     }
     if (world instanceof B2World === false) {
-        throw "Box2dEntity.constructor: world is not a World";
+        throw 'Box2dEntity.constructor: world is not a World';
     }
     if (typeof scale !== 'number') {
-        throw "Box2dEntity.constructor: scale 1 is not a scalar";
+        throw 'Box2dEntity.constructor: scale 1 is not a scalar';
     }
     this.x = x;
     this.y = y;
@@ -41,7 +41,7 @@ let Box2dEntity = function (x, y, scene, world, scale) {
     this.entitiesArray = []; // array of entities objects
     this.scale = scale;
     this.lineWidth = 1;
-    this.strokeStyle = "#888";
+    this.strokeStyle = '#888';
     this.color = Color.createBrightColor();
     this.originColor = this.color.copy();
     this.deletion = false;
@@ -52,14 +52,14 @@ let Box2dEntity = function (x, y, scene, world, scale) {
 };
 
 Box2dEntity.prototype.addEntity = function (name, /* Box2dEntity */ entity) {
-    "use strict";
+    'use strict';
 
-    if (typeof name !== "string") {
-        throw "Box2dEntity.addEntity : name is not a string";
+    if (typeof name !== 'string') {
+        throw 'Box2dEntity.addEntity : name is not a string';
     }
 
     if (entity instanceof Box2dEntity === false) {
-        throw "Box2dEntity.addEntity : entity is not a Box2dEntity";
+        throw 'Box2dEntity.addEntity : entity is not a Box2dEntity';
     }
 
     this.nameArray.push(name); // array of entities names
@@ -67,10 +67,10 @@ Box2dEntity.prototype.addEntity = function (name, /* Box2dEntity */ entity) {
 };
 
 Box2dEntity.prototype.getEntityByName = function (name) {
-    "use strict";
+    'use strict';
 
-    if (typeof name !== "string") {
-        throw "Box2dEntity.getEntityByName : name is not a string";
+    if (typeof name !== 'string') {
+        throw 'Box2dEntity.getEntityByName : name is not a string';
     }
 
     let idx = this.nameArray.indexOf(name);
@@ -83,7 +83,7 @@ Box2dEntity.prototype.getEntityByName = function (name) {
 };
 
 Box2dEntity.prototype.update = function () {
-    "use strict";
+    'use strict';
     let i = 0;
 
     for (i = 0; i < this.entitiesArray.length; i += 1) {
@@ -92,16 +92,19 @@ Box2dEntity.prototype.update = function () {
 };
 
 Box2dEntity.prototype.display = function (ctx) {
-    "use strict";
+    'use strict';
     let i = 0,
-        center = {x: 0, y: 0};
+        center = {
+            x: 0,
+            y: 0
+        };
 
     if (this.body) {
         center = this.body.GetWorldCenter();
         this.x = center.x * this.scale;
         this.y = center.y * this.scale;
         ctx.save();
-        ctx.fillStyle = "#000";
+        ctx.fillStyle = '#000';
         ctx.translate(this.x, this.y);
         ctx.fillRect(-0.5, -0.5, 1, 1);
         ctx.restore();
@@ -113,7 +116,7 @@ Box2dEntity.prototype.display = function (ctx) {
 };
 
 Box2dEntity.prototype.isOut = function () {
-    "use strict";
+    'use strict';
     let i = 0,
         delta = 20,
         isOut = true;
@@ -125,15 +128,15 @@ Box2dEntity.prototype.isOut = function () {
             }
         }
 
-    // if it should be deleted
+        // if it should be deleted
     } else if (this.deletion === true) {
         isOut = true;
 
-    // if completely out of the screen
+        // if completely out of the screen
     } else if (this.x > -delta &&
-                this.x < this.scene.size.x + delta &&
-                this.y > -delta &&
-                this.y < this.scene.size.y + delta) {
+        this.x < this.scene.size.x + delta &&
+        this.y > -delta &&
+        this.y < this.scene.size.y + delta) {
         isOut = false;
     }
 
@@ -141,7 +144,7 @@ Box2dEntity.prototype.isOut = function () {
 };
 
 Box2dEntity.prototype.killBody = function () {
-    "use strict";
+    'use strict';
     let i = 0,
         body = null;
 
@@ -158,13 +161,13 @@ Box2dEntity.prototype.killBody = function () {
 };
 
 Box2dEntity.prototype.applyForce = function (force) {
-    "use strict";
+    'use strict';
     let i = 0,
         center = null,
         body = null;
 
     if (force instanceof B2Vec2 === false) {
-        throw "Box2dEntity.applyForce : force is not a B2Vec2";
+        throw 'Box2dEntity.applyForce : force is not a B2Vec2';
     }
 
     if (this.body) {
@@ -182,13 +185,13 @@ Box2dEntity.prototype.applyForce = function (force) {
 };
 
 Box2dEntity.prototype.attract = function (b, e, G) {
-    "use strict";
+    'use strict';
     if (b instanceof Box2dEntity === false) {
-        throw "Box2dEntity.attract : b is not another Box2dEntity";
+        throw 'Box2dEntity.attract : b is not another Box2dEntity';
     }
 
     if (e instanceof Box2dEntity === false) {
-        throw "Box2dEntity.attract : e is not another Box2dEntity";
+        throw 'Box2dEntity.attract : e is not another Box2dEntity';
     }
 
     if (G === undefined) {
@@ -217,16 +220,16 @@ Box2dEntity.prototype.attract = function (b, e, G) {
 //*****************************************************************************
 
 Box2dEntity.prototype.setCollisionEvents = function (callbackOwner, startCollisionCallback, endCollisionCallback) {
-    "use strict";
+    'use strict';
     this.collisionCallbackOwner = callbackOwner;
     this.startCollisionCallback = startCollisionCallback;
     this.endCollisionCallback = endCollisionCallback;
 };
 
 Box2dEntity.prototype.startContact = function (e) {
-    "use strict";
+    'use strict';
     if (e instanceof Box2dEntity === false) {
-        throw "Box2dEntity.startContact : e is not another Box2dEntity";
+        throw 'Box2dEntity.startContact : e is not another Box2dEntity';
     }
 
     if (this.collisionCallbackOwner && this.startCollisionCallback) {
@@ -236,9 +239,9 @@ Box2dEntity.prototype.startContact = function (e) {
 };
 
 Box2dEntity.prototype.endContact = function (e) {
-    "use strict";
+    'use strict';
     if (e instanceof Box2dEntity === false) {
-        throw "Box2dEntity.endContact : e is not another Box2dEntity";
+        throw 'Box2dEntity.endContact : e is not another Box2dEntity';
     }
 
     if (this.collisionCallbackOwner && this.endCollisionCallback) {
@@ -251,13 +254,13 @@ Box2dEntity.prototype.endContact = function (e) {
 // Box2d helper functions
 //*****************************************************************************
 Box2dEntity.prototype.addBody = function (x, y, world, bodyType) {
-    "use strict";
-    let bd = new B2BodyDef(),
+    'use strict';
+    let def = new B2BodyDef(),
         body = null;
-    bd.position.x = x / this.scale;
-    bd.position.y = y / this.scale;
-    bd.type = bodyType;
-    body = world.CreateBody(bd);
+    def.position.x = x / this.scale;
+    def.position.y = y / this.scale;
+    def.type = bodyType;
+    body = world.CreateBody(def);
     if (body) {
         body.SetUserData(this);
     }
@@ -265,7 +268,7 @@ Box2dEntity.prototype.addBody = function (x, y, world, bodyType) {
 };
 
 Box2dEntity.prototype.createBoxShape = function (halfBoxWidth, halfBoxHeight) {
-    "use strict";
+    'use strict';
     let shape = new B2PolygonShape();
     shape.SetAsBox(
         halfBoxWidth / this.scale,
@@ -275,7 +278,7 @@ Box2dEntity.prototype.createBoxShape = function (halfBoxWidth, halfBoxHeight) {
 };
 
 Box2dEntity.prototype.createCircleShape = function (radius) {
-    "use strict";
+    'use strict';
     let shape = new B2CircleShape();
     shape.SetRadius(radius / this.scale);
     return shape;
@@ -285,7 +288,7 @@ Box2dEntity.prototype.createCircleShape = function (radius) {
  * the points passed in parameter should define a clockwise convex polygon
  */
 Box2dEntity.prototype.createPolyShape = function (points) {
-    "use strict";
+    'use strict';
     let i = 0,
         point = null,
         vertices = [],
@@ -307,7 +310,7 @@ Box2dEntity.prototype.createPolyShape = function (points) {
  * Used for convex boundary (CurvyBoundary)
  */
 Box2dEntity.prototype.createEdgeShape = function (x1, y1, x2, y2) {
-    "use strict";
+    'use strict';
     let shape = new B2PolygonShape(),
         v1 = new B2Vec2(),
         v2 = new B2Vec2();
@@ -317,67 +320,106 @@ Box2dEntity.prototype.createEdgeShape = function (x1, y1, x2, y2) {
     return shape;
 };
 
-Box2dEntity.prototype.addFixture = function (shape, body) {
-    "use strict";
-    let fixDef = new B2FixtureDef();
-    fixDef.shape = shape;
-    fixDef.density = 1;
+Box2dEntity.prototype.addFixture = function (shape, body, options) {
+    'use strict';
+    options = options || {};
 
+    let def = new B2FixtureDef();
+    def.shape = shape;
+    def.density = options.density || 1;
+    def.filter.groupIndex = options.groupindex || 1;
+    
     if (body.GetType() === B2DynamicBody) {
-        fixDef.friction = 0.3;
-        fixDef.restitution = 0.5;
+        def.friction = options.friction || 0.3;
+        def.restitution = options.restitution || 0.5;
     }
-    return body.CreateFixture(fixDef);
+    return body.CreateFixture(def);
 };
 
-Box2dEntity.prototype.addMotorJoint = function (body1, body2, world, speed, maxTorque) {
-    "use strict";
-    let joint = new B2RevoluteJointDef();
-    joint.Initialize(body1, body2, body2.GetWorldCenter());
-    joint.motorSpeed = speed;
-    joint.maxMotorTorque = maxTorque;
-    joint.enableMotor = true;
-    return world.CreateJoint(joint);
+Box2dEntity.prototype.addMotorJoint = function (body1, body2, world, speed, torque) {
+    'use strict';
+    let def = new B2RevoluteJointDef();
+    def.Initialize(body1, body2, body2.GetWorldCenter());
+    def.motorSpeed = speed;
+    def.maxMotorTorque = torque;
+    def.enableMotor = true;
+    return world.CreateJoint(def);
 };
 
-Box2dEntity.prototype.addRevoluteJoint = function (body1, body2, world) {
-    "use strict";
-    let joint = new B2RevoluteJointDef();
-    joint.Initialize(body1, body2, body2.GetWorldCenter());
-    world.CreateJoint(joint);
+
+Box2dEntity.prototype.addOscillatorJoint = function (body1, body2, world, anchor1, anchor2, speed, torque, amplitude, period) {
+    'use strict';
+
+    let def = new B2RevoluteJointDef();
+    def.Initialize(body1, body2, body2.GetWorldCenter());
+    def.motorSpeed = speed;
+    def.maxMotorTorque = torque;
+    def.enableMotor = true;
+    def.enableLimit = true;
+
+    if (anchor1)
+        def.localAnchorA.Set(anchor1.x, anchor1.y);
+    if (anchor2)
+        def.localAnchorB.Set(anchor2.x, anchor2.y);
+
+    let joint = world.CreateJoint(def);
+    let baseAngle = body2.GetAngle();
+
+    let limitMin = (baseAngle - amplitude) * Math.PI / 180;
+    let limitMax = (baseAngle + amplitude) * Math.PI / 180;
+
+    joint.SetLimits(limitMin, limitMax);
+
+    setInterval(() => {
+        joint.SetMotorSpeed(-joint.GetMotorSpeed());
+    }, period);
+
+    return joint;
+};
+
+Box2dEntity.prototype.addRevoluteJoint = function (body1, body2, world, anchor1, anchor2) {
+    'use strict';
+    let def = new B2RevoluteJointDef();
+    def.Initialize(body1, body2, body2.GetWorldCenter());
+    if (anchor1)
+        def.localAnchorA.Set(anchor1.x, anchor1.y);
+    if (anchor2)
+        def.localAnchorB.Set(anchor2.x, anchor2.y);
+
+    return world.CreateJoint(def);
 };
 
 Box2dEntity.prototype.addDistanceJoint = function (body1, body2, world, length) {
-    "use strict";
-    let joint = new B2DistanceJointDef();
-    joint.bodyA = body1;
-    joint.bodyB = body2;
-    joint.length = length / this.scale;
-    joint.frequencyHz = 0;
-    joint.dampingRatio = 0;
-    return world.CreateJoint(joint);
+    'use strict';
+    let def = new B2DistanceJointDef();
+    def.bodyA = body1;
+    def.bodyB = body2;
+    def.length = length / this.scale;
+    def.frequencyHz = 0;
+    def.dampingRatio = 0;
+    return world.CreateJoint(def);
 };
 
 Box2dEntity.addSpringJoint = function (body1, body2, world, length) {
-    "use strict";
-    let joint = new B2DistanceJointDef(),
+    'use strict';
+    let def = new B2DistanceJointDef(),
         tmp = null;
-    joint.bodyA = body1;
-    joint.bodyB = body2;
-    joint.length = length;
-    joint.frequencyHz = 4.0;
-    joint.dampingRatio = 0.5;
-    return world.CreateJoint(joint);
+    def.bodyA = body1;
+    def.bodyB = body2;
+    def.length = length;
+    def.frequencyHz = 4.0;
+    def.dampingRatio = 0.5;
+    return world.CreateJoint(def);
 };
 
 Box2dEntity.addMouseJoint = function (body, position, world, scale) {
-    "use strict";
-    let joint = new B2MouseJointDef();
-    joint.bodyA = world.GetGroundBody();
-    joint.bodyB = body;
-    joint.target.Set(position.x / scale, position.y / scale);
-    joint.maxForce = 1000 * body.GetMass();
-    return world.CreateJoint(joint);
+    'use strict';
+    let def = new B2MouseJointDef();
+    def.bodyA = world.GetGroundBody();
+    def.bodyB = body;
+    def.target.Set(position.x / scale, position.y / scale);
+    def.maxForce = 1000 * body.GetMass();
+    return world.CreateJoint(def);
 };
 
 // http://www.binarytides.com/mouse-joint-box2d-javascript/
@@ -386,9 +428,9 @@ Box2dEntity.addMouseJoint = function (body, position, world, scale) {
  * world is the box2D world
  */
 Box2dEntity.getBodyAt = function (p, world) {
-    "use strict";
+    'use strict';
     let body = null;
-        // Query the world for overlapping shapes.
+    // Query the world for overlapping shapes.
     function getBodyCallback(fixture) {
         let b = fixture.GetBody();
         if (b.GetType() !== B2StaticBody) {
@@ -402,7 +444,7 @@ Box2dEntity.getBodyAt = function (p, world) {
 };
 
 /*Box2dEntity.getBodyAt = function (p, world) {
-    "use strict";
+    'use strict';
     let body = null,
         inside = false,
         aabb = new B2AABB();
@@ -429,7 +471,7 @@ Box2dEntity.getBodyAt = function (p, world) {
 // draw functions
 //*****************************************************************************
 Box2dEntity.prototype.drawRect = function (ctx, center, angle, width, height) {
-    "use strict";
+    'use strict';
     ctx.save();
     ctx.fillStyle = this.color.rgba();
 
@@ -447,7 +489,7 @@ Box2dEntity.prototype.drawRect = function (ctx, center, angle, width, height) {
 };
 
 Box2dEntity.prototype.drawCircle = function (ctx, center, angle, radius) {
-    "use strict";
+    'use strict';
     ctx.save();
     ctx.lineWidth = this.lineWidth;
     ctx.fillStyle = this.color.rgba();
@@ -469,14 +511,16 @@ Box2dEntity.prototype.drawCircle = function (ctx, center, angle, radius) {
 };
 
 Box2dEntity.prototype.drawClosedPolygon = function (ctx, center, angle, vertices) {
-    "use strict";
+    'use strict';
     let i = 0;
     ctx.save();
     ctx.fillStyle = this.color.rgba();
     ctx.beginPath();
 
     ctx.translate(center.x * this.scale, center.y * this.scale);
-    if (angle !== 0) { ctx.rotate(angle); }
+    if (angle !== 0) {
+        ctx.rotate(angle);
+    }
 
     ctx.moveTo(
         vertices[0].x * this.scale,
@@ -507,7 +551,7 @@ Box2dEntity.prototype.drawClosedPolygon = function (ctx, center, angle, vertices
 };
 
 Box2dEntity.prototype.drawOpenPolygon = function (ctx, center, angle, vertices) {
-    "use strict";
+    'use strict';
     let i = 0;
     ctx.save();
     ctx.lineWidth = this.lineWidth;
@@ -515,7 +559,9 @@ Box2dEntity.prototype.drawOpenPolygon = function (ctx, center, angle, vertices) 
     ctx.beginPath();
 
     ctx.translate(center.x * this.scale, center.y * this.scale);
-    if (angle !== 0) { ctx.rotate(angle); }
+    if (angle !== 0) {
+        ctx.rotate(angle);
+    }
 
     ctx.moveTo(
         vertices[0].x * this.scale,
@@ -539,20 +585,19 @@ Box2dEntity.prototype.drawOpenPolygon = function (ctx, center, angle, vertices) 
 // Color management
 //******************************************************************
 Box2dEntity.prototype.changeColor = function (c) {
-    "use strict";
+    'use strict';
     this.color = c;
 };
 
 Box2dEntity.prototype.restoreColor = function () {
-    "use strict";
+    'use strict';
     if (this.originColor) {
         this.color = this.originColor;
     }
 };
 
 Box2dEntity.prototype.setColor = function (color) {
-    "use strict";
+    'use strict';
     this.originColor = color;
     this.color = color;
 };
-

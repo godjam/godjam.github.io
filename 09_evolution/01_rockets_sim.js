@@ -15,7 +15,7 @@ RocketsScene.prototype.constructor = RocketsScene;
 RocketsScene.prototype.init = function () {
     'use strict';
     /*  
-    let pop = new Pop(300, 18, DNA);
+    let pop = new Pop(300, DNA, {size: 18});
     pop.evolve('to be or not to be', 300, 0.01);
     //*/
     this.rocketSim.init();

@@ -1,13 +1,20 @@
-let Pop = function (size, dna_size, dna_class) {
+let Pop = function (size, dna_class, options) {
     'use strict';
-
+    this.dna_class = dna_class;
+    this.options = options || {};
     this.generation = 0;
-    this.dna_size = dna_size;
     this.gen = [];
     this.best = null;
     for (let i = 0; i < size; ++i) {
-        this.gen.push(new dna_class(dna_size))
+        this.gen.push(this.createDna(this.dna_class, this.options));
     }
+}
+
+Pop.prototype.createDna = function (dna_class, options) {
+    // TODO maybe use a factory here
+    const dna = new dna_class(options);
+    dna.createGenes();
+    return dna;
 }
 
 Pop.prototype.computeFitness = function (target) {
@@ -31,11 +38,11 @@ Pop.prototype.pool = function () {
         fitness: a.fitness + b.fitness
     }));
     let weight = this.gen.length / (sum.fitness || 1);
-    // console.log(`pop: ${this.gen.length} sum fitness: ${sum.fitness.toFixed(2)} weight: ${weight}`);
+    console.log(`pop: ${this.gen.length} sum fitness: ${sum.fitness.toFixed(2)} weight: ${weight}`);
 
     for (let i = 0; i < this.gen.length; ++i) {
         let p = this.gen[i];
-        let n = p.fitness * weight;
+        let n = Math.round(p.fitness * weight);
 
         if (pool.length < this.gen.length) {
             for (let j = 0; j < n; ++j) {
@@ -46,21 +53,27 @@ Pop.prototype.pool = function () {
     }
 
     for (let i = pool.length; i < this.gen.length; ++i) {
-        pool.push(this.gen[0]);
+        pool.push(this.createDna(this.dna_class, this.options));
         console.log('### Error : Pop.pool : missing DNA')
     }
 
     return pool;
 }
 
-Pop.prototype.cross = function (mutationRate) {
+Pop.prototype.crossAndKeepBests = function (numberToKeep, mutationRate) {
+    'use strict';
+    const previousGen = this.gen.slice(0, numberToKeep);
+    this.cross(mutationRate, previousGen);
+}
+
+
+Pop.prototype.cross = function (mutationRate, previousGen) {
     'use strict';
     let pool = this.pool();
-    let next_gen = [];
+    let nextGen = previousGen || [];
 
     let loops = Math.max(1, ~~(this.gen.length / 2));
     for (let i = 0; i < loops; ++i) {
-        // console.log(`${i} / ${loops} (pool: ${pool.length})`)
         let a = ~~(Math.random() * pool.length);
         let parentA = pool.splice(a, 1)[0];
 
@@ -73,31 +86,40 @@ Pop.prototype.cross = function (mutationRate) {
             let childB = parentA.crossOver(parentB);
             childA.mutate(mutationRate);
             childB.mutate(mutationRate);
-            next_gen.push(childA);
-            next_gen.push(childB);
+            nextGen.push(childA);
+            nextGen.push(childB);
         }
     }
 
-    //console.log(`${this.gen.length} vs ${next_gen.length}`)
-
-    for (let i = next_gen.length; i < this.gen.length; ++i) {
-        next_gen.push(this.gen[0]);
+    for (let i = nextGen.length; i < this.gen.length; ++i) {
+        nextGen.push(this.gen[0]);
         console.log('### Error : Pop.cross : missing DNA')
     }
 
-    this.gen = next_gen;
+    nextGen.length = this.gen.length;
+
+    // reseting fitnesses 
+    for (let i = 0; i < nextGen.length; ++i) {
+        nextGen[i].resetScore();
+    }
+
+    this.gen = nextGen;
 }
 
 Pop.prototype.evolveStep = function (target, mutationRate) {
     this.computeFitness(target);
 
-    console.log(`generation: ${this.generation}`);
-    for(let i=this.gen.length-1; i>=0; --i) {
-        let dna = this.gen[i];
-        //console.log(`id: ${dna.id} dist: ${dna.dist.toFixed()} ttt: ${dna.timeToTarget} alive: ${dna.alive} fit: ${dna.fitness.toFixed(4)}`);    
-    }
+    // console.log(`generation: ${this.generation}`);
+    let sumFitness = 0;
 
-    this.cross(mutationRate);
+    for (let i = this.gen.length - 1; i >= 0; --i) {
+        let dna = this.gen[i];
+        sumFitness += dna.fitness;
+        //console.log(`id: ${dna.id} dist: ${dna.dist.toFixed()} ttt: ${dna.timeToTarget} vi: ${dna.impactVelocity} alive: ${dna.alive} fit: ${dna.fitness.toFixed(4)}`);    
+    }
+    console.log(`generation: ${this.generation} avg fitness: ${(sumFitness / this.gen.length).toFixed(4)}`);
+
+    this.crossAndKeepBests(2, mutationRate);
     this.generation++;
 }
 
@@ -106,12 +128,9 @@ Pop.prototype.evolve = function (target, steps, mutationRate) {
     this.computeFitness(target);
 
     for (let i = 0; i < steps; ++i) {
-        if (this.evolveStep(target, mutationRate))
-            break;
-    }
 
-    for (let i = 0; i < this.gen.length; ++i) {
-        let dna = this.gen[i];
+        this.evolveStep(target, mutationRate);
+        let dna = this.best;
         let str = '';
 
         for (let k = 0; k < dna.genes.length; ++k) {
@@ -120,7 +139,10 @@ Pop.prototype.evolve = function (target, steps, mutationRate) {
         }
 
         dna.computeFitness(target);
-        //console.log(`### ${str} (fitness: ${dna.fitness.toFixed(2)})`);
+        console.log(`### ${this.best.id} ${str} (fitness: ${this.best.fitness.toFixed(2)})`);
+
+        if (this.best.fitness == 1)
+            break;
     }
 }
 
@@ -128,7 +150,7 @@ Pop.prototype.display = function (ctx) {
     ctx.fillStyle = '#000';
     ctx.font = '12px verdana';
     ctx.fillText('generation: ' + this.generation, 64, 32);
-    if(this.best) {
+    if (this.best) {
         ctx.fillText(this.best.displayStats(), 64, 52);
     }
 }

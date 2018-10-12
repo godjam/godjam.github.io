@@ -7,7 +7,7 @@ let Circle = function (x, y, scene, world, scale, radius, bodyType) {
         this.radius = Math.random() * 16 + 4;
     } else { this.radius = radius; }
     
-    if (bodyType === undefined) {bodyType = B2DynamicBody; }
+    bodyType = bodyType || B2DynamicBody;
     
     this.body = this.addBody(x, y, world, bodyType);
     let shape = this.createCircleShape(this.radius);

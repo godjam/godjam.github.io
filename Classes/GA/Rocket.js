@@ -17,10 +17,11 @@ Rocket.prototype.applyDNA = function (i) {
     this.mover.applyForce(force);
 }
 
-Rocket.prototype.update = function (i, obstacles) {
+Rocket.prototype.update = function (i, obstacles, gravity) {
     'use strict';
     if (this.alive) {
         this.applyDNA(i);
+        gravity.applyOn(this.mover);
         this.mover.update();
         this.collide(obstacles)
     }
@@ -34,6 +35,8 @@ Rocket.prototype.collide = function (obstacles) {
             this.alive = false;
         }
     }
+    if (this.mover.location.y > this.scene.size.y - 10)
+        this.alive = false;
 }
 
 Rocket.prototype.display = function (ctx) {

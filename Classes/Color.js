@@ -1,7 +1,7 @@
 /*jslint bitwise: true */
 /*global Tools*/
 let Color = function (r, g, b, a) {
-    "use strict";
+    'use strict';
     if (r === undefined) {r = 1; }
     if (g === undefined) {g = 1; }
     if (b === undefined) {b = 1; }
@@ -20,7 +20,7 @@ let Color = function (r, g, b, a) {
 };
 
 Color.createHsl = function (h, s, l, a) {
-    "use strict";
+    'use strict';
     let c = new Color();
     c.hslToRgb(h, s, l);
     c.a = a || c.a;
@@ -29,12 +29,12 @@ Color.createHsl = function (h, s, l, a) {
 
 
 Color.createSoftColor = function (a) {
-    "use strict";
+    'use strict';
     return Color.createHsl(Math.random(), 0.5, 0.9, a);
 };
 
 Color.createLightColor = function (a) {
-    "use strict";
+    'use strict';
     return Color.createHsl(Math.random(),
                            0.2 * Math.random() + 0.8,
                            0.8,
@@ -42,24 +42,24 @@ Color.createLightColor = function (a) {
 };
 
 Color.createBrightColor = function (a) {
-    "use strict";
+    'use strict';
     return Color.createHsl(Math.random(), 1, 0.65, a);
 };
 
 Color.createStrongColor = function (a) {
-    "use strict";
+    'use strict';
     return Color.createHsl(Math.random(), 1, 0.3, a);
 };
 
 
 Color.createDarkColor = function (a) {
-    "use strict";
+    'use strict';
     return Color.createHsl(Math.random(), 1, 0.1, a);
 };
 
 
 Color.createNormalDistribColor = function (baseHue) {
-    "use strict";
+    'use strict';
     // by default yelloish-green base color
     if (baseHue === undefined) {
         baseHue = 0.25;
@@ -71,32 +71,32 @@ Color.createNormalDistribColor = function (baseHue) {
 };
 
 Color.prototype.copy = function () {
-    "use strict";
+    'use strict';
     let c = new Color(this.r, this.g, this.b, this.a);
     return c;
 };
 
 Color.prototype.rgba = function () {
-    "use strict";
-    let s = "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")";
+    'use strict';
+    let s = 'rgba(' + this.r + ',' + this.g + ',' + this.b + ',' + this.a + ')';
     return s;
 };
 
 
 Color.prototype.toHex = function () {
-    "use strict";
-    return "#" + (this.ToInt()).toString(16).slice(1);
+    'use strict';
+    return '#' + (this.ToInt()).toString(16).slice(1);
 };
 
 
 Color.prototype.ToInt = function () {
-    "use strict";
+    'use strict';
     let c = (1 << 24) + (this.r << 16) + (this.g << 8) + this.b;
     return c;
 };
 
 Color.prototype.fromHex = function (hex) {
-    "use strict";
+    'use strict';
     let i = parseInt(hex, 16);
     this.r = (i >> 16) & 255;
     this.g = (i >> 8) & 255;
@@ -105,48 +105,48 @@ Color.prototype.fromHex = function (hex) {
 };
 
 Color.prototype.lighten = function (l) {
-    "use strict";
+    'use strict';
     if (l === undefined) { l = 0.05; }
     return this.modify(l / 2, 0, l);
 };
 
 Color.prototype.darken = function (l) {
-    "use strict";
+    'use strict';
     if (l === undefined) { l = 0.05; }
     return this.modify(-l / 2, 0, -l);
 };
 
 Color.prototype.mutate = function () {
-    "use strict";
+    'use strict';
     let h = 0.02 * Math.random() - 0.01,
         l = 0.002 * Math.random() - 0.001;
     return this.modify(h, 0, l);
 };
 
 Color.prototype.desaturate = function () {
-    "use strict";
+    'use strict';
     return this.modify(0, -0.1, 0.05);
 };
 
 Color.prototype.saturate = function () {
-    "use strict";
+    'use strict';
     return this.modify(0, 0.1, -0.05);
 };
 
 Color.prototype.redify = function (h) {
-    "use strict";
+    'use strict';
     if (h === undefined) { h = 0.05; }
     return this.modify(-h, 0, 0);
 };
 
 Color.prototype.bluify = function (h) {
-    "use strict";
+    'use strict';
     if (h === undefined) { h = 0.05; }
     return this.modify(h, 0, 0);
 };
 
 Color.prototype.modify = function (h, s, l) {
-    "use strict";
+    'use strict';
     let c = this.copy();
     c.hslToRgb(c.h + h, c.s + s, c.l + l);
     return c;
@@ -168,7 +168,7 @@ Color.prototype.modify = function (h, s, l) {
  * if hsl parameters are undefined, only updates rgb according to current color hsl
  */
 Color.prototype.hslToRgb = function (h, s, l) {
-    "use strict";
+    'use strict';
     let q = 0, p = 0;
 
     // copy + clamp h, s, l
@@ -188,7 +188,7 @@ Color.prototype.hslToRgb = function (h, s, l) {
 };
 
 Color.prototype.hue2rgb = function (p, q, t) {
-    "use strict";
+    'use strict';
     if (t < 0) {
         t += 1;
     }
@@ -221,7 +221,7 @@ Color.prototype.hue2rgb = function (p, q, t) {
  * @return  Array           The HSL representation
  */
 Color.prototype.rgbToHsl = function () {
-    "use strict";
+    'use strict';
     let r = this.r / 255,
         g = this.g / 255,
         b = this.b / 255,
@@ -253,7 +253,7 @@ Color.prototype.rgbToHsl = function () {
 
 
 let ColorMap = function(start, stop, steps) {
-    "use strict";
+    'use strict';
     // TODO checks
 
     let i = 0, t = null,
@@ -282,7 +282,7 @@ let ColorMap = function(start, stop, steps) {
 };
 
 ColorMap.create = function(n) {
-    "use strict";
+    'use strict';
     n = n || 50;
     let c1 = Color.createLightColor(),
         c2 = Color.createBrightColor();
@@ -292,13 +292,13 @@ ColorMap.create = function(n) {
 
 
 ColorMap.prototype.get = function (index) {
-    "use strict";
+    'use strict';
     index = Tools.clamp(index, 0, this.steps-1);
     return this.map[index];
 };
 
 ColorMap.prototype.getByVal = function (value, max, min) {
-    "use strict";
+    'use strict';
     max = max || this.steps;
     min = min || 0;
     value = Math.round((value / (max - min) + min) * (this.steps - 1));
