@@ -2,10 +2,7 @@
 let Circle = function (x, y, scene, world, scale, radius, bodyType) {
     "use strict";
     Box2dEntity.call(this, x, y, scene, world, scale);
-    
-    if (radius === undefined) {
-        this.radius = Math.random() * 16 + 4;
-    } else { this.radius = radius; }
+    this.radius = raduis || Math.random() * 16 + 4;
     
     bodyType = bodyType || B2DynamicBody;
     
