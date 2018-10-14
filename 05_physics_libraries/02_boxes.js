@@ -33,7 +33,7 @@ let BoxesScene = function (options) {
     this.createboundaries();
     this.createBox(new Vector2(this.size.x / 2, this.size.y / 2));
     this.addListener(new MouseEvtListener(this, 
-        (p) => this.mouseStartEvt(), 
+        (p) => this.mouseStartEvt(p), 
         () => this.mouseStopEvt()));
 };
 BoxesScene.prototype = Object.create(Scene.prototype);
