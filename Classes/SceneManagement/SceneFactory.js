@@ -139,11 +139,12 @@ SceneFactory.initMiniMenus = function () {
     SceneFactory.createMiniScene('08_12', 'c_08_12');
 
     SceneFactory.createMiniScene('09_01', 'c_09_01');
+    SceneFactory.createMiniScene('ES_09', 'c_ES_09');
 }
 
 SceneFactory.parseURL = function () {
     'use strict';
-    let defaultKey =  '09_01'; // '09_12'
+    let defaultKey = 'ES_09' ; // '09_01' // 'ES_09' // '09_12'
     let key = '';
 
     if (window) {
@@ -358,7 +359,8 @@ SceneFactory.init = function () {
     this.cache['08_12'] = LSystemScene;
 
     this.cache['09_01'] = RocketsScene;
-    this.cache['09_12'] = TestScene;
+    this.cache['09_12'] = Box2dSimScene;
+    this.cache.ES_09 = EcosystemScene_09;
 };
 
 SceneFactory.autoclose = function () {

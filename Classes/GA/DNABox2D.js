@@ -1,9 +1,15 @@
-function DNABox2D(options) {
+function DNABox2D(dnaSize, options) {
     'use strict';
-    DNA.call(this, options);
+    DNA.call(this, dnaSize, options);
 }
 DNABox2D.prototype = Object.create(DNA.prototype);
 DNABox2D.prototype.constructor = DNABox2D;
+
+DNABox2D.prototype.copy = function () {
+    let copy = new DNABox2D(this.dnaSize, this.options);
+    copy.genes = this.genes;
+    return copy;
+}
 
 DNABox2D.prototype.createGenes = function () {
     segments = Tools.rnd(2, 10);

@@ -6,7 +6,8 @@ function Rocket(x, y, scene, dna) {
 
 Rocket.prototype.init = function (x, y, dna) {
     'use strict';
-    this.mover = new Mover(x, y, this.scene);
+    let mass = Math.min(10, ~~(this.scene.size.x / 20));
+    this.mover = new Mover(x, y, this.scene, mass);
     this.dna = dna;
     this.alive = true;
 }
@@ -17,11 +18,10 @@ Rocket.prototype.applyDNA = function (i) {
     this.mover.applyForce(force);
 }
 
-Rocket.prototype.update = function (i, obstacles, gravity) {
+Rocket.prototype.update = function (i, obstacles) {
     'use strict';
     if (this.alive) {
         this.applyDNA(i);
-        gravity.applyOn(this.mover);
         this.mover.update();
         this.collide(obstacles)
     }
@@ -31,11 +31,12 @@ Rocket.prototype.collide = function (obstacles) {
     'use strict';
     for (let i = 0; i < obstacles.length; ++i) {
         let obstacle = obstacles[i];
-        if (Vector2.distance(this.mover.location, obstacle.location) < (obstacle.mass + 2)) {
+        if (Vector2.distance(this.mover.location, obstacle.location) < 
+            obstacle.mass + this.mover.mass / 2 - 2) {
             this.alive = false;
         }
     }
-    if (this.mover.location.y > this.scene.size.y - 10)
+    if (this.mover.location.y > this.scene.size.y + 10)
         this.alive = false;
 }
 

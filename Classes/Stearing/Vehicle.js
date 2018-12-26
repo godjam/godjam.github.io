@@ -113,7 +113,7 @@ Vehicle.prototype.wandering = function(weight) {
     // desired location (position relative) is actual position + 10 times the velocity
     this.desired.x = this.mover.velocity.x;
     this.desired.y = this.mover.velocity.y;
-    this.desired.setMag(steps);
+    this.desired.setMagInPlace(steps);
     // select a random point on the circle of center on "desired" location with a radius of 20
     this.tmp.fromPolar(radius, Math.random() * Math.PI * 2);
     this.desired.addInPlace(this.tmp);
@@ -194,7 +194,7 @@ Vehicle.prototype.pathFollowing = function(path, weight) {
     if (this.predict.mag() === 0) { this.predict = Vector2.create2D(); }
 
     // look at 25 pix ahead
-    this.predict.setMag(this.agressivity * 25);
+    this.predict.setMagInPlace(this.agressivity * 25);
     predictLoc.x = this.mover.location.x + this.predict.x;
     predictLoc.y = this.mover.location.y + this.predict.y;
 
@@ -264,7 +264,7 @@ Vehicle.prototype.separate = function(vehicles, weight) {
 
     if (c > 0) {
         this.desired.divInPlace(c);
-        this.desired.setMag(this.maxSpeed);
+        this.desired.setMagInPlace(this.maxSpeed);
         this.applyDesiredTarget(0, weight);
     }
 };
@@ -332,7 +332,7 @@ Vehicle.prototype.view = function(vehicles, weight) {
             this.desired.rotateInPlace90(1);
         }
 
-        this.desired.setMag(this.maxSpeed);
+        this.desired.setMagInPlace(this.maxSpeed);
         this.applyDesiredTarget(0, weight);
     }
 };

@@ -1,16 +1,28 @@
-function DNA(options) {
+function DNA(dnaSize, options) {
     'use strict';
-    this.options = options || {};
+    this.dnaSize = dnaSize;
+    this.options = options;
     this.resetScore();
 
     this.id = ++DNA.id;
     this.genes = [];
+    this.createGenes();
 }
 DNA.id = 0;
 
+DNA.prototype.copy = function () {
+    // debugger; 
+    // TODO just return a new occurence is maybe a bug 
+    // because no genes copy ...
+    // see DNABloop.js
+    let copy = new DNA(this.dnaSize, this.options);
+    copy.genes = this.genes;
+    return copy;
+}
+
 // create all genes
 DNA.prototype.createGenes = function () {
-    for (let i = 0; i < this.options.size; ++i)
+    for (let i = 0; i < this.dnaSize; ++i)
         this.genes.push(this.createGene());
 }
 
@@ -27,41 +39,39 @@ DNA.prototype.createGene = function () {
 DNA.prototype.mutateGene = function (i, gene) {
     // by default there is no mutation of a gene 
     // => mutation is a creation of a new gene
-    console.log(`${this.id} mutation`)
+    // console.log(`${this.id} mutation`)
     return this.createGene();
 }
 
 DNA.prototype.crossOver = function (other) {
     'use strict';
-    // TODO random between parent genes length
+    // TODO ? random between the twice
+    // TODO ? random between parent genes length
     let size = Math.min(this.genes.length, other.genes.length);
     
     // create new child without genes
-    // TODO : there should be a single constructor for all type of DNA
-    let child = new this.constructor(this.options);
+    let child = this.copy();
     let pivotPoint = ~~(Math.random() * size);
 
     // take nodes from parents
     for (let i = 0; i < size; ++i) {
-        if (i > pivotPoint)
-            child.genes.push(this.genes[i]);
-        else
-            child.genes.push(other.genes[i]);
+        if (i < pivotPoint)
+            child.genes[i] = other.genes[i];
     }
 
     // removes unmatched genes
     child.genes = child.genes.filter(g => g != null);
-    let list = child.genes.map(g => g[0]);
-    //console.log(`new individual ${child.id} with [${list}] (${child.genes.length} vs ${size}) connexions`)
+    // let list = child.genes.map(g => g[0]);
+    // console.log(`new individual ${child.id} with [${list}] (${child.genes.length} vs ${size}) connexions`)
 
     return child;
 }
 
 DNA.prototype.crossOverFlip = function (other) {
     'use strict';
-    // TODO fix it with the same than crossOver
-    let size = this.genes.length;
-    let child = new this.constructor(this.size);
+    // TODO same as crossOver
+    let size = Math.min(this.genes.length, other.genes.length);
+    let child = this.copy();
 
     for (let i = 0; i < size; ++i) {
         let rnd = Math.random();
@@ -95,6 +105,15 @@ DNA.prototype.computeFitness = function (target) {
     this.fitness = fit * fit;
 }
 
+DNA.prototype.decode = function () {
+    let str = '';
+    for (let k = 0; k < this.genes.length; ++k) {
+        let g = this.genes[k];
+        str += String.fromCharCode(g);
+    }
+    return str;
+}
+
 DNA.prototype.displayStats = function () {
-    return 'best score: ' + this.fitness.toFixed(3);
+    return (`### ${this.id} ${this.decode()} (fitness: ${this.fitness.toFixed(2)})`);
 }

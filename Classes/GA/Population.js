@@ -1,27 +1,41 @@
-let Pop = function (size, dna_class, options) {
+let Pop = function (size, dnaType, dnaSize, breakEarly, options) {
     'use strict';
-    this.dna_class = dna_class;
-    this.options = options || {};
+    this.dnaType = dnaType;
+    this.dnaSize = dnaSize;
+    this.options = options;
     this.generation = 0;
     this.gen = [];
     this.best = null;
+    this.sumFitness = 0;
+    this.breakEarly = breakEarly;
     for (let i = 0; i < size; ++i) {
-        this.gen.push(this.createDna(this.dna_class, this.options));
+        this.gen.push(this.createDna(this.dnaType, this.dnaSize, this.options));
     }
 }
 
-Pop.prototype.createDna = function (dna_class, options) {
-    // TODO maybe use a factory here
-    const dna = new dna_class(options);
-    dna.createGenes();
+Pop.prototype.createDna = function (dnaType, dnaSize, options) {
+    // dna factory
+    let dna = null;
+    if (dnaType == 'DNA')
+        dna = new DNA(dnaSize, options);
+    else if (dnaType == 'DNA2D')
+        dna = new DNA2D(dnaSize, options);
+    else if (dnaType == 'DNABox2D')
+        dna = new DNABox2D(dnaSize, options);
+    else if (dnaType == 'DNABloop')
+        dna = new DNABloop(dnaSize, options);
+    else throw new Exception(`DNA type (${dnaType}) not found`)
+
     return dna;
 }
 
 Pop.prototype.computeFitness = function (target) {
     'use strict';
+    this.sumFitness = 0;
     for (let i = 0; i < this.gen.length; ++i) {
         let dna = this.gen[i];
         dna.computeFitness(target);
+        this.sumFitness += dna.fitness;
     }
 
     this.gen.sort((a, b) => {
@@ -38,14 +52,14 @@ Pop.prototype.pool = function () {
         fitness: a.fitness + b.fitness
     }));
     let weight = this.gen.length / (sum.fitness || 1);
-    console.log(`pop: ${this.gen.length} sum fitness: ${sum.fitness.toFixed(2)} weight: ${weight}`);
+    // console.log(`pop: ${this.gen.length} sum fitness: ${sum.fitness.toFixed(2)} weight: ${weight}`);
 
     for (let i = 0; i < this.gen.length; ++i) {
         let p = this.gen[i];
         let n = Math.round(p.fitness * weight);
 
-        if (pool.length < this.gen.length) {
-            for (let j = 0; j < n; ++j) {
+        for (let j = 0; j <= n; ++j) {
+            if (pool.length < this.gen.length) {
                 pool.push(p);
             }
         }
@@ -53,7 +67,7 @@ Pop.prototype.pool = function () {
     }
 
     for (let i = pool.length; i < this.gen.length; ++i) {
-        pool.push(this.createDna(this.dna_class, this.options));
+        pool.push(this.createDna(this.dnaType, this.dnaSize, this.options));
         console.log('### Error : Pop.pool : missing DNA')
     }
 
@@ -106,43 +120,24 @@ Pop.prototype.cross = function (mutationRate, previousGen) {
     this.gen = nextGen;
 }
 
-Pop.prototype.evolveStep = function (target, mutationRate) {
+Pop.prototype.evolveStep = function (target, mutationRate, keepBests) {
+    keepBests = keepBests || 2;
     this.computeFitness(target);
 
-    // console.log(`generation: ${this.generation}`);
-    let sumFitness = 0;
+    // should break early
+    if (this.breakEarly && this.best.fitness >= 1)
+        return true;
 
-    for (let i = this.gen.length - 1; i >= 0; --i) {
-        let dna = this.gen[i];
-        sumFitness += dna.fitness;
-        //console.log(`id: ${dna.id} dist: ${dna.dist.toFixed()} ttt: ${dna.timeToTarget} vi: ${dna.impactVelocity} alive: ${dna.alive} fit: ${dna.fitness.toFixed(4)}`);    
-    }
-    console.log(`generation: ${this.generation} avg fitness: ${(sumFitness / this.gen.length).toFixed(4)}`);
-
-    this.crossAndKeepBests(2, mutationRate);
+    this.crossAndKeepBests(keepBests, mutationRate);
     this.generation++;
+    return false;
 }
 
 Pop.prototype.evolve = function (target, steps, mutationRate) {
     'use strict';
-    this.computeFitness(target);
-
     for (let i = 0; i < steps; ++i) {
-
-        this.evolveStep(target, mutationRate);
-        let dna = this.best;
-        let str = '';
-
-        for (let k = 0; k < dna.genes.length; ++k) {
-            let g = dna.genes[k];
-            str += String.fromCharCode(g);
-        }
-
-        dna.computeFitness(target);
-        console.log(`### ${this.best.id} ${str} (fitness: ${this.best.fitness.toFixed(2)})`);
-
-        if (this.best.fitness == 1)
-            break;
+        let shouldBreakEarly = this.evolveStep(target, mutationRate);
+        if (shouldBreakEarly) break;
     }
 }
 

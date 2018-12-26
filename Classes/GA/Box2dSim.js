@@ -15,7 +15,7 @@ function Box2dSim(scene) {
 
   this.creatures = [];
   const options = {baseDist: Number.MAX_SAFE_INTEGER};
-  this.pop = new Pop(this.creaturesCount, DNABox2D, options);
+  this.pop = new Pop(this.creaturesCount, 'DNABox2D', 4, false, options);
 
   this.scale = 30;
   this.gravity = new B2Vec2(0, 9);

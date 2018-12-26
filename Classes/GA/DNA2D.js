@@ -1,9 +1,15 @@
-function DNA2D(options) {
+function DNA2D(dnaSize, options) {
     'use strict';
-    DNA.call(this, options);
+    DNA.call(this, dnaSize, options);
 }
 DNA2D.prototype = Object.create(DNA.prototype);
 DNA2D.prototype.constructor = DNA2D;
+
+DNA2D.prototype.copy = function () {
+    let copy = new DNA2D(this.dnaSize, this.options);
+    copy.genes = this.genes;
+    return copy;
+}
 
 DNA2D.prototype.resetScore = function () {
     this.maxForce = this.options.maxForce;
@@ -68,11 +74,12 @@ DNA2D.prototype.computeFitness = function (target) {
     if(s > 1)
         console.log(`>1! : id: ${this.id} dist: ${this.dist.toFixed()} (score: ${d}) ttt: ${this.timeToTarget} (score: ${t})`);
 
-    this.fitness = s;        
+    this.fitness = s;
+    this.bestFitness = this.fitness;
 }
 
 DNA2D.prototype.displayStats = function () {
-    return `best [dist: ${this.dist.toFixed()}, time: ${this.timeToTarget}]`;    
+    return `best [${this.bestFitness.toFixed(4)} dist: ${this.dist.toFixed()}, time: ${this.timeToTarget}]`;    
     /*
     let wd = 0.4;
     let wt = 0.6;

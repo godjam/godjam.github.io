@@ -16,6 +16,7 @@ function Mover(x, y, scene, m) {
     this.acceleration = new Vector2();
     this.mass = m;
     this.scene = scene;
+    this.maxVelocity = 10;
 
     this.p1 = new Vector2(-1, -1);
     this.p2 = new Vector2(-1, 1);
@@ -44,10 +45,15 @@ Mover.prototype.initRandomly = function () {
     this.mass = this.mass / 2 + Math.random() * this.mass / 2;
 };
 
+Mover.prototype.setMaxVelocity = function (maxVelocity) {
+    "use strict";
+    this.maxVelocity = maxVelocity;
+}
+
 Mover.prototype.update = function (collideType) {
     "use strict";
     this.velocity.addInPlace(this.acceleration);
-    this.velocity.limit(10);
+    this.velocity.limit(this.maxVelocity);
     this.location.addInPlace(this.velocity);
 
     // if the angularAcceleration is in use

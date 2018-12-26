@@ -4,8 +4,6 @@ let RocketsScene = function (options) {
     'use strict';
     Scene.call(this, options);
     this.intro("Genetic algorithm", "These smart rockets evolve to find the best path to the target.");
-
-    this.rocketSim = new RocketSim(this);
     this.init();
 
 };
@@ -15,11 +13,14 @@ RocketsScene.prototype.constructor = RocketsScene;
 RocketsScene.prototype.init = function () {
     'use strict';
     /*  
-    let pop = new Pop(300, DNA, {size: 18});
+    let pop = new Pop(300, 'DNA', 18, true);
     pop.evolve('to be or not to be', 300, 0.01);
-    //*/
+    console.log(pop.generation + " " + pop.best.displayStats())
+    /*/
+    this.rocketSim = new RocketSim(this);
     this.rocketSim.init();
-};
+}
+
 RocketsScene.prototype.loop = function () {
     'use strict';
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);

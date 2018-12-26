@@ -6,7 +6,7 @@ function RocketSim(scene) {
     this.elapsedFrames = 0;
     this.frameStep = 4;
     this.mutationRate = 0.02;
-    this.obstaclesCount = ~~this.scene.size.x / 300;
+    this.obstaclesCount = (~~this.scene.size.x / 300) + 1;
 
     let x = this.scene.size.x / 2;
     let y = this.scene.size.y * .9;
@@ -18,13 +18,12 @@ function RocketSim(scene) {
     this.rockets = [];
     this.gravity = null;
     const options = {
-        size: this.framesCount,
         maxForce: 0.5,
         baseDist: Number.MAX_SAFE_INTEGER,
         distThreshold: 20,
         baseTimeToTarget: this.framesCount
     };
-    this.pop = new Pop(this.rocketsCount, DNA2D, options);
+    this.pop = new Pop(this.rocketsCount, 'DNA2D', this.framesCount, false, options);
 }
 
 RocketSim.prototype.init = function () {
@@ -61,23 +60,23 @@ RocketSim.prototype.update = function () {
     this.display();
 }
 
-RocketSim.prototype.display = function() {
+RocketSim.prototype.display = function () {
     for (let i = 0; i < this.obstacles.length; ++i) {
         let obstacle = this.obstacles[i];
         obstacle.angle += 0.03 - i / 100;
         obstacle.displayAsPoly(this.scene.ctx, 6 + i);
     }
-    
+
     for (let i = 0; i < this.rockets.length; ++i) {
         let rocket = this.rockets[i];
         rocket.display(this.scene.ctx);
     }
-    
+
     this.targetRect.display(this.scene.ctx);
-    
-    if(this.scene.listenToEvents) {
+
+    if (this.scene.listenToEvents) {
         this.pop.display(this.scene.ctx);
-    }            
+    }
 }
 
 RocketSim.prototype.updateSim = function () {

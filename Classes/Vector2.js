@@ -134,12 +134,19 @@ Vector2.prototype.mag = function () {
     return Math.sqrt(this.x * this.x + this.y * this.y);
 };
 
-Vector2.prototype.setMag = function (m) {
+Vector2.prototype.setMagInPlace = function (m) {
 	'use strict';
 	this.normalizeInPlace();
 	this.multInPlace(m);
     return this;
 };
+
+Vector2.prototype.withMag = function (m) {
+	'use strict';
+    let norm = this.normalize();
+    return norm.multInPlace(m);
+};
+
 
 Vector2.prototype.magSq = function () {
 	'use strict';
