@@ -6,7 +6,9 @@ let Alien = function (x, y, scene, world, scale) {
     this.halfBoxWidth = 8;
     this.halfBoxHeight = 16;
     this.headRadius = 15;
-    this.sColor = Color.createLightColor();
+    this.sColor = Color.createBrightColor();
+    this.sColor.bluify(0.1);
+    this.color = Color.createLightColor(0.9);
     
     this.offset = new B2Vec2(0, -10);
     let torsoShape = this.createBoxShape(this.halfBoxWidth, this.halfBoxHeight),
@@ -58,8 +60,7 @@ Alien.prototype.display = function (ctx) {
     // head/helm
     ctx.beginPath();
     ctx.arc(0, 0, this.headRadius, 0, p * 2);
-    ctx.strokeStyle = "#333";
-    ctx.fillStyle = "#333";
+    ctx.strokeStyle = "#666";
     ctx.lineWidth = 1;
     ctx.stroke();
     ctx.closePath();
@@ -67,15 +68,18 @@ Alien.prototype.display = function (ctx) {
     // face
     ctx.beginPath();
     // mouth
-    ctx.arc(0, -3, this.headRadius / 4, m, p - m);
+    ctx.arc(0, -2, this.headRadius / 5, m, p - m);
+    ctx.fillStyle = "#444";
+    ctx.fill();
+    ctx.closePath();
+    // eyes
+    ctx.beginPath();
+    ctx.fillStyle = "#666";
+    ctx.arc(-6, 0, this.headRadius / 6, 0, 2 * p);
     ctx.fill();
     ctx.closePath();
     ctx.beginPath();
-    ctx.arc(-7, 0, this.headRadius / 6, 0, 2 * p);
-    ctx.fill();
-    ctx.closePath();
-    ctx.beginPath();
-    ctx.arc(7, 0, this.headRadius / 6, 0, 2 * p);
+    ctx.arc(6, 0, this.headRadius / 6, 0, 2 * p);
     ctx.fill();
     ctx.closePath();
     ctx.restore();
