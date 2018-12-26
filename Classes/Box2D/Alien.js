@@ -6,7 +6,9 @@ let Alien = function (x, y, scene, world, scale) {
     this.halfBoxWidth = 8;
     this.halfBoxHeight = 16;
     this.headRadius = 15;
-    this.sColor = Color.createLightColor();
+    this.sColor = Color.createBrightColor();
+    this.color = Color.createLightColor();
+    this.color.a = 1;
     
     this.offset = new B2Vec2(0, -10);
     let torsoShape = this.createBoxShape(this.halfBoxWidth, this.halfBoxHeight),
