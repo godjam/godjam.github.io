@@ -108,12 +108,12 @@ ToxiCreature.prototype.display = function(ctx) {
     // eyes
     ctx.fillStyle = "#fff";
     ctx.beginPath();
-    ctx.arc(-30, 0, 11, 0, Math.PI * 2, true);
+    ctx.arc(-30, 0, 11, 0, Math.PI * 2);
     ctx.fill();
     ctx.closePath();
 
     ctx.beginPath();
-    ctx.arc(30, 0, 11, 0, Math.PI * 2, true);
+    ctx.arc(30, 0, 11, 0, Math.PI * 2);
     ctx.fill();
     ctx.closePath();
 

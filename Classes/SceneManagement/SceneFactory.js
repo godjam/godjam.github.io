@@ -144,7 +144,7 @@ SceneFactory.initMiniMenus = function () {
 
 SceneFactory.parseURL = function () {
     'use strict';
-    let defaultKey = '05_14' ; // '09_01' // 'ES_09' // '09_12'
+    let defaultKey = '05_05' ; // '09_01' // 'ES_09' // '09_12'
     let key = '';
 
     if (window) {
