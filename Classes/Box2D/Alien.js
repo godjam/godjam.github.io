@@ -66,15 +66,16 @@ Alien.prototype.display = function (ctx) {
     
     // face
     ctx.beginPath();
-    ctx.arc(0, 3, this.headRadius / 2, m, p - m);
+    // mouth
+    ctx.arc(0, -3, this.headRadius / 4, m, p - m);
     ctx.fill();
     ctx.closePath();
     ctx.beginPath();
-    ctx.arc(-6, 2, this.headRadius / 6, p, 0);
+    ctx.arc(-7, 0, this.headRadius / 6, 0, 2 * p);
     ctx.fill();
     ctx.closePath();
     ctx.beginPath();
-    ctx.arc(6, 2, this.headRadius / 6, p, 0);
+    ctx.arc(7, 0, this.headRadius / 6, 0, 2 * p);
     ctx.fill();
     ctx.closePath();
     ctx.restore();
