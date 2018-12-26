@@ -3,13 +3,7 @@
 let ToxiSimulationScene = function (options) {
     "use strict";
     Scene.call(this, options);
-
-    if (options === undefined) {
-        options = {
-            sim_type: 0
-        };
-    }
-    this.options = options;
+    this.options = options || {sim_type: 0};
     this.physics = new VerletPhysics2D();
     // use to displace an element
     this.particle = null; // gravity
