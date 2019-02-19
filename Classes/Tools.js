@@ -3,7 +3,7 @@ let Tools = {};
 
 
 Tools.normalRnd = function () {
-    "use strict";
+    'use strict';
     return ((Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3) / 3;
 };
 
@@ -17,15 +17,16 @@ Tools.rnd = function(min, max) {
     return ~~Tools.rndf(min, max + 1);
 }
 
+// clamp v into [min, max]
 Tools.clamp = function (v, min, max) {
-    "use strict";
+    'use strict';
     if (v > max) {v = max; }
     if (v < min) {v = min; }
     return v;
 };
 
 Tools.getRndValue = function (threshold, value0, value1) {
-    "use strict";
+    'use strict';
     if (Math.random() <= threshold) {
         return value0;
     } else {
@@ -38,7 +39,7 @@ Tools.getRndValue = function (threshold, value0, value1) {
  * Actually Re-map value from [start1, stop1] to [start2, stop2]
  */
 Tools.map = function (value, start1, stop1, start2, stop2) {
-    "use strict";
+    'use strict';
     let v = (value - start1) / (stop1 - start1);
     return v * (stop2 - start2) + start2;
 };
@@ -52,7 +53,7 @@ Tools.map = function (value, start1, stop1, start2, stop2) {
  * http://scienceprimer.com/drawing-regular-polygons-javascript-canvas
  */
 Tools.drawPoly = function (ctx, x, y, p, size) {
-    "use strict";
+    'use strict';
     let i = 0;
     ctx.beginPath();
     //ctx.moveTo(x +  size * Math.cos(0), y + size * Math.sin(0));
@@ -77,18 +78,18 @@ Tools.drawPoly = function (ctx, x, y, p, size) {
  * f = the function to use
  */
 Tools.tween = function (t, b, c, d, f) {
-    "use strict";
+    'use strict';
     t = t / d;
     // limit t
     if (t > 1) {t = 1; }
     if (t < 0) {t = 0; }
-    if (f === undefined) { f = this.backOut; }
+    if (f === undefined) { f = Tools.backOut; }
     t = f(t);
     return b + t * c;
 };
 
 Tools.linear = function (t) {
-    "use strict";
+    'use strict';
     return t;
 };
 
@@ -97,30 +98,30 @@ Tools.linear = function (t) {
  * t should be normalized on [0, 1]
  */
 Tools.quadIn = function (t) {
-    "use strict";
+    'use strict';
     return t * t;
 };
 
 Tools.quadOut = function (t) {
-    "use strict";
+    'use strict';
     return 1 - (1 - t) * (1 - t);
 };
 
 Tools.quadInOut = function (t) {
-    "use strict";
-    if (t < 0.5) {return this.quadIn(t * 2) / 2; }
-    return 1 - this.quadIn((1 - t) * 2) / 2;
+    'use strict';
+    if (t < 0.5) {return Tools.quadIn(t * 2) / 2; }
+    return 1 - Tools.quadIn((1 - t) * 2) / 2;
 };
 
 Tools.backOut = function (t) {
-    "use strict";
+    'use strict';
     // https://docs.sencha.com/extjs/4.2.5/source/Easing.html
     t = t - 1;
     return t * t * ((1.70158 + 1) * t + 1.70158) + 1;
 };
 
 Tools.elasticEaseOut = function (t) {
-    "use strict";
+    'use strict';
     let p = 0.3;
     return Math.pow(2, -10 * t) * Math.sin((t - p / 4) * (2 * Math.PI) / p) + 1;
 };
@@ -129,7 +130,7 @@ Tools.elasticEaseOut = function (t) {
  * The motion object
  */
 Tools.Motion = function (obj, property, begin, end, duration, func, isPingPong) {
-    "use strict";
+    'use strict';
     this.obj = obj;
     this.property = property;
 	this.begin = begin;
@@ -137,12 +138,12 @@ Tools.Motion = function (obj, property, begin, end, duration, func, isPingPong) 
 	this.duration = duration;
 	this.change = end - begin;
     this.func = func;
-    this.isPingPong = isPingPong;
+    this.isPingPong = isPingPong || false;
     this.isPlaying = true;
 };
 
 Tools.Motion.prototype.update = function (dt) {
-    "use strict";
+    'use strict';
     if (this.isPlaying) {
         // pingpong mode
         if (this.t >= this.duration && this.isPingPong) {
@@ -155,17 +156,23 @@ Tools.Motion.prototype.update = function (dt) {
         if (this.t < this.duration) {
             this.t += dt;
             this.obj[this.property] = Tools.tween(this.t, this.begin, this.change, this.duration, this.func);
-            //console.log(this.obj[this.property].toFixed(0), "/", (this.begin + this.change), ": ", this.t.toFixed(0));
+            //console.log(this.obj[this.property].toFixed(0), '/', (this.begin + this.change), ': ', this.t.toFixed(0));
         }
     }
 };
 
+Tools.Motion.prototype.getProgress = function () {
+    'use strict';
+	return Tools.clamp(this.t / this.duration, 0, 1);
+};
+
+
 Tools.Motion.prototype.start = function () {
-    "use strict";
+    'use strict';
 	this.isPlaying = true;
 };
 
 Tools.Motion.prototype.stop = function () {
-    "use strict";
+    'use strict';
 	this.isPlaying = false;
 };

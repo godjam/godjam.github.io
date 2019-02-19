@@ -11,10 +11,6 @@ function DNA(dnaSize, options) {
 DNA.id = 0;
 
 DNA.prototype.copy = function () {
-    // debugger; 
-    // TODO just return a new occurence is maybe a bug 
-    // because no genes copy ...
-    // see DNABloop.js
     let copy = new DNA(this.dnaSize, this.options);
     copy.genes = this.genes;
     return copy;

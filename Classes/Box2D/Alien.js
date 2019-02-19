@@ -19,7 +19,7 @@ let Alien = function (x, y, scene, world, scale) {
     this.body = this.addBody(x, y, world, B2DynamicBody);
     this.addFixture(torsoShape, this.body);
     this.addFixture(headShape, this.body);
-};
+}
 Alien.prototype = Object.create(Box2dEntity.prototype);
 Alien.prototype.constructor = Alien;
 
@@ -86,4 +86,4 @@ Alien.prototype.display = function (ctx) {
     ctx.restore();
     
     //Box2dEntity.prototype.display.call(this, ctx);
-};
+}

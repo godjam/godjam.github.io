@@ -1,7 +1,8 @@
 /*global Mover, Vector2, Flowfield, Path, Color*/
-let Vehicle = function(scene, x, y) {
-    "use strict";
+let Vehicle = function (scene, x, y, perceptron) {
+    'use strict';
     this.r = Math.max(scene.size.x / 100, 5);
+    this.brain = perceptron || null;
     this.mover = new Mover(x, y, scene, 1);
     this.mover.velocity = Vector2.create2D();
     this.agressivity = Math.random() * 0.9 + 0.1;
@@ -21,25 +22,25 @@ let Vehicle = function(scene, x, y) {
     this.tmp = new Vector2();
     this.tmpA = new Vector2();
     this.tmpB = new Vector2();
-};
+}
 
-Vehicle.prototype.applyForce = function(force, weight) {
-    "use strict";
+Vehicle.prototype.applyForce = function (force, weight) {
+    'use strict';
     if (force) {
         if (weight) {
             force.multInPlace(weight);
         }
         this.mover.applyForce(force);
     }
-};
+}
 
-Vehicle.prototype.update = function() {
-    "use strict";
+Vehicle.prototype.update = function () {
+    'use strict';
     this.mover.update(2);
-};
+}
 
-Vehicle.prototype.setDesiredTarget = function(radius) {
-    "use strict";
+Vehicle.prototype.setDesiredTarget = function (radius) {
+    'use strict';
     if (radius === undefined) {
         radius = 0;
     }
@@ -54,16 +55,16 @@ Vehicle.prototype.setDesiredTarget = function(radius) {
 
     this.desired.multInPlace(speed);
 
+    // in 2 lines => no new object 
     this.steer.x = this.desired.x - this.mover.velocity.x;
     this.steer.y = this.desired.y - this.mover.velocity.y;
     this.steer.limit(this.maxForce);
     return this.steer;
     // need to manually call this.mover.applyForce(this.steer);
+}
 
-};
-
-Vehicle.prototype.applyDesiredTarget = function(radius, weight) {
-    "use strict";
+Vehicle.prototype.applyDesiredTarget = function (radius, weight) {
+    'use strict';
     let steer = this.setDesiredTarget(radius);
     if (steer) {
         if (weight && weight !== 1) {
@@ -71,58 +72,86 @@ Vehicle.prototype.applyDesiredTarget = function(radius, weight) {
         }
         this.mover.applyForce(steer);
     }
-};
+    return steer;
+}
 
-Vehicle.prototype.seek = function(target, weight) {
-    "use strict";
+// is named "steer" in NOC book
+Vehicle.prototype.steerTo = function (targets) {
+    'use strict';
+    if (Array.isArray(targets) === false) {
+        throw 'Vehicle.steerTo : targets is not an array';
+    }
+
+    if (this.brain == null) {
+        throw 'Vehicle.steerTo : brain is null';
+    }
+
+    let forces = [];
+    for (let i = 0; i < targets.length; i++) {
+        const t = targets[i];
+        forces.push(this.seek(t));
+    }
+    
+    const result = this.brain.feedforward(forces);
+    this.mover.applyForce(result);
+
+    // brain feed back
+    const s = this.mover.scene.size;
+    const desired = new Vector2(s.x / 2, s.y / 2);
+    const error = desired.sub(this.mover.location);
+    this.brain.train(forces, error);
+}
+
+Vehicle.prototype.seek = function (target, weight) {
+    'use strict';
     if (target instanceof Vector2 === false) {
-        throw "Vehicle.seek : target is not a Vector2";
+        throw 'Vehicle.seek : target is not a Vector2';
     }
     this.desired.x = target.x - this.mover.location.x;
     this.desired.y = target.y - this.mover.location.y;
     return this.applyDesiredTarget(0, weight);
-};
+}
 
-Vehicle.prototype.flee = function(target, weight) {
-    "use strict";
+Vehicle.prototype.flee = function (target, weight) {
+    'use strict';
     if (target instanceof Vector2 === false) {
-        throw "Vehicle.flee : target is not a Vector2";
+        throw 'Vehicle.flee : target is not a Vector2';
     }
     this.desired.x = this.mover.location.x - target.x;
     this.desired.y = this.mover.location.y - target.y;
     this.applyDesiredTarget(this.viewRadius, weight);
-};
+}
 
-Vehicle.prototype.pursuit = function(target, targetSpeed, weight) {
-    "use strict";
+Vehicle.prototype.pursuit = function (target, targetSpeed, weight) {
+    'use strict';
     if (target instanceof Vector2 === false) {
-        throw "Vehicle.pursuit : target is not a Vector2";
+        throw 'Vehicle.pursuit : target is not a Vector2';
     }
     if (targetSpeed instanceof Vector2 === false) {
-        throw "Vehicle.pursuit : targetSpeed is not a Vector2";
+        throw 'Vehicle.pursuit : targetSpeed is not a Vector2';
     }
     this.tmp.x = target.x + targetSpeed.x * 10;
     this.tmp.y = target.y + targetSpeed.y * 10;
     this.seek(this.tmp, weight);
-};
+}
 
-Vehicle.prototype.wandering = function(weight) {
-    "use strict";
+Vehicle.prototype.wandering = function (weight) {
+    'use strict';
     let steps = 5,
         radius = 30;
     // desired location (position relative) is actual position + 10 times the velocity
     this.desired.x = this.mover.velocity.x;
     this.desired.y = this.mover.velocity.y;
     this.desired.setMagInPlace(steps);
-    // select a random point on the circle of center on "desired" location with a radius of 20
+    // select a random point on the circle of center on 'desired' location with a radius of 20
     this.tmp.fromPolar(radius, Math.random() * Math.PI * 2);
     this.desired.addInPlace(this.tmp);
     // go to the desired point
     this.applyDesiredTarget(this.viewRadius, weight);
-};
+}
 
-Vehicle.prototype.avoidWalls = function(weight) {
-    "use strict";
+Vehicle.prototype.avoidWalls = function (weight) {
+    'use strict';
     let threshold = this.viewRadius,
         f = this.maxSpeed * 10,
         d = threshold;
@@ -133,55 +162,56 @@ Vehicle.prototype.avoidWalls = function(weight) {
     if (this.mover.location.x < threshold) {
         d = threshold - this.mover.location.x;
         this.desired.x = f * d;
-    }
-    else if (this.mover.location.x > this.mover.scene.size.x - threshold) {
+    } else if (this.mover.location.x > this.mover.scene.size.x - threshold) {
         d = this.mover.scene.size.x - this.mover.location.x;
         this.desired.x = -f * d;
     }
     if (this.mover.location.y < threshold) {
         d = threshold - this.mover.location.y;
         this.desired.y = f * d;
-    }
-    else if (this.mover.location.y > this.mover.scene.size.y - threshold) {
+    } else if (this.mover.location.y > this.mover.scene.size.y - threshold) {
         d = this.mover.scene.size.y - this.mover.location.y;
         this.desired.y = -f * d;
     }
     // go to the desired point
     return this.applyDesiredTarget(0, weight);
-};
+}
 
-Vehicle.prototype.goCenter = function(weight) {
-    "use strict";
+Vehicle.prototype.goCenter = function (weight) {
+    'use strict';
     let size = this.mover.scene.size;
     this.desired.x = size.x / 2 - this.mover.location.x;
     this.desired.y = size.y / 2 - this.mover.location.y;
     return this.applyDesiredTarget(0, weight)
-};
+}
 
-Vehicle.prototype.flowFieldFollowing = function(flowfield, weight) {
-    "use strict";
+Vehicle.prototype.flowFieldFollowing = function (flowfield, weight) {
+    'use strict';
     if (flowfield instanceof Flowfield === false) {
-        throw "Vehicle.flowFieldFollowing : flowField is not a FlowField";
+        throw 'Vehicle.flowFieldFollowing : flowField is not a FlowField';
     }
     // get right field coords
     let t = flowfield.get(this.mover.location.x, this.mover.location.y);
     if (t) {
-       this.desired.x = t.x;
-       this.desired.y = t.y;
+        this.desired.x = t.x;
+        this.desired.y = t.y;
     }
     // go
     return this.applyDesiredTarget(0, weight);
-};
+}
 
-Vehicle.prototype.pathFollowing = function(path, weight) {
-    "use strict";
+Vehicle.prototype.pathFollowing = function (path, weight) {
+    'use strict';
     if (path instanceof Path === false) {
-        throw "Vehicle.pathFollowing : path is not a Path";
+        throw 'Vehicle.pathFollowing : path is not a Path';
     }
 
     // predict position
-    let i = 0, rx = 0, ry = 0,
-        a = null, b = null,
+    let i = 0,
+        rx = 0,
+        ry = 0,
+        a = null,
+        b = null,
         target = null,
         normalPoint = null,
         distance = 0,
@@ -191,7 +221,9 @@ Vehicle.prototype.pathFollowing = function(path, weight) {
     this.predict.x = this.mover.velocity.x;
     this.predict.y = this.mover.velocity.y;
 
-    if (this.predict.mag() === 0) { this.predict = Vector2.create2D(); }
+    if (this.predict.mag() === 0) {
+        this.predict = Vector2.create2D();
+    }
 
     // look at 25 pix ahead
     this.predict.setMagInPlace(this.agressivity * 25);
@@ -225,27 +257,27 @@ Vehicle.prototype.pathFollowing = function(path, weight) {
         target.addInPlace(this.predict);
         return this.seek(target, weight);
     }
-};
+}
 
-Vehicle.prototype.getNormalPoint = function(p, a, b) {
-    "use strict";
+Vehicle.prototype.getNormalPoint = function (p, a, b) {
+    'use strict';
     if (p instanceof Vector2 === false) {
-        throw "Vehicle.getNormalPoint : p is not a Vector2";
+        throw 'Vehicle.getNormalPoint : p is not a Vector2';
     }
     if (a instanceof Vector2 === false) {
-        throw "Vehicle.getNormalPoint : a is not a Vector2";
+        throw 'Vehicle.getNormalPoint : a is not a Vector2';
     }
     if (b instanceof Vector2 === false) {
-        throw "Vehicle.getNormalPoint : b is not a Vector2";
+        throw 'Vehicle.getNormalPoint : b is not a Vector2';
     }
     let ap = p.sub(a),
         ab = b.sub(a),
         normalPoint = a.add(Vector2.getScalarProjection(ap, ab));
     return normalPoint;
-};
+}
 
-Vehicle.prototype.separate = function(vehicles, weight) {
-    "use strict";
+Vehicle.prototype.separate = function (vehicles, weight) {
+    'use strict';
     let i = 0,
         c = 0,
         loc = this.mover.location;
@@ -267,10 +299,10 @@ Vehicle.prototype.separate = function(vehicles, weight) {
         this.desired.setMagInPlace(this.maxSpeed);
         this.applyDesiredTarget(0, weight);
     }
-};
+}
 
-Vehicle.prototype.align = function(vehicles, weight) {
-    "use strict";
+Vehicle.prototype.align = function (vehicles, weight) {
+    'use strict';
     let i = 0,
         c = 0;
 
@@ -284,10 +316,10 @@ Vehicle.prototype.align = function(vehicles, weight) {
         this.desired.divInPlace(c);
         this.applyDesiredTarget(0, weight);
     }
-};
+}
 
-Vehicle.prototype.cohesion = function(vehicles, weight) {
-    "use strict";
+Vehicle.prototype.cohesion = function (vehicles, weight) {
+    'use strict';
     let i = 0,
         c = 0;
 
@@ -301,10 +333,10 @@ Vehicle.prototype.cohesion = function(vehicles, weight) {
         this.tmp.divInPlace(c);
         this.seek(this.tmp, weight);
     }
-};
+}
 
-Vehicle.prototype.view = function(vehicles, weight) {
-    "use strict";
+Vehicle.prototype.view = function (vehicles, weight) {
+    'use strict';
     let i = 0,
         a = 0,
         max = Number.MAX_VALUE,
@@ -324,7 +356,9 @@ Vehicle.prototype.view = function(vehicles, weight) {
     if (lMin < max) {
         a = this.desired.heading();
         // map on [-PI, PI]
-        if (a > Math.PI) { a -= Math.PI * 2; }
+        if (a > Math.PI) {
+            a -= Math.PI * 2;
+        }
 
         if (a < 0) {
             this.desired.rotateInPlace90(-1);
@@ -335,11 +369,11 @@ Vehicle.prototype.view = function(vehicles, weight) {
         this.desired.setMagInPlace(this.maxSpeed);
         this.applyDesiredTarget(0, weight);
     }
-};
+}
 
 
-Vehicle.prototype.getVehiclesInRange = function(vehicles, range) {
-    "use strict";
+Vehicle.prototype.getVehiclesInRange = function (vehicles, range) {
+    'use strict';
     let i = 0;
 
     this.listInRange = [];
@@ -349,23 +383,25 @@ Vehicle.prototype.getVehiclesInRange = function(vehicles, range) {
             this.tmp.y = vehicles[i].mover.location.y;
             if (Math.abs(this.mover.location.x - this.tmp.x) < range &&
                 Math.abs(this.mover.location.y - this.tmp.y) < range) {
-                if ((this.mover.location.x - this.tmp.x) * (this.mover.location.x - this.tmp.x)
-                    + (this.mover.location.y - this.tmp.y) * (this.mover.location.y - this.tmp.y)
-                    < range * range) {
+                if ((this.mover.location.x - this.tmp.x) * (this.mover.location.x - this.tmp.x) +
+                    (this.mover.location.y - this.tmp.y) * (this.mover.location.y - this.tmp.y) <
+                    range * range) {
                     this.listInRange.push(vehicles[i]);
                 }
             }
         }
     }
     return this.listInRange;
-};
+}
 
-Vehicle.prototype.getVehiclesInFOV = function(vehicles, range, ctx) {
-    "use strict";
+Vehicle.prototype.getVehiclesInFOV = function (vehicles, range, ctx) {
+    'use strict';
     let i = 0,
         loc = this.mover.location,
         heading = this.mover.velocity.heading(),
-        a = 0, aMin = 0, aMax = 0;
+        a = 0,
+        aMin = 0,
+        aMax = 0;
 
     this.listInFov = [];
     for (i = 0; i < vehicles.length; i += 1) {
@@ -379,8 +415,12 @@ Vehicle.prototype.getVehiclesInFOV = function(vehicles, range, ctx) {
                     a = Math.PI + this.tmp.heading();
                     aMin = a - (heading - this.viewAngle / 2);
                     aMax = a - (heading + this.viewAngle / 2);
-                    if (aMin >= Math.PI) { aMin -= Math.PI * 2; } // map on [-PI, PI]
-                    if (aMax >= Math.PI) { aMax -= Math.PI * 2; } // map on [-PI, PI]
+                    if (aMin >= Math.PI) {
+                        aMin -= Math.PI * 2;
+                    } // map on [-PI, PI]
+                    if (aMax >= Math.PI) {
+                        aMax -= Math.PI * 2;
+                    } // map on [-PI, PI]
                     if (aMin > 0 && aMax < 0) {
                         // in view
                         this.listInFov.push(vehicles[i]);
@@ -390,10 +430,10 @@ Vehicle.prototype.getVehiclesInFOV = function(vehicles, range, ctx) {
         }
     }
     return this.listInFov;
-};
+}
 
-Vehicle.prototype.display = function(ctx) {
-    "use strict";
+Vehicle.prototype.display = function (ctx) {
+    'use strict';
 
     ctx.lineWidth = 1;
     ctx.fillStyle = this.fillStyle;
@@ -430,29 +470,31 @@ Vehicle.prototype.display = function(ctx) {
     }
     //*/
 
-};
+}
 
 
-Vehicle.prototype.displayAsNetwork = function(ctx) {
-    "use strict";
+Vehicle.prototype.displayAsNetwork = function (ctx) {
+    'use strict';
     let i = 0,
         list = this.listInFov;
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = this.fillStyle;
+    ctx.fillRect(this.mover.location.x - 2, this.mover.location.y - 2, 4, 4);
 
-    for(i = 0; i < list.length; i += 1) {
+    for (i = 0; i < list.length; i += 1) {
         if (Math.abs(this.mover.location.x - list[i].mover.location.x) > this.viewRadius) {
             continue;
         }
         if (Math.abs(this.mover.location.y - list[i].mover.location.y) > this.viewRadius) {
             continue;
         }
-
-        if (i > 10) { break; }
+        if (i > 10) {
+            break;
+        }
         ctx.beginPath();
         ctx.moveTo(this.mover.location.x, this.mover.location.y);
         ctx.lineTo(list[i].mover.location.x, list[i].mover.location.y);
         ctx.stroke();
         ctx.closePath();
     }
-};
+}

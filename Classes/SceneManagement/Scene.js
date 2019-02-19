@@ -12,6 +12,7 @@ let Scene = function (options) {
     // frames
     this.frameloop = new FrameLoop(this, this.canvasManager.nextInterval, this.canvasManager.fps);
     this.requestId = null;
+    this.lastTime = 0;
 
     // listeners
     this.eventListeners = [];
@@ -29,8 +30,11 @@ Scene.prototype.addListener = function (listener) {
     this.eventListeners.push(listener)
 }
 
-Scene.prototype.update = function (delta) {
+Scene.prototype.update = function (time) {
     'use strict';
+    let delta = time - this.lastTime;
+    this.lastTime = time;
+    
     if (this.canvasManager.isVisible) {
         if (this.frameloop.shouldNextFrame()) {
             this.loop(delta);            

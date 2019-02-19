@@ -17,6 +17,7 @@ DNABox2D.prototype.createGenes = function () {
         this.genes.push(this.createGene());
 }
 
+// TODO faire un viewport pour la scene : https://stackoverflow.com/questions/16919601/html5-canvas-camera-viewport-how-to-actally-do-it#
 // TODO rd -> Tools
 // TODO doit être créer pour le premier gene et doit servir de ref pour les autres genes  
 // => max_width, max_height, max_angle, max_speed, max_torque, max_amplitude, max_period, segments
