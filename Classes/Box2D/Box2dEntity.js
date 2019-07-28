@@ -12,6 +12,8 @@ let B2BodyDef = Box2D.Dynamics.b2BodyDef,
     B2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape,
     B2CircleShape = Box2D.Collision.Shapes.b2CircleShape,
     B2EdgeShape = Box2D.Collision.Shapes.b2EdgeShape,
+    b2RayCastInput = Box2D.Collision.b2RayCastInput,
+    b2RayCastOutput = Box2D.Collision.b2RayCastOutput,
     B2AABB = Box2D.Collision.b2AABB,
     B2Vec2 = Box2D.Common.Math.b2Vec2;
 
@@ -31,11 +33,12 @@ let Box2dEntity = function (x, y, scene, world, scale) {
         throw 'Box2dEntity.constructor: world is not a World';
     }
     if (typeof scale !== 'number') {
-        throw 'Box2dEntity.constructor: scale 1 is not a scalar';
+        throw 'Box2dEntity.constructor: scale is not a scalar';
     }
     this.x = x;
     this.y = y;
     this.scene = scene;
+    this.world = world;
     this.body = null;
     this.nameArray = []; // array of entities names
     this.entitiesArray = []; // array of entities objects
@@ -149,12 +152,14 @@ Box2dEntity.prototype.killBody = function () {
         body = null;
 
     if (this.body) {
+        // TODO : use this.world 
         this.body.GetWorld().DestroyBody(this.body);
     }
 
     for (i = 0; i < this.entitiesArray.length; i += 1) {
         body = this.entitiesArray[i].body || null;
         if (body) {
+            // TODO : use this.world 
             body.GetWorld().DestroyBody(body);
         }
     }
@@ -164,6 +169,7 @@ Box2dEntity.prototype.applyForce = function (force) {
     'use strict';
     let i = 0,
         center = null,
+        entity = null,
         body = null;
 
     if (force instanceof B2Vec2 === false) {
@@ -175,9 +181,9 @@ Box2dEntity.prototype.applyForce = function (force) {
         this.body.ApplyForce(force, center);
     } else {
         for (i = 0; i < this.entitiesArray.length; i += 1) {
-            body = this.entitiesArray[i].body || null;
-            if (body) {
-                body.applyForce(force);
+            entity = this.entitiesArray[i] || null;
+            if (entity) {
+                entity.applyForce(force);
             }
         }
     }
@@ -336,6 +342,8 @@ Box2dEntity.prototype.addFixture = function (shape, body, options) {
     return body.CreateFixture(def);
 };
 
+
+// TODO : addXXX : no need of world and scale parameters
 Box2dEntity.prototype.addMotorJoint = function (body1, body2, world, speed, torque) {
     'use strict';
     let def = new B2RevoluteJointDef();
@@ -580,6 +588,24 @@ Box2dEntity.prototype.drawOpenPolygon = function (ctx, center, angle, vertices) 
     ctx.closePath();
     ctx.restore();
 };
+
+Box2dEntity.prototype.drawLine = function (ctx, p1, p2) {
+    'use strict';
+    ctx.save();
+    ctx.beginPath();
+    ctx.translate(0, 0);
+
+    ctx.moveTo(p1.x * this.scale, p1.y * this.scale);
+    ctx.lineTo(p2.x * this.scale, p2.y * this.scale);
+    
+    ctx.lineWidth = this.lineWidth;
+    ctx.strokeStyle = this.strokeStyle;
+    ctx.stroke();
+    
+    ctx.closePath();
+    ctx.restore();
+}
+
 
 //******************************************************************
 // Color management

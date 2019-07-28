@@ -1,13 +1,16 @@
-let Neuron = function (scene, x, y, cooldown) {
+function Neuron(scene, x, y, cooldown) {
   'use strict';
+  this.id = ++Neuron.id;
   this.location = new Vector2(x, y);
   this.basesize = 16;
   this.size = this.basesize;
   this.connections = [];
-  this.cooldown = cooldown || 0.01;
+  this.cooldown = cooldown || 0;
   this.sum = 0;
   this.firing = false;
 }
+Neuron.id = 0;
+
 
 Neuron.prototype.addConnection = function (connection) {
   'use strict';
@@ -23,12 +26,13 @@ Neuron.prototype.feedforward = function (input) {
     throw 'Neuron.feedforward : input is not a number';
   }
   this.sum += input;
-  if (this.sum > 1.0) { //TODO 1.0
-    this.fire();
+  if (this.sum > 1.0) {
+    this.initFire();
+    this.updateFire(0);
   }
 }
 
-Neuron.prototype.fire = function () {
+Neuron.prototype.initFire = function () {
   'use strict';
   this.firing = true;
   const start = this.basesize;
@@ -37,9 +41,8 @@ Neuron.prototype.fire = function () {
     this.motion = new Tools.Motion(this, "size", start, end, this.cooldown, Tools.quadInOut);
 }
 
-Neuron.prototype.display = function (ctx, delta) {
-  'use strict';
-
+Neuron.prototype.updateFire = function (delta) {
+  'use strict';  
   if (this.firing && this.motion) {
     this.motion.update(delta / 1000);
     let progress = this.motion.getProgress();
@@ -55,6 +58,11 @@ Neuron.prototype.display = function (ctx, delta) {
       this.motion = null;
     }
   }
+}
+
+Neuron.prototype.display = function (ctx, delta) {
+  'use strict';
+  this.updateFire(delta);
 
   for (let i = 0; i < this.connections.length; ++i) {
     this.connections[i].display(ctx, delta);
@@ -63,7 +71,8 @@ Neuron.prototype.display = function (ctx, delta) {
   ctx.beginPath();
   ctx.arc(this.location.x, this.location.y, this.size, 0, Math.PI * 2);
   // TODO colors
-  ctx.fillStyle = Color.createHsl(0.4, this.sum, 0.65, 0.9).rgba();
+  let s = 1 - Math.min(this.sum, 1) / 2;
+  ctx.fillStyle = Color.createHsl(0.4, 0.65, s, 0.9).rgba();
   ctx.fill();
   ctx.stroke();
   ctx.closePath();

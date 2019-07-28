@@ -11,7 +11,7 @@ DNA2D.prototype.copy = function () {
     return copy;
 }
 
-DNA2D.prototype.resetScore = function () {
+DNA2D.prototype.resetFitness = function () {
     this.maxForce = this.options.maxForce;
     this.dist = this.options.baseDist;
     this.distThreshold = this.options.distThreshold;
@@ -22,7 +22,7 @@ DNA2D.prototype.resetScore = function () {
     this.timeToTarget = this.baseTimeToTarget;
     this.location = 0;
 
-    DNA.prototype.resetScore.call(this);
+    DNA.prototype.resetFitness.call(this);
 }
 
 DNA2D.prototype.createGene = function () {
@@ -32,7 +32,7 @@ DNA2D.prototype.createGene = function () {
     return v;
 }
 
-DNA2D.prototype.updateScore = function (rocket, target, time) {
+DNA2D.prototype.updateFitness = function (rocket, target, time) {
     'use strict';
     this.location = rocket.mover.location;
     this.velocity = rocket.mover.velocity;

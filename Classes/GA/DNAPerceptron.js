@@ -1,4 +1,5 @@
 function DNAPerceptron(dnaSize, options) {
+  // TODO unused !
   // TODO ! VOir ex 10.1
   'use strict';
   DNA.call(this, dnaSize, options);

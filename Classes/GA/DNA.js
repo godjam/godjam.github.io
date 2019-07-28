@@ -2,7 +2,7 @@ function DNA(dnaSize, options) {
     'use strict';
     this.dnaSize = dnaSize;
     this.options = options;
-    this.resetScore();
+    this.resetFitness();
 
     this.id = ++DNA.id;
     this.genes = [];
@@ -11,6 +11,8 @@ function DNA(dnaSize, options) {
 DNA.id = 0;
 
 DNA.prototype.copy = function () {
+    'use strict';
+    // use the right constructor
     let copy = new DNA(this.dnaSize, this.options);
     copy.genes = this.genes;
     return copy;
@@ -18,21 +20,31 @@ DNA.prototype.copy = function () {
 
 // create all genes
 DNA.prototype.createGenes = function () {
+    'use strict';
     for (let i = 0; i < this.dnaSize; ++i)
         this.genes.push(this.createGene());
 }
 
-// resetScore is used whene an individual is taken from a previous generation
-DNA.prototype.resetScore = function () {
+// resetFitness is used whene an individual is taken from a previous generation
+DNA.prototype.resetFitness = function () {
+    'use strict';
     this.fitness = 0;
+}
+
+// permit to update Fitness from an external algorithm 
+DNA.prototype.updateFitness = function (fitness) {
+    'use strict';
+    this.fitness = fitness;
 }
 
 // create an single random gene 
 DNA.prototype.createGene = function () {
-    return Tools.rnd(32, 128);
+    'use strict';
+    return Math.random();
 }
 
 DNA.prototype.mutateGene = function (i, gene) {
+    'use strict';
     // by default there is no mutation of a gene 
     // => mutation is a creation of a new gene
     // console.log(`${this.id} mutation`)
@@ -91,25 +103,9 @@ DNA.prototype.mutate = function (mutationRate = 0.01) {
 
 DNA.prototype.computeFitness = function (target) {
     'use strict';
-    let score = 0;
-    for (let i = 0; i < this.genes.length; ++i) {
-        if (this.genes[i] === target.charCodeAt(i)) {
-            score++;
-        }
-    }
-    let fit = score / target.length;
-    this.fitness = fit * fit;
-}
-
-DNA.prototype.decode = function () {
-    let str = '';
-    for (let k = 0; k < this.genes.length; ++k) {
-        let g = this.genes[k];
-        str += String.fromCharCode(g);
-    }
-    return str;
+    // permit to compute fitness against a target
 }
 
 DNA.prototype.displayStats = function () {
-    return (`### ${this.id} ${this.decode()} (fitness: ${this.fitness.toFixed(2)})`);
+    return (`### ${this.id} (fitness: ${this.fitness.toFixed(2)})`);
 }

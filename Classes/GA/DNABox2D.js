@@ -21,9 +21,9 @@ DNABox2D.prototype.createGenes = function () {
 // TODO rd -> Tools
 // TODO doit être créer pour le premier gene et doit servir de ref pour les autres genes  
 // => max_width, max_height, max_angle, max_speed, max_torque, max_amplitude, max_period, segments
-DNABox2D.prototype.resetScore = function () {
+DNABox2D.prototype.resetFitness = function () {
     this.dist = this.options.baseDist;
-    DNA.prototype.resetScore.call(this);
+    DNA.prototype.resetFitness.call(this);
 }
 
 DNABox2D.prototype.createGene = function () {
@@ -82,10 +82,11 @@ DNABox2D.prototype.mutateGene = function (i, gene) {
     return gene;
 }
 
-DNABox2D.prototype.updateScore = function (creature, target, time) {
+DNABox2D.prototype.updateFitness = function (creature, target, time) {
     'use strict';
     const root = creature.nodes[0];
-    // TODO à mettre dans creature
+    // TODO à mettre dans creature 
+    // TODO ou dans la sim 
     const center = root.body.GetWorldCenter();
     const x = center.x * creature.scale;
     const y = center.y * creature.scale;

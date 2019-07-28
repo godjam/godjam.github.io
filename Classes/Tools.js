@@ -8,20 +8,24 @@ Tools.normalRnd = function () {
 };
 
 // return a float between min and max
-Tools.rndf = function(min, max) {
+Tools.rndf = function (min, max) {
     return Math.random() * (max - min) + min;
 }
 
 // return an integer between min and max
-Tools.rnd = function(min, max) {
+Tools.rnd = function (min, max) {
     return ~~Tools.rndf(min, max + 1);
 }
 
 // clamp v into [min, max]
 Tools.clamp = function (v, min, max) {
     'use strict';
-    if (v > max) {v = max; }
-    if (v < min) {v = min; }
+    if (v > max) {
+        v = max;
+    }
+    if (v < min) {
+        v = min;
+    }
     return v;
 };
 
@@ -61,7 +65,7 @@ Tools.drawPoly = function (ctx, x, y, p, size) {
 
     for (i = 1; i <= p; i += 1) {
         ctx.lineTo(x + size * Math.cos(i * 2 * Math.PI / p),
-                   y + size * Math.sin(i * 2 * Math.PI / p));
+            y + size * Math.sin(i * 2 * Math.PI / p));
     }
     ctx.closePath();
 };
@@ -81,9 +85,15 @@ Tools.tween = function (t, b, c, d, f) {
     'use strict';
     t = t / d;
     // limit t
-    if (t > 1) {t = 1; }
-    if (t < 0) {t = 0; }
-    if (f === undefined) { f = Tools.backOut; }
+    if (t > 1) {
+        t = 1;
+    }
+    if (t < 0) {
+        t = 0;
+    }
+    if (f === undefined) {
+        f = Tools.backOut;
+    }
     t = f(t);
     return b + t * c;
 };
@@ -109,7 +119,9 @@ Tools.quadOut = function (t) {
 
 Tools.quadInOut = function (t) {
     'use strict';
-    if (t < 0.5) {return Tools.quadIn(t * 2) / 2; }
+    if (t < 0.5) {
+        return Tools.quadIn(t * 2) / 2;
+    }
     return 1 - Tools.quadIn((1 - t) * 2) / 2;
 };
 
@@ -133,10 +145,10 @@ Tools.Motion = function (obj, property, begin, end, duration, func, isPingPong) 
     'use strict';
     this.obj = obj;
     this.property = property;
-	this.begin = begin;
-	this.t = 0;
-	this.duration = duration;
-	this.change = end - begin;
+    this.begin = begin;
+    this.t = 0;
+    this.duration = duration;
+    this.change = end - begin;
     this.func = func;
     this.isPingPong = isPingPong || false;
     this.isPlaying = true;
@@ -163,16 +175,18 @@ Tools.Motion.prototype.update = function (dt) {
 
 Tools.Motion.prototype.getProgress = function () {
     'use strict';
-	return Tools.clamp(this.t / this.duration, 0, 1);
+    if (this.duration > 0)
+        return Tools.clamp(this.t / this.duration, 0, 1);
+    else return 1;
 };
 
 
 Tools.Motion.prototype.start = function () {
     'use strict';
-	this.isPlaying = true;
+    this.isPlaying = true;
 };
 
 Tools.Motion.prototype.stop = function () {
     'use strict';
-	this.isPlaying = false;
+    this.isPlaying = false;
 };

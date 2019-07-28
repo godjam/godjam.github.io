@@ -144,7 +144,7 @@ SceneFactory.initMiniMenus = function () {
 
 SceneFactory.parseURL = function () {
     'use strict';
-    let defaultKey = '05_05' ; // '09_01' // 'ES_09' // '09_12'
+    let defaultKey = '10_03'; // 10_01 : TODO smart evolving rockets';
     let key = '';
 
     if (window) {
@@ -348,7 +348,7 @@ SceneFactory.init = function () {
     // TODO: 07_12 Image processing (p 373)
     // TODO: 07_13 Cell history
     // TODO: 07_14 CA rules in a flocking system
-    // TODO: 07_15 Nestad CA
+    // TODO: 07_15 Nested CA
     // TODO: The Ecosystem project
 
     this.cache['08_01'] = RecursiveCircleScene;
@@ -361,6 +361,10 @@ SceneFactory.init = function () {
     this.cache['09_01'] = RocketsScene;
     this.cache['09_12'] = Box2dSimScene;
     this.cache.ES_09 = EcosystemScene_09;
+
+    this.cache['10_01'] = PerceptronScene;
+    this.cache['10_03'] = NetworkvizScene;
+
 };
 
 SceneFactory.autoclose = function () {

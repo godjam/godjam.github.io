@@ -1,4 +1,5 @@
 function DNABloop(dnaSize, options) {
+  // TODO : remove copy + rename class to DNAFloat => ou directement DNA
   'use strict';
   DNA.call(this, dnaSize, options);
 }

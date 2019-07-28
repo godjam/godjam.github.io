@@ -18,12 +18,22 @@ let Scene = function (options) {
     this.eventListeners = [];
     this.timeoutList = [];
 
-
     // resize
     if (this.listenToEvents)
         addEventListener('resize', this.resize.bind(this));
 
+    // setup canvas size 
     this.resize();
+
+    // setup world size
+    this.world = {
+        minX: 0, 
+        minY: 0, 
+        maxX: this.size.x, 
+        maxY: this.size.y};
+
+    // camera target
+    this.target = new Vector2(this.size.x / 2, this.size.y / 2);
 };
 
 Scene.prototype.addListener = function (listener) {
@@ -37,7 +47,7 @@ Scene.prototype.update = function (time) {
     
     if (this.canvasManager.isVisible) {
         if (this.frameloop.shouldNextFrame()) {
-            this.loop(delta);            
+            this.loop(delta, this.ctx);
             this.updateListeners(delta);
         }
     }
@@ -67,8 +77,16 @@ Scene.prototype.start = function () {
     window.requestAnimationFrame((t) => this.update(t));
 }
 
-Scene.prototype.loop = function () {
+Scene.prototype.loop = function (delta, ctx) {
     'use strict';
+    ctx.setTransform(1,0,0,1,0,0);//reset the transform matrix as it is cumulative
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);//clear the viewport AFTER the matrix is reset
+
+    //Clamp the camera position to the world bounds while centering the camera around the player                                             
+    var camX = Tools.clamp(-this.target.x + this.canvas.width / 2, this.world.minX, this.world.maxX - this.canvas.width);
+    var camY = Tools.clamp(-this.target.y + this.canvas.height / 2, this.world.minY, this.world.maxY - this.canvas.height);
+
+    ctx.translate(camX, camY); 
 };
 
 Scene.prototype.stop = function () {

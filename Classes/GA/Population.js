@@ -16,8 +16,8 @@ let Pop = function (size, dnaType, dnaSize, breakEarly, options) {
 Pop.prototype.createDna = function (dnaType, dnaSize, options) {
     // dna factory
     let dna = null;
-    if (dnaType == 'DNA')
-        dna = new DNA(dnaSize, options);
+    if (dnaType == 'DNAText')
+        dna = new DNAText(dnaSize, options);
     else if (dnaType == 'DNA2D')
         dna = new DNA2D(dnaSize, options);
     else if (dnaType == 'DNABox2D')
@@ -34,7 +34,7 @@ Pop.prototype.computeFitness = function (target) {
     this.sumFitness = 0;
     for (let i = 0; i < this.gen.length; ++i) {
         let dna = this.gen[i];
-        dna.computeFitness(target);
+        if(target) dna.computeFitness(target);
         this.sumFitness += dna.fitness;
     }
 
@@ -114,7 +114,7 @@ Pop.prototype.cross = function (mutationRate, previousGen) {
 
     // reseting fitnesses 
     for (let i = 0; i < nextGen.length; ++i) {
-        nextGen[i].resetScore();
+        nextGen[i].resetFitness();
     }
 
     this.gen = nextGen;

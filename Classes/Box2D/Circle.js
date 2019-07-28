@@ -4,8 +4,8 @@ let Circle = function (x, y, scene, world, scale, radius, bodyType) {
     Box2dEntity.call(this, x, y, scene, world, scale);
     this.radius = radius || Math.random() * 16 + 4;
     
-    bodyType = bodyType || B2DynamicBody;
-    
+    bodyType = bodyType != null ? bodyType: B2DynamicBody;
+
     this.body = this.addBody(x, y, world, bodyType);
     let shape = this.createCircleShape(this.radius);
     this.addFixture(shape, this.body);

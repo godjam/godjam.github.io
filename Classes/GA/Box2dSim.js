@@ -153,7 +153,7 @@ Box2dSim.prototype.updateSim = function (delta) {
         let creature = this.creatures[i];
         let dna = creature.dna;
         creature.update(this.elapsedFrames, this.obstacles, this.gravity);
-        dna.updateScore(creature, this.target, this.elapsedFrames);
+        dna.updateFitness(creature, this.target, this.elapsedFrames);
       }
       this.elapsedFrames++;
     }

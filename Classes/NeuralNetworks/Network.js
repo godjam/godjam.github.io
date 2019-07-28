@@ -1,6 +1,6 @@
-let Network = function (scene, x, y, layers) {
+let Network = function (scene, x, y, layers, weights) {
   'use strict';
-  // TODO colors + merge avec perceptron + nouveau param [layer1, layer2, layer3] pour le nb de neurons par couche
+  // TODO colors + merge avec perceptron
   if (scene instanceof Scene === false) {
     throw 'Network.ctor : scene is not a Scene';
   }
@@ -14,8 +14,13 @@ let Network = function (scene, x, y, layers) {
     throw 'Network.ctor : layers is not an array';
   }
 
+  if(weights == null) weights = [];
+  if (Array.isArray(weights) === false) {
+    throw 'Network.ctor : weights is not an array';
+  }
+
   this.width = this.height = 400;
-  this.cooldown = 0.2;
+  this.cooldown = 0; //0.1;
   this.scene = scene;
   this.layers = [];
   this.location = new Vector2(x, y);
@@ -23,33 +28,42 @@ let Network = function (scene, x, y, layers) {
   let middle = (layers.length - 1) / 2;
   for (let i = 0; i < layers.length; i++) {
     const xOffset = (i - middle) * (this.width / layers.length);
-    this.addLayer(layers[i], xOffset);
+    const w = (i == 0 || weights.length == 0) ? [] : weights[i - 1];
+    this.addLayer(layers[i], xOffset, w);
   }
+  // TODO save/load console.log(this.toJson())
 }
 
-Network.prototype.addLayer = function (neurons, xOffset) {
+Network.prototype.addLayer = function (neurons, xOffset, weights) {
   'use strict';
   if (typeof (neurons) !== 'number') {
     throw 'Network.addLayer : neurons is not a number';
   }
   if (typeof (xOffset) !== 'number') {
     throw 'Network.addLayer : xOffset is not a number';
+  }  
+  if(weights == null) weights = [];
+  if (Array.isArray(weights) === false) {
+    throw 'Network.ctor : weights is not an array';
   }
 
   let layer = [];
-  let middle = (neurons - 1) / 2;
+  const middle = (neurons - 1) / 2;
+  const lastLayerIdx = this.layers.length - 1;
+  const lastLayer = lastLayerIdx >= 0? this.layers[lastLayerIdx]: [];
+
   for (let i = 0; i < neurons; i++) {
     const yOffset = (i - middle) * (this.height / neurons);
     // create new neuron
     let neuron = new Neuron(this.scene, xOffset, yOffset, this.cooldown);
-
+ 
     // connect it to previous layer
-    let lastLayerIdx = this.layers.length - 1; 
-    if(lastLayerIdx >= 0) {
-      let lastLayer = this.layers[lastLayerIdx]
-      for (let i = 0; i < lastLayer.length; i++) {
-        this.connect(lastLayer[i], neuron);
-      }
+    for (let l = 0; l < lastLayer.length; l++) {
+      // use weight
+      let w = l + i * lastLayer.length; 
+      const weight = weights.length == 0? 0: weights[w];
+      // console.log('create: ', lastLayer[l].id, neuron.id, weight);
+      this.connect(lastLayer[l], neuron, weight);
     }
 
     // add neuron to current layer
@@ -65,10 +79,11 @@ Network.prototype.addNeurons = function (neurons) {
   if (Array.isArray(neurons) === false) {
     throw 'Network.addNeurons : neurons is not an array of Neurons';
   }
+
   this.layers.push(neurons);
 }
 
-Network.prototype.connect = function (from, to) {
+Network.prototype.connect = function (from, to, weight) {
   'use strict';
   if (from instanceof Neuron === false) {
     throw 'Network.connect : *from* is not a Neuron';
@@ -76,39 +91,83 @@ Network.prototype.connect = function (from, to) {
   if (to instanceof Neuron === false) {
     throw 'Network.connect : *to* is not a Neuron';
   }
-  let connection = new Connection(this.scene, from, to, Math.random(), this.cooldown);
+  if (typeof weight !== "number") {
+    throw 'Network.connect : *weight* is not a Number';
+  }
+
+  // console.log(from.id, to.id, weight);
+  let connection = new Connection(this.scene, from, to, weight, this.cooldown);
   from.addConnection(connection);
 }
 
 
 Network.prototype.feedforward = function (input) {
   'use strict';
-  if (typeof (input) !== 'number') {
-    throw 'Network.feedforward : input is not a number';
+  if (Array.isArray(input) !== true) {
+    throw 'Network.feedforward : input is not an array of numbers';
   }
+
   if (this.layers.length == 0) {
     throw 'Network.feedforward : neuron list is empty';
   }
 
-  // apply input to all the entry neurons
+  if (input.length !== this.layers[0].length) {
+    throw 'Network.feedforward : input length is != from first layer length';
+  }
+
+  // apply input to each entry neurons
   let firstLayer = this.layers[0];
   for (let i = 0; i < firstLayer.length; i++) {
-    firstLayer[i].feedforward(input);
+    firstLayer[i].feedforward(input[i]);
   }
+
+  // get output of the network
+  let output = [];
+  let lastLayer = this.layers[this.layers.length - 1];
+  for (let i = 0; i < lastLayer.length; i++) {
+    output.push(lastLayer[i].sum);
+  }
+  return output;
 }
 
 Network.prototype.display = function (ctx, delta) {
   'use strict';
   ctx.save();
-  ctx.translate(this.location.x, this.location.y);
+  ctx.translate(200, 100);
   ctx.scale(0.5, 0.5);
-  ctx.fillStyle = '#dee';
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
   ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
   for (let i = 0; i < this.layers.length; ++i) {
     let layer = this.layers[i];
-    for (let i = 0; i < layer.length; i++) {
-      layer[i].display(ctx, delta);
+    for (let l = 0; l < layer.length; l++) {
+      layer[l].display(ctx, delta);
     }
   }
   ctx.restore();
+}
+
+
+Network.prototype.toJson = function () {
+  // TODO 
+  'use strict';
+  let layers = [];
+  let weights = [];
+  
+  for (let i = 0; i < this.layers.length; ++i) {
+    layers.push(this.layers[i].length);
+  }
+
+  for (let i = 0; i < this.layers.length; ++i) {
+    let layer = this.layers[i];
+    for (let l = 0; l < layer.length; l++) {
+      let neuron = layer[l];
+      for (let c = 0; c < neuron.connections.length; c++) {
+        let cx = neuron.connections[c];
+        // console.log('toJson: ', cx.a.id, cx.b.id, cx.weight);
+        weights.push(cx.weight);
+      }
+    }
+  }
+
+  return {layers: layers, weights: weights}
 }

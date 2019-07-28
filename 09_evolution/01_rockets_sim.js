@@ -13,7 +13,7 @@ RocketsScene.prototype.constructor = RocketsScene;
 RocketsScene.prototype.init = function () {
     'use strict';
     /*  
-    let pop = new Pop(300, 'DNA', 18, true);
+    let pop = new Pop(300, 'DNAText', 18, true);
     pop.evolve('to be or not to be', 300, 0.01);
     console.log(pop.generation + " " + pop.best.displayStats())
     /*/

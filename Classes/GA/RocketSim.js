@@ -6,15 +6,11 @@ function RocketSim(scene) {
     this.elapsedFrames = 0;
     this.frameStep = 4;
     this.mutationRate = 0.02;
-    this.obstaclesCount = (~~this.scene.size.x / 300) + 1;
 
     let x = this.scene.size.x / 2;
     let y = this.scene.size.y * .9;
     this.start = new Vector2(x, y);
-    this.target = new Vector2(x, y * 0.2);
-
-    this.targetRect = new Mover(this.target.x, this.target.y, this.scene)
-    this.obstacles = [];
+    this.boundary = new RocketSimBoundary(scene);
     this.rockets = [];
     this.gravity = null;
     const options = {
@@ -33,16 +29,7 @@ RocketSim.prototype.init = function () {
         this.rockets.push(new Rocket(this.start.x, this.start.y, this.scene, dna));
     }
 
-    for (let i = 0; i < this.obstaclesCount; ++i) {
-        let w = this.scene.size.x * 0.3;
-        let x = this.scene.size.x * 0.3 + Math.random() * w;
-        let h = this.scene.size.y * 0.3;
-        let y = this.scene.size.y * 0.5 + Math.random() * h;
-        let m = this.scene.size.y / 30;
-        let mass = Math.random() * m + m;
-        this.obstacles.push(new Mover(x, y, this.scene, mass))
-    }
-
+    this.boundary.init();
     this.gravity = new Gravity(0, 0.004);
 }
 
@@ -57,22 +44,17 @@ RocketSim.prototype.update = function () {
         this.nextGeneration();
     }
 
+    this.boundary.update();
     this.display();
 }
 
 RocketSim.prototype.display = function () {
-    for (let i = 0; i < this.obstacles.length; ++i) {
-        let obstacle = this.obstacles[i];
-        obstacle.angle += 0.03 - i / 100;
-        obstacle.displayAsPoly(this.scene.ctx, 6 + i);
-    }
+    this.boundary.display(this.scene.ctx);
 
     for (let i = 0; i < this.rockets.length; ++i) {
         let rocket = this.rockets[i];
         rocket.display(this.scene.ctx);
     }
-
-    this.targetRect.display(this.scene.ctx);
 
     if (this.scene.listenToEvents) {
         this.pop.display(this.scene.ctx);
@@ -81,13 +63,16 @@ RocketSim.prototype.display = function () {
 
 RocketSim.prototype.updateSim = function () {
     'use strict';
+    let obstacles = this.boundary.obstacles;
+    let target = this.boundary.target;
+
     for (let f = 0; f < this.frameStep; f++) {
         if (this.elapsedFrames < this.framesCount) {
             for (let i = 0; i < this.rockets.length; ++i) {
                 let rocket = this.rockets[i];
                 let dna = rocket.dna;
-                rocket.update(this.elapsedFrames, this.obstacles, this.gravity);
-                dna.updateScore(rocket, this.target, this.elapsedFrames);
+                rocket.update(this.elapsedFrames, obstacles, this.gravity);
+                dna.updateFitness(rocket, target, this.elapsedFrames);
             }
             this.elapsedFrames++;
         }
@@ -96,7 +81,7 @@ RocketSim.prototype.updateSim = function () {
 
 RocketSim.prototype.nextGeneration = function () {
     'use strict';
-    this.pop.evolveStep(this.target, this.mutationRate);
+    this.pop.evolveStep(this.boundary.target, this.mutationRate);
     this.elapsedFrames = 0;
 
     // reset rockets loc + reset rockets DNA
