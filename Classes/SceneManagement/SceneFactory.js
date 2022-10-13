@@ -144,7 +144,14 @@ SceneFactory.initMiniMenus = function () {
 
 SceneFactory.parseURL = function () {
     'use strict';
-    let defaultKey = '05_05' ; // '09_01' // 'ES_09' // '09_12'
+    const prefered_keys = ['00_10', '02_09', '03_11', '04_03', '04_08', 
+                           '05_05', '05_06', '05_10', '05_13', '05_14', 
+                           '06_07', '06_11', '06_19', '07_01', '07_09',
+                           '07_11', '08_03', '08_10', '08_12', '09_01',
+                           'ES_09']
+    let rnd_index = ~~(Math.random()*prefered_keys.length)
+    let defaultKey = prefered_keys[rnd_index]; // '09_12'
+
     let key = '';
 
     if (window) {

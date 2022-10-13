@@ -25,9 +25,9 @@ ShatteringScene.prototype.loop = function () {
     this.ctx.clearRect(0, 0, this.size.x, this.size.y);
     let i = 0;
 
-    //if (this.movers.length < this.maxMovers && Math.random() < 0.02) {
-    //    this.createMover();
-    //}
+    if (this.movers.length < this.maxMovers && Math.random() < 0.02) {
+       this.createMover();
+    }
 
     for (i = 0; i < this.movers.length; i += 1) {
         this.gravity.applyOn(this.movers[i]);
@@ -53,21 +53,19 @@ ShatteringScene.prototype.loop = function () {
 ShatteringScene.prototype.shatter = function (position, touches) {
     "use strict";
     let i = 0, t = 0, d = 0, m = null;
-    for (t = 0; t < touches.length; t +=1) {
-        for (i = this.movers.length - 1; i >= 0; i -= 1) {
-            if (touches[t].x - this.movers[i].location.x < this.s) {
-                if (touches[t].y - this.movers[i].location.y < this.s) {
-                    d = Vector2.distance(touches[t], this.movers[i].location);
+    for (i = this.movers.length - 1; i >= 0; i -= 1) {
+        if (position.x - this.movers[i].location.x < this.s) {
+            if (position.y - this.movers[i].location.y < this.s) {
+                d = Vector2.distance(position, this.movers[i].location);
 
-                    if (d <= this.movers[i].mass) {
-                        m = this.movers.splice(i, 1);
-                        this.createEmitter(m[0].location, m[0].mass, m[0].color.h);
-                        this.vibrate(60);
-                    }
+                if (d <= this.movers[i].mass) {
+                    m = this.movers.splice(i, 1);
+                    this.createEmitter(m[0].location, m[0].mass, m[0].color.h);
+                    this.vibrate(60);
                 }
             }
         }
-    }
+    }    
 };
 
 
