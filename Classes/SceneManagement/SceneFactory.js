@@ -372,7 +372,7 @@ SceneFactory.init = function () {
 
 SceneFactory.autoclose = function () {
     'use strict';
-    document.getElementById('togglebox').checked = true;
+    document.getElementById('togglebox').checked = false;
 };
 
 SceneFactory.initButton = function (id) {
