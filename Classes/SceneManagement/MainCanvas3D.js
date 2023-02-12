@@ -1,9 +1,9 @@
 /*global THREE, Vector2*/
-let MainCanvas3D = function (canvasID, sceneKey, options) {
+let MainCanvas3D = function (canvas, sceneKey, options) {
     'use strict';
     this.reCreateMainCanvas();
     // init
-    CanvasManager.call(this, canvasID, sceneKey, options);
+    CanvasManager.call(this, canvas, sceneKey, options);
 
     this.startScene();
 };

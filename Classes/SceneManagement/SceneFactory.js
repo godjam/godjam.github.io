@@ -9,8 +9,8 @@ let SceneFactory = function () {
 window.addEventListener('DOMContentLoaded', function () {
     'use strict';
     SceneFactory.init();
+    SceneFactory.initMenu();
     SceneFactory.parseURL();
-    SceneFactory.initMiniMenus();
 });
 
 SceneFactory.toggleFullscreen = function () {
@@ -42,104 +42,104 @@ SceneFactory.toggleFullscreen = function () {
     }
 };
 
-SceneFactory.initMiniMenus = function () {
+SceneFactory.initMenu = function () {
     'use strict';
     
-    SceneFactory.createMiniScene('00', 'c_00');
-    SceneFactory.createMiniScene('01', 'c_01');
-    SceneFactory.createMiniScene('00_01', 'c_00_01');
-    SceneFactory.createMiniScene('00_03', 'c_00_03');
+    SceneFactory.initButton('00');
+    SceneFactory.initButton('01');
+    SceneFactory.initButton('00_01');
+    SceneFactory.initButton('00_03');
     
-    SceneFactory.createMiniScene('00_04', 'c_00_04');
-    SceneFactory.createMiniScene('00_05', 'c_00_05');
-    SceneFactory.createMiniScene('00_06', 'c_00_06');
-    SceneFactory.createMiniScene('00_07', 'c_00_07');
-    SceneFactory.createMiniScene('00_09', 'c_00_09');
-    SceneFactory.createMiniScene('00_10', 'c_00_10');
+    SceneFactory.initButton('00_04');
+    SceneFactory.initButton('00_05');
+    SceneFactory.initButton('00_06');
+    SceneFactory.initButton('00_07');
+    SceneFactory.initButton('00_09');
+    SceneFactory.initButton('00_10');
 
-    SceneFactory.createMiniScene('01_01', 'c_01_01');
-    SceneFactory.createMiniScene('01_02', 'c_01_02');
-    SceneFactory.createMiniScene('01_03', 'c_01_03');
-    SceneFactory.createMiniScene('01_05', 'c_01_05');
-    SceneFactory.createMiniScene('01_06', 'c_01_06');
-    SceneFactory.createMiniScene('01_08', 'c_01_08');
-    SceneFactory.createMiniScene('ES_01', 'c_ES_01');
+    SceneFactory.initButton('01_01');
+    SceneFactory.initButton('01_02');
+    SceneFactory.initButton('01_03');
+    SceneFactory.initButton('01_05');
+    SceneFactory.initButton('01_06');
+    SceneFactory.initButton('01_08');
+    SceneFactory.initButton('ES_01');
 
-    SceneFactory.createMiniScene('02_01', 'c_02_01');
-    SceneFactory.createMiniScene('02_03', 'c_02_03');
-    SceneFactory.createMiniScene('02_04', 'c_02_04');
-    SceneFactory.createMiniScene('02_05', 'c_02_05');
-    SceneFactory.createMiniScene('02_08', 'c_02_08');
-    SceneFactory.createMiniScene('02_09', 'c_02_09');
-    SceneFactory.createMiniScene('02_10', 'c_02_10');
-    SceneFactory.createMiniScene('ES_02', 'c_ES_02');
+    SceneFactory.initButton('02_01');
+    SceneFactory.initButton('02_03');
+    SceneFactory.initButton('02_04');
+    SceneFactory.initButton('02_05');
+    SceneFactory.initButton('02_08');
+    SceneFactory.initButton('02_09');
+    SceneFactory.initButton('02_10');
+    SceneFactory.initButton('ES_02');
 
-    SceneFactory.createMiniScene('03_01', 'c_03_01');
-    SceneFactory.createMiniScene('03_02', 'c_03_02');
-    SceneFactory.createMiniScene('03_04', 'c_03_04');
-    SceneFactory.createMiniScene('03_06', 'c_03_06');
-    SceneFactory.createMiniScene('03_07', 'c_03_07');
-    SceneFactory.createMiniScene('03_08', 'c_03_08');
-    SceneFactory.createMiniScene('03_09', 'c_03_09');
-    SceneFactory.createMiniScene('03_10', 'c_03_10');
-    SceneFactory.createMiniScene('03_11', 'c_03_11');
-    SceneFactory.createMiniScene('03_12', 'c_03_12');
-    SceneFactory.createMiniScene('03_16', 'c_03_16');
-    SceneFactory.createMiniScene('ES_03', 'c_ES_03');
+    SceneFactory.initButton('03_01');
+    SceneFactory.initButton('03_02');
+    SceneFactory.initButton('03_04');
+    SceneFactory.initButton('03_06');
+    SceneFactory.initButton('03_07');
+    SceneFactory.initButton('03_08');
+    SceneFactory.initButton('03_09');
+    SceneFactory.initButton('03_10');
+    SceneFactory.initButton('03_11');
+    SceneFactory.initButton('03_12');
+    SceneFactory.initButton('03_16');
+    SceneFactory.initButton('ES_03');
 
-    SceneFactory.createMiniScene('04_02', 'c_04_02');
-    SceneFactory.createMiniScene('04_03', 'c_04_03');
-    SceneFactory.createMiniScene('04_04', 'c_04_04');
-    SceneFactory.createMiniScene('04_05', 'c_04_05');
-    SceneFactory.createMiniScene('04_06', 'c_04_06');
-    SceneFactory.createMiniScene('04_08', 'c_04_08');
-    SceneFactory.createMiniScene('04_09', 'c_04_09');
-    SceneFactory.createMiniScene('04_10', 'c_04_10');
-    SceneFactory.createMiniScene('04_11', 'c_04_11');
+    SceneFactory.initButton('04_02');
+    SceneFactory.initButton('04_03');
+    SceneFactory.initButton('04_04');
+    SceneFactory.initButton('04_05');
+    SceneFactory.initButton('04_06');
+    SceneFactory.initButton('04_08');
+    SceneFactory.initButton('04_09');
+    SceneFactory.initButton('04_10');
+    SceneFactory.initButton('04_11');
 
-    SceneFactory.createMiniScene('05_02', 'c_05_02');
-    SceneFactory.createMiniScene('05_03', 'c_05_03');
-    SceneFactory.createMiniScene('05_04', 'c_05_04');
-    SceneFactory.createMiniScene('05_05', 'c_05_05');
-    SceneFactory.createMiniScene('05_06', 'c_05_06');
-    SceneFactory.createMiniScene('05_07', 'c_05_07');
-    SceneFactory.createMiniScene('05_08', 'c_05_08');
-    SceneFactory.createMiniScene('05_09', 'c_05_09');
-    SceneFactory.createMiniScene('05_10', 'c_05_10');
-    SceneFactory.createMiniScene('05_11', 'c_05_11');
-    SceneFactory.createMiniScene('05_13', 'c_05_13');
-    SceneFactory.createMiniScene('05_14', 'c_05_14');
-    SceneFactory.createMiniScene('05_15', 'c_05_15');
-    SceneFactory.createMiniScene('05_16', 'c_05_16');
+    SceneFactory.initButton('05_02');
+    SceneFactory.initButton('05_03');
+    SceneFactory.initButton('05_04');
+    SceneFactory.initButton('05_05');
+    SceneFactory.initButton('05_06');
+    SceneFactory.initButton('05_07');
+    SceneFactory.initButton('05_08');
+    SceneFactory.initButton('05_09');
+    SceneFactory.initButton('05_10');
+    SceneFactory.initButton('05_11');
+    SceneFactory.initButton('05_13');
+    SceneFactory.initButton('05_14');
+    SceneFactory.initButton('05_15');
+    SceneFactory.initButton('05_16');
 
-    SceneFactory.createMiniScene('06_01', 'c_06_01');
-    SceneFactory.createMiniScene('06_02', 'c_06_02');
-    SceneFactory.createMiniScene('06_03', 'c_06_03');
-    SceneFactory.createMiniScene('06_04', 'c_06_04');
-    SceneFactory.createMiniScene('06_05', 'c_06_05');
-    SceneFactory.createMiniScene('06_07', 'c_06_07');
-    SceneFactory.createMiniScene('06_10', 'c_06_10');
-    SceneFactory.createMiniScene('06_11', 'c_06_11');
-    SceneFactory.createMiniScene('06_13', 'c_06_13');
-    SceneFactory.createMiniScene('06_14', 'c_06_14');
-    SceneFactory.createMiniScene('06_15', 'c_06_15');
-    SceneFactory.createMiniScene('06_16', 'c_06_16');
-    SceneFactory.createMiniScene('06_19', 'c_06_19');
+    SceneFactory.initButton('06_01');
+    SceneFactory.initButton('06_02');
+    SceneFactory.initButton('06_03');
+    SceneFactory.initButton('06_04');
+    SceneFactory.initButton('06_05');
+    SceneFactory.initButton('06_07');
+    SceneFactory.initButton('06_10');
+    SceneFactory.initButton('06_11');
+    SceneFactory.initButton('06_13');
+    SceneFactory.initButton('06_14');
+    SceneFactory.initButton('06_15');
+    SceneFactory.initButton('06_16');
+    SceneFactory.initButton('06_19');
 
-    SceneFactory.createMiniScene('07_01', 'c_07_01');
-    SceneFactory.createMiniScene('07_06', 'c_07_06');
-    SceneFactory.createMiniScene('07_09', 'c_07_09');
-    SceneFactory.createMiniScene('07_10', 'c_07_10');
-    SceneFactory.createMiniScene('07_11', 'c_07_11');
+    SceneFactory.initButton('07_01');
+    SceneFactory.initButton('07_06');
+    SceneFactory.initButton('07_09');
+    SceneFactory.initButton('07_10');
+    SceneFactory.initButton('07_11');
 
-    SceneFactory.createMiniScene('08_01', 'c_08_01');
-    SceneFactory.createMiniScene('08_03', 'c_08_03');
-    SceneFactory.createMiniScene('08_05', 'c_08_05');
-    SceneFactory.createMiniScene('08_10', 'c_08_10');
-    SceneFactory.createMiniScene('08_12', 'c_08_12');
+    SceneFactory.initButton('08_01');
+    SceneFactory.initButton('08_03');
+    SceneFactory.initButton('08_05');
+    SceneFactory.initButton('08_10');
+    SceneFactory.initButton('08_12');
 
-    SceneFactory.createMiniScene('09_01', 'c_09_01');
-    SceneFactory.createMiniScene('ES_09', 'c_ES_09');
+    SceneFactory.initButton('09_01');
+    SceneFactory.initButton('ES_09');
 }
 
 SceneFactory.parseURL = function () {
@@ -372,56 +372,72 @@ SceneFactory.init = function () {
 
 SceneFactory.autoclose = function () {
     'use strict';
-    document.getElementById('togglebox').checked = false;
+    document.getElementById('togglebox').checked = true;
 };
 
-SceneFactory.createMiniScene = function (key, canvasID) {
+SceneFactory.initButton = function (id) {
     'use strict';
     // check string
-    if (typeof key !== 'string') {
-        throw 'SceneFactory.createMiniScene : key is not a string';
+    if (typeof id !== 'string') {
+        throw 'SceneFactory.initButton : id is not a string';
     }
 
-    if (this.cache[key] === undefined) {
-        throw `SceneFactory.createMiniScene : specified key (${key}) doesn't exists`;
+    if (this.cache[id] === undefined) {
+        throw `SceneFactory.initButton : specified id (${id}) doesn't exists`;
     }
 
-    let params = Object.assign({}, this.options[key]);
-
-    let sceneKey = this.cache[key];
-    if (sceneKey == null) {
-        throw 'SceneFactory.createMiniScene : sceneKey is not a Scene';
-    }
+    let button = document.getElementById(id);
+    let canvas = button.querySelector('canvas');
     
+    if (button == null) {
+        throw 'SceneFactory.initButton : button is null';
+    }
+    if (canvas instanceof HTMLCanvasElement == false) {
+        throw 'SceneFactory.initButton : canvas is null';
+    }
+    button.onclick = (e) => SceneFactory.createScene(id)
+
+    let params = Object.assign({}, this.options[id]);
+
+    let sceneKey = this.cache[id];
+    if (sceneKey == null) {
+        throw 'SceneFactory.initButton : sceneKey is not a Scene';
+    }
+
     let canvasManager = (params.threejs) ?
-        new MiniCanvas3D(canvasID, sceneKey, params):
-        new MiniCanvas2D(canvasID, sceneKey, params);
+        new MiniCanvas3D(canvas, sceneKey, params):
+        new MiniCanvas2D(canvas, sceneKey, params);
      
-    params.key = key;
+    params.key = id;
     params.canvasManager = canvasManager;
 
-    //console.log('createMiniScene ' +  params.key);
+    //console.log('initButton ' +  params.key);
 };
 
 
-SceneFactory.createScene = function (key) {
+SceneFactory.createScene = function (id) {
     'use strict';
-    let canvasID = 'canvas';
-
     // check string
-    if (typeof key !== 'string') {
-        throw 'SceneFactory.createMiniScene : key is not a string';
+    if (typeof id !== 'string') {
+        throw 'SceneFactory.createScene : id is not a string';
     }
 
-    if (this.cache[key] === undefined) {
-        throw `SceneFactory.createMiniScene : specified key (${key}) doesn't exists`;
+    if (this.cache[id] === undefined) {
+        throw `SceneFactory.createScene : specified id (${id}) doesn't exists`;
     }
 
-    let params = Object.assign({}, this.options[key]);
+    let canvasID = 'canvas';
+    let canvas = document.getElementById(canvasID);
 
-    let sceneKey = this.cache[key];
+    if (canvas instanceof HTMLCanvasElement == false) {
+        throw 'SceneFactory.initButton : canvas is null';
+    }
+
+    let params = Object.assign({}, this.options[id]);
+
+    let sceneKey = this.cache[id];
     if (sceneKey == null) {
-        throw 'SceneFactory.createMiniScene : sceneKey is not a Scene';
+        throw 'SceneFactory.createScene : sceneKey is not a Scene';
     }
 
     // canvasManager
@@ -431,12 +447,20 @@ SceneFactory.createScene = function (key) {
     }
     
     this.canvasManager = (params.threejs) ?
-        new MainCanvas3D(canvasID, sceneKey, params) :
-        new MainCanvas2D(canvasID, sceneKey, params);
+        new MainCanvas3D(canvas, sceneKey, params) :
+        new MainCanvas2D(canvas, sceneKey, params);
 
-    params.key = key;
+    params.key = id;
     params.canvasManager = this.canvasManager;
 
     // console.log('createScene ' + params.key);
+    
+    let highlighted = document.querySelectorAll('.highlight');
+    Array.from(highlighted).forEach((e) => e.classList.remove('highlight'));
+    let button = document.getElementById(id);
+    button.scrollIntoView({behavior: "smooth", block: "center", inline: "center"});
+    button.classList.add('highlight')
+    button.focus()
+
     this.autoclose();
 };

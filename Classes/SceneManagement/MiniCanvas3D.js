@@ -1,8 +1,8 @@
 /*global THREE, Vector2*/
-let MiniCanvas3D = function (canvasID, sceneKey, options) {
+let MiniCanvas3D = function (canvas, sceneKey, options) {
     'use strict';
     // init
-    CanvasManager.call(this, canvasID, sceneKey, options);
+    CanvasManager.call(this, canvas, sceneKey, options);
     this.listenToEvents = false;
     this.fps = 30;
     this.nextInterval = 0.05;

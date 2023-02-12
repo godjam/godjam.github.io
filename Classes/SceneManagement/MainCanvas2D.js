@@ -1,8 +1,8 @@
 /*global FrameLoop, THREE, Vector2*/
-let MainCanvas2D = function (canvasID, sceneKey, options) {
+let MainCanvas2D = function (canvas, sceneKey, options) {
     'use strict';
     // init
-    CanvasManager.call(this, canvasID, sceneKey, options);
+    CanvasManager.call(this, canvas, sceneKey, options);
 
     // canvas size
     this.resize();

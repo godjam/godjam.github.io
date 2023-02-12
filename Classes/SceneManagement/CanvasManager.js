@@ -1,5 +1,5 @@
 /*global FrameLoop, THREE, Vector2*/
-let CanvasManager = function (canvasID, sceneKey, options) {
+let CanvasManager = function (canvas, sceneKey, options) {
     'use strict';
     // visibility
     this.isVisible = false;
@@ -8,7 +8,7 @@ let CanvasManager = function (canvasID, sceneKey, options) {
     this.nextInterval = 0.01;
 
     // canvas
-    this.canvas = document.getElementById(canvasID);
+    this.canvas = canvas; // document.getElementById(canvasID);
     if (!this.canvas)
         console.log(canvasID + ' does not exists');
 

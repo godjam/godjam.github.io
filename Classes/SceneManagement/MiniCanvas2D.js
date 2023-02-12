@@ -1,8 +1,8 @@
 /*global FrameLoop, THREE, Vector2*/
-let MiniCanvas2D = function (canvasID, sceneKey, options) {
+let MiniCanvas2D = function (canvas, sceneKey, options) {
     'use strict';
     // init
-    CanvasManager.call(this, canvasID, sceneKey, options);
+    CanvasManager.call(this, canvas, sceneKey, options);
     this.listenToEvents = false;
     this.fps = 30;
     this.nextInterval = 0.150;

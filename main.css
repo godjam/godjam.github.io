@@ -74,6 +74,13 @@ p {
 
 button:hover, button:active button:focus {
 	color: #4dd0ff;
+    transition: color 0.2s;
+}
+
+.highlight {
+    border: 2px #4dd0ff solid;
+    border-radius: 0.1em;
+    transition: color 0.2s;
 }
 
 canvas {
@@ -95,10 +102,10 @@ canvas {
 
 /* 1. The main-container and the menu */
 #main-container{
-    position: relative;
+    position: absolute;
     height: 100%;
     width: 100%;
-    transform: translate3d(0,0,0); /* no shifting of DIV to start */
+    transform: translate3d(0px,0px,0px); /* no shifting of DIV to start */
     transition: transform 250ms cubic-bezier(.57,0,.23,1.37); /* transition the transform property over 0.5s*/
 }
 
@@ -183,7 +190,7 @@ canvas {
     z-index: 99;
     visibility: hidden;
 	transform: translate3d(0,0,0);
-    transition: opacity 0.5s; /* transition settings */
+    transition: opacity 0.3s; /* transition settings */
 }
  
 .overlay label {
