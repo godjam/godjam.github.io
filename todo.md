@@ -12,7 +12,9 @@ Data viz:
 
 Cellular automata:
   - reaction-diffusion: https://thecodingtrain.com/challenges/13-reaction-diffusion 
-  - fluid sim: https://thecodingtrain.com/challenges/132-fluid-simulation
+  - fluid sim: 
+    - https://www.youtube.com/c/tenminutephysics/videos
+    - https://thecodingtrain.com/challenges/132-fluid-simulation
 
 Mini games: 
   - Chrome dinosaur game: https://thecodingtrain.com/challenges/147-chrome-dinosaur-game
