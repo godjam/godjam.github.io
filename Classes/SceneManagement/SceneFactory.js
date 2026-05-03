@@ -125,6 +125,7 @@ SceneFactory.initMenu = function () {
     SceneFactory.initButton('06_14');
     SceneFactory.initButton('06_15');
     SceneFactory.initButton('06_16');
+    SceneFactory.initButton('06_17');
     SceneFactory.initButton('06_19');
 
     SceneFactory.initButton('07_01');
